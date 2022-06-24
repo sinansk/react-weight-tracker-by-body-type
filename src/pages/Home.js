@@ -1,13 +1,15 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import BigContainer from "../components/BigContainer";
+import Result from "../components/Result";
 
 const Home = () => {
   return (
-    <div>
+    <div className="">
       <Navbar />
       <BigContainer />
-      <Footer />
+      {/* <Footer /> */}
+      <Result />
     </div>
   );
 };

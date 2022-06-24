@@ -3,8 +3,8 @@ import Footer from "../components/Footer";
 const BodyTypes = () => {
   return (
     <div>
-      <Navbar />
-      <Footer />
+      {/* <Navbar />
+      <Footer /> */}
     </div>
   );
 };
