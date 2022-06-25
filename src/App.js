@@ -1,13 +1,29 @@
 import Home from "./pages/Home";
-import BodyTypes from "./pages/BodyTypes";
-import MyStats from "./pages/MyStats";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import IdealWeight from "./pages/IdealWeight";
 
+import MyStats from "./pages/MyStats";
+import BodyFat from "./pages/BodyFat";
+import DailiyCalorie from "./pages/DailiyCalorie";
+import HowItWorks from "./pages/DailiyCalorie";
 function App() {
   return (
     <div className="w-screen items-center justify-center h-screen text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
-      <Home />
-      <BodyTypes />
-      <MyStats />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/idealweight" element={<IdealWeight />} />
+          <Route path="/bodyfat" element={<BodyFat />} />
+          <Route path="/dailycalorie" element={<DailiyCalorie />} />
+          <Route path="/howitworks" element={<HowItWorks />} />
+          <Route path="/mystats" element={<MyStats />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

@@ -1,14 +1,12 @@
 export const initialState = {
   gender: "",
   height: 0,
-  frameSize: "",
-  bodyType: "",
   weight: 0,
-  idealWeight: 0,
+  // frameSize: "",
+  bodyType: "",
+  idealWeight: [],
   calorieNeed: 0,
   weightNeed: 0,
-  kgPerCm: 0,
-  initialWeight: 48.08,
 };
 
 const UserReducer = (state, action) => {

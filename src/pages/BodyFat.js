@@ -1,60 +1,50 @@
-import { useEffect, useState } from "react";
-import IdealWeight from "./IdealWeightComponent";
-import { useUser } from "../context/UserContext";
+import BodyFatComponent from "../components/BodyFatComponent";
+import Navbar from "../components/Navbar";
+import ResultComponent from "../components/ResultComponent";
 import { publicRequest } from "../requestMethods";
+import { useUser } from "../context/UserContext";
+import { useEffect, useState } from "react";
 
-const BigContainer = () => {
+const BodyFat = () => {
   const {
     selectedGender,
+    ageInput,
     weightInput,
     heightInput,
-    setIdealWeight,
-    idealWeight,
-    setUserHeight,
-    setUserWeight,
+    neckInput,
+    waistInput,
+    hipInput,
   } = useUser();
-  const user = useUser();
-  useEffect(() => {
-    console.log(idealWeight);
-  }, [idealWeight]);
-  console.log(user);
-
   const [loading, setLoading] = useState(false);
-
-  // if (bodyType === "ectomorph") {
-  //   setIdealWeight(idealWeight.map((item) => item - (item / 100) * 10));
-  // } else if (bodyType === "Endomorph") {
-  //   setIdealWeight(idealWeight.map((item) => item + (item / 100) * 10));
-  // } else return;
 
   const makeRequest = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await publicRequest.get(
-        `/idealweight?gender=${selectedGender}&height=${heightInput}`
+        `/bodyfat?age=${ageInput}&gender=${selectedGender}&weight=${weightInput}&height${heightInput}&neck=${neckInput}&waist=${waistInput}&hip=${hipInput}`
       );
       const data = res.data.data;
       console.log(data);
-      const sortedValues = Object.values(data)
-        .map((item) => Math.round(item))
-        .sort((a, b) => a - b);
-      console.log(sortedValues);
+      // const sortedValues = Object.values(data)
+      //   .map((item) => Math.round(item))
+      //   .sort((a, b) => a - b);
+      // console.log(sortedValues);
       setLoading(false);
-      setIdealWeight(sortedValues);
+      // setBodyFat(sortedValues);
     } catch (err) {
       console.log(err);
     }
-    setUserHeight(heightInput);
-    setUserWeight(weightInput);
+    // setUserHeight(heightInput);
+    // setUserWeight(weightInput);
   };
 
   return (
-    <div className="mt-5">
-      <div className="flex flex-col sm:flex-row sm:flex-1 items-center sm:justify-center sm:w-1/2 sm:full mx-auto my-uto">
-        <IdealWeight gender={"female"} makeRequest={makeRequest} />
-        <IdealWeight gender={"male"} makeRequest={makeRequest} />
-      </div>
+    <div className="h-screen w-screen">
+      <Navbar />
+      <BodyFatComponent gender={"female"} />
+      <BodyFatComponent gender={"male"} />
+      {/* <Footer /> */}
       {selectedGender && (
         <a
           onClick={makeRequest}
@@ -102,8 +92,8 @@ const BigContainer = () => {
           </span>
         </a>
       )}
+      <ResultComponent />
     </div>
   );
 };
-
-export default BigContainer;
+export default BodyFat;

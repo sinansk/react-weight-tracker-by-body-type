@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import BigContainer from "../components/BigContainer";
 import ResultComponent from "../components/ResultComponent";
 
-const Home = () => {
+const IdealWeight = () => {
   return (
     <div className="h-screen w-screen">
       <Navbar />
@@ -14,4 +14,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default IdealWeight;

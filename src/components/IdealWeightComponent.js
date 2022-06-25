@@ -1,36 +1,21 @@
-import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
 import { heights, bodyTypes, weights } from "../data";
 
-const SmallContainer = ({ gender }) => {
+const IdealWeightComponent = ({ gender }) => {
   const {
     selectedGender,
     setSelectedGender,
     bodyType,
     setBodyType,
-    weight,
-    setWeight,
-    height,
-    setHeight,
+    weightInput,
+    setWeightInput,
+    heightInput,
+    setHeightInput,
   } = useUser();
 
   const handleGender = () => {
     !selectedGender && setSelectedGender(gender);
   };
-  console.log(gender);
-  useEffect(() => {
-    console.log(selectedGender);
-  }, [selectedGender]);
-
-  useEffect(() => {
-    console.log({ bodyType });
-  }, [bodyType]);
-
-  const [onFocused, setOnFocused] = useState();
-
-  useEffect(() => {
-    console.log(onFocused);
-  }, [onFocused]);
 
   return (
     <div
@@ -60,9 +45,9 @@ const SmallContainer = ({ gender }) => {
             <select
               className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
               id="height"
-              value={height}
-              onChange={(e) => setHeight(e.target.value)}
-              onBlur={(e) => setHeight(e.target.value)}
+              value={heightInput}
+              onChange={(e) => setHeightInput(e.target.value)}
+              onBlur={(e) => setHeightInput(e.target.value)}
             >
               {heights.map((height) => (
                 <option key={height} value={height}>
@@ -75,13 +60,11 @@ const SmallContainer = ({ gender }) => {
               Body Type
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full w-full text-center"
+              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
               id="bodyType"
               value={bodyType}
               onChange={(e) => setBodyType(e.target.value)}
               onBlur={(e) => setBodyType(e.target.value)}
-              onClick={() => setOnFocused(gender)}
-              // onClickCapture={() => setOnFocused()}
             >
               {bodyTypes.map((bodyType) => (
                 <option key={bodyType.value} value={bodyType.value}>
@@ -96,9 +79,9 @@ const SmallContainer = ({ gender }) => {
             <select
               className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
               id="weight"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              onBlur={(e) => setWeight(e.target.value)}
+              value={weightInput}
+              onChange={(e) => setWeightInput(e.target.value)}
+              onBlur={(e) => setWeightInput(e.target.value)}
             >
               {weights.map((weight) => (
                 <option key={weight} value={weight}>
@@ -107,19 +90,6 @@ const SmallContainer = ({ gender }) => {
               ))}
             </select>
           </form>
-          {/* <svg
-            className=" h-8 w-8 text-rose-500 justify-self-center self-end "
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeWinejoin="round"
-              strokeWidth="2"
-              d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg> */}
         </>
       ) : (
         <span className="flex flex-col items-center h-full">
@@ -161,4 +131,4 @@ const SmallContainer = ({ gender }) => {
   );
 };
 
-export default SmallContainer;
+export default IdealWeightComponent;

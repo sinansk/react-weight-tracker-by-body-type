@@ -1,9 +1,9 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import React from "react";
 import BigContainer from "../components/BigContainer";
+import Navbar from "../components/Navbar";
 import ResultComponent from "../components/ResultComponent";
 
-const Home = () => {
+const DailiyCalorie = () => {
   return (
     <div className="h-screen w-screen">
       <Navbar />
@@ -14,4 +14,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default DailiyCalorie;
