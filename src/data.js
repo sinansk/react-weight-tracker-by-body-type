@@ -61,3 +61,61 @@ export const bodyTypes = [
     value: "Endomorph",
   },
 ];
+
+export const activityLevels = [
+  {
+    sitution: "Sedentary: little or no exercise",
+    value: "level_1",
+  },
+  {
+    sitution: "Exercise 1-3 times/week",
+    value: "level_2",
+  },
+  {
+    sitution: "Exercise 4-5 times/week",
+    value: "level_3",
+  },
+  {
+    sitution: "Daily exercise or intense exercise 3-4 times/week",
+    value: "level_4",
+  },
+  {
+    sitution: "Intense exercise 6-7 times/week",
+    value: "level_5",
+  },
+  {
+    sitution: "Very intense exercise daily, or physical job",
+    value: "level_6",
+  },
+];
+
+export const bodyGoals = [
+  {
+    sitution: "Maintain weight",
+    value: "level_1",
+  },
+  {
+    sitution: "Mild weight loss (1 kg/month)",
+    value: "level_2",
+  },
+  {
+    sitution: "Weight loss (2 kg/month)",
+    value: "level_3",
+  },
+  {
+    sitution: "Extreme weight loss (4 kg/month)",
+    value: "level_4",
+  },
+  {
+    sitution: "Mild weight gain (1 kg/month)",
+    value: "level_5",
+  },
+  {
+    sitution: "Weight gain (2 kg/month)",
+    value: "level_6",
+  },
+  {
+    sitution: "Extreme weight gain (4 kg/month)",
+    value: "level_7",
+  },
+];

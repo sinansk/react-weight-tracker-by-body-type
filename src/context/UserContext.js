@@ -16,10 +16,13 @@ export const UserProvider = ({ children }) => {
   const [userWeight, setUserWeight] = useState();
   const [idealWeight, setIdealWeight] = useState();
   const [bodyFat, setBodyFat] = useState();
-  const [ageInput, setAgeInput] = useState(25);
-  const [neckInput, setNeckInput] = useState(30);
-  const [waistInput, setWaistInput] = useState(60);
-  const [hipInput, setHipInput] = useState(90);
+  const [activityLevel, setActivityLevel] = useState("level_1");
+  const [dailiyCalorie, setDailyCalorie] = useState();
+  const [bodyGoal, setBodyGoal] = useState();
+  const [ageInput, setAgeInput] = useState(29);
+  const [neckInput, setNeckInput] = useState(34);
+  const [waistInput, setWaistInput] = useState(73);
+  const [hipInput, setHipInput] = useState(86);
   const [loading, setLoading] = useState(false);
 
   const bmi = Math.round((userWeight / (userHeight * userHeight)) * 10000);
@@ -68,6 +71,12 @@ export const UserProvider = ({ children }) => {
     setHipInput,
     loading,
     setLoading,
+    activityLevel,
+    setActivityLevel,
+    bodyGoal,
+    setBodyGoal,
+    dailiyCalorie,
+    setDailyCalorie,
   };
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };

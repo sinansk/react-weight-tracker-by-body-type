@@ -56,23 +56,6 @@ const IdealWeightComponent = ({ gender }) => {
               ))}
             </select>
 
-            <label htmlFor="bodyType" className="-mb-4 ">
-              Body Type
-            </label>
-            <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
-              id="bodyType"
-              value={bodyType}
-              onChange={(e) => setBodyType(e.target.value)}
-              onBlur={(e) => setBodyType(e.target.value)}
-            >
-              {bodyTypes.map((bodyType) => (
-                <option key={bodyType.value} value={bodyType.value}>
-                  {bodyType.value}
-                </option>
-              ))}
-            </select>
-
             <label htmlFor="weight" className="-mb-4">
               Weight
             </label>
@@ -86,6 +69,23 @@ const IdealWeightComponent = ({ gender }) => {
               {weights.map((weight) => (
                 <option key={weight} value={weight}>
                   {weight}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="bodyType" className="-mb-4 ">
+              Body Type
+            </label>
+            <select
+              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              id="bodyType"
+              value={bodyType}
+              onChange={(e) => setBodyType(e.target.value)}
+              onBlur={(e) => setBodyType(e.target.value)}
+            >
+              {bodyTypes.map((bodyType) => (
+                <option key={bodyType.value} value={bodyType.value}>
+                  {bodyType.value}
                 </option>
               ))}
             </select>

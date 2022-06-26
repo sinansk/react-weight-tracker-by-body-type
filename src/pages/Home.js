@@ -1,15 +1,9 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import BigContainer from "../components/BigContainer";
-import ResultComponent from "../components/ResultComponent";
+import IdealWeightComponent from "./IdealWeight";
 
 const Home = () => {
   return (
     <div className="h-screen w-screen">
-      <Navbar />
-      <BigContainer />
-      {/* <Footer /> */}
-      <ResultComponent />
+      <IdealWeightComponent />
     </div>
   );
 };

@@ -1,12 +1,10 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-const BodyTypes = () => {
+import IdealWeightComponent from "../components/IdealWeightComponent";
+const HowItWorks = () => {
   return (
     <div>
-      {/* <Navbar />
-      <Footer /> */}
+      <IdealWeightComponent />
     </div>
   );
 };
 
-export default BodyTypes;
+export default HowItWorks;
