@@ -10,7 +10,7 @@ import IdealWeight from "./pages/IdealWeight";
 import MyStats from "./pages/MyStats";
 import BodyFat from "./pages/BodyFat";
 import DailiyCalorie from "./pages/DailiyCalorie";
-import HowItWorks from "./pages/DailiyCalorie";
+import IdealMeasurements from "./pages/IdealMeasurements";
 function App() {
   return (
     <div className="w-screen items-center justify-center h-screen text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
@@ -20,7 +20,7 @@ function App() {
           <Route path="/idealweight" element={<IdealWeight />} />
           <Route path="/bodyfat" element={<BodyFat />} />
           <Route path="/dailycalorie" element={<DailiyCalorie />} />
-          <Route path="/howitworks" element={<HowItWorks />} />
+          <Route path="/idealmeasurements" element={<IdealMeasurements />} />
           <Route path="/mystats" element={<MyStats />} />
         </Routes>
       </Router>

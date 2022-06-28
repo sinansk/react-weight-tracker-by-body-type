@@ -34,16 +34,16 @@ const IdealWeightComponent = ({ gender }) => {
             src={require(`../assets/${gender}.png`)}
             alt="gender"
           />
-          <h2 className="text-5xl mt-4">{gender}</h2>
+          <h2 className="mt-4 text-5xl">{gender}</h2>
         </>
       ) : gender === selectedGender ? (
         <>
-          <form className="flex flex-col items-center h-full justify-evenly text-2xl">
+          <form className="flex flex-col items-center h-full text-2xl justify-evenly">
             <label htmlFor="height" className="-mb-4">
               Height
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
               value={heightInput}
               onChange={(e) => setHeightInput(e.target.value)}
@@ -60,7 +60,7 @@ const IdealWeightComponent = ({ gender }) => {
               Weight
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
               value={weightInput}
               onChange={(e) => setWeightInput(e.target.value)}
@@ -77,7 +77,7 @@ const IdealWeightComponent = ({ gender }) => {
               Body Type
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="bodyType"
               value={bodyType}
               onChange={(e) => setBodyType(e.target.value)}
@@ -95,7 +95,7 @@ const IdealWeightComponent = ({ gender }) => {
         <span className="flex flex-col items-center h-full">
           <h2 className="text-2xl">LEARN YOUR BODY TYPE!</h2>
           <img
-            className="h-1/3 mt-4 mb-4"
+            className="mt-4 mb-4 h-1/3"
             src={require(`../assets/washing-hands-${gender}.png`)}
             alt="washing-hands"
           />
@@ -103,12 +103,12 @@ const IdealWeightComponent = ({ gender }) => {
             Please wrap your thumb and forefinger around your wrist in the area
             you normally wear a watch.
           </p>
-          <form className="text-center mt-4">
+          <form className="mt-4 text-center">
             <label htmlFor="wristSize" className="text-xl">
               My fingers are;
             </label>
             <select
-              className="mr-5 text-center border-2 border-slate-400 rounded-lg outline-slate-500 w-full"
+              className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="wristSize"
               value={bodyType}
               onChange={(e) => {

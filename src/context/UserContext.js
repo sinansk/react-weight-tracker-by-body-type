@@ -1,4 +1,10 @@
-import { createContext, useReducer, useState, useContext } from "react";
+import {
+  createContext,
+  useReducer,
+  useState,
+  useEffect,
+  useContext,
+} from "react";
 import UserReducer, { initialState } from "./UserReducer";
 
 const UserContext = createContext();
@@ -23,26 +29,19 @@ export const UserProvider = ({ children }) => {
   const [neckInput, setNeckInput] = useState(34);
   const [waistInput, setWaistInput] = useState(73);
   const [hipInput, setHipInput] = useState(86);
+  const [wristInput, setWristInput] = useState(15);
   const [loading, setLoading] = useState(false);
-
+  const [idealChest, setIdealChest] = useState();
+  const [idealNeck, setIdealNeck] = useState();
+  const [idealArm, setIdealArm] = useState();
+  const [idealForeAram, setIdealForeArm] = useState();
+  const [idealWaist, setIdealWaist] = useState();
+  const [idealHip, setIdealHip] = useState();
+  const [idealThigh, setIdealThigh] = useState();
+  const [idealCalve, setIdealCalve] = useState();
+  const [idealShoulder, setIdealShoulder] = useState();
   const bmi = Math.round((userWeight / (userHeight * userHeight)) * 10000);
   console.log(bmi);
-
-  // if (bodyType === "Ectomorph") {
-
-  // }
-  // const newdata = idealWeight?.map((item) =>
-  //   Math.round(item - (item / 100) * 10)
-  // );
-  // console.log(newdata);
-  // const newdata = idealWeight.map((item) => item - (item / 100) * 10);
-  // console.log(idealWeight);
-
-  // if (bodyType === "Ectomorph") {
-  //   setIdealWeight(idealWeight?.map((item) => item - (item / 100) * 10));
-  // } else if (bodyType === "Endomorph") {
-  //   setIdealWeight(idealWeight?.map((item) => item + (item / 100) * 10));
-  // } else return;
 
   const values = {
     selectedGender,
@@ -77,6 +76,26 @@ export const UserProvider = ({ children }) => {
     setBodyGoal,
     dailiyCalorie,
     setDailyCalorie,
+    wristInput,
+    setWristInput,
+    idealNeck,
+    setIdealNeck,
+    idealShoulder,
+    setIdealShoulder,
+    idealChest,
+    setIdealChest,
+    idealArm,
+    setIdealArm,
+    idealForeAram,
+    setIdealForeArm,
+    idealWaist,
+    setIdealWaist,
+    idealHip,
+    setIdealHip,
+    idealThigh,
+    setIdealThigh,
+    idealCalve,
+    setIdealCalve,
   };
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };

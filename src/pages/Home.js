@@ -2,7 +2,7 @@ import IdealWeightComponent from "./IdealWeight";
 
 const Home = () => {
   return (
-    <div className="h-screen w-screen">
+    <div className="w-screen h-screen">
       <IdealWeightComponent />
     </div>
   );

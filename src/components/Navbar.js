@@ -23,9 +23,9 @@ const Navbar = () => {
           DAILY CALORIE
         </span>
       </Link>
-      <Link to="/howitworks">
+      <Link to="/idealmeasurements">
         <span className="border-2 border-fuchsia-500 rounded-md mx-4 bg-indigo-200 bg-opacity-25 text-teal-900  px-5 py-2 hover:bg-fuchsia-400 hover:text-white">
-          HOW IT WORKS
+          IDEAL MEASUREMENTS
         </span>
       </Link>
       <Link to="/mystats">

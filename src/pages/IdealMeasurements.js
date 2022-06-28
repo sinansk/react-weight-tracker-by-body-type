@@ -2,59 +2,73 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
 import { publicRequest } from "../requestMethods";
-import IdealWeightComponent from "../components/IdealWeightComponent";
+import IdealMeasurementsComponent from "../components/IdealMeasurementsComponent";
+import { wrist } from "../data";
 
-const IdealWeight = () => {
+const IdealMeasurements = () => {
   const {
     selectedGender,
-    weightInput,
-    heightInput,
-    setIdealWeight,
-    idealWeight,
-    setUserHeight,
-    setUserWeight,
-    userWeight,
-    bodyType,
+    wristInput,
+    //   setWristInput,
+    //   idealNeck,
+    //   setIdealNeck,
+    //   // idealShoulder,
+    //   // setIdealShoulder,
+    //   idealChest,
+    //   setIdealChest,
+    //   // idealArm,
+    //   // setIdealArm,
+    //   // idealForeAram,
+    //   // setIdealForeArm,
+    //   // idealWaist,
+    //   // setIdealWaist,
+    //   // idealHip,
+    //   // setIdealHip,
+    //   // idealThigh,
+    //   // setIdealThigh,
+    //   // idealCalve,
+    //   // setIdealCalve,
   } = useUser();
 
-  const user = useUser();
-  useEffect(() => {
-    console.log(idealWeight);
-  }, [idealWeight]);
-  console.log(user);
-
+  const [neckInput, setNeckInput] = useState(34);
+  const [waistInput, setWaistInput] = useState(73);
+  const [hipInput, setHipInput] = useState(86);
+  // const [wristInput, setWristInput] = useState(15);
   const [loading, setLoading] = useState(false);
+  const [idealChest, setIdealChest] = useState();
+  const [idealNeck, setIdealNeck] = useState();
+  const [idealArm, setIdealArm] = useState();
+  const [idealForeAram, setIdealForeArm] = useState();
+  const [idealWaist, setIdealWaist] = useState();
+  const [idealHip, setIdealHip] = useState();
+  const [idealThigh, setIdealThigh] = useState();
+  const [idealCalve, setIdealCalve] = useState();
+  const [idealShoulder, setIdealShoulder] = useState();
+  const user = useUser();
 
-  const makeRequest = async (e) => {
+  async function calculateMeasurements(e) {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await publicRequest.get(
-        `/idealweight?gender=${selectedGender}&height=${heightInput}`
-      );
-      const data = res.data.data;
-      console.log(data);
-      const sortedValues = Object.values(data)
-        .map((item) => item)
-        .sort((a, b) => a - b);
-      console.log(sortedValues);
-      setLoading(false);
-      bodyType === "Ectomorph" &&
-        setIdealWeight(
-          sortedValues.map((item) => Math.round((item * 96) / 100))
-        );
-      bodyType === "Endomorph" &&
-        setIdealWeight(
-          sortedValues.map((item) => Math.round((item * 104) / 100))
-        );
-      bodyType === "Mesomorph" &&
-        setIdealWeight(sortedValues.map((item) => Math.round(item)));
-    } catch (err) {
-      console.log(err);
-    }
-    setUserHeight(heightInput);
-    setUserWeight(weightInput);
-  };
+    console.log(wristInput);
+    setIdealChest(Math.round(wristInput * 6.5));
+
+    // setUserHeight(heightInput);
+    // setUserWeight(weightInput);
+  }
+
+  useEffect(() => {
+    setIdealNeck(Math.round(idealChest * 0.37));
+    setIdealArm(Math.round(idealChest * 0.36));
+    setIdealForeArm(Math.round(idealChest * 0.29));
+    setIdealWaist(Math.round(idealChest * 0.7));
+    setIdealHip(Math.round(idealChest * 0.85));
+    setIdealThigh(Math.round(idealChest * 0.53));
+    setIdealCalve(Math.round(idealChest * 0.34));
+    console.log(idealChest);
+  }, [idealChest]);
+
+  useEffect(() => {
+    setIdealShoulder(Math.round(idealWaist * 1.61));
+  }, [idealWaist]);
 
   return (
     <div className="w-screen h-screen">
@@ -62,35 +76,28 @@ const IdealWeight = () => {
 
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {idealWeight ? (
+          {idealChest ? (
             <>
-              <h2>
-                YOUR IDEAL WEIGHT RANGE IS: {idealWeight[0]} - {idealWeight[3]}{" "}
-                KG.
-              </h2>
-              {userWeight < idealWeight[0] && (
-                <h2>YOU NEED TO GAIN {idealWeight[0] - userWeight} KG.</h2>
-              )}
-              {userWeight > idealWeight[3] && (
-                <h2>YOU NEED TO LOSS {userWeight - idealWeight[3]} KG.</h2>
-              )}
-              {idealWeight[0] <= userWeight && userWeight <= idealWeight[3] && (
-                <h2>YOUR WEIGHT IS IDEAL.</h2>
-              )}
+              <h2 className="underline">YOUR IDEAL MEASUREMENTS ARE (cm)</h2>
+              <p>
+                Neck: {idealNeck}, Chest: {idealChest}, Shoulder:{idealShoulder}
+                , Arm: {idealArm}, Forearm: {idealForeAram}, Waist: {idealWaist}
+                , Hip: {idealHip}, Thigh: {idealThigh}, Calve: {idealCalve}
+              </p>
             </>
           ) : (
-            <h2>IDEAL WEIGHT CALCULATOR</h2>
+            <h2>IDEAL MEASUREMENTS CALCULATOR</h2>
           )}
         </div>
       </div>
 
       <div className="flex flex-row flex-1 w-1/2 mx-auto mt-4">
-        <IdealWeightComponent gender={"female"} />
-        <IdealWeightComponent gender={"male"} />
+        <IdealMeasurementsComponent gender={"female"} />
+        <IdealMeasurementsComponent gender={"male"} />
       </div>
       {selectedGender && (
         <a
-          onClick={makeRequest}
+          onClick={calculateMeasurements}
           className="relative inline-flex items-center px-8 py-3 mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
           href="/"
         >
@@ -138,4 +145,5 @@ const IdealWeight = () => {
     </div>
   );
 };
-export default IdealWeight;
+
+export default IdealMeasurements;
