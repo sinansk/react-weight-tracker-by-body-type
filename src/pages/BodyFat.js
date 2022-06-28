@@ -3,8 +3,10 @@ import Navbar from "../components/Navbar";
 import { publicRequest } from "../requestMethods";
 import { useUser } from "../context/UserContext";
 import { useState } from "react";
+import { useSelector } from "react-redux/es/exports";
 
 const BodyFat = () => {
+  const userGender = useSelector((state) => state.user.userGender);
   const {
     bodyFat,
     setBodyFat,
@@ -23,7 +25,7 @@ const BodyFat = () => {
     setLoading(true);
     try {
       const res = await publicRequest.get(
-        `/bodyfat?age=${ageInput}&gender=${selectedGender}&weight=${weightInput}&height=${heightInput}&neck=${neckInput}&waist=${waistInput}&hip=${hipInput}`
+        `/bodyfat?age=${ageInput}&gender=${userGender}&weight=${weightInput}&height=${heightInput}&neck=${neckInput}&waist=${waistInput}&hip=${hipInput}`
       );
       const data = res.data.data;
       console.log(data);
@@ -37,21 +39,21 @@ const BodyFat = () => {
   };
 
   return (
-    <div className="h-screen w-screen">
+    <div className="w-screen h-screen">
       <Navbar />
       <div className="mx-auto sm:w-1/2 sm:h-24">
-        <div className="text-2xl text-teal-700 flex flex-col items-center justify-center border-2 border-fuchsia-500 rounded-md mx-4 bg-indigo-200 bg-opacity-25 sm:h-full">
+        <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
           {bodyFat ? <h2>YOUR BODY FAT IS: </h2> : <h2>BODY FAT CALCULATOR</h2>}
         </div>
       </div>
-      <div className="mt-4 mx-auto w-1/2 flex-row flex flex-1">
+      <div className="flex flex-row flex-1 w-1/2 mx-auto mt-4">
         <BodyFatComponent gender={"female"} />
         <BodyFatComponent gender={"male"} />
       </div>
-      {selectedGender && (
+      {userGender && (
         <a
           onClick={makeRequest}
-          className="mt-4 rounded-sm relative inline-flex items-center px-8 py-3 overflow-hidden text-white bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
+          className="relative inline-flex items-center px-8 py-3 mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
           href="/"
         >
           <span className="absolute left-0 transition-transform -translate-x-full group-hover:translate-x-4">

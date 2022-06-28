@@ -1,7 +1,18 @@
 import { useUser } from "../context/UserContext";
 import { heights, bodyTypes, weights } from "../data";
+import { useDispatch, useSelector } from "react-redux";
+import { userSlice, selectGender } from "../redux/userRedux";
 
 const IdealWeightComponent = ({ gender }) => {
+  const dispatch = useDispatch();
+  const userGender = useSelector((state) => state.user.userGender);
+  const user = useSelector((state) => state.user);
+  console.log(user);
+
+  const handleGender = () => {
+    !userGender && dispatch(selectGender(gender));
+  };
+
   const {
     selectedGender,
     setSelectedGender,
@@ -13,10 +24,6 @@ const IdealWeightComponent = ({ gender }) => {
     setHeightInput,
   } = useUser();
 
-  const handleGender = () => {
-    !selectedGender && setSelectedGender(gender);
-  };
-
   return (
     <div
       onClick={handleGender}
@@ -27,7 +34,7 @@ const IdealWeightComponent = ({ gender }) => {
       }
       `}
     >
-      {!selectedGender ? (
+      {!userGender ? (
         <>
           <img
             className=""
@@ -36,7 +43,7 @@ const IdealWeightComponent = ({ gender }) => {
           />
           <h2 className="mt-4 text-5xl">{gender}</h2>
         </>
-      ) : gender === selectedGender ? (
+      ) : gender === userGender ? (
         <>
           <form className="flex flex-col items-center h-full text-2xl justify-evenly">
             <label htmlFor="height" className="-mb-4">

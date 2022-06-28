@@ -4,71 +4,26 @@ import { useUser } from "../context/UserContext";
 import { publicRequest } from "../requestMethods";
 import IdealMeasurementsComponent from "../components/IdealMeasurementsComponent";
 import { wrist } from "../data";
+import { useSelector, useDispatch } from "react-redux";
+import { setIdealMeasurements } from "../redux/userRedux";
 
 const IdealMeasurements = () => {
-  const {
-    selectedGender,
-    wristInput,
-    //   setWristInput,
-    //   idealNeck,
-    //   setIdealNeck,
-    //   // idealShoulder,
-    //   // setIdealShoulder,
-    //   idealChest,
-    //   setIdealChest,
-    //   // idealArm,
-    //   // setIdealArm,
-    //   // idealForeAram,
-    //   // setIdealForeArm,
-    //   // idealWaist,
-    //   // setIdealWaist,
-    //   // idealHip,
-    //   // setIdealHip,
-    //   // idealThigh,
-    //   // setIdealThigh,
-    //   // idealCalve,
-    //   // setIdealCalve,
-  } = useUser();
+  const userGender = useSelector((state) => state.user.userGender);
+  const idealMeasurements = useSelector(
+    (state) => state.user.idealMeasurements
+  );
+  const idealChestSize = idealMeasurements.idealChestSize;
+  console.log(idealChestSize);
+  const dispatch = useDispatch();
 
-  const [neckInput, setNeckInput] = useState(34);
-  const [waistInput, setWaistInput] = useState(73);
-  const [hipInput, setHipInput] = useState(86);
-  // const [wristInput, setWristInput] = useState(15);
+  const [wristInput, setWristInput] = useState(15);
   const [loading, setLoading] = useState(false);
-  const [idealChest, setIdealChest] = useState();
-  const [idealNeck, setIdealNeck] = useState();
-  const [idealArm, setIdealArm] = useState();
-  const [idealForeAram, setIdealForeArm] = useState();
-  const [idealWaist, setIdealWaist] = useState();
-  const [idealHip, setIdealHip] = useState();
-  const [idealThigh, setIdealThigh] = useState();
-  const [idealCalve, setIdealCalve] = useState();
-  const [idealShoulder, setIdealShoulder] = useState();
-  const user = useUser();
 
-  async function calculateMeasurements(e) {
+  function calculateMeasurements(e) {
     e.preventDefault();
     console.log(wristInput);
-    setIdealChest(Math.round(wristInput * 6.5));
-
-    // setUserHeight(heightInput);
-    // setUserWeight(weightInput);
+    dispatch(setIdealMeasurements());
   }
-
-  useEffect(() => {
-    setIdealNeck(Math.round(idealChest * 0.37));
-    setIdealArm(Math.round(idealChest * 0.36));
-    setIdealForeArm(Math.round(idealChest * 0.29));
-    setIdealWaist(Math.round(idealChest * 0.7));
-    setIdealHip(Math.round(idealChest * 0.85));
-    setIdealThigh(Math.round(idealChest * 0.53));
-    setIdealCalve(Math.round(idealChest * 0.34));
-    console.log(idealChest);
-  }, [idealChest]);
-
-  useEffect(() => {
-    setIdealShoulder(Math.round(idealWaist * 1.61));
-  }, [idealWaist]);
 
   return (
     <div className="w-screen h-screen">
@@ -76,13 +31,18 @@ const IdealMeasurements = () => {
 
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {idealChest ? (
+          {idealChestSize ? (
             <>
               <h2 className="underline">YOUR IDEAL MEASUREMENTS ARE (cm)</h2>
               <p>
-                Neck: {idealNeck}, Chest: {idealChest}, Shoulder:{idealShoulder}
-                , Arm: {idealArm}, Forearm: {idealForeAram}, Waist: {idealWaist}
-                , Hip: {idealHip}, Thigh: {idealThigh}, Calve: {idealCalve}
+                Neck: {idealMeasurements.idealNeckSize}, Chest: {idealChestSize}
+                , Shoulder:{idealMeasurements.idealShoulderSize}, Arm:{" "}
+                {idealMeasurements.idealArmSize}, Forearm:{" "}
+                {idealMeasurements.idealForeArmSize}, Waist:{" "}
+                {idealMeasurements.idealWaistSize}, Hip:{" "}
+                {idealMeasurements.idealHipSize}, Thigh:{" "}
+                {idealMeasurements.idealThighSize}, Calve:{" "}
+                {idealMeasurements.idealCalveSize}
               </p>
             </>
           ) : (
@@ -95,7 +55,7 @@ const IdealMeasurements = () => {
         <IdealMeasurementsComponent gender={"female"} />
         <IdealMeasurementsComponent gender={"male"} />
       </div>
-      {selectedGender && (
+      {userGender && (
         <a
           onClick={calculateMeasurements}
           className="relative inline-flex items-center px-8 py-3 mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"

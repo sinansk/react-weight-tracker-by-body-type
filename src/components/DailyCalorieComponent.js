@@ -1,8 +1,15 @@
 import { useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { heights, weights, ages, bodyGoals, activityLevels } from "../data";
+import { useDispatch, useSelector } from "react-redux";
+import { userSlice, selectGender } from "../redux/userRedux";
 
 const DailyCalorieComponent = ({ gender }) => {
+  const userGender = useSelector((state) => state.user.userGender);
+  const dispatch = useDispatch();
+  const handleGender = () => {
+    !userGender && dispatch(selectGender(gender));
+  };
   const {
     selectedGender,
     setSelectedGender,
@@ -20,10 +27,6 @@ const DailyCalorieComponent = ({ gender }) => {
     setAgeInput,
   } = useUser();
 
-  const handleGender = () => {
-    !selectedGender && setSelectedGender(gender);
-  };
-
   return (
     <div
       onClick={handleGender}
@@ -34,23 +37,23 @@ const DailyCalorieComponent = ({ gender }) => {
       }
           `}
     >
-      {!selectedGender ? (
+      {!userGender ? (
         <>
           <img
             className=""
             src={require(`../assets/${gender}.png`)}
             alt="gender"
           />
-          <h2 className="text-5xl mt-4">{gender}</h2>
+          <h2 className="mt-4 text-5xl">{gender}</h2>
         </>
-      ) : gender === selectedGender ? (
+      ) : gender === userGender ? (
         <>
-          <form className="flex flex-col items-center h-full justify-evenly text-2xl">
-            <label htmlFor="ageInput" className=" -mb-4">
+          <form className="flex flex-col items-center h-full text-2xl justify-evenly">
+            <label htmlFor="ageInput" className="-mb-4 ">
               Age
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="ageInput"
               value={ageInput ? ageInput : 29}
               onChange={(e) => setAgeInput(e.target.value)}
@@ -67,7 +70,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Height
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
               value={userHeight ? userHeight : heightInput}
               onChange={(e) => setHeightInput(e.target.value)}
@@ -84,7 +87,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Weight
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
               value={userWeight ? userWeight : weightInput}
               onChange={(e) => setWeightInput(e.target.value)}
@@ -101,7 +104,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Activity Level
             </label>
             <select
-              className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="activityLevel"
               value={activityLevel}
               onChange={(e) => setActivityLevel(e.target.value)}
@@ -119,7 +122,7 @@ const DailyCalorieComponent = ({ gender }) => {
         <span className="flex flex-col items-center h-full">
           <h2 className="text-2xl">SET YOUR BODY GOAL</h2>
           <img
-            className="h-1/3 mt-4 mb-4"
+            className="mt-4 mb-4 h-1/3"
             src={require(`../assets/goal-${gender}.png`)}
             alt="washing-hands"
           />
@@ -127,12 +130,12 @@ const DailyCalorieComponent = ({ gender }) => {
             Please set your body goal and we will calculate your daily calorie
             need!
           </p>
-          <form className="text-center mt-4">
+          <form className="mt-4 text-center">
             <label htmlFor="bodyGoal" className="text-xl">
               My goal is;
             </label>
             <select
-              className="mr-5 text-center border-2 border-slate-400 rounded-lg outline-slate-500 w-full"
+              className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="bodyGoal"
               value={bodyGoal}
               onChange={(e) => {

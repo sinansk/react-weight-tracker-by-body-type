@@ -2,8 +2,17 @@ import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { heights, weights, ages, neck, waist, hip } from "../data";
 import { publicRequest } from "../requestMethods";
+import { useDispatch, useSelector } from "react-redux";
+import { userSlice, selectGender } from "../redux/userRedux";
 
 const BodyFatComponent = ({ gender }) => {
+  const userGender = useSelector((state) => state.user.userGender);
+  console.log(userGender);
+  const dispatch = useDispatch();
+  const handleGender = () => {
+    !userGender && dispatch(selectGender(gender));
+  };
+
   const {
     selectedGender,
     setSelectedGender,
@@ -23,10 +32,6 @@ const BodyFatComponent = ({ gender }) => {
     userWeight,
   } = useUser();
 
-  const handleGender = () => {
-    !selectedGender && setSelectedGender(gender);
-  };
-
   return (
     <div
       onClick={handleGender}
@@ -37,24 +42,24 @@ const BodyFatComponent = ({ gender }) => {
       }
   `}
     >
-      {!selectedGender ? (
+      {!userGender ? (
         <>
           <img
             className=""
             src={require(`../assets/${gender}.png`)}
             alt="gender"
           />
-          <h2 className="text-5xl mt-4">{gender}</h2>
+          <h2 className="mt-4 text-5xl">{gender}</h2>
         </>
-      ) : gender === selectedGender ? (
+      ) : gender === userGender ? (
         <>
-          <form className="flex flex-row flex-1 items-center h-full text-2xl">
-            <div className="flex flex-col justify-evenly h-full w-full px-4">
-              <label htmlFor="ageInput" className=" -mb-4">
+          <form className="flex flex-row items-center flex-1 h-full text-2xl">
+            <div className="flex flex-col w-full h-full px-4 justify-evenly">
+              <label htmlFor="ageInput" className="-mb-4 ">
                 Age
               </label>
               <select
-                className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+                className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="ageInput"
                 value={ageInput ? ageInput : 29}
                 onChange={(e) => setAgeInput(e.target.value)}
@@ -71,7 +76,7 @@ const BodyFatComponent = ({ gender }) => {
                 Height
               </label>
               <select
-                className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+                className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="heightInput"
                 value={userHeight ? userHeight : heightInput}
                 onChange={(e) => setHeightInput(e.target.value)}
@@ -87,7 +92,7 @@ const BodyFatComponent = ({ gender }) => {
                 Weight
               </label>
               <select
-                className="border-2 border-slate-400 rounded-lg outline-slate-500 w-full text-center"
+                className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="weightInput"
                 value={userWeight ? userWeight : weightInput}
                 onChange={(e) => setWeightInput(e.target.value)}
@@ -100,12 +105,12 @@ const BodyFatComponent = ({ gender }) => {
                 ))}
               </select>
             </div>
-            <div className="flex flex-col justify-evenly px-4 h-full w-full">
+            <div className="flex flex-col w-full h-full px-4 justify-evenly">
               <label htmlFor="neckInput" className="-mb-4">
                 Neck;
               </label>
               <select
-                className="mr-5 text-center border-2 border-slate-400 rounded-lg outline-slate-500 w-full"
+                className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="neckInput"
                 value={neckInput}
                 onChange={(e) => {
@@ -125,7 +130,7 @@ const BodyFatComponent = ({ gender }) => {
                 Waist;
               </label>
               <select
-                className="mr-5 text-center border-2 border-slate-400 rounded-lg outline-slate-500 w-full"
+                className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="waistInput"
                 value={waistInput}
                 onChange={(e) => {
@@ -145,7 +150,7 @@ const BodyFatComponent = ({ gender }) => {
                 Hip;
               </label>
               <select
-                className="mr-5 text-center border-2 border-slate-400 rounded-lg outline-slate-500 w-full"
+                className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="hipInput"
                 value={hipInput}
                 onChange={(e) => {
@@ -168,8 +173,8 @@ const BodyFatComponent = ({ gender }) => {
         <span className="flex flex-col items-center h-full">
           <h2 className="text-2xl">MEASURE YOUR BODY!</h2>
           <img
-            className="h-2/5 mt-4 mb-4"
-            src={require(`../assets/body-${selectedGender}.png`)}
+            className="mt-4 mb-4 h-2/5"
+            src={require(`../assets/body-${userGender}.png`)}
             alt="washing-hands"
           />
           <p className="text-lg">

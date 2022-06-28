@@ -1,12 +1,25 @@
 import { useUser } from "../context/UserContext";
 import { heights, bodyTypes, weights, wrist } from "../data";
 
+import { userSlice, selectGender } from "../redux/userRedux";
+import { useSelector, useDispatch } from "react-redux";
+import { setWristSize } from "../redux/userRedux";
+import { useEffect, useState } from "react";
+
 const IdealMeasurementsComponent = ({ gender }) => {
-  const { selectedGender, setSelectedGender, wristInput, setWristInput } =
-    useUser();
+  const [wristInput, setWristInput] = useState(15);
+  const userGender = useSelector((state) => state.user.userGender);
+  const idealMeasurements = useSelector(
+    (state) => state.user.IdealMeasurements
+  );
+  useEffect(() => {
+    dispatch(setWristSize(wristInput));
+  }, [wristInput]);
+  const dispatch = useDispatch();
+  console.log(userGender);
 
   const handleGender = () => {
-    !selectedGender && setSelectedGender(gender);
+    !userGender && dispatch(selectGender(gender));
   };
 
   return (
@@ -19,7 +32,7 @@ const IdealMeasurementsComponent = ({ gender }) => {
       }
           `}
     >
-      {!selectedGender ? (
+      {!userGender ? (
         <>
           <img
             className=""
@@ -28,7 +41,7 @@ const IdealMeasurementsComponent = ({ gender }) => {
           />
           <h2 className="mt-4 text-5xl">{gender}</h2>
         </>
-      ) : gender === selectedGender ? (
+      ) : gender === userGender ? (
         <>
           <form className="flex flex-col items-center h-full text-2xl justify-evenly">
             <img

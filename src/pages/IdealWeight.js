@@ -3,8 +3,13 @@ import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
 import { publicRequest } from "../requestMethods";
 import IdealWeightComponent from "../components/IdealWeightComponent";
+import { useSelector, useDispatch } from "react-redux/";
 
 const IdealWeight = () => {
+  const dispatch = useDispatch();
+  // const idealWeight = useSelector((state) => state.user.idealWeight);
+  // console.log(idealWeight);
+  const userGender = useSelector((state) => state.user.userGender);
   const {
     selectedGender,
     weightInput,
@@ -30,7 +35,7 @@ const IdealWeight = () => {
     setLoading(true);
     try {
       const res = await publicRequest.get(
-        `/idealweight?gender=${selectedGender}&height=${heightInput}`
+        `/idealweight?gender=${userGender}&height=${heightInput}`
       );
       const data = res.data.data;
       console.log(data);
@@ -39,6 +44,7 @@ const IdealWeight = () => {
         .sort((a, b) => a - b);
       console.log(sortedValues);
       setLoading(false);
+      // dispatch(setIdealWeight(sortedValues));
       bodyType === "Ectomorph" &&
         setIdealWeight(
           sortedValues.map((item) => Math.round((item * 96) / 100))
@@ -88,7 +94,7 @@ const IdealWeight = () => {
         <IdealWeightComponent gender={"female"} />
         <IdealWeightComponent gender={"male"} />
       </div>
-      {selectedGender && (
+      {userGender && (
         <a
           onClick={makeRequest}
           className="relative inline-flex items-center px-8 py-3 mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
