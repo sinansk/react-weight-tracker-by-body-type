@@ -43,7 +43,7 @@ const IdealWeight = () => {
 
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {idealWeight !== "" ? (
+          {idealWeight.length > 0 ? (
             <>
               <h2>
                 YOUR IDEAL WEIGHT RANGE IS: {idealWeight[0]} - {idealWeight[3]}{" "}

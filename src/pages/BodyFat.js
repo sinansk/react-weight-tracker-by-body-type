@@ -1,7 +1,7 @@
 import BodyFatComponent from "../components/BodyFatComponent";
 import Navbar from "../components/Navbar";
 import { publicRequest } from "../requestMethods";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux/";
 import { setBodyFat } from "../redux/userRedux";
 
@@ -31,13 +31,30 @@ const BodyFat = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(bodyFat["Body Fat (U.S. Navy Method)"]);
+  }, [bodyFat]);
+
   return (
     <div className="w-screen h-screen">
       <Navbar />
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
           {bodyFat ? (
-            <h2>YOUR BODY FAT IS: {JSON.stringify(bodyFat)}</h2>
+            <div>
+              <h2>
+                <span className="underline">YOUR BODY FAT RATIO:</span> %
+                {bodyFat["Body Fat (U.S. Navy Method)"]},{" "}
+                <span className="underline">CATEGORY:</span>{" "}
+                {bodyFat["Body Fat Category"].toUpperCase()}
+              </h2>
+              <h2>
+                <span className="underline">BODY FAT MASS:</span>{" "}
+                {bodyFat["Body Fat Mass"]} KG,{" "}
+                <span className="underline">LEAN BODY MASS:</span>{" "}
+                {bodyFat["Lean Body Mass"]} KG
+              </h2>
+            </div>
           ) : (
             <h2>BODY FAT CALCULATOR</h2>
           )}

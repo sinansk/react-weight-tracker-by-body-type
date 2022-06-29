@@ -24,28 +24,45 @@ const DailiyCalorie = () => {
       );
       const data = res.data.data;
       console.log(data);
-
       dispatch(setCalorieNeed(data));
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
+  const calorie = calorieNeed["goals"]?.[bodyGoal];
+  const maintain = calorieNeed["goals"]?.["maintain weight"];
+  console.log(maintain);
   useEffect(() => {
-    console.log(calorieNeed);
+    console.log(calorieNeed["goals"]);
   }, [calorieNeed]);
+
+  useEffect(() => {
+    console.log(bodyGoal);
+  }, [bodyGoal]);
 
   return (
     <div className="w-screen h-screen">
       <Navbar />
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {calorieNeed !== "" ? (
+          {calorieNeed === "" && <h2>DAILY CALORIE CALCULATOR </h2>}
+
+          {calorieNeed !== "" && bodyGoal === "maintain weight" && (
             <>
-              <h2>YOUR DAILY CALORIE NEED IS: {JSON.stringify(calorieNeed)}</h2>
+              <h2 className="">
+                YOUR DAILY CALORIE NEED FOR {bodyGoal.toUpperCase()}
+              </h2>
+              <h2>{maintain} kcal</h2>
             </>
-          ) : (
-            <h2>DAILY CALORIE CALCULATOR </h2>
+          )}
+          {calorieNeed !== "" && bodyGoal !== "maintain weight" && (
+            <>
+              <h2 className="">
+                YOUR DAILY CALORIE NEED FOR {bodyGoal.toUpperCase()}
+              </h2>
+              <h2>{calorie["calory"]} kcal</h2>
+            </>
           )}
         </div>
       </div>

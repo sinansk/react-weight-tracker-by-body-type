@@ -13,7 +13,7 @@ export const userSlice = createSlice({
     bmi: "",
     age: 29,
     bodyType: "Ectomorph",
-    bodyGoal: "Maintain weight",
+    bodyGoal: "maintain weight",
     bodyFat: "",
     measurements: {
       neckSize: 34,

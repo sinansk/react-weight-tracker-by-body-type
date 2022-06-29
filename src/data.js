@@ -98,30 +98,37 @@ export const activityLevels = [
 export const bodyGoals = [
   {
     sitution: "Maintain weight",
-    value: "level_1",
+    value: "maintain weight",
+    apiValue: "maintain",
   },
   {
     sitution: "Mild weight loss (1 kg/month)",
-    value: "level_2",
+    value: "Mild weight loss",
+    apiValue: "mildlose",
   },
   {
     sitution: "Weight loss (2 kg/month)",
-    value: "level_3",
+    value: "Weight loss",
+    apiValue: "weightlose",
   },
   {
     sitution: "Extreme weight loss (4 kg/month)",
-    value: "level_4",
+    value: "Extreme weight loss",
+    apiValue: "extremelose",
   },
   {
     sitution: "Mild weight gain (1 kg/month)",
-    value: "level_5",
+    value: "Mild weight gain",
+    apiValue: "mildgain",
   },
   {
     sitution: "Weight gain (2 kg/month)",
-    value: "level_6",
+    value: "Weight gain",
+    apiValue: "weightgain",
   },
   {
     sitution: "Extreme weight gain (4 kg/month)",
-    value: "level_7",
+    value: "Extreme weight gain",
+    apiValue: "extremegain",
   },
 ];
