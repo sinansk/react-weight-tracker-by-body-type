@@ -7,22 +7,23 @@ export const userSlice = createSlice({
     isFetching: false,
     error: false,
     userGender: "",
-    height: "",
-    weight: "",
+    height: 169,
+    weight: 60,
     idealWeight: [],
     bmi: "",
-    age: "",
-    bodyType: "",
-    bodyGoal: "",
+    age: 29,
+    bodyType: "Ectomorph",
+    bodyGoal: "Maintain weight",
+    bodyFat: "",
     measurements: {
-      neckSize: "",
+      neckSize: 34,
       shoulderSize: "",
       chestSize: "",
       armSize: "",
       foreArmSize: "",
       wristSize: "",
-      waistSize: "",
-      hipSize: "",
+      waistSize: 70,
+      hipSize: 86,
       thighSize: "",
       calveSize: "",
     },
@@ -38,35 +39,47 @@ export const userSlice = createSlice({
       idealThighSize: "",
       idealCalveSize: "",
     },
-    activityLevel: "",
-    calorieNeed: {
-      bmr: "",
-      maintainWeight: "",
-      mildWeightLoss: "",
-      weightLoss: "",
-      extremeWeightLoss: "",
-      mildWeightGain: "",
-      weightGain: "",
-      extremeWeightGain: "",
-    },
+    activityLevel: "level_1",
+    calorieNeed: "",
   },
   reducers: {
     setUser: (state, action) => {
       state = action.payload;
+    },
+    setAge: (state, action) => {
+      state.age = action.payload;
+    },
+    setWeight: (state, action) => {
+      state.weight = action.payload;
+    },
+    setHeight: (state, action) => {
+      state.height = action.payload;
+    },
+    setNeck: (state, action) => {
+      state.measurements.neckSize = action.payload;
+    },
+    setWaist: (state, action) => {
+      state.measurements.waistSize = action.payload;
+    },
+    setHip: (state, action) => {
+      state.measurements.hipSize = action.payload;
+    },
+    setBodyType: (state, action) => {
+      state.bodyType = action.payload;
     },
     setIdealWeight: (state, action) => {
       if (state.bodyType === "Ectomorph") {
         state.idealWeight = action.payload.map((item) =>
           Math.round((item * 96) / 100)
         );
-      } else if (state.bodyType === "Ectomorph") {
+      } else if (state.bodyType === "Endomorph") {
         state.idealWeight = action.payload.map((item) =>
           Math.round((item * 104) / 100)
         );
       } else {
         state.idealWeight = action.payload.map((item) => Math.round(item));
       }
-      //   state.idealWeight = action.payload;
+      state.bmi = (state.weight / (state.height * state.height)) * 10000;
     },
     selectGender: (state, action) => {
       state.userGender = action.payload;
@@ -103,6 +116,18 @@ export const userSlice = createSlice({
         state.idealMeasurements.idealWaistSize * 1.61
       );
     },
+    setBodyFat: (state, action) => {
+      state.bodyFat = action.payload;
+    },
+    setActivityLevel: (state, action) => {
+      state.activityLevel = action.payload;
+    },
+    setBodyGoal: (state, action) => {
+      state.bodyGoal = action.payload;
+    },
+    setCalorieNeed: (state, action) => {
+      state.calorieNeed = action.payload;
+    },
   },
 });
 
@@ -112,6 +137,18 @@ export const {
   setIdealMeasurements,
   setUser,
   setIdealWeight,
+  setBodyType,
+  setBodyFat,
+  setActivityLevel,
+  setBodyGoal,
+  setCalorieNeed,
+  setBMR,
+  setAge,
+  setWeight,
+  setHeight,
+  setNeck,
+  setWaist,
+  setHip,
 } = userSlice.actions;
 
 export default userSlice.reducer;

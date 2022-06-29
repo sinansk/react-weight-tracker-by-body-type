@@ -1,22 +1,13 @@
-import { useUser } from "../context/UserContext";
-import { heights, bodyTypes, weights, wrist } from "../data";
-
-import { userSlice, selectGender } from "../redux/userRedux";
+import { wrist } from "../data";
+import { selectGender } from "../redux/userRedux";
 import { useSelector, useDispatch } from "react-redux";
 import { setWristSize } from "../redux/userRedux";
-import { useEffect, useState } from "react";
 
 const IdealMeasurementsComponent = ({ gender }) => {
-  const [wristInput, setWristInput] = useState(15);
-  const userGender = useSelector((state) => state.user.userGender);
-  const idealMeasurements = useSelector(
-    (state) => state.user.IdealMeasurements
-  );
-  useEffect(() => {
-    dispatch(setWristSize(wristInput));
-  }, [wristInput]);
+  const user = useSelector((state) => state.user);
+  const userGender = user.userGender;
+  const idealMeasurements = user.idealMeasurements;
   const dispatch = useDispatch();
-  console.log(userGender);
 
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));
@@ -60,9 +51,13 @@ const IdealMeasurementsComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="wristSize"
-              value={wristInput}
-              onChange={(e) => setWristInput(e.target.value)}
-              onBlur={(e) => setWristInput(e.target.value)}
+              value={
+                idealMeasurements.idealWristSize
+                  ? idealMeasurements.idealWristSize
+                  : 15
+              }
+              onChange={(e) => dispatch(setWristSize(e.target.value))}
+              onBlur={(e) => dispatch(setWristSize(e.target.value))}
             >
               {wrist.map((item) => (
                 <option key={item} value={item}>

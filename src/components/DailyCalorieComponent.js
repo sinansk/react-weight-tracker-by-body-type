@@ -1,31 +1,21 @@
-import { useEffect } from "react";
-import { useUser } from "../context/UserContext";
 import { heights, weights, ages, bodyGoals, activityLevels } from "../data";
 import { useDispatch, useSelector } from "react-redux";
-import { userSlice, selectGender } from "../redux/userRedux";
+import {
+  setAge,
+  setHeight,
+  setWeight,
+  selectGender,
+  setActivityLevel,
+  setBodyGoal,
+} from "../redux/userRedux";
 
 const DailyCalorieComponent = ({ gender }) => {
-  const userGender = useSelector((state) => state.user.userGender);
+  const user = useSelector((state) => state.user);
+  const userGender = user.userGender;
   const dispatch = useDispatch();
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));
   };
-  const {
-    selectedGender,
-    setSelectedGender,
-    weightInput,
-    setWeightInput,
-    heightInput,
-    setHeightInput,
-    activityLevel,
-    setActivityLevel,
-    bodyGoal,
-    setBodyGoal,
-    userHeight,
-    userWeight,
-    ageInput,
-    setAgeInput,
-  } = useUser();
 
   return (
     <div
@@ -55,9 +45,9 @@ const DailyCalorieComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="ageInput"
-              value={ageInput ? ageInput : 29}
-              onChange={(e) => setAgeInput(e.target.value)}
-              onBlur={(e) => setAgeInput(e.target.value)}
+              value={user.age ? user.age : 29}
+              onChange={(e) => dispatch(setAge(e.target.value))}
+              onBlur={(e) => dispatch(setAge(e.target.value))}
             >
               {ages.map((age) => (
                 <option key={age} value={age}>
@@ -72,9 +62,9 @@ const DailyCalorieComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
-              value={userHeight ? userHeight : heightInput}
-              onChange={(e) => setHeightInput(e.target.value)}
-              onBlur={(e) => setHeightInput(e.target.value)}
+              value={user.height ? user.height : 169}
+              onChange={(e) => dispatch(setHeight(e.target.value))}
+              onBlur={(e) => dispatch(setHeight(e.target.value))}
             >
               {heights.map((height) => (
                 <option key={height} value={height}>
@@ -89,9 +79,9 @@ const DailyCalorieComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
-              value={userWeight ? userWeight : weightInput}
-              onChange={(e) => setWeightInput(e.target.value)}
-              onBlur={(e) => setWeightInput(e.target.value)}
+              value={user.weight ? user.weight : 60}
+              onChange={(e) => dispatch(setWeight(e.target.value))}
+              onBlur={(e) => dispatch(setWeight(e.target.value))}
             >
               {weights.map((weight) => (
                 <option key={weight} value={weight}>
@@ -106,9 +96,9 @@ const DailyCalorieComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="activityLevel"
-              value={activityLevel}
-              onChange={(e) => setActivityLevel(e.target.value)}
-              onBlur={(e) => setActivityLevel(e.target.value)}
+              value={user.activityLevel ? user.activityLevel : "level_1"}
+              onChange={(e) => dispatch(setActivityLevel(e.target.value))}
+              onBlur={(e) => dispatch(setActivityLevel(e.target.value))}
             >
               {activityLevels.map((item) => (
                 <option key={item.value} value={item.value}>
@@ -137,12 +127,12 @@ const DailyCalorieComponent = ({ gender }) => {
             <select
               className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="bodyGoal"
-              value={bodyGoal}
+              value={user.bodyGoal ? user.bodyGoal : "Maintain weight"}
               onChange={(e) => {
-                setBodyGoal(e.target.value);
+                dispatch(setBodyGoal(e.target.value));
               }}
               onBlur={(e) => {
-                setBodyGoal(e.target.value);
+                dispatch(setBodyGoal(e.target.value));
               }}
             >
               {bodyGoals.map((item) => (

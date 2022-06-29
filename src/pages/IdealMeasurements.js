@@ -1,27 +1,21 @@
 import Navbar from "../components/Navbar";
-import { useEffect, useState } from "react";
-import { useUser } from "../context/UserContext";
-import { publicRequest } from "../requestMethods";
+import { useState } from "react";
 import IdealMeasurementsComponent from "../components/IdealMeasurementsComponent";
-import { wrist } from "../data";
 import { useSelector, useDispatch } from "react-redux";
 import { setIdealMeasurements } from "../redux/userRedux";
 
 const IdealMeasurements = () => {
-  const userGender = useSelector((state) => state.user.userGender);
-  const idealMeasurements = useSelector(
-    (state) => state.user.idealMeasurements
-  );
+  const user = useSelector((state) => state.user);
+  const userGender = user.userGender;
+  const idealMeasurements = user.idealMeasurements;
   const idealChestSize = idealMeasurements.idealChestSize;
-  console.log(idealChestSize);
+
   const dispatch = useDispatch();
 
-  const [wristInput, setWristInput] = useState(15);
   const [loading, setLoading] = useState(false);
 
   function calculateMeasurements(e) {
     e.preventDefault();
-    console.log(wristInput);
     dispatch(setIdealMeasurements());
   }
 

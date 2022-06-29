@@ -1,28 +1,21 @@
-import { useUser } from "../context/UserContext";
 import { heights, bodyTypes, weights } from "../data";
 import { useDispatch, useSelector } from "react-redux";
-import { userSlice, selectGender } from "../redux/userRedux";
+import {
+  selectGender,
+  setBodyType,
+  setWeight,
+  setHeight,
+} from "../redux/userRedux";
 
 const IdealWeightComponent = ({ gender }) => {
   const dispatch = useDispatch();
-  const userGender = useSelector((state) => state.user.userGender);
   const user = useSelector((state) => state.user);
+  const userGender = user.userGender;
   console.log(user);
-
+  const bodyType = useSelector((state) => state.user.bodyType);
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));
   };
-
-  const {
-    selectedGender,
-    setSelectedGender,
-    bodyType,
-    setBodyType,
-    weightInput,
-    setWeightInput,
-    heightInput,
-    setHeightInput,
-  } = useUser();
 
   return (
     <div
@@ -52,9 +45,9 @@ const IdealWeightComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
-              value={heightInput}
-              onChange={(e) => setHeightInput(e.target.value)}
-              onBlur={(e) => setHeightInput(e.target.value)}
+              value={user.height ? user.height : 169}
+              onChange={(e) => dispatch(setHeight(e.target.value))}
+              onBlur={(e) => dispatch(setHeight(e.target.value))}
             >
               {heights.map((height) => (
                 <option key={height} value={height}>
@@ -69,9 +62,9 @@ const IdealWeightComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
-              value={weightInput}
-              onChange={(e) => setWeightInput(e.target.value)}
-              onBlur={(e) => setWeightInput(e.target.value)}
+              value={user.weight ? user.weight : 60}
+              onChange={(e) => dispatch(setWeight(e.target.value))}
+              onBlur={(e) => dispatch(setWeight(e.target.value))}
             >
               {weights.map((weight) => (
                 <option key={weight} value={weight}>
@@ -86,9 +79,9 @@ const IdealWeightComponent = ({ gender }) => {
             <select
               className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="bodyType"
-              value={bodyType}
-              onChange={(e) => setBodyType(e.target.value)}
-              onBlur={(e) => setBodyType(e.target.value)}
+              value={user.bodyType ? user.bodyType : "Ectomorph"}
+              onChange={(e) => dispatch(setBodyType(e.target.value))}
+              onBlur={(e) => dispatch(setBodyType(e.target.value))}
             >
               {bodyTypes.map((bodyType) => (
                 <option key={bodyType.value} value={bodyType.value}>
@@ -117,12 +110,12 @@ const IdealWeightComponent = ({ gender }) => {
             <select
               className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="wristSize"
-              value={bodyType}
+              value={bodyType ? bodyType : "Ectomorph"}
               onChange={(e) => {
-                setBodyType(e.target.value);
+                dispatch(setBodyType(e.target.value));
               }}
               onBlur={(e) => {
-                setBodyType(e.target.value);
+                dispatch(setBodyType(e.target.value));
               }}
             >
               {bodyTypes.map((bodyType) => (

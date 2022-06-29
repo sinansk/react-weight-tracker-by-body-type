@@ -1,41 +1,26 @@
 import Navbar from "../components/Navbar";
-import { useEffect, useState } from "react";
-import { useUser } from "../context/UserContext";
+import { useState } from "react";
 import { publicRequest } from "../requestMethods";
 import IdealWeightComponent from "../components/IdealWeightComponent";
 import { useSelector, useDispatch } from "react-redux/";
+import { setIdealWeight } from "../redux/userRedux";
 
 const IdealWeight = () => {
   const dispatch = useDispatch();
-  // const idealWeight = useSelector((state) => state.user.idealWeight);
-  // console.log(idealWeight);
-  const userGender = useSelector((state) => state.user.userGender);
-  const {
-    selectedGender,
-    weightInput,
-    heightInput,
-    setIdealWeight,
-    idealWeight,
-    setUserHeight,
-    setUserWeight,
-    userWeight,
-    bodyType,
-  } = useUser();
-
-  const user = useUser();
-  useEffect(() => {
-    console.log(idealWeight);
-  }, [idealWeight]);
-  console.log(user);
-
+  const user = useSelector((state) => state.user);
+  console.log(user.height);
+  const userGender = user.userGender;
+  const idealWeight = user.idealWeight;
   const [loading, setLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const makeRequest = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const res = await publicRequest.get(
-        `/idealweight?gender=${userGender}&height=${heightInput}`
+        `/idealweight?gender=${userGender}&height=${user.height}`
       );
       const data = res.data.data;
       console.log(data);
@@ -44,22 +29,11 @@ const IdealWeight = () => {
         .sort((a, b) => a - b);
       console.log(sortedValues);
       setLoading(false);
-      // dispatch(setIdealWeight(sortedValues));
-      bodyType === "Ectomorph" &&
-        setIdealWeight(
-          sortedValues.map((item) => Math.round((item * 96) / 100))
-        );
-      bodyType === "Endomorph" &&
-        setIdealWeight(
-          sortedValues.map((item) => Math.round((item * 104) / 100))
-        );
-      bodyType === "Mesomorph" &&
-        setIdealWeight(sortedValues.map((item) => Math.round(item)));
+      setIsLoaded(true);
+      dispatch(setIdealWeight(sortedValues));
     } catch (err) {
       console.log(err);
     }
-    setUserHeight(heightInput);
-    setUserWeight(weightInput);
   };
 
   return (
@@ -68,21 +42,20 @@ const IdealWeight = () => {
 
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {idealWeight ? (
+          {idealWeight.length > 0 && isLoaded ? (
             <>
               <h2>
                 YOUR IDEAL WEIGHT RANGE IS: {idealWeight[0]} - {idealWeight[3]}{" "}
                 KG.
               </h2>
-              {userWeight < idealWeight[0] && (
-                <h2>YOU NEED TO GAIN {idealWeight[0] - userWeight} KG.</h2>
+              {user.weight < idealWeight[0] && (
+                <h2>YOU NEED TO GAIN {idealWeight[0] - user.weight} KG.</h2>
               )}
-              {userWeight > idealWeight[3] && (
-                <h2>YOU NEED TO LOSS {userWeight - idealWeight[3]} KG.</h2>
+              {user.weight > idealWeight[3] && (
+                <h2>YOU NEED TO LOSS {user.weight - idealWeight[3]} KG.</h2>
               )}
-              {idealWeight[0] <= userWeight && userWeight <= idealWeight[3] && (
-                <h2>YOUR WEIGHT IS IDEAL.</h2>
-              )}
+              {idealWeight[0] <= user.weight &&
+                user.weight <= idealWeight[3] && <h2>YOUR WEIGHT IS IDEAL.</h2>}
             </>
           ) : (
             <h2>IDEAL WEIGHT CALCULATOR</h2>

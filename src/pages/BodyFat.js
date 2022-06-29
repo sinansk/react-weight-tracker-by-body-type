@@ -1,23 +1,18 @@
 import BodyFatComponent from "../components/BodyFatComponent";
 import Navbar from "../components/Navbar";
 import { publicRequest } from "../requestMethods";
-import { useUser } from "../context/UserContext";
 import { useState } from "react";
-import { useSelector } from "react-redux/es/exports";
+import { useSelector, useDispatch } from "react-redux/";
+import { setBodyFat } from "../redux/userRedux";
 
 const BodyFat = () => {
-  const userGender = useSelector((state) => state.user.userGender);
-  const {
-    bodyFat,
-    setBodyFat,
-    selectedGender,
-    ageInput,
-    weightInput,
-    heightInput,
-    neckInput,
-    waistInput,
-    hipInput,
-  } = useUser();
+  const user = useSelector((state) => state.user);
+  const measurements = user.measurements;
+  const userGender = user.userGender;
+  const bodyFat = user.bodyFat;
+  console.log(bodyFat);
+
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const makeRequest = async (e) => {
@@ -25,17 +20,16 @@ const BodyFat = () => {
     setLoading(true);
     try {
       const res = await publicRequest.get(
-        `/bodyfat?age=${ageInput}&gender=${userGender}&weight=${weightInput}&height=${heightInput}&neck=${neckInput}&waist=${waistInput}&hip=${hipInput}`
+        `/bodyfat?age=${user.age}&gender=${userGender}&weight=${user.weight}&height=${user.height}&neck=${measurements.neckSize}&waist=${measurements.waistSize}&hip=${measurements.hipSize}`
       );
       const data = res.data.data;
       console.log(data);
-      setBodyFat(data);
+      dispatch(setBodyFat(data));
+
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
-    // setUserHeight(heightInput);
-    // setUserWeight(weightInput);
   };
 
   return (

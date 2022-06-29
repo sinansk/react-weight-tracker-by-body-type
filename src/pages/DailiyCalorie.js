@@ -1,55 +1,50 @@
 import Navbar from "../components/Navbar";
 import { publicRequest } from "../requestMethods";
-import { useUser } from "../context/UserContext";
 import { useEffect, useState } from "react";
 import DailyCalorieComponent from "../components/DailyCalorieComponent";
-import { useSelector } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux/";
+import { setCalorieNeed, setBMR } from "../redux/userRedux";
 
 const DailiyCalorie = () => {
-  const userGender = useSelector((state) => state.user.userGender);
-  const {
-    bodyGoal,
-    activityLevel,
-    selectedGender,
-    ageInput,
-    weightInput,
-    heightInput,
-    dailyCalorie,
-    setDailyCalorie,
-  } = useUser();
+  const user = useSelector((state) => state.user);
+  const userGender = user.userGender;
+  const bodyGoal = user.bodyGoal;
+  const activityLevel = user.activityLevel;
+  const calorieNeed = user.calorieNeed;
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const makeRequest = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await publicRequest.get(
-        `/dailycalorie?age=${ageInput}&gender=${userGender}&height=${heightInput}&weight=${weightInput}&activitylevel=${activityLevel}`
+        `/dailycalorie?age=${user.age}&gender=${userGender}&height=${user.height}&weight=${user.weight}&activitylevel=${activityLevel}`
       );
       const data = res.data.data;
-      console.log(data.goals);
-      setDailyCalorie(data);
+      console.log(data);
 
+      dispatch(setCalorieNeed(data));
       setLoading(false);
+      setIsLoaded(true);
     } catch (err) {
       console.log(err);
     }
-    // setUserHeight(heightInput);
-    // setUserWeight(weightInput);
   };
   useEffect(() => {
-    console.log(dailyCalorie);
-  }, [dailyCalorie]);
+    console.log(calorieNeed);
+  }, [calorieNeed]);
 
   return (
     <div className="w-screen h-screen">
       <Navbar />
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {dailyCalorie ? (
+          {calorieNeed && isLoaded ? (
             <>
-              <h2>YOUR DAILY CALORIE NEED IS: </h2>
+              <h2>YOUR DAILY CALORIE NEED IS: {JSON.stringify(calorieNeed)}</h2>
             </>
           ) : (
             <h2>DAILY CALORIE CALCULATOR </h2>

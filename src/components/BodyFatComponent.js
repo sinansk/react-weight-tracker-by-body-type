@@ -1,36 +1,25 @@
-import { useState, useEffect } from "react";
-import { useUser } from "../context/UserContext";
 import { heights, weights, ages, neck, waist, hip } from "../data";
-import { publicRequest } from "../requestMethods";
 import { useDispatch, useSelector } from "react-redux";
-import { userSlice, selectGender } from "../redux/userRedux";
+import {
+  selectGender,
+  setAge,
+  setHeight,
+  setWeight,
+  setNeck,
+  setWaist,
+  setHip,
+} from "../redux/userRedux";
 
 const BodyFatComponent = ({ gender }) => {
-  const userGender = useSelector((state) => state.user.userGender);
+  const user = useSelector((state) => state.user);
+  const measurements = user.measurements;
+  const userGender = user.userGender;
+  console.log(user.waistSize);
   console.log(userGender);
   const dispatch = useDispatch();
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));
   };
-
-  const {
-    selectedGender,
-    setSelectedGender,
-    weightInput,
-    setWeightInput,
-    heightInput,
-    setHeightInput,
-    ageInput,
-    setAgeInput,
-    neckInput,
-    setNeckInput,
-    waistInput,
-    setWaistInput,
-    hipInput,
-    setHipInput,
-    userHeight,
-    userWeight,
-  } = useUser();
 
   return (
     <div
@@ -61,9 +50,9 @@ const BodyFatComponent = ({ gender }) => {
               <select
                 className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="ageInput"
-                value={ageInput ? ageInput : 29}
-                onChange={(e) => setAgeInput(e.target.value)}
-                onBlur={(e) => setAgeInput(e.target.value)}
+                value={user.age ? user.age : 29}
+                onChange={(e) => dispatch(setAge(e.target.value))}
+                onBlur={(e) => dispatch(setAge(e.target.value))}
               >
                 {ages.map((age) => (
                   <option key={age} value={age}>
@@ -78,9 +67,9 @@ const BodyFatComponent = ({ gender }) => {
               <select
                 className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="heightInput"
-                value={userHeight ? userHeight : heightInput}
-                onChange={(e) => setHeightInput(e.target.value)}
-                onBlur={(e) => setHeightInput(e.target.value)}
+                value={user.height ? user.height : 169}
+                onChange={(e) => dispatch(setHeight(e.target.value))}
+                onBlur={(e) => dispatch(setHeight(e.target.value))}
               >
                 {heights.map((height) => (
                   <option key={height} value={height}>
@@ -94,9 +83,9 @@ const BodyFatComponent = ({ gender }) => {
               <select
                 className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="weightInput"
-                value={userWeight ? userWeight : weightInput}
-                onChange={(e) => setWeightInput(e.target.value)}
-                onBlur={(e) => setWeightInput(e.target.value)}
+                value={user.weight ? user.weight : 60}
+                onChange={(e) => dispatch(setWeight(e.target.value))}
+                onBlur={(e) => dispatch(setWeight(e.target.value))}
               >
                 {weights.map((weight) => (
                   <option key={weight} value={weight}>
@@ -112,12 +101,12 @@ const BodyFatComponent = ({ gender }) => {
               <select
                 className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="neckInput"
-                value={neckInput}
+                value={measurements.neckSize ? measurements.neckSize : 34}
                 onChange={(e) => {
-                  setNeckInput(e.target.value);
+                  dispatch(setNeck(e.target.value));
                 }}
                 onBlur={(e) => {
-                  setNeckInput(e.target.value);
+                  dispatch(setNeck(e.target.value));
                 }}
               >
                 {neck.map((item) => (
@@ -132,12 +121,12 @@ const BodyFatComponent = ({ gender }) => {
               <select
                 className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="waistInput"
-                value={waistInput}
+                value={measurements.waistSize ? measurements.waistSize : 70}
                 onChange={(e) => {
-                  setWaistInput(e.target.value);
+                  dispatch(setWaist(e.target.value));
                 }}
                 onBlur={(e) => {
-                  setWaistInput(e.target.value);
+                  dispatch(setWaist(e.target.value));
                 }}
               >
                 {waist.map((item) => (
@@ -152,12 +141,12 @@ const BodyFatComponent = ({ gender }) => {
               <select
                 className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="hipInput"
-                value={hipInput}
+                value={measurements.hipSize ? measurements.hipSize : 90}
                 onChange={(e) => {
-                  setHipInput(e.target.value);
+                  dispatch(setHip(e.target.value));
                 }}
                 onBlur={(e) => {
-                  setHipInput(e.target.value);
+                  dispatch(setHip(e.target.value));
                 }}
               >
                 {hip.map((item) => (
