@@ -14,7 +14,6 @@ const DailiyCalorie = () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const makeRequest = async (e) => {
     e.preventDefault();
@@ -28,7 +27,6 @@ const DailiyCalorie = () => {
 
       dispatch(setCalorieNeed(data));
       setLoading(false);
-      setIsLoaded(true);
     } catch (err) {
       console.log(err);
     }
@@ -42,7 +40,7 @@ const DailiyCalorie = () => {
       <Navbar />
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {calorieNeed && isLoaded ? (
+          {calorieNeed !== "" ? (
             <>
               <h2>YOUR DAILY CALORIE NEED IS: {JSON.stringify(calorieNeed)}</h2>
             </>

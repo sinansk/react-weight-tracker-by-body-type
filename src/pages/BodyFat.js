@@ -25,7 +25,6 @@ const BodyFat = () => {
       const data = res.data.data;
       console.log(data);
       dispatch(setBodyFat(data));
-
       setLoading(false);
     } catch (err) {
       console.log(err);
