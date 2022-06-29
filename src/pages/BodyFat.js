@@ -36,7 +36,11 @@ const BodyFat = () => {
       <Navbar />
       <div className="mx-auto sm:w-1/2 sm:h-24">
         <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
-          {bodyFat ? <h2>YOUR BODY FAT IS: </h2> : <h2>BODY FAT CALCULATOR</h2>}
+          {bodyFat ? (
+            <h2>YOUR BODY FAT IS: {JSON.stringify(bodyFat)}</h2>
+          ) : (
+            <h2>BODY FAT CALCULATOR</h2>
+          )}
         </div>
       </div>
       <div className="flex flex-row flex-1 w-1/2 mx-auto mt-4">
