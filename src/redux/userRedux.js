@@ -79,7 +79,10 @@ export const userSlice = createSlice({
       } else {
         state.idealWeight = action.payload.map((item) => Math.round(item));
       }
-      state.bmi = (state.weight / (state.height * state.height)) * 10000;
+      state.bmi = (
+        (state.weight / (state.height * state.height)) *
+        10000
+      ).toFixed(1);
     },
     selectGender: (state, action) => {
       state.userGender = action.payload;
