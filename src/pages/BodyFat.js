@@ -38,8 +38,8 @@ const BodyFat = () => {
   return (
     <div className="w-screen h-screen">
       <Navbar />
-      <div className="mx-auto sm:w-1/2 sm:h-24">
-        <div className="flex flex-col items-center justify-center mx-4 text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 sm:h-full">
+      <div className="mx-auto sm:w-1/2 h-12 xl:h-24">
+        <div className="flex flex-col items-center justify-center mx-4 text-sm xl:text-2xl text-teal-700 bg-indigo-200 bg-opacity-25 border-2 rounded-md border-fuchsia-500 xl:h-full">
           {bodyFat ? (
             <div>
               <h2>
@@ -60,14 +60,14 @@ const BodyFat = () => {
           )}
         </div>
       </div>
-      <div className="flex flex-row flex-1 w-1/2 mx-auto mt-4">
+      <div className="flex flex-col lg:flex-row flex-1 lg:w-1/2 mx-auto mt-4">
         <BodyFatComponent gender={"female"} />
         <BodyFatComponent gender={"male"} />
       </div>
       {userGender && (
         <a
           onClick={makeRequest}
-          className="relative inline-flex items-center px-8 py-3 mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
+          className="relative inline-flex items-center px-8 py-3 sm:mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
           href="/"
         >
           <span className="absolute left-0 transition-transform -translate-x-full group-hover:translate-x-4">

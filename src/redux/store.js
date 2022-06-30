@@ -19,7 +19,18 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ user: userReducer });
+const combinedReducer = combineReducers({
+  user: userReducer,
+});
+
+const rootReducer = (state, action) => {
+  if (action.type === "user/reset") {
+    state = undefined;
+  }
+  return combinedReducer(state, action);
+};
+
+// const rootReducer = combineReducers({ user: userReducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

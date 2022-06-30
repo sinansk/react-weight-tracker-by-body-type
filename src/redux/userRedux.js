@@ -131,6 +131,7 @@ export const userSlice = createSlice({
     setCalorieNeed: (state, action) => {
       state.calorieNeed = action.payload;
     },
+    reset: (state) => {},
   },
 });
 
@@ -152,6 +153,7 @@ export const {
   setNeck,
   setWaist,
   setHip,
+  reset,
 } = userSlice.actions;
 
 export default userSlice.reducer;

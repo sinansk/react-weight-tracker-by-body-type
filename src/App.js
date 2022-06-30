@@ -13,7 +13,7 @@ import DailiyCalorie from "./pages/DailiyCalorie";
 import IdealMeasurements from "./pages/IdealMeasurements";
 function App() {
   return (
-    <div className="w-screen items-center justify-center h-screen text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
+    <div className="w-full h-full items-center justify-center text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,7 +21,7 @@ function App() {
           <Route path="/bodyfat" element={<BodyFat />} />
           <Route path="/dailycalorie" element={<DailiyCalorie />} />
           <Route path="/idealmeasurements" element={<IdealMeasurements />} />
-          <Route path="/mystats" element={<MyStats />} />
+          {/* <Route path="/mystats" element={<MyStats />} /> */}
         </Routes>
       </Router>
     </div>
