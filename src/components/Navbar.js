@@ -4,7 +4,7 @@ import { useState } from "react";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
-    <div className="flex items-center justify-between border-b border-gray-400 ">
+    <div className="flex items-center justify-between lg:border-b border-gray-400 ">
       <nav className="container flex w-screen">
         <section className="flex justify-between px-4 py-4 ml-auto lg:hidden">
           <div
