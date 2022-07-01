@@ -49,7 +49,7 @@ const IdealMeasurementsComponent = ({ gender }) => {
               Wrist Size
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="wristSize"
               value={
                 idealMeasurements.idealWristSize

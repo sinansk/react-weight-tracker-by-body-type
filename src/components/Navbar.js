@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between border-b border-gray-400 ">
       <nav className="container flex w-screen">
-        <section className="flex justify-between px-4 py-4 ml-auto flex lg:hidden">
+        <section className="flex justify-between px-4 py-4 ml-auto lg:hidden">
           <div
             className="space-y-2"
             onClick={() => setIsNavOpen((prev) => !prev)}
@@ -24,7 +24,7 @@ const Navbar = () => {
             }`}
           >
             <div
-              className="absolute top-0 right-0 px-4 py-10"
+              className="absolute top-0 right-0 px-4 py-4"
               onClick={() => setIsNavOpen(false)}
             >
               <svg

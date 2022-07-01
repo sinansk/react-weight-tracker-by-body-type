@@ -43,7 +43,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Age
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="ageInput"
               value={user.age ? user.age : 29}
               onChange={(e) => dispatch(setAge(e.target.value))}
@@ -60,7 +60,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Height
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
               value={user.height ? user.height : 169}
               onChange={(e) => dispatch(setHeight(e.target.value))}
@@ -77,7 +77,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Weight
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
               value={user.weight ? user.weight : 60}
               onChange={(e) => dispatch(setWeight(e.target.value))}
@@ -94,7 +94,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Activity Level
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="activityLevel"
               value={user.activityLevel ? user.activityLevel : "level_1"}
               onChange={(e) => dispatch(setActivityLevel(e.target.value))}
@@ -125,7 +125,7 @@ const DailyCalorieComponent = ({ gender }) => {
               My goal is;
             </label>
             <select
-              className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="bodyGoal"
               value={user.bodyGoal ? user.bodyGoal : "Maintain weight"}
               onChange={(e) => {

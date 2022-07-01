@@ -38,12 +38,12 @@ const IdealWeightComponent = ({ gender }) => {
         </>
       ) : gender === userGender ? (
         <>
-          <form className="flex flex-col items-center h-full md:text-2xl justify-evenly">
+          <form className=" flex flex-col items-center h-full md:text-2xl justify-evenly">
             <label htmlFor="height" className="-mb-3">
               Height
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
               value={user.height ? user.height : 169}
               onChange={(e) => dispatch(setHeight(e.target.value))}
@@ -60,7 +60,7 @@ const IdealWeightComponent = ({ gender }) => {
               Weight
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
               value={user.weight ? user.weight : 60}
               onChange={(e) => dispatch(setWeight(e.target.value))}
@@ -77,7 +77,7 @@ const IdealWeightComponent = ({ gender }) => {
               Body Type
             </label>
             <select
-              className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="bodyType"
               value={user.bodyType ? user.bodyType : "Ectomorph"}
               onChange={(e) => dispatch(setBodyType(e.target.value))}
@@ -108,7 +108,7 @@ const IdealWeightComponent = ({ gender }) => {
               My fingers are;
             </label>
             <select
-              className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
               id="wristSize"
               value={bodyType ? bodyType : "Ectomorph"}
               onChange={(e) => {

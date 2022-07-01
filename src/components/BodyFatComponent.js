@@ -48,7 +48,7 @@ const BodyFatComponent = ({ gender }) => {
                 Age
               </label>
               <select
-                className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+                className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="ageInput"
                 value={user.age ? user.age : 29}
                 onChange={(e) => dispatch(setAge(e.target.value))}
@@ -65,7 +65,7 @@ const BodyFatComponent = ({ gender }) => {
                 Height
               </label>
               <select
-                className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+                className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="heightInput"
                 value={user.height ? user.height : 169}
                 onChange={(e) => dispatch(setHeight(e.target.value))}
@@ -81,7 +81,7 @@ const BodyFatComponent = ({ gender }) => {
                 Weight
               </label>
               <select
-                className="w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+                className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="weightInput"
                 value={user.weight ? user.weight : 60}
                 onChange={(e) => dispatch(setWeight(e.target.value))}
@@ -99,7 +99,7 @@ const BodyFatComponent = ({ gender }) => {
                 Neck;
               </label>
               <select
-                className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+                className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="neckInput"
                 value={measurements.neckSize ? measurements.neckSize : 34}
                 onChange={(e) => {
@@ -119,7 +119,7 @@ const BodyFatComponent = ({ gender }) => {
                 Waist;
               </label>
               <select
-                className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+                className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="waistInput"
                 value={measurements.waistSize ? measurements.waistSize : 70}
                 onChange={(e) => {
@@ -139,7 +139,7 @@ const BodyFatComponent = ({ gender }) => {
                 Hip;
               </label>
               <select
-                className="w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+                className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
                 id="hipInput"
                 value={measurements.hipSize ? measurements.hipSize : 90}
                 onChange={(e) => {

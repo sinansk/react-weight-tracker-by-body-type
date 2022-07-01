@@ -11,6 +11,7 @@ import MyStats from "./pages/MyStats";
 import BodyFat from "./pages/BodyFat";
 import DailiyCalorie from "./pages/DailiyCalorie";
 import IdealMeasurements from "./pages/IdealMeasurements";
+
 function App() {
   return (
     <div className="w-full h-full items-center justify-center text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
