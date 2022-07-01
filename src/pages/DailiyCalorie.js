@@ -82,7 +82,7 @@ const DailiyCalorie = () => {
           {calorieNeed !== "" && bodyGoal !== "maintain weight" && (
             <>
               <h2 className="">
-                YOUR DAILY CALORIE NEED FOR {bodyGoal.toUpperCase()}
+                DAILY CALORIE NEED FOR {bodyGoal.toUpperCase()}
               </h2>
               <h2>{calorie["calory"]} kcal</h2>
             </>
