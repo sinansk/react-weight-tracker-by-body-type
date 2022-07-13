@@ -21,14 +21,14 @@ const HomeComponent = ({ gender }) => {
       }
       `}
     >
-      <>
+      <div className="w-full h-full cursor-pointer">
         <img
-          className="h-40 md:h-68 lg:h-96"
+          className="h-40 m-auto md:h-68 lg:h-96 xl:h-72"
           src={require(`../assets/${gender}.png`)}
           alt="gender"
         />
-        <h2 className="mt-2 sm:mt-4 text-5xl">{gender}</h2>
-      </>
+        <h2 className="mt-2 text-5xl sm:mt-4">{gender}</h2>
+      </div>
     </div>
   );
 };

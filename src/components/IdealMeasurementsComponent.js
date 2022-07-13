@@ -24,15 +24,15 @@ const IdealMeasurementsComponent = ({ gender }) => {
           `}
     >
       {!userGender ? (
-        <>
+        <div className="w-full h-full cursor-pointer">
           <img
-            className="h-40 md:h-68 lg:h-96"
+            className="h-40 m-auto md:h-68 lg:h-96 xl:h-72"
             src={require(`../assets/${gender}.png`)}
             alt="gender"
           />
-          <h2 className="mt-2 sm:mt-4 text-5xl">{gender}</h2>
-        </>
-      ) : gender === userGender ? (
+          <h2 className="mt-2 text-5xl sm:mt-4">{gender}</h2>
+        </div>
+      ) : gender === "male" ? (
         <>
           <form className="flex flex-col items-center h-full md:text-2xl justify-evenly">
             <img
@@ -45,11 +45,11 @@ const IdealMeasurementsComponent = ({ gender }) => {
               area you normally wear a watch.
             </p>
 
-            <label htmlFor="wristSize" className="-mb-3 ">
+            <label htmlFor="wristSize" className="sm:-mb-3 ">
               Wrist Size
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="wristSize"
               value={
                 idealMeasurements.idealWristSize
@@ -69,7 +69,7 @@ const IdealMeasurementsComponent = ({ gender }) => {
         </>
       ) : (
         <span className="flex flex-col items-center h-full justify-evenly">
-          <h2 className="xl:text-2xl font-semibold">
+          <h2 className="font-semibold xl:text-2xl">
             LEARN YOUR IDEAL MEASUREMENTS!
           </h2>
           <p>
