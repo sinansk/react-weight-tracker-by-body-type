@@ -4,8 +4,8 @@ import { useState } from "react";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
-    <div className="flex items-center justify-between lg:border-b border-gray-400 ">
-      <nav className="container flex w-screen">
+    <div className="flex items-center justify-between border-gray-400 lg:border-b ">
+      <nav className="flex w-screen">
         <section className="flex justify-between px-4 py-4 ml-auto lg:hidden">
           <div
             className="space-y-2"
@@ -28,7 +28,7 @@ const Navbar = () => {
               onClick={() => setIsNavOpen(false)}
             >
               <svg
-                className="h-8 w-8 text-fuchsia-600"
+                className="w-8 h-8 text-fuchsia-600"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -41,26 +41,26 @@ const Navbar = () => {
               </svg>
             </div>
             <ul className="flex flex-col items-center justify-between min-h-[250px]">
-              <li className="border-b border-gray-400 my-8 uppercase">
+              <li className="my-8 uppercase border-b border-gray-400">
                 <NavLink to="/">RESET</NavLink>
               </li>
-              <li className="border-b border-gray-400 my-8 uppercase">
+              <li className="my-8 uppercase border-b border-gray-400">
                 <NavLink to="/idealweight">IDEAL WEIGHT</NavLink>
               </li>
-              <li className="border-b border-gray-400 my-8 uppercase">
+              <li className="my-8 uppercase border-b border-gray-400">
                 <NavLink to="/bodyfat">BODY FAT</NavLink>
               </li>
-              <li className="border-b border-gray-400 my-8 uppercase">
+              <li className="my-8 uppercase border-b border-gray-400">
                 <NavLink to="/dailycalorie">DAILY CALORIE</NavLink>
               </li>
-              <li className="border-b border-gray-400 my-8 uppercase">
+              <li className="my-8 uppercase border-b border-gray-400">
                 <NavLink to="/idealmeasurements">IDEAL MEASUREMENTS</NavLink>
               </li>
             </ul>
           </div>
         </section>
 
-        <div className="hidden mb-2 bg-transparent md:min-h-8 md:py-1 xl:px-10 lg:w-screen lg:flex sm:flex-1 justify-evenly items-center">
+        <div className="items-center hidden mb-2 bg-transparent md:min-h-8 md:py-1 xl:px-10 lg:w-screen lg:flex sm:flex-1 justify-evenly">
           <NavLink
             to="/"
             className={({ isActive }) =>

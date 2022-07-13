@@ -28,22 +28,22 @@ const DailyCalorieComponent = ({ gender }) => {
           `}
     >
       {!userGender ? (
-        <>
+        <div className="w-full h-full cursor-pointer">
           <img
-            className="h-40 md:h-68 lg:h-96"
+            className="h-40 m-auto md:h-68 lg:h-96 xl:h-72"
             src={require(`../assets/${gender}.png`)}
             alt="gender"
           />
-          <h2 className="mt-2 sm:mt-4 text-5xl">{gender}</h2>
-        </>
-      ) : gender === userGender ? (
+          <h2 className="mt-2 text-5xl sm:mt-4">{gender}</h2>
+        </div>
+      ) : gender === "male" ? (
         <>
-          <form className="flex flex-col items-center h-full md:text-2xl justify-between">
+          <form className="flex flex-col items-center justify-between h-full md:text-2xl">
             <label htmlFor="ageInput" className="-mb-1">
               Age
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="ageInput"
               value={user.age ? user.age : 29}
               onChange={(e) => dispatch(setAge(e.target.value))}
@@ -60,7 +60,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Height
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
               value={user.height ? user.height : 169}
               onChange={(e) => dispatch(setHeight(e.target.value))}
@@ -77,7 +77,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Weight
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
               value={user.weight ? user.weight : 60}
               onChange={(e) => dispatch(setWeight(e.target.value))}
@@ -94,7 +94,7 @@ const DailyCalorieComponent = ({ gender }) => {
               Activity Level
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="activityLevel"
               value={user.activityLevel ? user.activityLevel : "level_1"}
               onChange={(e) => dispatch(setActivityLevel(e.target.value))}
@@ -110,7 +110,7 @@ const DailyCalorieComponent = ({ gender }) => {
         </>
       ) : (
         <span className="flex flex-col items-center h-full">
-          <h2 className="xl:text-2xl font-semibold">SET YOUR BODY GOAL</h2>
+          <h2 className="font-semibold xl:text-2xl">SET YOUR BODY GOAL</h2>
           <img
             className="md:my-4 h-1/3"
             src={require(`../assets/goal-${gender}.png`)}
@@ -120,12 +120,12 @@ const DailyCalorieComponent = ({ gender }) => {
             Please set your body goal and we will calculate your daily calorie
             need!
           </p>
-          <form className="lg:mt-auto text-center">
-            <label htmlFor="bodyGoal" className="md:text-xl font-semibold ">
+          <form className="text-center lg:mt-auto md:text-2xl">
+            <label htmlFor="bodyGoal" className="font-semibold xl:mt-auto ">
               My goal is;
             </label>
             <select
-              className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full mr-5 text-center bg-white border-2 rounded-lg sm:mt-3 border-slate-400 outline-slate-500"
               id="bodyGoal"
               value={user.bodyGoal ? user.bodyGoal : "Maintain weight"}
               onChange={(e) => {

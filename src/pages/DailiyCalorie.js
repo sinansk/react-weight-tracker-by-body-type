@@ -44,8 +44,8 @@ const DailiyCalorie = () => {
   return (
     <div className="w-screen h-screen">
       <Navbar />
-      <div className="mx-auto sm:w-1/2 h-12 xl:h-24">
-        <div className="flex flex-col items-center justify-center mx-4 text-sm xl:text-2xl text-white bg-fuchsia-400  border-2 rounded-md border-fuchsia-500 xl:h-full">
+      <div className="h-12 mx-auto sm:w-1/2 xl:h-24">
+        <div className="flex flex-col items-center justify-center mx-4 text-sm text-white border-2 rounded-md xl:text-2xl bg-fuchsia-400 border-fuchsia-500 xl:h-full">
           {calorieNeed === "" && (
             <h2>
               {!loading ? (
@@ -74,7 +74,7 @@ const DailiyCalorie = () => {
           {calorieNeed !== "" && bodyGoal === "maintain weight" && (
             <>
               <h2 className="">
-                DAILY CALORIE NEED FOR {bodyGoal.toUpperCase()}:
+                DAILY CALORIE NEED FOR {bodyGoal?.toUpperCase()}:
               </h2>
               <h2>{maintain} kcal</h2>
             </>
@@ -90,14 +90,14 @@ const DailiyCalorie = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row flex-1 lg:w-1/2 mx-auto mt-4">
+      <div className="flex flex-col flex-1 mx-auto mt-4 lg:flex-row lg:w-1/2">
         <DailyCalorieComponent gender={"female"} />
         <DailyCalorieComponent gender={"male"} />
       </div>
       {userGender && (
         <a
           onClick={makeRequest}
-          className="relative inline-flex items-center px-8 py-3 sm:mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
+          className="relative inline-flex items-center px-8 py-3 overflow-hidden text-white rounded-sm sm:mt-4 bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
           href="/"
         >
           <span className="absolute left-0 transition-transform -translate-x-full group-hover:translate-x-4">

@@ -28,22 +28,22 @@ const IdealWeightComponent = ({ gender }) => {
       `}
     >
       {!userGender ? (
-        <>
+        <div className="w-full h-full cursor-pointer">
           <img
-            className="h-40 md:h-68 lg:h-96"
+            className="h-40 m-auto md:h-68 lg:h-96 xl:h-72"
             src={require(`../assets/${gender}.png`)}
             alt="gender"
           />
-          <h2 className="mt-2 sm:mt-4 text-5xl">{gender}</h2>
-        </>
-      ) : gender === userGender ? (
+          <h2 className="mt-2 text-5xl sm:mt-4">{gender}</h2>
+        </div>
+      ) : gender === "male" ? (
         <>
-          <form className=" flex flex-col items-center h-full md:text-2xl justify-evenly">
+          <form className="flex flex-col items-center h-full md:text-2xl justify-evenly">
             <label htmlFor="height" className="-mb-3">
               Height
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="height"
               value={user.height ? user.height : 169}
               onChange={(e) => dispatch(setHeight(e.target.value))}
@@ -60,7 +60,7 @@ const IdealWeightComponent = ({ gender }) => {
               Weight
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="weight"
               value={user.weight ? user.weight : 60}
               onChange={(e) => dispatch(setWeight(e.target.value))}
@@ -77,7 +77,8 @@ const IdealWeightComponent = ({ gender }) => {
               Body Type
             </label>
             <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              disabled
+              className="w-full text-center bg-white border-2 rounded-lg border-slate-400 outline-slate-500"
               id="bodyType"
               value={user.bodyType ? user.bodyType : "Ectomorph"}
               onChange={(e) => dispatch(setBodyType(e.target.value))}
@@ -92,23 +93,23 @@ const IdealWeightComponent = ({ gender }) => {
           </form>
         </>
       ) : (
-        <span className="flex flex-col items-center h-full">
-          <h2 className="xl:text-2xl font-semibold">LEARN YOUR BODY TYPE!</h2>
+        <span className="flex flex-col items-center h-full ">
+          <h2 className="font-semibold xl:text-2xl">LEARN YOUR BODY TYPE!</h2>
           <img
             className="md:my-3 h-1/3"
             src={require(`../assets/washing-hands-${gender}.png`)}
             alt="washing-hands"
           />
-          <p>
+          <p className=" 2xl:text-xl">
             Please wrap your thumb and forefinger around your wrist in the area
             you normally wear a watch.
           </p>
-          <form className="md:mt-4 text-center">
-            <label htmlFor="wristSize" className="md:text-xl font-semibold">
+          <form className="text-center md:mt-4 xl:mt-auto xl:mb-6 md:text-2xl">
+            <label htmlFor="wristSize" className="font-semibold ">
               My fingers are;
             </label>
             <select
-              className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
+              className="w-full mr-5 text-center bg-white border-2 rounded-lg sm:mt-3 border-slate-400 outline-slate-500"
               id="wristSize"
               value={bodyType ? bodyType : "Ectomorph"}
               onChange={(e) => {
