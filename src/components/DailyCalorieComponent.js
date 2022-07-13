@@ -116,7 +116,7 @@ const DailyCalorieComponent = ({ gender }) => {
             src={require(`../assets/goal-${gender}.png`)}
             alt="washing-hands"
           />
-          <p>
+          <p className="2xl:text-xl">
             Please set your body goal and we will calculate your daily calorie
             need!
           </p>

@@ -166,7 +166,7 @@ const BodyFatComponent = ({ gender }) => {
             src={require(`../assets/body-${userGender}.png`)}
             alt="washing-hands"
           />
-          <p className="lg:text-lg">
+          <p className="lg:text-lg 2xl:text-xl">
             Please measure your neck at widest point, your waist over belly
             button and your hip over largest point with a tape measure.
           </p>
