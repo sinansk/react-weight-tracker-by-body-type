@@ -22,3 +22,4 @@ You can learn your bodytype, your ideal weight according as body type, daily cal
 - `React Router`
 
 [![Bodygoal.tech](https://github.com/sinansk/react-weight-tracker-by-body-type/blob/main/public/bodygoal-app.JPG)](https://bodygoal.tech/)
+[![Bodygoal.tech](https://github.com/sinansk/react-weight-tracker-by-body-type/blob/main/public/bodygoal-app-2.PNG)](https://bodygoal.tech/)
