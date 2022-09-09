@@ -7,7 +7,7 @@ You can learn your bodytype, your ideal weight according as body type, daily cal
 
 ## Run project on local
 
-##### You need to run the commands below in project directory. 
+##### You need to run the commands in project directory. 
 
 ##### `npm i`
 
