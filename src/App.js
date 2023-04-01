@@ -11,6 +11,7 @@ import MyStats from "./pages/MyStats";
 import BodyFat from "./pages/BodyFat";
 import DailiyCalorie from "./pages/DailiyCalorie";
 import IdealMeasurements from "./pages/IdealMeasurements";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/dailycalorie" element={<DailiyCalorie />} />
           <Route path="/idealmeasurements" element={<IdealMeasurements />} />
           {/* <Route path="/mystats" element={<MyStats />} /> */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </Router>
     </div>
