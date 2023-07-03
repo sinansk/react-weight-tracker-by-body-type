@@ -53,7 +53,7 @@ const IdealMeasurementsComponent = ({ gender }) => {
           <h2 className="font-semibold xl:text-2xl">
             LEARN YOUR IDEAL MEASUREMENTS!
           </h2>
-          <p>
+          <p className="2xl:text-xl">
             The calculation is based on John McCallum’s formula who is a famous
             methodist. This formula is widely used because there is a good
             correlation between the wrist and the other body areas. The targets
