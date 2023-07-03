@@ -6,25 +6,27 @@ import { setIdealMeasurements } from "../redux/userRedux";
 
 const IdealMeasurements = () => {
   const user = useSelector((state) => state.user);
-  const userGender = user.userGender;
+  const userGender = user.personalInfo.gender;
   const idealMeasurements = user.idealMeasurements;
-  const idealChestSize = idealMeasurements.idealChestSize;
+  const idealChest = idealMeasurements?.chest;
 
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
 
-  function calculateMeasurements(e) {
+  async function calculateMeasurements(e) {
+    setLoading(true)
     e.preventDefault();
-    dispatch(setIdealMeasurements());
+    await dispatch(setIdealMeasurements());
+    setLoading(false)
   }
 
   return (
     <div className="w-screen h-screen">
       <Navbar />
-      <div className="mx-auto sm:w-1/2 h-12 xl:h-24">
-        <div className="flex flex-col items-center justify-center mx-4 text-sm xl:text-2xl text-white bg-fuchsia-400  border-2 rounded-md border-fuchsia-500 xl:h-full">
-          {idealChestSize ? (
+      <div className="h-12 mx-auto sm:w-1/2 xl:h-24">
+        <div className="flex flex-col items-center justify-center mx-4 text-sm text-white border-2 rounded-md xl:text-2xl bg-fuchsia-400 border-fuchsia-500 xl:h-full">
+          {idealChest ? (
             <>
               <h2 className="underline">
                 {" "}
@@ -50,14 +52,14 @@ const IdealMeasurements = () => {
                 )}
               </h2>
               <p>
-                Neck: {idealMeasurements.idealNeckSize}, Chest: {idealChestSize}
-                , Shoulder:{idealMeasurements.idealShoulderSize}, Arm:{" "}
-                {idealMeasurements.idealArmSize}, Forearm:{" "}
-                {idealMeasurements.idealForeArmSize}, Waist:{" "}
-                {idealMeasurements.idealWaistSize}, Hip:{" "}
-                {idealMeasurements.idealHipSize}, Thigh:{" "}
-                {idealMeasurements.idealThighSize}, Calve:{" "}
-                {idealMeasurements.idealCalveSize}
+                Neck: {idealMeasurements.neck}, Chest: {idealChest}
+                , Shoulder:{idealMeasurements.shoulder}, Arm:{" "}
+                {idealMeasurements.arm}, Forearm:{" "}
+                {idealMeasurements.forearm}, Waist:{" "}
+                {idealMeasurements.waist}, Hip:{" "}
+                {idealMeasurements.hip}, Thigh:{" "}
+                {idealMeasurements.thigh}, Calve:{" "}
+                {idealMeasurements.calve}
               </p>
             </>
           ) : (
@@ -66,14 +68,14 @@ const IdealMeasurements = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row flex-1 lg:w-1/2 mx-auto mt-4">
+      <div className="flex flex-col flex-1 mx-auto mt-4 lg:flex-row lg:w-1/2">
         <IdealMeasurementsComponent gender={"female"} />
         <IdealMeasurementsComponent gender={"male"} />
       </div>
       {userGender && (
         <a
           onClick={calculateMeasurements}
-          className="relative inline-flex items-center px-8 py-3 sm:mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
+          className="relative inline-flex items-center px-8 py-3 overflow-hidden text-white rounded-sm sm:mt-4 bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
           href="/"
         >
           <span className="absolute left-0 transition-transform -translate-x-full group-hover:translate-x-4">

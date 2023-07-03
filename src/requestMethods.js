@@ -6,7 +6,7 @@ const KEY = process.env.REACT_APP_FITNESS_KEY;
 export const publicRequest = axios.create({
   baseURL: BASE_URL,
   headers: {
-    "x-rapidapi-key": KEY,
-    "x-rapidapi-host": `fitness-calculator.p.rapidapi.com`,
+    "X-rapidapi-key": KEY,
+    "X-rapidapi-host": `fitness-calculator.p.rapidapi.com`,
   },
 });

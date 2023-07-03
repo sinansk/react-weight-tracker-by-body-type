@@ -4,56 +4,44 @@ import { publicRequest } from "../requestMethods";
 import IdealWeightComponent from "../components/IdealWeightComponent";
 import { useSelector, useDispatch } from "react-redux/";
 import { setIdealWeight } from "../redux/userRedux";
+import { fetchIdealWeight } from "../redux/userInfoThunk";
 
 const IdealWeight = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   console.log(user.height);
-  const userGender = user.userGender;
-  const idealWeight = user.idealWeight;
+  const userGender = user.personalInfo.gender;
+  const idealWeight = user.results?.idealWeight;
+  console.log(idealWeight)
   const [loading, setLoading] = useState(false);
-
+  const currentUser = useSelector((state) => state.user.currentUser);
+  console.log(currentUser);
   const makeRequest = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    try {
-      const res = await publicRequest.get(
-        `/idealweight?gender=${userGender}&height=${user.height}`
-      );
-      const data = res.data.data;
-      console.log(data);
-      const sortedValues = Object.values(data)
-        .map((item) => item)
-        .sort((a, b) => a - b);
-      console.log(sortedValues);
-      setLoading(false);
-
-      dispatch(setIdealWeight(sortedValues));
-    } catch (err) {
-      console.log(err);
-    }
+    await dispatch(fetchIdealWeight())
+    setLoading(false);
   };
 
   return (
     <div className="w-screen h-screen">
       <Navbar />
-      <div className="mx-auto sm:w-1/2 h-12 xl:h-24">
-        <div className="flex flex-col items-center justify-center mx-4 xl:text-2xl text-white bg-fuchsia-400  border-2 rounded-md border-fuchsia-500 xl:h-full">
-          {idealWeight.length > 0 ? (
+      <div className="h-12 mx-auto sm:w-1/2 xl:h-24">
+        <div className="flex flex-col items-center justify-center mx-4 text-white border-2 rounded-md xl:text-2xl bg-fuchsia-400 border-fuchsia-500 xl:h-full">
+          {idealWeight?.length > 0 ? (
             <>
               <h2>
                 YOUR IDEAL WEIGHT RANGE IS: {idealWeight[0]} - {idealWeight[3]}{" "}
                 KG.
               </h2>
-              {user.weight < idealWeight[0] && (
-                <h2>YOU NEED TO GAIN {idealWeight[0] - user.weight} KG.</h2>
+              {user.personalInfo.weight < idealWeight[0] && (
+                <h2>YOU NEED TO GAIN {idealWeight[0] - user.personalInfo.weight} KG.</h2>
               )}
-              {user.weight > idealWeight[3] && (
-                <h2>YOU NEED TO LOSS {user.weight - idealWeight[3]} KG.</h2>
+              {user.personalInfo.weight > idealWeight[3] && (
+                <h2>YOU NEED TO LOSS {user.personalInfo.weight - idealWeight[3]} KG.</h2>
               )}
               {idealWeight[0] <= user.weight &&
-                user.weight <= idealWeight[3] && <h2>YOUR WEIGHT IS IDEAL.</h2>}
+                user.personalInfo.weight <= idealWeight[3] && <h2>YOUR WEIGHT IS IDEAL.</h2>}
             </>
           ) : (
             <h2>
@@ -82,14 +70,14 @@ const IdealWeight = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row flex-1 lg:w-1/2 mx-auto mt-4">
+      <div className="flex flex-col flex-1 mx-auto mt-4 lg:flex-row lg:w-1/2">
         <IdealWeightComponent gender={"female"} />
         <IdealWeightComponent gender={"male"} />
       </div>
       {userGender && (
         <a
           onClick={makeRequest}
-          className="relative inline-flex items-center px-8 py-3 sm:mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
+          className="relative inline-flex items-center px-8 py-3 overflow-hidden text-white rounded-sm sm:mt-4 bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
           href="/"
         >
           <span className="absolute left-0 transition-transform -translate-x-full group-hover:translate-x-4">

@@ -8,11 +8,15 @@ import {
   setActivityLevel,
   setBodyGoal,
 } from "../redux/userRedux";
+import SelectInput from "./SelectInput";
 
 const DailyCalorieComponent = ({ gender }) => {
-  const user = useSelector((state) => state.user);
-  const userGender = user.userGender;
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const userGender = user.personalInfo.gender;
+  console.log(user);
+  const bodyType = useSelector((state) => state.user.personalInfo.bodyType);
+  console.log(bodyType)
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));
   };
@@ -20,97 +24,33 @@ const DailyCalorieComponent = ({ gender }) => {
   return (
     <div
       onClick={handleGender}
-      className={`h-60 md:h-72 lg:h-96 lg:min-h-96 lg:w-1/2 lg:min-w-1/2 p-4 mx-4 mb-2 lg:mb-0 flex flex-col items-center 1 border-2 rounded-xl ${
-        gender === "female"
-          ? `border-rose-500 text-rose-500 bg-rose-50`
-          : `border-cyan-500 text-cyan-500 bg-cyan-50`
-      }
+      className={`h-60 md:h-72 lg:h-96 lg:min-h-96 lg:w-1/2 lg:min-w-1/2 p-4 mx-4 mb-2 lg:mb-0 flex flex-col items-center 1 border-2 rounded-xl ${gender === "female"
+        ? `border-rose-500 text-rose-500 bg-rose-50`
+        : `border-cyan-500 text-cyan-500 bg-cyan-50`
+        }
           `}
     >
       {!userGender ? (
-        <>
+        <div className="w-full h-full cursor-pointer">
           <img
-            className="h-40 md:h-68 lg:h-96"
+            className="h-40 m-auto md:h-68 lg:h-96 xl:h-72"
             src={require(`../assets/${gender}.png`)}
             alt="gender"
           />
-          <h2 className="mt-2 sm:mt-4 text-5xl">{gender}</h2>
-        </>
-      ) : gender === userGender ? (
+          <h2 className="mt-2 text-5xl sm:mt-4">{gender}</h2>
+        </div>
+      ) : gender === "male" ? (
         <>
-          <form className="flex flex-col items-center h-full md:text-2xl justify-between">
-            <label htmlFor="ageInput" className="-mb-1">
-              Age
-            </label>
-            <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
-              id="ageInput"
-              value={user.age ? user.age : 29}
-              onChange={(e) => dispatch(setAge(e.target.value))}
-              onBlur={(e) => dispatch(setAge(e.target.value))}
-            >
-              {ages.map((age) => (
-                <option key={age} value={age}>
-                  {age}
-                </option>
-              ))}
-            </select>
-
-            <label htmlFor="height" className="-mb-1">
-              Height
-            </label>
-            <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
-              id="height"
-              value={user.height ? user.height : 169}
-              onChange={(e) => dispatch(setHeight(e.target.value))}
-              onBlur={(e) => dispatch(setHeight(e.target.value))}
-            >
-              {heights.map((height) => (
-                <option key={height} value={height}>
-                  {height}
-                </option>
-              ))}
-            </select>
-
-            <label htmlFor="weight" className="-mb-1">
-              Weight
-            </label>
-            <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
-              id="weight"
-              value={user.weight ? user.weight : 60}
-              onChange={(e) => dispatch(setWeight(e.target.value))}
-              onBlur={(e) => dispatch(setWeight(e.target.value))}
-            >
-              {weights.map((weight) => (
-                <option key={weight} value={weight}>
-                  {weight}
-                </option>
-              ))}
-            </select>
-
-            <label htmlFor="activityLevel" className="-mb-1">
-              Activity Level
-            </label>
-            <select
-              className="bg-white w-full text-center border-2 rounded-lg border-slate-400 outline-slate-500"
-              id="activityLevel"
-              value={user.activityLevel ? user.activityLevel : "level_1"}
-              onChange={(e) => dispatch(setActivityLevel(e.target.value))}
-              onBlur={(e) => dispatch(setActivityLevel(e.target.value))}
-            >
-              {activityLevels.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.sitution}
-                </option>
-              ))}
-            </select>
+          <form className="flex flex-col items-center justify-between h-full md:text-2xl">
+            <SelectInput options={ages} label="Age" name="age" />
+            <SelectInput options={heights} label="Height" name="height" />
+            <SelectInput options={weights} label="Weight" name="weight" />
+            <SelectInput options={activityLevels} label="Activity Level" name="activityLevel" />
           </form>
         </>
       ) : (
         <span className="flex flex-col items-center h-full">
-          <h2 className="xl:text-2xl font-semibold">SET YOUR BODY GOAL</h2>
+          <h2 className="font-semibold xl:text-2xl">SET YOUR BODY GOAL</h2>
           <img
             className="md:my-4 h-1/3"
             src={require(`../assets/goal-${gender}.png`)}
@@ -120,27 +60,8 @@ const DailyCalorieComponent = ({ gender }) => {
             Please set your body goal and we will calculate your daily calorie
             need!
           </p>
-          <form className="lg:mt-auto text-center">
-            <label htmlFor="bodyGoal" className="md:text-xl font-semibold ">
-              My goal is;
-            </label>
-            <select
-              className="bg-white w-full mr-5 text-center border-2 rounded-lg border-slate-400 outline-slate-500"
-              id="bodyGoal"
-              value={user.bodyGoal ? user.bodyGoal : "Maintain weight"}
-              onChange={(e) => {
-                dispatch(setBodyGoal(e.target.value));
-              }}
-              onBlur={(e) => {
-                dispatch(setBodyGoal(e.target.value));
-              }}
-            >
-              {bodyGoals.map((item) => (
-                <option key={item.sitution} value={item.value}>
-                  {item.sitution}
-                </option>
-              ))}
-            </select>
+          <form className="text-center lg:mt-auto md:text-2xl">
+            <SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" />
           </form>
         </span>
       )}

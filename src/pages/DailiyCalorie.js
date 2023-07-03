@@ -4,49 +4,46 @@ import { useEffect, useState } from "react";
 import DailyCalorieComponent from "../components/DailyCalorieComponent";
 import { useDispatch, useSelector } from "react-redux/";
 import { setCalorieNeed, setBMR } from "../redux/userRedux";
+import { fetchCalorieNeed, fetchIdealWeight } from "../redux/userInfoThunk";
 
 const DailiyCalorie = () => {
   const user = useSelector((state) => state.user);
-  const userGender = user.userGender;
-  const bodyGoal = user.bodyGoal;
-  const activityLevel = user.activityLevel;
-  const calorieNeed = user.calorieNeed;
+  const userGender = user.personalInfo.gender;
+  const bodyGoal = user.personalInfo.bodyGoal;
+  const activityLevel = user.personalInfo.activityLevel;
+  const calorieNeed = user.results?.calorieNeed;
+  console.log(calorieNeed)
+  const calorieNeedByBodyGoal = user.results?.calorieNeedByBodyGoal
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
 
   const makeRequest = async (e) => {
     e.preventDefault();
+    // setLoading(true);
+    // try {
+    //   const res = await publicRequest.get(
+    //     `/dailycalorie?age=${user.personalInfo.age}&gender=${userGender}&height=${user.personalInfo.height}&weight=${user.personalInfo.weight}&activitylevel=${activityLevel}`
+    //   );
+    //   const data = res.data.data;
+    //   console.log(data);
+    //   dispatch(setCalorieNeed(data));
+    //   setLoading(false);
+    // } catch (err) {
+    //   console.log(err);
+    // }
     setLoading(true);
-    try {
-      const res = await publicRequest.get(
-        `/dailycalorie?age=${user.age}&gender=${userGender}&height=${user.height}&weight=${user.weight}&activitylevel=${activityLevel}`
-      );
-      const data = res.data.data;
-      console.log(data);
-      dispatch(setCalorieNeed(data));
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
+    await dispatch(fetchCalorieNeed())
+    setLoading(false);
   };
-  const calorie = calorieNeed["goals"]?.[bodyGoal];
-  const maintain = calorieNeed["goals"]?.["maintain weight"];
-  console.log(maintain);
-  useEffect(() => {
-    console.log(calorieNeed["goals"]);
-  }, [calorieNeed]);
 
-  useEffect(() => {
-    console.log(bodyGoal);
-  }, [bodyGoal]);
 
   return (
     <div className="w-screen h-screen">
       <Navbar />
-      <div className="mx-auto sm:w-1/2 h-12 xl:h-24">
-        <div className="flex flex-col items-center justify-center mx-4 text-sm xl:text-2xl text-white bg-fuchsia-400  border-2 rounded-md border-fuchsia-500 xl:h-full">
-          {calorieNeed === "" && (
+      <div className="h-12 mx-auto sm:w-1/2 xl:h-24">
+        <div className="flex flex-col items-center justify-center mx-4 text-sm text-white border-2 rounded-md xl:text-2xl bg-fuchsia-400 border-fuchsia-500 xl:h-full">
+          {calorieNeed === null && (
             <h2>
               {!loading ? (
                 "DAILY CALORIE CALCULATOR"
@@ -71,33 +68,33 @@ const DailiyCalorie = () => {
             </h2>
           )}
 
-          {calorieNeed !== "" && bodyGoal === "maintain weight" && (
+          {calorieNeed !== null && bodyGoal === "maintain weight" && (
             <>
               <h2 className="">
                 DAILY CALORIE NEED FOR {bodyGoal.toUpperCase()}:
               </h2>
-              <h2>{maintain} kcal</h2>
+              <h2>{calorieNeedByBodyGoal} kcal</h2>
             </>
           )}
-          {calorieNeed !== "" && bodyGoal !== "maintain weight" && (
+          {calorieNeed !== null && bodyGoal !== "maintain weight" && (
             <>
               <h2 className="">
                 DAILY CALORIE NEED FOR {bodyGoal.toUpperCase()}
               </h2>
-              <h2>{calorie["calory"]} kcal</h2>
+              <h2>{calorieNeedByBodyGoal} kcal</h2>
             </>
           )}
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row flex-1 lg:w-1/2 mx-auto mt-4">
+      <div className="flex flex-col flex-1 mx-auto mt-4 lg:flex-row lg:w-1/2">
         <DailyCalorieComponent gender={"female"} />
         <DailyCalorieComponent gender={"male"} />
       </div>
       {userGender && (
         <a
           onClick={makeRequest}
-          className="relative inline-flex items-center px-8 py-3 sm:mt-4 overflow-hidden text-white rounded-sm bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
+          className="relative inline-flex items-center px-8 py-3 overflow-hidden text-white rounded-sm sm:mt-4 bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
           href="/"
         >
           <span className="absolute left-0 transition-transform -translate-x-full group-hover:translate-x-4">
