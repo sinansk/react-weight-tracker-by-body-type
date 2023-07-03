@@ -26,11 +26,10 @@ const Navbar = () => {
           </div>
 
           <div
-            className={`${
-              isNavOpen
+            className={`${isNavOpen
                 ? `flex flex-col justify-evenly items-center absolute top-0 left-0 bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100  z-10 w-screen h-screen`
                 : `hidden`
-            }`}
+              }`}
           >
             <div
               className="absolute top-0 right-0 px-4 py-4"

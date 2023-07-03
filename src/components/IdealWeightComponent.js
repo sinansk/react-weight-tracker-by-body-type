@@ -76,7 +76,7 @@ const IdealWeightComponent = ({ gender }) => {
             src={require(`../assets/washing-hands-${gender}.png`)}
             alt="washing-hands"
           />
-          <p>
+          <p className=" 2xl:text-xl">
             Please wrap your thumb and forefinger around your wrist in the area
             you normally wear a watch.
           </p>

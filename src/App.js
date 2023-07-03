@@ -37,6 +37,7 @@ function App() {
             path="/getstarted"
             element={currentUser ? <GetStarted to="/getstarted" /> : <Login />}
           />
+          {/* <Route path="/mystats" element={<MyStats />} /> */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </Router>
