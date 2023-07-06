@@ -10,8 +10,3 @@ export const convertSecondsToDate = (seconds) => {
 
   return formattedDate;
 };
-
-// Kullanım örneği:
-const seconds = 1625083200; // Örnek olarak 30 Haziran 2021 tarihini temsil eden bir Epoch zamanı (saniye cinsinden)
-const formattedDate = convertSecondsToDate(seconds);
-console.log(formattedDate); // Çıktı: 30-06-2021

@@ -27,8 +27,11 @@ import { store } from "./redux/store";
 import {
   login as loginHandle,
   logout as logoutHandle,
+  setData,
+  setPersonalInfo,
 } from "./redux/userRedux";
 import { setRecords } from "./redux/userRecords";
+import { fetchUserInfo } from "./redux/userRecordsThunk";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -94,12 +97,8 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log(user);
     store.dispatch(loginHandle(user))
-
-    getUserInfo(user.uid)
-
-
-    // ...
-
+    store.dispatch(fetchUserInfo(user.uid))
+    // getUserInfo(user.uid)
   } else {
     console.log(user);
     store.dispatch(logoutHandle());
@@ -108,16 +107,29 @@ onAuthStateChanged(auth, (user) => {
 
 export const addUserInfo = async (data) => {
   const result = await addDoc(collection(db, "userInfos"), data);
-  console.log(result);
+  return result
 };
 
 export const getUserInfo = (uid) => {
-  onSnapshot(query(collection(db, "userInfos"), where("uid", "==", auth.currentUser.uid)), (doc) => {
-    const data = doc.docs.reduce((userInfos, userInfo) => [...userInfos, userInfo.data()], [])?.sort((a, b) => b.date - a.date)
-    console.log("Current data: ", data);
-    store.dispatch(setRecords(data))
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, "userInfos"), where("uid", "==", uid)),
+      (snapshot) => {
+        const data = snapshot.docs
+          .map((doc) => doc.data())
+          .sort((a, b) => b.date - a.date);
+        console.log("Current data: ", data);
+        unsubscribe(); // Unsubscribe from further updates
+        resolve(data);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
   });
-}
+};
+
+
 
 
 

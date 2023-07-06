@@ -1,22 +1,12 @@
 import { heights, weights, ages, bodyGoals, activityLevels } from "../data";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setAge,
-  setHeight,
-  setWeight,
-  selectGender,
-  setActivityLevel,
-  setBodyGoal,
-} from "../redux/userRedux";
+import { selectGender } from "../redux/userRedux";
 import SelectInput from "./SelectInput";
 
 const DailyCalorieComponent = ({ gender }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const userGender = user.personalInfo.gender;
-  console.log(user);
-  const bodyType = useSelector((state) => state.user.personalInfo.bodyType);
-  console.log(bodyType)
+  const userGender = user.data.personalInfo.gender;
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));
   };

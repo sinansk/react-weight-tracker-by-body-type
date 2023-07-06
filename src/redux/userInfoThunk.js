@@ -2,11 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { publicRequest } from "../requestMethods";
 import { calculateMeasurements } from "../utils/calculateMeasurements";
 import { setIdealMeasurements } from "./userRedux";
+import { convertActivityLevel } from "../utils/convertActivityLevel";
 
 export const fetchIdealWeight = createAsyncThunk(
     'user/fetchIdealWeight',
     async (_, { getState }) => {
-        const { gender, height } = getState().user.personalInfo;
+        const { gender, height } = getState().user.data.personalInfo;
         const response = await publicRequest.get(
             `/idealweight?gender=${gender}&height=${height}`
         );
@@ -20,7 +21,7 @@ export const fetchIdealWeight = createAsyncThunk(
 export const fetchBodyFat = createAsyncThunk(
     "user/fetchBodyFat",
     async (_, { getState }) => {
-        const { age, weight, height, neck, waist, hip, gender } = getState().user.personalInfo;
+        const { age, weight, height, neck, waist, hip, gender } = getState().user.data.personalInfo;
         const response = await publicRequest.get(
             `/bodyfat?age=${age}&gender=${gender}&weight=${weight}&height=${height}&neck=${neck}&waist=${waist}&hip=${hip}`
         );
@@ -31,26 +32,24 @@ export const fetchBodyFat = createAsyncThunk(
 export const fetchCalorieNeed = createAsyncThunk(
     "user/fetchCalorieNeed",
     async (_, { getState }) => {
-        const { height, weight, age, activityLevel, gender } = getState().user.personalInfo;
+        const { height, weight, age, activityLevel, gender } = getState().user.data.personalInfo;
+        const activityLevelApiValue = await convertActivityLevel(activityLevel)
         const response = await publicRequest.get(
-            `/dailycalorie?age=${age}&gender=${gender}&height=${height}&weight=${weight}&activitylevel=${activityLevel}`
+            `/dailycalorie?age=${age}&gender=${gender}&height=${height}&weight=${weight}&activitylevel=${activityLevelApiValue}`
         );
         return response.data.data;
     }
 );
 
 export const updateIdealMeasurements = createAsyncThunk(
-    'user/setIdealMeasurements',
+    'user/updateIdealMeasurements',
     async (_, { getState, dispatch }) => {
-        const { wrist, gender } = getState().personalInfo;
-        const idealMeasurements = calculateMeasurements(wrist, gender);
-
+        const { wrist, gender } = getState().user.data.personalInfo;
+        const idealMeasurements = await calculateMeasurements(wrist, gender);
         // İdeal ölçümleri güncelleyin
-        dispatch(setIdealMeasurements(idealMeasurements));
-
+        // dispatch(setIdealMeasurements(idealMeasurements));
         // Burada farklı bir veritabanına istek gönderin veya başka bir eylem çağırabilirsiniz
         // Örneğin: dispatch(sendIdealMeasurementsToDatabase(idealMeasurements));
-
         // İşlem tamamlandığında geri dönüş değeri oluşturabilirsiniz (isteğe bağlı)
         return idealMeasurements;
     }

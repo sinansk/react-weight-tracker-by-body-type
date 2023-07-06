@@ -1,18 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGender } from "../../redux/userRedux";
-import { useNavigate } from "react-router-dom";
 
 const GenderComponent = ({ gender }) => {
-  let navigate = useNavigate();
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const currentUser = useSelector((state) => state.user.currentUser);
   const handleGender = () => {
     dispatch(selectGender(gender));
-    // navigate("/idealweight", { replace: true });
   };
-
 
   return (
     <div
@@ -20,7 +16,7 @@ const GenderComponent = ({ gender }) => {
       className={`cursor-pointer h-60 md:h-72 lg:h-96 lg:min-h-96 lg:w-1/2 lg:min-w-1/2 p-4 mx-4 mb-2 lg:mb-0 flex flex-col items-center 1 border-2 rounded-xl ${gender === "female"
         ? `border-rose-500 text-rose-500 bg-rose-50`
         : `border-cyan-500 text-cyan-500 bg-cyan-50`
-        } ${user.personalInfo.gender && user.personalInfo.gender === gender
+        } ${user.data.personalInfo.gender && user.data.personalInfo.gender === gender
           ? `outline outline-3  outline-offset-2 outline-green-500`
           : ""
         }

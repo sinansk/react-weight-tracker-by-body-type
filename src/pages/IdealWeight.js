@@ -1,21 +1,15 @@
 import Navbar from "../components/Navbar";
 import { useState } from "react";
-import { publicRequest } from "../requestMethods";
 import IdealWeightComponent from "../components/IdealWeightComponent";
 import { useSelector, useDispatch } from "react-redux/";
-import { setIdealWeight } from "../redux/userRedux";
 import { fetchIdealWeight } from "../redux/userInfoThunk";
 
 const IdealWeight = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log(user.height);
-  const userGender = user.personalInfo.gender;
-  const idealWeight = user.results?.idealWeight;
-  console.log(idealWeight)
+  const userGender = user.data?.personalInfo.gender;
+  const idealWeight = user.data.results?.idealWeight;
   const [loading, setLoading] = useState(false);
-  const currentUser = useSelector((state) => state.user.currentUser);
-  console.log(currentUser);
   const makeRequest = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,14 +28,14 @@ const IdealWeight = () => {
                 YOUR IDEAL WEIGHT RANGE IS: {idealWeight[0]} - {idealWeight[3]}{" "}
                 KG.
               </h2>
-              {user.personalInfo.weight < idealWeight[0] && (
-                <h2>YOU NEED TO GAIN {idealWeight[0] - user.personalInfo.weight} KG.</h2>
+              {user.data.personalInfo.weight < idealWeight[0] && (
+                <h2>YOU NEED TO GAIN {idealWeight[0] - user.data.personalInfo.weight} KG.</h2>
               )}
-              {user.personalInfo.weight > idealWeight[3] && (
-                <h2>YOU NEED TO LOSS {user.personalInfo.weight - idealWeight[3]} KG.</h2>
+              {user.data.personalInfo.weight > idealWeight[3] && (
+                <h2>YOU NEED TO LOSS {user.data.personalInfo.weight - idealWeight[3]} KG.</h2>
               )}
               {idealWeight[0] <= user.weight &&
-                user.personalInfo.weight <= idealWeight[3] && <h2>YOUR WEIGHT IS IDEAL.</h2>}
+                user.data.personalInfo.weight <= idealWeight[3] && <h2>YOUR WEIGHT IS IDEAL.</h2>}
             </>
           ) : (
             <h2>

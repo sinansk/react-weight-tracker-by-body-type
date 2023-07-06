@@ -1,21 +1,12 @@
 import { heights, bodyTypes, weights } from "../data";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectGender,
-  setBodyType,
-  setWeight,
-  setHeight,
-  setInput,
-} from "../redux/userRedux";
+import { selectGender, setInput } from "../redux/userRedux";
 import SelectInput from "./SelectInput";
 
 const IdealWeightComponent = ({ gender }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const userGender = user.personalInfo.gender;
-  console.log(user);
-  const bodyType = useSelector((state) => state.user.bodyType);
-  console.log(bodyType)
+  const userGender = user.data.personalInfo.gender;
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));
   };
@@ -53,8 +44,8 @@ const IdealWeightComponent = ({ gender }) => {
               id="bodyType"
               name="bodyType"
               value={
-                user.personalInfo.bodyType
-                  ? user.personalInfo.bodyType
+                user.data.personalInfo.bodyType
+                  ? user.data.personalInfo.bodyType
                   : "Ectomorph"
               }
               onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))}

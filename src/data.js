@@ -89,8 +89,6 @@ export const wrist = [
   25,
 ];
 
-// export const bodyTypes = ["Ectomorph", "Mesomorph", "Endomorph"];
-
 export const bodyTypes = [
   {
     status: "Overlapping",
@@ -109,34 +107,40 @@ export const bodyTypes = [
 export const activityLevels = [
   {
     status: "Sedentary: little or no exercise",
-    value: "level_1",
+    value: "Sedentary: little or no exercise",
+    apiValue: "level_1",
   },
   {
     status: "Exercise 1-3 times/week",
-    value: "level_2",
+    value: "Exercise 1-3 times/week",
+    apiValue: "level_2",
   },
   {
     status: "Exercise 4-5 times/week",
-    value: "level_3",
+    value: "Exercise 4-5 times/week",
+    apiValue: "level_3",
   },
   {
     status: "Daily exercise or intense exercise 3-4 times/week",
-    value: "level_4",
+    value: "Daily exercise or intense exercise 3-4 times/week",
+    apiValue: "level_4",
   },
   {
     status: "Intense exercise 6-7 times/week",
-    value: "level_5",
+    value: "Intense exercise 6-7 times/week",
+    apiValue: "level_5",
   },
   {
     status: "Very intense exercise daily, or physical job",
-    value: "level_6",
+    value: "Very intense exercise daily, or physical job",
+    apiValue: "level_6",
   },
 ];
 
 export const bodyGoals = [
   {
     status: "Maintain weight",
-    value: "maintain weight",
+    value: "Maintain weight",
     apiValue: "maintain",
   },
   {

@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { login } from "../firebase";
-import {
-  login as loginHandle,
-  logout as logoutHandle,
-} from "../redux/userRedux";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
