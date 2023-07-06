@@ -3,7 +3,12 @@ html, body {
     padding: 0;
     width: 100%;
     overflow-x: hidden; 
+
 }
+html, body, * {
+    box-sizing: border-box;
+}
+
 h1 {
     font-size: large;
     font-weight:bolder

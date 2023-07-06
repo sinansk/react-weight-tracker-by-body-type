@@ -2,14 +2,12 @@ import React from 'react'
 import { setInput, userInfoSelector } from '../redux/userRedux';
 import { useDispatch, useSelector } from 'react-redux';
 
-
 const SelectInput = (props) => {
-    console.log(props)
     const dispatch = useDispatch();
     const selectedValue = useSelector(
         (state) => userInfoSelector(state)[props.name]
     );
-    console.log(selectedValue)
+
     return (
         <>
             <label htmlFor={props.name} className="-mb-1">

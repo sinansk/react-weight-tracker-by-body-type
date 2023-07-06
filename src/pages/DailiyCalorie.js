@@ -1,37 +1,21 @@
 import Navbar from "../components/Navbar";
-import { publicRequest } from "../requestMethods";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DailyCalorieComponent from "../components/DailyCalorieComponent";
 import { useDispatch, useSelector } from "react-redux/";
-import { setCalorieNeed, setBMR } from "../redux/userRedux";
-import { fetchCalorieNeed, fetchIdealWeight } from "../redux/userInfoThunk";
+import { fetchCalorieNeed } from "../redux/userInfoThunk";
 
 const DailiyCalorie = () => {
   const user = useSelector((state) => state.user);
-  const userGender = user.personalInfo.gender;
-  const bodyGoal = user.personalInfo.bodyGoal;
-  const activityLevel = user.personalInfo.activityLevel;
-  const calorieNeed = user.results?.calorieNeed;
-  console.log(calorieNeed)
-  const calorieNeedByBodyGoal = user.results?.calorieNeedByBodyGoal
+  const userGender = user.data.personalInfo.gender;
+  const bodyGoal = user.data.personalInfo.bodyGoal;
+  const calorieNeed = user.data.results?.calorieNeed;
+  const calorieNeedByBodyGoal = user.data.results?.calorieNeedByBodyGoal
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
 
   const makeRequest = async (e) => {
     e.preventDefault();
-    // setLoading(true);
-    // try {
-    //   const res = await publicRequest.get(
-    //     `/dailycalorie?age=${user.personalInfo.age}&gender=${userGender}&height=${user.personalInfo.height}&weight=${user.personalInfo.weight}&activitylevel=${activityLevel}`
-    //   );
-    //   const data = res.data.data;
-    //   console.log(data);
-    //   dispatch(setCalorieNeed(data));
-    //   setLoading(false);
-    // } catch (err) {
-    //   console.log(err);
-    // }
     setLoading(true);
     await dispatch(fetchCalorieNeed())
     setLoading(false);

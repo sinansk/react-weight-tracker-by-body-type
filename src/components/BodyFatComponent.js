@@ -2,20 +2,13 @@ import { heights, weights, ages, neck, waist, hip } from "../data";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectGender,
-  setAge,
-  setHeight,
-  setWeight,
-  setNeck,
-  setWaist,
-  setHip,
 } from "../redux/userRedux";
 import SelectInput from "./SelectInput";
 
 const BodyFatComponent = ({ gender }) => {
   const user = useSelector((state) => state.user);
-  const personalInfo = user.personalInfo;
+  const personalInfo = user.data.personalInfo;
   const userGender = personalInfo.gender;
-  console.log(userGender);
   const dispatch = useDispatch();
   const handleGender = () => {
     !userGender && dispatch(selectGender(gender));

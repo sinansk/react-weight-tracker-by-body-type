@@ -1,16 +1,13 @@
 import BodyFatComponent from "../components/BodyFatComponent";
 import Navbar from "../components/Navbar";
-import { publicRequest } from "../requestMethods";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux/";
-import { setBodyFat } from "../redux/userRedux";
 import { fetchBodyFat } from "../redux/userInfoThunk";
 
 const BodyFat = () => {
   const user = useSelector((state) => state.user);
-  const personalInfo = user.personalInfo;
-  const userGender = user.personalInfo.gender;
-  const bodyFat = user.results.bodyFat;
+  const userGender = user.data.personalInfo.gender;
+  const bodyFat = user.data.results.bodyFat;
   console.log(bodyFat);
 
   const dispatch = useDispatch();
@@ -19,21 +16,9 @@ const BodyFat = () => {
   const makeRequest = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // try {
-    //   const res = await publicRequest.get(
-    //     `/bodyfat?age=${user.personalInfo.age}&gender=${userGender}&weight=${user.personalInfo.weight}&height=${user.personalInfo.height}&neck=${personalInfo.neck}&waist=${personalInfo.waist}&hip=${personalInfo.hip}`
-    //   );
-    //   const data = res.data.data;
-    //   console.log(data);
-    //   dispatch(setBodyFat(data));
-    //   setLoading(false);
-    // } catch (err) {
-    //   console.log(err);
-    // }
     await dispatch(fetchBodyFat())
     setLoading(false)
   }
-
 
   return (
     <div className="w-screen h-screen">

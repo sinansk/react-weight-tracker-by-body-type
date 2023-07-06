@@ -3,10 +3,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 import IdealWeight from "./pages/IdealWeight";
-
 import MyStats from "./pages/MyStats";
 import BodyFat from "./pages/BodyFat";
 import DailiyCalorie from "./pages/DailiyCalorie";
@@ -20,6 +18,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser);
+
   return (
     <div className="items-center justify-center w-full h-full text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
       <Toaster position="top-right" />
@@ -37,7 +36,6 @@ function App() {
             path="/getstarted"
             element={currentUser ? <GetStarted to="/getstarted" /> : <Login />}
           />
-          {/* <Route path="/mystats" element={<MyStats />} /> */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </Router>

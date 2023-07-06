@@ -1,79 +1,29 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BasicInfoComponent from "../components/GetStartedComponents/BasicInfoComponent";
 import BodyFatInfoComponent from "../components/GetStartedComponents/BodyFatInfoComponent";
 import BodyTypeInfoComponent from "../components/GetStartedComponents/BodyTypeInfoComponent";
 import Navbar from "../components/Navbar";
 import { useDispatch, useSelector } from "react-redux/";
-import { publicRequest } from "../requestMethods";
-import {
-  setIdealWeight,
-  setIdealMeasurements,
-  setBodyFat,
-  setCalorieNeed,
-} from "../redux/userRedux";
 import { useNavigate } from "react-router-dom";
-import { addUserInfo, getUserInfo } from "../firebase";
+import { addUserInfo } from "../firebase";
 import { serverTimestamp } from "firebase/firestore";
 import GenderComponent from "../components/GetStartedComponents/GenderComponent";
-import UserInfoComponent from "../components/UserInfoComponent";
-import UserRecordsComponent from "../components/UserRecordsComponent";
-import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight } from "../redux/userInfoThunk";
+import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, updateIdealMeasurements } from "../redux/userInfoThunk";
+import { fetchUserInfo } from "../redux/userRecordsThunk";
 
 const GetStarted = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(null);
   const user = useSelector((state) => state.user);
-  const currentUser = user.currentUser;
-  const personalInfo = user.personalInfo;
-  const activityLevel = personalInfo.activityLevel;
-  const userGender = personalInfo.gender;
+  const personalInfo = user.data?.personalInfo;
+  const userGender = personalInfo?.gender;
   const [registerStep, setRegisterStep] = useState(0);
-  console.log(registerStep);
-
-  const userInfoToDB = async () => {
-    await addUserInfo({
-      date: serverTimestamp(),
-      uid: user.currentUser.uid,
-      personalInfo: user.personalInfo,
-      idealMeasurements: user.idealMeasurements,
-      results: user.results,
-    });
-  };
-
-  // const handleUpdateMeasurements = () => {
-  //   dispatch(setIdealMeasurements())
-  //     .then((idealMeasurements) => {
-  //       // İşlem tamamlandığında geri dönen değeri kullanabilirsiniz
-  //       userInfoToDB();
-  //       // Farklı bir işlem yapabilirsiniz
-  //       // Örneğin: dispatch(anotherAction(idealMeasurements));
-  //     })
-  //     .catch((error) => {
-  //       // Hata durumunda buraya düşebilirsiniz
-  //       console.error('Ölçümler güncellenirken bir hata oluştu:', error);
-  //     });
-  // };
-
-
-  const handleUpdateMeasurements = () => {
-    return new Promise((resolve, reject) => {
-      dispatch(setIdealMeasurements());
-      resolve(); // Resolving immediately as there is no asynchronous operation in this action
-    }).then(() => {
-      // Ideal measurements updated successfully
-      userInfoToDB();
-
-      setLoading(false);
-      // Other actions or operations here
-    }).catch((error) => {
-      // Handle errors
-      console.error('An error occurred while updating measurements:', error);
-    });
-  };
+  const [isFetchingData, setIsFetchingData] = useState(true);
 
   const handleStep = async (e) => {
     e.preventDefault();
+
     if (e.target.name === "next" && registerStep >= 0 && registerStep < 3) {
       setRegisterStep((prev) => prev + 1);
     } else if (e.target.name === "previous" && registerStep > 0) {
@@ -81,26 +31,57 @@ const GetStarted = () => {
     }
 
     if (e.target.name === "next" && registerStep === 2) {
-      await dispatch(fetchIdealWeight())
-      await dispatch(fetchCalorieNeed())
+      await dispatch(fetchIdealWeight());
+      await dispatch(fetchCalorieNeed());
     }
+
     if (e.target.name === "next" && registerStep === 3) {
-      setLoading(true);
-      try {
-        await dispatch(fetchBodyFat())
-        await handleUpdateMeasurements()
-
-
-        navigate("/mystats", {
-          replace: true,
-        });
-
-      } catch (err) {
-        console.log(err);
-
-      }
+      handleSubmit()
     }
   };
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      setLoading(true);
+      // Dispatch the async actions
+      await Promise.all([
+        dispatch(fetchBodyFat()),
+        dispatch(updateIdealMeasurements()),
+
+      ]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error
+    } finally {
+      setLoading(false);
+      setIsFetchingData(false);
+    }
+  }, [dispatch]);
+
+  const userInfoToDB = useCallback(async () => {
+    await addUserInfo({
+      date: serverTimestamp(),
+      uid: user.currentUser.uid,
+      personalInfo: user.data?.personalInfo,
+      idealMeasurements: user.data?.idealMeasurements,
+      results: user.data?.results,
+    });
+    dispatch(fetchUserInfo(user.currentUser.uid)); // fetchUserInfo işlemini tetikle
+  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results]);
+
+
+  useEffect(() => {
+    if (!isFetchingData) {
+      userInfoToDB();
+      // const timeoutId = setTimeout(() => {
+      navigate("/mystats", { replace: true }); // sayfa yönlendirmesi
+      // }, 4000); // 4 saniye
+
+      // return () => clearTimeout(timeoutId);
+    }
+  }, [dispatch, userInfoToDB, isFetchingData, user.currentUser.uid, navigate]);
+
+
 
   return (
     <>
@@ -138,6 +119,7 @@ const GetStarted = () => {
             </>
           )}
         </div>
+
         {registerStep > 0 && (
           <a
             name="previous"
@@ -233,6 +215,8 @@ const GetStarted = () => {
               )}
             </span>
           </a>
+
+
         )}
 
       </div>

@@ -2,22 +2,19 @@ import Navbar from "../components/Navbar";
 import { useState } from "react";
 import IdealMeasurementsComponent from "../components/IdealMeasurementsComponent";
 import { useSelector, useDispatch } from "react-redux";
-import { setIdealMeasurements } from "../redux/userRedux";
-
+import { updateIdealMeasurements } from "../redux/userInfoThunk";
 const IdealMeasurements = () => {
   const user = useSelector((state) => state.user);
-  const userGender = user.personalInfo.gender;
-  const idealMeasurements = user.idealMeasurements;
+  const userGender = user.data?.personalInfo.gender;
+  const idealMeasurements = user.data?.idealMeasurements;
   const idealChest = idealMeasurements?.chest;
-
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(false);
-
-  async function calculateMeasurements(e) {
+  const calculateMeasurements = async (e) => {
     setLoading(true)
     e.preventDefault();
-    await dispatch(setIdealMeasurements());
+    await dispatch(updateIdealMeasurements());
     setLoading(false)
   }
 

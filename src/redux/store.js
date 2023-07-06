@@ -12,6 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import modal from "./modal";
 
 const persistConfig = {
   key: "root",
@@ -21,7 +22,8 @@ const persistConfig = {
 
 const combinedReducer = combineReducers({
   user: userReducer,
-  userRecords: userRecords
+  userRecords: userRecords,
+  modal: modal
 });
 
 const rootReducer = (state, action) => {

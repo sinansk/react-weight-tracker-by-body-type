@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { register } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

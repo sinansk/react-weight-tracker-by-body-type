@@ -28,9 +28,7 @@ const Home = () => {
         <HomeComponent gender={"female"} />
         <HomeComponent gender={"male"} />
       </div>
-      {/* {userGender && ( */}
       <a
-        // onClick={makeRequest}
         className="relative inline-flex items-center px-8 py-3 mx-2 overflow-hidden text-white rounded-sm sm:mt-4 bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
         href="/"
       >
@@ -74,10 +72,7 @@ const Home = () => {
           )}
         </span>
       </a>
-      {/* )} */}
-      {/* {userGender && ( */}
       <a
-        // onClick={makeRequest}
         className="relative inline-flex items-center px-8 py-3 mx-2 overflow-hidden text-white rounded-sm sm:mt-4 bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
         href="/"
       >
@@ -121,10 +116,6 @@ const Home = () => {
           )}
         </span>
       </a>
-      {/* )} */}
-
-
-
     </div>
   );
 };
