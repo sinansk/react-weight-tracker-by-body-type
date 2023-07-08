@@ -14,6 +14,7 @@ import {
   collection,
   addDoc,
   setDoc,
+  deleteDoc,
   doc,
   onSnapshot,
   serverTimestamp,
@@ -30,7 +31,7 @@ import {
   setData,
   setPersonalInfo,
 } from "./redux/userRedux";
-import { setRecords } from "./redux/userRecords";
+import { deleteRecordAction, setRecords } from "./redux/userRecords";
 import { fetchUserInfo } from "./redux/userRecordsThunk";
 
 const firebaseConfig = {
@@ -107,7 +108,11 @@ onAuthStateChanged(auth, (user) => {
 
 export const addUserInfo = async (data) => {
   const result = await addDoc(collection(db, "userInfos"), data);
-  return result
+  try {
+    return result
+  } catch (error) {
+    toast.error(error.message)
+  }
 };
 
 export const getUserInfo = (uid) => {
@@ -115,9 +120,10 @@ export const getUserInfo = (uid) => {
     const unsubscribe = onSnapshot(
       query(collection(db, "userInfos"), where("uid", "==", uid)),
       (snapshot) => {
-        const data = snapshot.docs
-          .map((doc) => doc.data())
-          .sort((a, b) => b.date - a.date);
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id, // Belge kimliği
+          data: doc.data() // Belge verisi
+        })).sort((a, b) => b.data.date - a.data.date);
         console.log("Current data: ", data);
         unsubscribe(); // Unsubscribe from further updates
         resolve(data);
@@ -129,7 +135,16 @@ export const getUserInfo = (uid) => {
   });
 };
 
-
+export const deleteRecord = async (uid, id) => {
+  console.log("uid", uid, "id:", id)
+  try {
+    await deleteDoc(doc(db, "userInfos", id))
+    store.dispatch(deleteRecordAction(id)); // Redux store'u güncelle
+    toast.success("Veri başarıyla silindi");
+  } catch (error) {
+    toast.error(error.message)
+  }
+}
 
 
 

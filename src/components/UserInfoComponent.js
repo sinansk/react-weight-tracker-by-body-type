@@ -14,15 +14,15 @@ import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, updateIdealMeasuremen
 import LoadingComponent from "./LoadingComponent";
 
 const UserInfoComponent = () => {
-
+  const user = useSelector((state) => state.user)
   const userRecords = useSelector((state) => state.userRecords?.records)
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.user.currentUser);
-  const measurements = Object.keys(userRecords?.[0].personalInfo).filter((key) =>
+  const measurements = Object.keys(userRecords?.[0].data.personalInfo).filter((key) =>
     ["arm", "calve", "chest", "foreArm", "hip", "neck", "shoulder", "thigh", "waist"].includes(key)
   ).sort()
-  const idealMeasurements = Object.keys(userRecords?.[0].idealMeasurements).sort()
-  const [measurementsData, setMeasurementsData] = useState(userRecords?.[0].personalInfo);
+  const idealMeasurements = Object.keys(userRecords?.[0].data.idealMeasurements)?.sort()
+  const [measurementsData, setMeasurementsData] = useState(userRecords?.[0].data.personalInfo);
   const isLoading = currentUser.status
 
   const handleInputChange = (e) => {
@@ -42,25 +42,49 @@ const UserInfoComponent = () => {
   const handleActualInfoModal = () => {
     actualInfoModal.current.openModal()
   }
+
+
   const updateHandle = async (e) => {
     if (e.target.name === "actualInfo") {
-      dispatch(fetchIdealWeight())
-      dispatch(fetchCalorieNeed())
+      try {
+        await Promise.all([
+          dispatch(fetchIdealWeight()),
+          dispatch(fetchCalorieNeed()),
+        ]);
+        await syncData();
+      } catch (err) {
+        console.log(err);
+      }
     } else if (e.target.name === "actualMeasurements") {
-      dispatch(fetchBodyFat())
-      dispatch(updateIdealMeasurements())
+      try {
+        await dispatch(fetchBodyFat());
+        console.log("dispatchFetchBodyFat çalıştı");
+        await dispatch(updateIdealMeasurements());
+        console.log("dispatchUpdateIdealMeasurement çalıştı");
+        await syncData();
+      } catch (err) {
+        console.log(err);
+      }
     }
-    // await addUserInfo({
-    //   date: serverTimestamp(),
-    //   uid: user.currentUser.uid,
-    //   personalInfo: user.data.personalInfo,
-    //   idealMeasurements: user.data?.idealMeasurements,
-    //   results: user.data.results,
-    // });
+  };
 
-  }
+  const syncData = async () => {
+    const data = {
+      date: serverTimestamp(),
+      uid: user.currentUser.uid,
+      personalInfo: user.data.personalInfo,
+      idealMeasurements: user.data?.idealMeasurements,
+      results: user.data.results,
+    };
 
-
+    try {
+      await addUserInfo(data);
+      console.log("ADDUSERINFO ÇALIŞTI");
+      modalRef.current.closeModal(); // Modal'ı kapat
+    } catch (error) {
+      console.error("Hata:", error);
+    }
+  };
   return (
     (isLoading === "loading" || isLoading === "idle" || userRecords.length === 0) ? (
       <LoadingComponent />
@@ -68,9 +92,9 @@ const UserInfoComponent = () => {
       <div className="grid grid-cols-7 grid-rows-2 gap-2 p-2 mx-8 border-2 border-red-500 rounded-sm h-96">
         <div className="row-span-2 border-2 border-indigo-500 rounded-sm">PHOTO</div>
         <div className="col-span-3 border-2 border-teal-500 rounded-sm">
-          <div className="flex items-center justify-center text-center">
+          <div className="relative flex items-center justify-center text-center">
             <h2 className="flex items-center justify-center font-bold h-1/5">YOUR ACTUAL INFO</h2>
-            <EditButton styleProps={`ml-1 `} onClick={handleActualInfoModal} />
+            <EditButton styleProps={`absolute right-1`} onClick={handleActualInfoModal} />
             <Modal ref={actualInfoModal} styleProps={`w-96 h-96 `}>
               <div className="grid grid-cols-2 h-4/5">
 
@@ -102,23 +126,23 @@ const UserInfoComponent = () => {
 
           </div>
           <div className="grid grid-cols-2 h-4/5">
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Age:</span> {userRecords?.[0].personalInfo.age}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Activity Level:</span> {userRecords?.[0].personalInfo.activityLevel}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Height:</span> {userRecords?.[0].personalInfo.height + ` cm`}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Weight:</span> {userRecords?.[0].personalInfo.weight + ` kg`} </div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Type:</span> {userRecords?.[0].personalInfo.bodyType} </div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Goal:</span> {userRecords?.[0].personalInfo.bodyGoalStatus} </div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Age:</span> {userRecords?.[0].data.personalInfo.age}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Activity Level:</span> {userRecords?.[0].data.personalInfo.activityLevel}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Height:</span> {userRecords?.[0].data.personalInfo.height + ` cm`}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Weight:</span> {userRecords?.[0].data.personalInfo.weight + ` kg`} </div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Type:</span> {userRecords?.[0].data.personalInfo.bodyType} </div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Goal:</span> {userRecords?.[0].data.personalInfo.bodyGoalStatus} </div>
           </div>
         </div>
         <div className="col-span-3 col-start-2 row-start-2 border-2 border-pink-500 rounded-sm">
           <h2 className="font-bold h-1/5">CALCULATED RESULTS</h2>
           <div className="grid h-full grid-cols-2">
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Ideal Weight:</span> {userRecords?.[0].results?.idealWeightRange}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Weight Status:</span> {userRecords?.[0].results?.idealWeightStatus}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Fat (%):</span> {userRecords?.[0].results?.bodyFat?.["Body Fat (U.S. Navy Method)"]}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">BMI:</span>{userRecords?.[0].results?.bmi}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Daily Calorie Need:</span> {userRecords?.[0].results?.calorieNeedByBodyGoal}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">BMR:</span> {userRecords?.[0].results?.calorieNeed.BMR} kcal</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Ideal Weight:</span> {userRecords?.[0].data.results?.idealWeightRange}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Weight Status:</span> {userRecords?.[0].data.results?.idealWeightStatus}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Fat (%):</span> {userRecords?.[0].data.results?.bodyFat?.["Body Fat (U.S. Navy Method)"]}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">BMI:</span>{userRecords?.[0].data.results?.bmi}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Daily Calorie Need:</span> {userRecords?.[0].data.results?.calorieNeedByBodyGoal}</div>
+            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">BMR:</span> {userRecords?.[0].data.results?.calorieNeed?.BMR} kcal</div>
           </div>
         </div>
         <div className="flex h-full col-span-3 col-start-5 row-span-2 border-2 rounded-sm border-amber-500 ">
@@ -145,7 +169,7 @@ const UserInfoComponent = () => {
                   .map((key) => (
                     <li key={key}>
                       <span>{key}: </span>
-                      <span>{userRecords?.[0].personalInfo[key]}</span>
+                      <span>{userRecords?.[0].data.personalInfo[key]}</span>
                     </li>
                   ))}
               </ul>
@@ -154,12 +178,12 @@ const UserInfoComponent = () => {
           <div className="flex-1">
             <h2 className="font-bold">YOUR IDEAL MEASUREMENTS</h2>
             <div className="grid">
-              {userRecords[0]?.idealMeasurements &&
+              {userRecords[0]?.data.idealMeasurements &&
                 <ul className="grid">
                   {idealMeasurements.map((key) => (
                     <li key={key}>
                       <span>{key}: </span>
-                      <span>{userRecords?.[0].idealMeasurements?.[key]}</span>
+                      <span>{userRecords?.[0].data.idealMeasurements?.[key]}</span>
                     </li>
                   ))}
                 </ul>

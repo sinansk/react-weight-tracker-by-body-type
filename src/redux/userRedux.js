@@ -16,7 +16,7 @@ export const userSlice = createSlice({
         bodyType: "Ectomorph",
         bodyGoal: "maintain weight",
         bodyGoalStatus: "Maintain Weight",
-        activityLevel: "level_1",
+        activityLevel: "Sedentary: little or no exercise",
         neck: 34,
         shoulder: 112,
         chest: 95,
