@@ -2,25 +2,31 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { convertSecondsToDate } from "../utils/convertSecondToDate";
 import moment from 'moment';
+import { deleteRecord } from "../firebase";
 const UserRecordsComponent = () => {
   const userRecords = useSelector((state) => state.userRecords?.records)
+  const currentUser = useSelector((state) => state.user.currentUser)
   console.log("userRecords", userRecords)
-
+  const handleDelete = async (id) => {
+    await deleteRecord(currentUser.uid, id)
+  }
   const transformedData = userRecords?.map(item => {
     return {
-      date: item.date.seconds,
-      weight: item.personalInfo.weight,
-      bodyFat: item.results.bodyFat?.["Body Fat (U.S. Navy Method)"],
-      arm: item.personalInfo.arm,
-      calve: item.personalInfo.calve,
-      chest: item.personalInfo.chest,
-      foreArm: item.personalInfo.foreArm,
-      hip: item.personalInfo.hip,
-      neck: item.personalInfo.neck,
-      shoulder: item.personalInfo.shoulder,
-      thigh: item.personalInfo.thigh,
-      waist: item.personalInfo.waist,
-      wrist: item.personalInfo.wrist
+      id: item.id, data: {
+        date: item.data.date.seconds,
+        weight: item.data.personalInfo.weight,
+        bodyFat: item.data.results.bodyFat?.["Body Fat (U.S. Navy Method)"],
+        arm: item.data.personalInfo.arm,
+        calve: item.data.personalInfo.calve,
+        chest: item.data.personalInfo.chest,
+        foreArm: item.data.personalInfo.foreArm,
+        hip: item.data.personalInfo.hip,
+        neck: item.data.personalInfo.neck,
+        shoulder: item.data.personalInfo.shoulder,
+        thigh: item.data.personalInfo.thigh,
+        waist: item.data.personalInfo.waist,
+        wrist: item.data.personalInfo.wrist
+      }
     };
   });
 
@@ -65,20 +71,26 @@ const UserRecordsComponent = () => {
         <TableHeader columns={columns} />
         <tbody className="bg-white divide-y divide-gray-200">
           {transformedData?.map((item, index) => (
-            <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap">{moment(item.date * 1000).format("DD MMM YYYY")}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.weight}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.bodyFat}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.arm}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.calve}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.chest}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.foreArm}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.hip}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.neck}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.shoulder}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.thigh}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.waist}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.wrist}</td>
+            <tr classNamekey="" key={item.id}>
+              {console.log("item.id", item.id)}
+              <td className="px-6 py-4 whitespace-nowrap">{moment(item.data.date * 1000).format("DD MMM YYYY")}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.weight}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.bodyFat}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.arm}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.calve}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.chest}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.foreArm}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.hip}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.neck}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.shoulder}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.thigh}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.waist}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.data.wrist}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {(index !== 0 || (index === 0 && transformedData.length > 1)) && (
+                  <button onClick={() => handleDelete(item.id)} className="text-xs text-white bg-indigo-700 rounded h-7">DELETE</button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

@@ -14,3 +14,16 @@ export const fetchUserInfo = createAsyncThunk(
         }
     }
 );
+
+export const deleteRecord = createAsyncThunk(
+    "userRecords/deleteRecord",
+    async (id) => {
+        try {
+            const data = await deleteRecord(id);
+            console.log(data)
+            return data;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+);
