@@ -34,7 +34,7 @@ const BodyFatInfoComponent = ({ gender }) => {
                 <SelectInput options={shoulder} label="Shoulder" name="shoulder" />
                 <SelectInput options={chest} label="Chest" name="chest" />
                 <SelectInput options={arm} label="Arm" name="arm" />
-                <SelectInput options={foreArm} label="Fore Arm" name="foreArm" />
+                <SelectInput options={foreArm} label="Fore Arm" name="forearm" />
               </div>
               <div className="w-1/2">
                 <SelectInput options={wrist} label="Wrist" name="wrist" />

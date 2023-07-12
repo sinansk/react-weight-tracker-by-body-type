@@ -21,7 +21,7 @@ export const userSlice = createSlice({
         shoulder: 112,
         chest: 95,
         arm: 34,
-        foreArm: 28,
+        forearm: 28,
         wrist: 15,
         waist: 70,
         hip: 86,
