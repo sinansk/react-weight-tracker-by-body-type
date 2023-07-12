@@ -31,7 +31,7 @@ function App() {
           <Route path="/idealmeasurements" element={<IdealMeasurements />} />
           <Route path="/mystats" element={<MyStats />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={currentUser ? <GetStarted to="/getstarted" /> : <Login />} />
           <Route
             path="/getstarted"
             element={currentUser ? <GetStarted to="/getstarted" /> : <Login />}

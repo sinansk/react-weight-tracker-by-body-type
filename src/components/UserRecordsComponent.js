@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { convertSecondsToDate } from "../utils/convertSecondToDate";
 import moment from 'moment';
 import { deleteRecord } from "../firebase";
+import DeleteButton from "./DeleteButton";
 const UserRecordsComponent = () => {
   const userRecords = useSelector((state) => state.userRecords?.records)
   const currentUser = useSelector((state) => state.user.currentUser)
@@ -19,7 +20,7 @@ const UserRecordsComponent = () => {
         arm: item.data.personalInfo.arm,
         calve: item.data.personalInfo.calve,
         chest: item.data.personalInfo.chest,
-        foreArm: item.data.personalInfo.foreArm,
+        foreArm: item.data.personalInfo.forearm,
         hip: item.data.personalInfo.hip,
         neck: item.data.personalInfo.neck,
         shoulder: item.data.personalInfo.shoulder,
@@ -34,7 +35,7 @@ const UserRecordsComponent = () => {
 
   const TableHeader = ({ columns }) => {
     return (
-      <thead className="sticky top-0 mt-4 bg-gray-50">
+      <thead className="mt-4 shadow-md bg-slate-50">
         <tr>
           {columns.map((column) => (
             <th
@@ -63,13 +64,14 @@ const UserRecordsComponent = () => {
     { id: "thigh", label: "Thigh" },
     { id: "waist", label: "Waist" },
     { id: "wrist", label: "Wrist" },
+    { id: "actions", label: "Actions" },
   ];
   return (
 
-    <div className="container z-20 mx-auto mt-5">
-      <table className="min-w-full divide-y divide-gray-200">
+    <div className="container z-20 h-screen mx-auto mt-5 overflow-auto shadow-lg no-scrollbar ">
+      <table className="min-w-full divide-y divide-gray-200 ">
         <TableHeader columns={columns} />
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-gray-200 ">
           {transformedData?.map((item, index) => (
             <tr classNamekey="" key={item.id}>
               {console.log("item.id", item.id)}
@@ -88,7 +90,7 @@ const UserRecordsComponent = () => {
               <td className="px-6 py-4 whitespace-nowrap">{item.data.wrist}</td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {(index !== 0 || (index === 0 && transformedData.length > 1)) && (
-                  <button onClick={() => handleDelete(item.id)} className="text-xs text-white bg-indigo-700 rounded h-7">DELETE</button>
+                  <DeleteButton handleDelete={() => handleDelete(item.id)} />
                 )}
               </td>
             </tr>

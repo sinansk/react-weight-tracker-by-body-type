@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setInput } from "../redux/userRedux";
 import { activityLevels, ages, bodyGoals, bodyTypes, heights, weights } from "../data";
@@ -12,6 +12,7 @@ import { serverTimestamp } from "firebase/firestore";
 import { fetchUserInfo } from "../redux/userRecordsThunk";
 import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, updateIdealMeasurements } from "../redux/userInfoThunk";
 import LoadingComponent from "./LoadingComponent";
+import MeasurementsCard from "./MeasurementsCard";
 
 const UserInfoComponent = () => {
   const user = useSelector((state) => state.user)
@@ -21,6 +22,7 @@ const UserInfoComponent = () => {
   const measurements = Object.keys(userRecords?.[0].data.personalInfo).filter((key) =>
     ["arm", "calve", "chest", "foreArm", "hip", "neck", "shoulder", "thigh", "waist"].includes(key)
   ).sort()
+  console.log("measurements,", measurements)
   const idealMeasurements = Object.keys(userRecords?.[0].data.idealMeasurements)?.sort()
   const [measurementsData, setMeasurementsData] = useState(userRecords?.[0].data.personalInfo);
   const isLoading = currentUser.status
@@ -85,68 +87,69 @@ const UserInfoComponent = () => {
       console.error("Hata:", error);
     }
   };
+
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { top } = bottomRef.current.getBoundingClientRect();
+      const bottomPosition = window.innerHeight - top;
+      console.log('Bottom Position:', bottomPosition, "top", top);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+
+
   return (
     (isLoading === "loading" || isLoading === "idle" || userRecords.length === 0) ? (
       <LoadingComponent />
     ) : (
-      <div className="grid grid-cols-7 grid-rows-2 gap-2 p-2 mx-8 border-2 border-red-500 rounded-sm h-96">
-        <div className="row-span-2 border-2 border-indigo-500 rounded-sm">PHOTO</div>
-        <div className="col-span-3 border-2 border-teal-500 rounded-sm">
-          <div className="relative flex items-center justify-center text-center">
-            <h2 className="flex items-center justify-center font-bold h-1/5">YOUR ACTUAL INFO</h2>
-            <EditButton styleProps={`absolute right-1`} onClick={handleActualInfoModal} />
-            <Modal ref={actualInfoModal} styleProps={`w-96 h-96 `}>
-              <div className="grid grid-cols-2 h-4/5">
+      <div ref={bottomRef} className="grid grid-cols-7 grid-rows-2 gap-2 p-2 mx-8 h-96">
+        <div className="row-span-2 rounded-lg shadow-md bg-slate-50 ">PHOTO</div>
+        <div className="relative col-span-3 col-start-2 row-start-1 p-2 rounded-lg shadow-md bg-slate-50">
 
-                <div><SelectInput options={ages} label="Age," name="age" /></div>
-                <div><SelectInput options={bodyTypes} label="My fingers are," name="bodyType" /></div>
-                <div><SelectInput options={heights} label="Height" name="height" /></div>
-                <div><SelectInput options={activityLevels} label="Activity Level:" name="activityLevel" /> </div>
-                <div><SelectInput options={weights} label="Weight" name="weight" /></div>
-                <div><SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" /></div>
-              </div>
-              <button className="bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm" name="actualInfo" onClick={updateHandle}>UPDATE</button>
-            </Modal>
-            {/* </Modal>
-          <EditButton styleProps={`ml-auto `} onClick={handleActualInfoModal} />
-          <Modal ref={actualInfoModal} styleProps={`w-96 h-96 `} >
+          <h2 className="font-bold h-1/5">YOUR ACTUAL INFO</h2>
+          <EditButton styleProps={`absolute right-1 top-1`} onClick={handleActualInfoModal} />
+          <Modal ref={actualInfoModal} styleProps={`w-96 h-96 `}>
+            <div className="grid grid-cols-2 gap-2 h-4/5">
 
-            {/* <div>Activity Level: {userRecords?.[0].personalInfo.activityLevel}</div> */}
-            {/* <div>Height: {userRecords?.[0].personalInfo.height}</div> */}
-            {/* <div>Weight: {userRecords?.[0].personalInfo.weight} </div> */}
-            {/* <div>Body Type: {userRecords?.[0].personalInfo.bodyType} </div> */}
-            {/* <label htmlFor="height" clasclassNames="block w-full pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Weight</label>
-            <input id="height" className="w-full h-10 px-4 font-thin transition-all duration-200 ease-in-out rounded-md outline-none peer bg-gray-50 drop-shadow-sm focus:bg-white focus:ring-2 focus:ring-blue-400" type="number" value={userRecords?.[0].personalInfo.height} name="height" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))} />
-            <label htmlFor="weight" clasclassNames="block w-full pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Weight</label>
-            <input id="weight" className="w-full h-10 px-4 font-thin transition-all duration-200 ease-in-out rounded-md outline-none peer bg-gray-50 drop-shadow-sm focus:bg-white focus:ring-2 focus:ring-blue-400" type="number" value={userRecords?.[0].personalInfo.weight} name="weight" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))} />
-            <label htmlFor="age" clasclassNames="block w-full pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Age</label>
-            <input id="age" className="w-full h-10 px-4 font-thin transition-all duration-200 ease-in-out rounded-md outline-none peer bg-gray-50 drop-shadow-sm focus:bg-white focus:ring-2 focus:ring-blue-400" type="number" value={userRecords?.[0].personalInfo.age} name="age" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))} />
-            <div><SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" /></div>
-          */}
+              <div><SelectInput options={ages} label="Age," name="age" /></div>
+              <div><SelectInput options={bodyTypes} label="My fingers are," name="bodyType" /></div>
+              <div><SelectInput options={heights} label="Height" name="height" /></div>
+              <div><SelectInput options={activityLevels} label="Activity Level:" name="activityLevel" /> </div>
+              <div><SelectInput options={weights} label="Weight" name="weight" /></div>
+              <div><SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" /></div>
+            </div>
+            <button className="h-10 mt-5 bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm" name="actualInfo" onClick={updateHandle}>UPDATE</button>
+          </Modal>
 
-          </div>
-          <div className="grid grid-cols-2 h-4/5">
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Age:</span> {userRecords?.[0].data.personalInfo.age}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Activity Level:</span> {userRecords?.[0].data.personalInfo.activityLevel}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Height:</span> {userRecords?.[0].data.personalInfo.height + ` cm`}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Weight:</span> {userRecords?.[0].data.personalInfo.weight + ` kg`} </div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Type:</span> {userRecords?.[0].data.personalInfo.bodyType} </div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Goal:</span> {userRecords?.[0].data.personalInfo.bodyGoalStatus} </div>
+          <div className="grid grid-cols-2 p-2 text-left h-4/5">
+            <div className=""><span className="font-semibold text-indigo-600">Age:</span> {userRecords?.[0].data.personalInfo.age}</div>
+            <div className=""><span className="font-semibold text-indigo-600">Body Type:</span> {userRecords?.[0].data.personalInfo.bodyType} </div>
+            <div className=""><span className="font-semibold text-indigo-600">Height:</span> {userRecords?.[0].data.personalInfo.height + ` cm`}</div>
+            <div className=""><span className="font-semibold text-indigo-600">Body Goal:</span> {userRecords?.[0].data.personalInfo.bodyGoalStatus} </div>
+            <div className=""><span className="font-semibold text-indigo-600">Weight:</span> {userRecords?.[0].data.personalInfo.weight + ` kg`} </div>
+            <div className=""><span className="font-semibold text-indigo-600">Activity Level:</span> {userRecords?.[0].data.personalInfo.activityLevel}</div>
           </div>
         </div>
-        <div className="col-span-3 col-start-2 row-start-2 border-2 border-pink-500 rounded-sm">
+        <div className="col-span-3 col-start-2 row-start-2 p-2 rounded-lg shadow-md bg-slate-50">
           <h2 className="font-bold h-1/5">CALCULATED RESULTS</h2>
-          <div className="grid h-full grid-cols-2">
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Ideal Weight:</span> {userRecords?.[0].data.results?.idealWeightRange}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Weight Status:</span> {userRecords?.[0].data.results?.idealWeightStatus}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Body Fat (%):</span> {userRecords?.[0].data.results?.bodyFat?.["Body Fat (U.S. Navy Method)"]}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">BMI:</span>{userRecords?.[0].data.results?.bmi}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">Daily Calorie Need:</span> {userRecords?.[0].data.results?.calorieNeedByBodyGoal}</div>
-            <div className="border-[0.5px] border-stone-400"><span className="font-semibold text-indigo-600">BMR:</span> {userRecords?.[0].data.results?.calorieNeed?.BMR} kcal</div>
+          <div className="grid grid-cols-2 p-2 text-left h-4/5">
+            <div className=""><span className="font-semibold text-indigo-600">Ideal Weight:</span> {userRecords?.[0].data.results?.idealWeightRange}</div>
+            <div className=""><span className="font-semibold text-indigo-600">Weight Status:</span> {userRecords?.[0].data.results?.idealWeightStatus}</div>
+            <div className=""><span className="font-semibold text-indigo-600">Body Fat (%):</span> {userRecords?.[0].data.results?.bodyFat?.["Body Fat (U.S. Navy Method)"]}</div>
+            <div className=""><span className="font-semibold text-indigo-600">BMI:</span>{userRecords?.[0].data.results?.bmi}</div>
+            <div className=""><span className="font-semibold text-indigo-600">Daily Calorie Need:</span> {userRecords?.[0].data.results?.calorieNeedByBodyGoal}</div>
+            <div className="" ><span className="font-semibold text-indigo-600">BMR:</span> {userRecords?.[0].data.results?.calorieNeed?.BMR} kcal</div>
           </div>
         </div>
-        <div className="flex h-full col-span-3 col-start-5 row-span-2 border-2 rounded-sm border-amber-500 ">
-          <div className="flex-1">
+        <div className="flex h-full col-span-3 col-start-5 row-span-2 p-2 rounded-lg shadow-md bg-slate-50">
+          <MeasurementsCard title="YOUR ACTUAL MEASUREMENTS" data={userRecords?.[0].data.personalInfo} isEdiTable={true} />
+          <MeasurementsCard title="YOUR IDEAL MEASUREMENTS" data={userRecords?.[0].data.idealMeasurements} isEdiTable={false} />
+          {/* <div className="flex-1">
             <div className="flex items-center justify-center text-center">
               <h2 className="font-bold">YOUR ACTUAL MEASUREMENTS</h2>
               <EditButton styleProps={`ml-1 `} onClick={handleEditClick} />
@@ -189,7 +192,7 @@ const UserInfoComponent = () => {
                 </ul>
               }
             </div>
-          </div>
+          </div> */}
 
         </div>
       </div>
