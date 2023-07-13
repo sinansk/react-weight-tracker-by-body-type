@@ -39,13 +39,12 @@ const MeasurementsCard = ({ title, data, isEdiTable }) => {
                 }
             </div>
             {data &&
-
-                <ul className="grid">
+                <ul className="grid uppercase">
                     {measurements
                         .map((key) => (
                             <li key={key}>
-                                <span>{key}: </span>
-                                <span>{data[key]}</span>
+                                <span className='font-semibold text-cyan-600'>{key}: </span>
+                                <span className='font-medium'>{data[key]}</span>
                             </li>
                         ))}
                 </ul>
