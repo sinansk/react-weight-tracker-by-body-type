@@ -37,14 +37,14 @@ const Navbar = () => {
       <nav className="flex w-screen">
         <section className="flex justify-between px-4 py-4 ml-auto lg:hidden">
           <div className="space-y-2" onClick={toggleNav}>
-            <span className="block w-8 h-0.5 bg-indigo-600 animate-pulse"></span>
-            <span className="block w-8 h-0.5 bg-indigo-600 animate-pulse"></span>
-            <span className="block w-8 h-0.5 bg-indigo-600 animate-pulse"></span>
+            <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>
+            <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>
+            <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>
           </div>
           <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center absolute top-0 left-0 bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 z-10 w-screen h-screen` : `hidden`}`}>
             <div className="absolute top-0 right-0 px-4 py-4" onClick={() => setIsNavOpen(false)}>
               <svg
-                className="w-8 h-8 text-indigo-600"
+                className="w-8 h-8 text-pink-600"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -74,8 +74,8 @@ const Navbar = () => {
               to={path}
               className={({ isActive }) =>
                 isActive
-                  ? "border-2 border-indigo-500 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-indigo-400 text-white"
-                  : "border-2 border-indigo-500 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-indigo-200 bg-opacity-25 text-teal-900"
+                  ? "border-2 border-pink-500 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-pink-400 text-white"
+                  : "border-2 border-pink-500 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-pink-200 bg-opacity-25 text-teal-900"
               }
             >
               {text}
@@ -85,7 +85,7 @@ const Navbar = () => {
             <NavLink
               to="/login"
               onClick={handleLogout}
-              className="px-5 py-2 mx-1 text-teal-900 bg-indigo-200 bg-opacity-25 border-2 border-indigo-500 rounded-md lg:mx-4"
+              className="px-5 py-2 mx-1 text-teal-900 bg-pink-200 bg-opacity-25 border-2 border-pink-500 rounded-md lg:mx-4"
             >
               LOG OUT
             </NavLink>

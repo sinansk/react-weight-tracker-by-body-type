@@ -4,7 +4,7 @@ const ButtonPrimary = ({ name, onClick, loading }) => {
     return (
         <button
             onClick={onClick}
-            className="relative inline-flex items-center px-8 py-3 mx-2 overflow-hidden text-white bg-indigo-500 rounded-lg hover:bg-indigo-400 focus:bg-indigo-40 sm:mt-4 group active:bg-indigo-400 focus:outline-none focus:ring"
+            className="relative inline-flex items-center px-8 py-3 mx-2 overflow-hidden text-white bg-pink-500 rounded-lg hover:bg-pink-400 focus:bg-pink-400 sm:mt-4 group active:bg-pink-400 focus:outline-none focus:ring"
             name={name}
         >
             <span

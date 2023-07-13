@@ -56,7 +56,7 @@ const Register = () => {
             <button
               diabled={email || password}
               type="submit"
-              className="block w-full px-4 py-3 mt-6 font-semibold text-white bg-indigo-500 rounded-lg hover:bg-indigo-400 focus:bg-indigo-400"
+              className="block w-full px-4 py-3 mt-6 font-semibold text-white bg-pink-500 rounded-lg hover:bg-pink-400 focus:bg-pink-400"
             >
               Register
             </button>

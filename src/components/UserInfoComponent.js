@@ -127,23 +127,23 @@ const UserInfoComponent = () => {
           </Modal>
 
           <div className="grid grid-cols-2 p-2 text-left h-4/5">
-            <div className=""><span className="font-semibold text-indigo-600">Age:</span> {userRecords?.[0].data.personalInfo.age}</div>
-            <div className=""><span className="font-semibold text-indigo-600">Body Type:</span> {userRecords?.[0].data.personalInfo.bodyType} </div>
-            <div className=""><span className="font-semibold text-indigo-600">Height:</span> {userRecords?.[0].data.personalInfo.height + ` cm`}</div>
-            <div className=""><span className="font-semibold text-indigo-600">Body Goal:</span> {userRecords?.[0].data.personalInfo.bodyGoalStatus} </div>
-            <div className=""><span className="font-semibold text-indigo-600">Weight:</span> {userRecords?.[0].data.personalInfo.weight + ` kg`} </div>
-            <div className=""><span className="font-semibold text-indigo-600">Activity Level:</span> {userRecords?.[0].data.personalInfo.activityLevel}</div>
+            <div className=""><span className="font-semibold text-pink-600">Age:</span> {userRecords?.[0].data.personalInfo.age}</div>
+            <div className=""><span className="font-semibold text-pink-600">Body Type:</span> {userRecords?.[0].data.personalInfo.bodyType} </div>
+            <div className=""><span className="font-semibold text-pink-600">Height:</span> {userRecords?.[0].data.personalInfo.height + ` cm`}</div>
+            <div className=""><span className="font-semibold text-pink-600">Body Goal:</span> {userRecords?.[0].data.personalInfo.bodyGoalStatus} </div>
+            <div className=""><span className="font-semibold text-pink-600">Weight:</span> {userRecords?.[0].data.personalInfo.weight + ` kg`} </div>
+            <div className=""><span className="font-semibold text-pink-600">Activity Level:</span> {userRecords?.[0].data.personalInfo.activityLevel}</div>
           </div>
         </div>
         <div className="col-span-3 col-start-2 row-start-2 p-2 rounded-lg shadow-md bg-slate-50">
           <h2 className="font-bold h-1/5">CALCULATED RESULTS</h2>
           <div className="grid grid-cols-2 p-2 text-left h-4/5">
-            <div className=""><span className="font-semibold text-indigo-600">Ideal Weight:</span> {userRecords?.[0].data.results?.idealWeightRange}</div>
-            <div className=""><span className="font-semibold text-indigo-600">Weight Status:</span> {userRecords?.[0].data.results?.idealWeightStatus}</div>
-            <div className=""><span className="font-semibold text-indigo-600">Body Fat (%):</span> {userRecords?.[0].data.results?.bodyFat?.["Body Fat (U.S. Navy Method)"]}</div>
-            <div className=""><span className="font-semibold text-indigo-600">BMI:</span>{userRecords?.[0].data.results?.bmi}</div>
-            <div className=""><span className="font-semibold text-indigo-600">Daily Calorie Need:</span> {userRecords?.[0].data.results?.calorieNeedByBodyGoal}</div>
-            <div className="" ><span className="font-semibold text-indigo-600">BMR:</span> {userRecords?.[0].data.results?.calorieNeed?.BMR} kcal</div>
+            <div className=""><span className="font-semibold text-pink-600">Ideal Weight:</span> {userRecords?.[0].data.results?.idealWeightRange}</div>
+            <div className=""><span className="font-semibold text-pink-600">Weight Status:</span> {userRecords?.[0].data.results?.idealWeightStatus}</div>
+            <div className=""><span className="font-semibold text-pink-600">Body Fat (%):</span> {userRecords?.[0].data.results?.bodyFat?.["Body Fat (U.S. Navy Method)"]}</div>
+            <div className=""><span className="font-semibold text-pink-600">BMI:</span>{userRecords?.[0].data.results?.bmi}</div>
+            <div className=""><span className="font-semibold text-pink-600">Daily Calorie Need:</span> {userRecords?.[0].data.results?.calorieNeedByBodyGoal}</div>
+            <div className="" ><span className="font-semibold text-pink-600">BMR:</span> {userRecords?.[0].data.results?.calorieNeed?.BMR} kcal</div>
           </div>
         </div>
         <div className="flex h-full col-span-3 col-start-5 row-span-2 p-2 rounded-lg shadow-md bg-slate-50">
