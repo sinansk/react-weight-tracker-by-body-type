@@ -49,11 +49,7 @@ export const updateIdealMeasurements = createAsyncThunk(
     async (_, { getState, dispatch }) => {
         const { wrist, gender } = getState().user.data.personalInfo;
         const idealMeasurements = await calculateMeasurements(wrist, gender);
-        // İdeal ölçümleri güncelleyin
-        // dispatch(setIdealMeasurements(idealMeasurements));
-        // Burada farklı bir veritabanına istek gönderin veya başka bir eylem çağırabilirsiniz
-        // Örneğin: dispatch(sendIdealMeasurementsToDatabase(idealMeasurements));
-        // İşlem tamamlandığında geri dönüş değeri oluşturabilirsiniz (isteğe bağlı)
+
         console.log("IDEALMEASUREMENTS ÇALIŞTI")
         return idealMeasurements;
     }

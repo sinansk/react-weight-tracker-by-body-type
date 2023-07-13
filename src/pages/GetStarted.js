@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import BasicInfoComponent from "../components/GetStartedComponents/BasicInfoComponent";
 import BodyFatInfoComponent from "../components/GetStartedComponents/BodyFatInfoComponent";
 import BodyTypeInfoComponent from "../components/GetStartedComponents/BodyTypeInfoComponent";
-import Navbar from "../components/Navbar";
 import { useDispatch, useSelector } from "react-redux/";
 import { useNavigate } from "react-router-dom";
 import { addUserInfo } from "../firebase";
@@ -36,7 +35,7 @@ const GetStarted = () => {
       await dispatch(fetchCalorieNeed());
     }
 
-    if (e.target.name === "NEXT" && registerStep === 3) {
+    if (e.target.name === "CONFIRM" && registerStep === 3) {
       handleSubmit()
     }
   };
@@ -86,10 +85,9 @@ const GetStarted = () => {
   return (
     <>
       {/* {user.currentUser.emailVerified && ( */}
-      <div className="w-screen h-screen">
-        <Navbar />
-        <Stepper steps={5} registerStep={registerStep} setRegisterStep={setRegisterStep} onStepChange={handleStep} />
-        <div className="flex flex-col flex-1 mx-auto mt-16 lg:flex-row lg:w-1/2">
+      <div className="flex flex-col items-center justify-center w-screen h-full min-h-screen gap-10 md:h-screen md:flex ">
+        <Stepper registerStep={registerStep} setRegisterStep={setRegisterStep} onStepChange={handleStep} />
+        <div className="flex flex-col w-full lg:flex-row lg:w-1/2 lg:mt-10">
           {registerStep === 0 && (
             <>
               <GenderComponent gender={"female"} />
@@ -115,12 +113,15 @@ const GetStarted = () => {
             </>
           )}
         </div>
-        {registerStep > 0 && (
-          <ButtonPrimary name="BACK" onClick={handleStep} loading={loading} />
-        )}
-        {userGender && (
-          <ButtonPrimary name="NEXT" onClick={handleStep} loading={loading} />
-        )}
+        <div className="flex items-center justify-center gap-2">
+          {registerStep > 0 && (
+            <ButtonPrimary name="BACK" onClick={handleStep} loading={loading} />
+          )}
+          {userGender ? (
+            <ButtonPrimary name={registerStep === 3 ? "CONFIRM" : "NEXT"} onClick={handleStep} loading={loading} />
+          ) : <div className="h-[60px]"></div>}
+        </div>
+
       </div>
     </>
   );
