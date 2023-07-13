@@ -15,9 +15,9 @@ const IdealMeasurementsComponent = ({ gender }) => {
   return (
     <div
       onClick={handleGender}
-      className={`h-60 md:h-72 lg:h-96 lg:min-h-96 lg:w-1/2 lg:min-w-1/2 p-4 mx-4 mb-2 lg:mb-0 flex flex-col items-center 1 border-2 rounded-xl ${gender === "female"
-        ? `border-rose-500 text-rose-500 bg-rose-50`
-        : `border-cyan-500 text-cyan-500 bg-cyan-50`
+      className={`card ${gender === "female"
+        ? `red-card`
+        : `blue-card`
         }
           `}
     >

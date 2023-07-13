@@ -4,11 +4,11 @@ const ButtonPrimary = ({ name, onClick, loading }) => {
     return (
         <button
             onClick={onClick}
-            className="relative inline-flex items-center px-8 py-3 mx-2 overflow-hidden text-white rounded-sm sm:mt-4 bg-fuchsia-500 group active:bg-fuchsia-300 focus:outline-none focus:ring"
+            className="relative inline-flex items-center px-8 py-3 mx-2 overflow-hidden text-white bg-indigo-500 rounded-lg hover:bg-indigo-400 focus:bg-indigo-40 sm:mt-4 group active:bg-indigo-400 focus:outline-none focus:ring"
             name={name}
         >
             <span
-                className={`absolute left-0 transition-transform ${name === 'BACK' ? '-translate-x-full group-hover:translate-x-4' : 'group-hover:translate-x-4'
+                className={`absolute left-0 pointer-events-none transition-transform ${name === 'BACK' ? '-translate-x-full group-hover:translate-x-4 rotate-180' : 'group-hover:translate-x-4'
                     }`}
             >
                 <svg
@@ -22,7 +22,7 @@ const ButtonPrimary = ({ name, onClick, loading }) => {
                 </svg>
             </span>
 
-            <span className="text-sm font-medium transition-all group-hover:ml-4">
+            <span className="font-semibold transition-all pointer-events-none group-hover:ml-4">
                 {!loading ? (
                     name
                 ) : (

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux/";
 import UserInfoComponent from "../components/UserInfoComponent";
 import UserRecordsComponent from "../components/UserRecordsComponent";
@@ -29,7 +28,6 @@ const MyStats = () => {
         <LoadingComponent />
       ) : (
         <>
-          <Navbar />
           <StickyInfo />
           <UserInfoComponent />
           <UserRecordsComponent />

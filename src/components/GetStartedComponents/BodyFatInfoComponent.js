@@ -20,10 +20,11 @@ const BodyFatInfoComponent = ({ gender }) => {
 
   return (
     <div
-      className={`h-72 md:h-72 lg:h-96 lg:min-h-96 lg:w-1/2 lg:min-w-1/2 p-4 mx-4 mb-2 lg:mb-0 flex flex-col items-center 1 border-2 rounded-xl ${gender === "female"
-        ? `border-rose-500 text-rose-500 bg-rose-50`
-        : `border-cyan-500 text-cyan-500 bg-cyan-50`
-        } `}
+      className={`card ${gender === "female"
+        ? `red-card`
+        : `blue-card`
+        }
+          `}
     >
       {gender === "male" ? (
         <>
@@ -54,7 +55,7 @@ const BodyFatInfoComponent = ({ gender }) => {
             src={require(`../../assets/body-${user.data.personalInfo.gender}.png`)}
             alt="washing-hands"
           />
-          <p className="lg:text-sm">
+          <p className="font-semibold lg:text-sm">
             Please measure your neck at widest point, your chest just under your
             armpit, your arm and leg muscles at largest point, your waist over
             belly button and your hip over largest point with a tape measure.

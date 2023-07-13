@@ -149,51 +149,6 @@ const UserInfoComponent = () => {
         <div className="flex h-full col-span-3 col-start-5 row-span-2 p-2 rounded-lg shadow-md bg-slate-50">
           <MeasurementsCard title="YOUR ACTUAL MEASUREMENTS" data={userRecords?.[0].data.personalInfo} isEdiTable={true} />
           <MeasurementsCard title="YOUR IDEAL MEASUREMENTS" data={userRecords?.[0].data.idealMeasurements} isEdiTable={false} />
-          {/* <div className="flex-1">
-            <div className="flex items-center justify-center text-center">
-              <h2 className="font-bold">YOUR ACTUAL MEASUREMENTS</h2>
-              <EditButton styleProps={`ml-1 `} onClick={handleEditClick} />
-              <Modal ref={modalRef} styleProps={``}>
-                <ul className="grid">
-                  {measurements
-                    .map((key) => (
-                      <li key={key}>
-                        <span>{key}: </span>
-                        <input className="w-full h-10 px-4 font-thin transition-all duration-200 ease-in-out rounded-md outline-none peer bg-gray-50 drop-shadow-sm focus:bg-white focus:ring-2 focus:ring-blue-400" type="number" value={measurements[key]} name={key} onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))} />
-                      </li>
-                    ))}
-                </ul>
-                <button className="bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm" name="actualMeasurements" onClick={updateHandle}>UPDATE</button>
-              </Modal>
-            </div>
-            {userRecords &&
-              <ul className="grid">
-                {measurements
-                  .map((key) => (
-                    <li key={key}>
-                      <span>{key}: </span>
-                      <span>{userRecords?.[0].data.personalInfo[key]}</span>
-                    </li>
-                  ))}
-              </ul>
-            }
-          </div>
-          <div className="flex-1">
-            <h2 className="font-bold">YOUR IDEAL MEASUREMENTS</h2>
-            <div className="grid">
-              {userRecords[0]?.data.idealMeasurements &&
-                <ul className="grid">
-                  {idealMeasurements.map((key) => (
-                    <li key={key}>
-                      <span>{key}: </span>
-                      <span>{userRecords?.[0].data.idealMeasurements?.[key]}</span>
-                    </li>
-                  ))}
-                </ul>
-              }
-            </div>
-          </div> */}
-
         </div>
       </div>
     )
