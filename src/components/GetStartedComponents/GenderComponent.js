@@ -17,7 +17,7 @@ const GenderComponent = ({ gender }) => {
         ? `red-card`
         : `blue-card`
         } ${user.data.personalInfo.gender && user.data.personalInfo.gender === gender
-          ? `outline outline-3  outline-offset-2 outline-green-500`
+          ? `outline outline-3  outline-offset-2 outline-teal-500`
           : ""} `}
     >
       <>
