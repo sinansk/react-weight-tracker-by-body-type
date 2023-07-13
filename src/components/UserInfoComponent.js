@@ -108,8 +108,8 @@ const UserInfoComponent = () => {
       <LoadingComponent />
     ) : (
       <div ref={bottomRef} className="grid grid-cols-7 grid-rows-2 gap-2 p-2 mx-8 h-96">
-        <div className="row-span-2 rounded-lg shadow-md bg-slate-50 ">PHOTO</div>
-        <div className="relative col-span-3 col-start-2 row-start-1 p-2 rounded-lg shadow-md bg-slate-50">
+        <div className="row-span-2 rounded-lg shadow-md bg-cyan-400 bg-opacity-30 backdrop-filter backdrop-blur-md ">PHOTO</div>
+        <div className="relative col-span-3 col-start-2 row-start-1 p-2 bg-yellow-400 rounded-lg shadow-md bg-opacity-30 backdrop-filter backdrop-blur-md">
 
           <h2 className="font-bold h-1/5">YOUR ACTUAL INFO</h2>
           <EditButton styleProps={`absolute right-1 top-1`} onClick={handleActualInfoModal} />
@@ -135,7 +135,7 @@ const UserInfoComponent = () => {
             <div className=""><span className="font-semibold text-pink-600">Activity Level:</span> {userRecords?.[0].data.personalInfo.activityLevel}</div>
           </div>
         </div>
-        <div className="col-span-3 col-start-2 row-start-2 p-2 rounded-lg shadow-md bg-slate-50">
+        <div className="col-span-3 col-start-2 row-start-2 p-2 bg-green-500 rounded-lg shadow-md bg-opacity-30 backdrop-filter backdrop-blur-md">
           <h2 className="font-bold h-1/5">CALCULATED RESULTS</h2>
           <div className="grid grid-cols-2 p-2 text-left h-4/5">
             <div className=""><span className="font-semibold text-pink-600">Ideal Weight:</span> {userRecords?.[0].data.results?.idealWeightRange}</div>
@@ -146,7 +146,7 @@ const UserInfoComponent = () => {
             <div className="" ><span className="font-semibold text-pink-600">BMR:</span> {userRecords?.[0].data.results?.calorieNeed?.BMR} kcal</div>
           </div>
         </div>
-        <div className="flex h-full col-span-3 col-start-5 row-span-2 p-2 rounded-lg shadow-md bg-slate-50">
+        <div className="flex h-full col-span-3 col-start-5 row-span-2 p-2 bg-pink-400 rounded-lg shadow-md bg-opacity-30 backdrop-filter backdrop-blur-md">
           <MeasurementsCard title="YOUR ACTUAL MEASUREMENTS" data={userRecords?.[0].data.personalInfo} isEdiTable={true} />
           <MeasurementsCard title="YOUR IDEAL MEASUREMENTS" data={userRecords?.[0].data.idealMeasurements} isEdiTable={false} />
         </div>
