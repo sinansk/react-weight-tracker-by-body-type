@@ -35,7 +35,7 @@ const UserRecordsComponent = () => {
 
   const TableHeader = ({ columns }) => {
     return (
-      <thead className="mt-4 shadow-md bg-slate-50">
+      <thead className="sticky top-0 mt-4 shadow-md bg-slate-50">
         <tr>
           {columns.map((column) => (
             <th
