@@ -3,6 +3,7 @@ import IdealWeightComponent from "../components/IdealWeightComponent";
 import { useSelector, useDispatch } from "react-redux/";
 import { fetchIdealWeight } from "../redux/userInfoThunk";
 import ButtonPrimary from "../components/ButtonPrimary";
+import { createModal } from "../utils/modalHooks";
 
 const IdealWeight = () => {
   const dispatch = useDispatch();

@@ -98,7 +98,7 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log(user);
     store.dispatch(loginHandle(user))
-    // store.dispatch(fetchUserInfo(user.uid))
+    store.dispatch(fetchUserInfo(user.uid))
     // getUserInfo(user.uid)
   } else {
     console.log(user);

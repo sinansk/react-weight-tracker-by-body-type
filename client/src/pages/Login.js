@@ -16,6 +16,7 @@ const Login = () => {
       navigate("/mystats", {
         replace: true,
       });
+
   };
 
   return (
@@ -58,7 +59,7 @@ const Login = () => {
 
             <div className="mt-2 text-right">
               <a
-                href="#"
+                href=""
                 className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
               >
                 Forgot Password?

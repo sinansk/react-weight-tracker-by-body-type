@@ -9,7 +9,7 @@ export const userSlice = createSlice({
     data: {
       personalInfo: {
         birthDay: "29.01.1993",
-        gender: "",
+        gender: "male",
         height: 169,
         weight: 60,
         age: 29,

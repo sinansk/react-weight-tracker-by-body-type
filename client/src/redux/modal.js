@@ -1,4 +1,6 @@
+
 import { createSlice } from "@reduxjs/toolkit";
+
 
 const initialState = {
     modals: []
@@ -12,7 +14,9 @@ export const modal = createSlice({
             state.modals = [...state.modals, action.payload]
         },
         destroy: (state, action) => {
-
+            const data = [...state.modals]
+            data.pop()
+            state.modals = data
         },
         destroyAll: (state) => {
             state.modals = []
