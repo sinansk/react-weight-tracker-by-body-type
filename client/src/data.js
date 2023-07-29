@@ -140,7 +140,7 @@ export const activityLevels = [
 export const bodyGoals = [
   {
     status: "Maintain weight",
-    value: "Maintain weight",
+    value: "maintain weight",
     apiValue: "maintain",
   },
   {

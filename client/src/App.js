@@ -16,12 +16,16 @@ import AuthRoutes from "./routes/AuthRoutes";
 import WithNavbar from "./routes/WithNavbar";
 import WithOutNavbar from "./routes/WithOutNavbar";
 import CalorieTracker from "./pages/CalorieTracker";
+import Modal from "./components/modals/Modal";
+import LoadingComponent from "./components/LoadingComponent";
 
 const App = () => {
   return (
     <div className="w-full h-full min-h-screen text-center lg:h-screen bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
 
       <Toaster position="top-right" />
+      {/* <LoadingComponent /> */}
+      <Modal />
       <Router>
         <Routes>
           <Route element={<WithNavbar />}>

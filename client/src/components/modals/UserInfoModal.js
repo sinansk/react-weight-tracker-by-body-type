@@ -1,25 +1,35 @@
 import React from 'react'
-import modals from '../../modelData'
+import { createModal } from '../../utils/modalHooks'
+import SelectInput from '../SelectInput'
+import { activityLevels, ages, bodyGoals, bodyTypes, heights, weights } from '../../data'
+import useUpdateUserInfo from '../../utils/useUpdateUserInfo'
 
-const UserInfoModal = () => {
+const UserInfoModal = (data) => {
+
+    const updateUserInfo = useUpdateUserInfo()
+    const handleUpdate = async () => {
+        if (data.data?.willOpenModal) {
+            createModal("MeasurementsModal", {
+                willOpenModal: false
+            })
+
+        } else {
+            console.log("update yapacağım")
+            updateUserInfo()
+            // await update()
+        }
+    }
+
     return (
-        <>
-            <div
-
-                className="fixed inset-0 z-40 flex items-center justify-center bg-gray-900 cursor-pointer opacity-80"
-            />
-            <div
-                className={` fixed sm:no-scrollbar overflow-y-scroll overflow-visible sm:overflow-scroll top-12 right-12 left-12 bottom-12 w-[80vw] z-50 max-h-[80vh]  rounded-md border-[0.5px] bg-white dark:bg-gray-700 dark:text-slate-200 border-gray-400 shadow-lg m-auto`}
-            >
-                <button
-
-                    className="flex btn rounded-sm ml-auto z-50 px-2.5 py-1 border-[1px] border-orange-400 dark:border-cyan-400 text-white bg-orange-500/90 dark:bg-cyan-500/90 dark:hover:bg-cyan-500/80 hover:bg-orange-500/80 border-orange-500-70 hover:text-white fixed top-0 right-0 sm:sticky sm:top-0 sm:-right-3"
-                >
-                    X
-                </button>
-                <div className="grid w-full h-full" ></div>
-            </div>
-        </>
+        <div className="grid grid-cols-2 gap-2 h-4/5  sm:w-80">
+            <div><SelectInput options={ages} label="Age," name="age" /></div>
+            <div><SelectInput options={bodyTypes} label="My fingers are," name="bodyType" /></div>
+            <div><SelectInput options={heights} label="Height" name="height" /></div>
+            <div><SelectInput options={activityLevels} label="Activity Level:" name="activityLevel" /> </div>
+            <div><SelectInput options={weights} label="Weight" name="weight" /></div>
+            <div><SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" /></div>
+            <button className="h-10 mt-5 col-span-2 bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm" onClick={handleUpdate} >UPDATE</button>
+        </div>
     )
 }
 

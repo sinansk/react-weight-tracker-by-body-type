@@ -1,54 +1,35 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import EditButton from './EditButton'
-import Modal from './Modal.js'
-import { setInput } from '../redux/userRedux'
-import { useDispatch } from "react-redux"
+import { createModal } from '../utils/modalHooks'
 
-const MeasurementsCard = ({ name, handleUpdate, title, data, isEdiTable }) => {
+const MeasurementsCard = ({ title, data, isEdiTable }) => {
+
     const handleEditClick = () => {
-        modalRef.current.openModal()
+        createModal("MeasurementsModal", {
+            willOpenModal: true
+        })
     }
-    const modalRef = useRef();
-    console.log("data,", data)
-    const measurements = Object.keys(data).filter((key) =>
-        ["arm", "calve", "chest", "forearm", "hip", "neck", "shoulder", "thigh", "waist"].includes(key)
-    ).sort()
-    console.log("measurements,", measurements)
-    const dispatch = useDispatch()
-    ///TEST//
 
+    const measurements = Object.keys(data).filter((key) =>
+        ["arm", "calve", "chest", "forearm", "wrist", "hip", "neck", "shoulder", "thigh", "waist"].includes(key)
+    ).sort()
 
     return (
         <div className="items-center justify-center flex-1 text-center">
             <div className="flex items-center justify-center text-center">
                 <h2 className="font-bold">{title}</h2>
                 {isEdiTable &&
-                    <>
-                        <EditButton styleProps={`ml-1 absolute right-1 top-1`} onClick={handleEditClick} />
-                        <Modal ref={modalRef} styleProps={`w-96 max-h-fit`}>
-                            <ul className="grid gap-2">
-                                {measurements
-                                    .map((key) => (
-                                        <li key={key}>
-                                            <span>{key}: </span>
-                                            <input className="w-full h-10 px-4 font-thin transition-all duration-200 ease-in-out rounded-md outline-none peer bg-gray-50 drop-shadow-sm focus:bg-white focus:ring-2 focus:ring-blue-400" type="number" value={measurements[key]} name={key} onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))} />
-                                        </li>
-                                    ))}
-                            </ul>
-                            <button name={name} onClick={handleUpdate} className="h-10 mt-5 font-semibold text-center grid content-center bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm" name="actualMeasurements" >RECALCULATE</button>
-                        </Modal>
-                    </>
+                    <EditButton styleProps={`ml-1 absolute right-1 top-1`} onClick={handleEditClick} size={20} />
                 }
             </div>
             {data &&
                 <ul className="grid mt-4 uppercase">
-                    {measurements
-                        .map((key) => (
-                            <li key={key}>
-                                <span className='font-semibold text-cyan-600'>{key}: </span>
-                                <span className=''>{data[key]}</span>
-                            </li>
-                        ))}
+                    {measurements?.map((key) => (
+                        <li key={key}>
+                            <span className='font-semibold text-cyan-600'>{key}: </span>
+                            <span className=''>{data[key] + ` cm`}</span>
+                        </li>
+                    ))}
                 </ul>
             }
         </div>

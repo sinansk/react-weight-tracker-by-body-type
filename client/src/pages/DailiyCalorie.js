@@ -11,9 +11,7 @@ const DailiyCalorie = () => {
   const calorieNeed = user.data.results?.calorieNeed;
   const calorieNeedByBodyGoal = user.data.results?.calorieNeedByBodyGoal
   const dispatch = useDispatch();
-
   const [loading, setLoading] = useState(false);
-
 
   const makeRequest = async (e) => {
     e.preventDefault();
@@ -21,7 +19,6 @@ const DailiyCalorie = () => {
     await dispatch(fetchCalorieNeed())
     setLoading(false)
   }
-
 
   return (
     <div className="flex flex-col items-center justify-center w-screen overflow-hidden lg:h-[calc(100vh-62px)]">
