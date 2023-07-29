@@ -18,9 +18,7 @@ const MeasurementsModal = (data) => {
                 willOpenModal: false
             })
         } else {
-            console.log("update yapacağım")
             updateUserInfo()
-            // await update()
         }
     }
 

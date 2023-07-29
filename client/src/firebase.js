@@ -96,12 +96,10 @@ export const logOut = async () => {
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    console.log(user);
     store.dispatch(loginHandle(user))
     store.dispatch(fetchUserInfo(user.uid))
     // getUserInfo(user.uid)
   } else {
-    console.log(user);
     store.dispatch(logoutHandle());
   }
 });
@@ -124,7 +122,7 @@ export const getUserInfo = (uid) => {
           id: doc.id, // Belge kimliği
           data: doc.data() // Belge verisi
         })).sort((a, b) => b.data.date - a.data.date);
-        console.log("Current data: ", data);
+
         unsubscribe(); // Unsubscribe from further updates
         resolve(data);
       },

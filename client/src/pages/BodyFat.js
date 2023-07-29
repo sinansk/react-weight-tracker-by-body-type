@@ -8,7 +8,6 @@ const BodyFat = () => {
   const user = useSelector((state) => state.user);
   const userGender = user.data.personalInfo.gender;
   const bodyFat = user.data.results.bodyFat;
-  console.log(bodyFat);
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);

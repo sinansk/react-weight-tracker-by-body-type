@@ -8,7 +8,6 @@ export const fetchUserInfo = createAsyncThunk(
         try {
             const { uid } = getState().user.currentUser;
             const data = await getUserInfo(uid);
-            console.log(data)
             return data;
         } catch (error) {
             throw new Error(error.message);
@@ -21,7 +20,6 @@ export const deleteRecord = createAsyncThunk(
     async (id) => {
         try {
             const data = await deleteRecord(id);
-            console.log(data)
             return data;
         } catch (error) {
             throw new Error(error.message);

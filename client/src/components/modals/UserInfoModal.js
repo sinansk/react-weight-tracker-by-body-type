@@ -12,11 +12,8 @@ const UserInfoModal = (data) => {
             createModal("MeasurementsModal", {
                 willOpenModal: false
             })
-
         } else {
-            console.log("update yapacağım")
             updateUserInfo()
-            // await update()
         }
     }
 
@@ -28,7 +25,7 @@ const UserInfoModal = (data) => {
             <div><SelectInput options={activityLevels} label="Activity Level:" name="activityLevel" /> </div>
             <div><SelectInput options={weights} label="Weight" name="weight" /></div>
             <div><SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" /></div>
-            <button className="h-10 mt-5 col-span-2 bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm" onClick={handleUpdate} >UPDATE</button>
+            <button className="h-10 mt-5 col-span-2 font-semibold text-center grid content-center bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm" onClick={handleUpdate} >UPDATE</button>
         </div>
     )
 }
