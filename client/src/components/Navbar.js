@@ -67,7 +67,7 @@ const Navbar = () => {
             </ul>
           </div>
         </section>
-        <div className="items-center hidden mb-2 bg-transparent md:min-h-8 md:py-1 xl:px-10 lg:w-screen lg:flex sm:flex-1 justify-evenly">
+        <div className="items-center hidden mb-2 bg-transparent md:min-h-8 md:py-1 xl:px-10 lg:w-screen lg:flex sm:flex-1 justify-evenly transition-all-900">
           {NavLinks.map(({ path, text }, index) => (
             <NavLink
               key={index}

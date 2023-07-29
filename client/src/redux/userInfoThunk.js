@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { publicRequest } from "../requestMethods";
 import { calculateMeasurements } from "../utils/calculateMeasurements";
-import { setIdealMeasurements } from "./userRedux";
 import { convertActivityLevel } from "../utils/convertActivityLevel";
 
 export const fetchIdealWeight = createAsyncThunk(
@@ -14,7 +13,7 @@ export const fetchIdealWeight = createAsyncThunk(
         const sortedValues = Object.values(response.data.data)
             .map((item) => item)
             .sort((a, b) => a - b);
-        console.log("IDEALWEİGHT ÇALIŞTI")
+
         return sortedValues;
     }
 );
@@ -26,7 +25,7 @@ export const fetchBodyFat = createAsyncThunk(
         const response = await publicRequest.get(
             `/bodyfat?age=${age}&gender=${gender}&weight=${weight}&height=${height}&neck=${neck}&waist=${waist}&hip=${hip}`
         );
-        console.log("BODYFAT ÇALIŞTI")
+
         return response.data.data;
     }
 );
@@ -39,7 +38,7 @@ export const fetchCalorieNeed = createAsyncThunk(
         const response = await publicRequest.get(
             `/dailycalorie?age=${age}&gender=${gender}&height=${height}&weight=${weight}&activitylevel=${activityLevelApiValue}`
         );
-        console.log("CALORİENEED ÇALIŞTI")
+
         return response.data.data;
     }
 );
@@ -50,7 +49,6 @@ export const updateIdealMeasurements = createAsyncThunk(
         const { wrist, gender } = getState().user.data.personalInfo;
         const idealMeasurements = await calculateMeasurements(wrist, gender);
 
-        console.log("IDEALMEASUREMENTS ÇALIŞTI")
         return idealMeasurements;
     }
 );

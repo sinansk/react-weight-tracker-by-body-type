@@ -94,7 +94,7 @@ const UserRecordsComponent = () => {
   return (
 
     <div className="container z-20 h-screen mx-auto mt-5 overflow-auto no-scrollbar ">
-      <table className="min-w-full divide-y divide-gray-200 selection:bg-pink-700 selection:text-white">
+      <table className="min-w-full divide-y divide-gray-200 ">
         <TableHeader columns={columns} />
         <tbody className="bg-white divide-y divide-gray-200 text-slate-700">
           <AnimatePresence>

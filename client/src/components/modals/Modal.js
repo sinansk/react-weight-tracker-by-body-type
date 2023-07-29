@@ -6,7 +6,6 @@ import { useState, forwardRef, useImperativeHandle } from "react";
 
 const Modal = forwardRef((props, ref) => {
     const modals = useModals()
-    console.log(modals)
     const [isOpen, setIsOpen] = useState(false);
 
     useImperativeHandle(ref, () => {
@@ -43,9 +42,7 @@ const Modal = forwardRef((props, ref) => {
                     X
                 </button>
                 <div className="grid w-full h-full p-10" >{modals?.map(modal => {
-                    console.log(modal, "modal")
                     const currentModal = modalData.find(m => m.name === modal.name)
-                    console.log("currentModal", currentModal)
                     return <div className='hidden last:block'>
                         <currentModal.element data={modal.data} />
                     </div>

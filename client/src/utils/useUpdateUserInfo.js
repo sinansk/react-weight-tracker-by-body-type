@@ -12,14 +12,12 @@ const useUpdateUserInfo = () => {
   const user = useSelector((state) => state.user)
   const updateUserInfo = async () => {
     try {
-      console.log(dataFetchingCompleted, "dataFetchingCompleted ilk")
       await Promise.all([
         dispatch(fetchIdealWeight()),
         dispatch(fetchCalorieNeed()),
         dispatch(fetchBodyFat()),
         dispatch(updateIdealMeasurements()),
       ]);
-
       setDataFetchingCompleted(true);
     } catch (err) {
       console.log(err);
@@ -27,7 +25,6 @@ const useUpdateUserInfo = () => {
   };
 
   const userInfoToDB = useCallback(async () => {
-    console.log(dataFetchingCompleted, "dataFetchingCompleted 3")
     await addUserInfo({
       date: serverTimestamp(),
       uid: user.currentUser.uid,
@@ -35,13 +32,12 @@ const useUpdateUserInfo = () => {
       idealMeasurements: user.data?.idealMeasurements,
       results: user.data?.results,
     });
-
     // Reset the flag to false after the data is saved to the database
     setDataFetchingCompleted(false);
     dispatch(fetchUserInfo(user.currentUser.uid));
     destroyAllModal()
 
-  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results, dataFetchingCompleted]);
+  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results]);
 
   useEffect(() => {
     if (dataFetchingCompleted) {
