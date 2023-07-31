@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/sinansk/react-weight-tracker-by-body-type#readme",
   "dependencies": {
+    "axios": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "nodemon": "^3.0.1",
     "request": "^2.88.2"
   }
 }
