@@ -21,7 +21,7 @@ import LoadingComponent from "./components/LoadingComponent";
 
 const App = () => {
   return (
-    <div className="w-full h-full min-h-screen text-center lg:h-screen bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
+    <div className="w-full min-h-screen text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
 
       <Toaster position="top-right" />
       {/* <LoadingComponent /> */}
