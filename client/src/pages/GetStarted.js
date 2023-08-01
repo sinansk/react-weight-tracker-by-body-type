@@ -10,7 +10,7 @@ import GenderComponent from "../components/GetStartedComponents/GenderComponent"
 import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, updateIdealMeasurements } from "../redux/userInfoThunk";
 import { fetchUserInfo } from "../redux/userRecordsThunk";
 import Stepper from "../components/Stepper";
-import ButtonPrimary from "../components/ButtonPrimary";
+import StepButton from "../components/StepButton";
 const GetStarted = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -115,10 +115,10 @@ const GetStarted = () => {
         </div>
         <div className="flex items-center justify-center gap-2">
           {registerStep > 0 && (
-            <ButtonPrimary name="BACK" onClick={handleStep} loading={loading} />
+            <StepButton name="BACK" onClick={handleStep} loading={loading} />
           )}
           {userGender ? (
-            <ButtonPrimary name={registerStep === 3 ? "CONFIRM" : "NEXT"} onClick={handleStep} loading={loading} />
+            <StepButton name={registerStep === 3 ? "CONFIRM" : "NEXT"} onClick={handleStep} loading={loading} />
           ) : <div className="h-[60px]"></div>}
         </div>
 
