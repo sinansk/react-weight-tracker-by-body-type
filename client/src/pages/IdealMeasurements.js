@@ -2,7 +2,7 @@ import { useState } from "react";
 import IdealMeasurementsComponent from "../components/IdealMeasurementsComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { updateIdealMeasurements } from "../redux/userInfoThunk";
-import ButtonPrimary from "../components/ButtonPrimary";
+import StepButton from "../components/StepButton";
 const IdealMeasurements = () => {
   const user = useSelector((state) => state.user);
   const userGender = user.data?.personalInfo.gender;
@@ -69,7 +69,7 @@ const IdealMeasurements = () => {
         <IdealMeasurementsComponent gender={"male"} />
       </div>
       {userGender ? (
-        <ButtonPrimary onClick={calculateMeasurements} loading={loading} name="CALCULATE" />
+        <StepButton onClick={calculateMeasurements} loading={loading} name="CALCULATE" />
       ) : <div className="h-[60px]"></div>}
     </div>
   );

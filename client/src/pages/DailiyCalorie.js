@@ -2,7 +2,7 @@ import { useState } from "react";
 import DailyCalorieComponent from "../components/DailyCalorieComponent";
 import { useDispatch, useSelector } from "react-redux/";
 import { fetchCalorieNeed } from "../redux/userInfoThunk";
-import ButtonPrimary from "../components/ButtonPrimary";
+import StepButton from "../components/StepButton";
 
 const DailiyCalorie = () => {
   const user = useSelector((state) => state.user);
@@ -73,7 +73,7 @@ const DailiyCalorie = () => {
         <DailyCalorieComponent gender={"male"} />
       </div>
       {userGender ? (
-        <ButtonPrimary onClick={makeRequest} loading={loading} name="CALCULATE" />
+        <StepButton onClick={makeRequest} loading={loading} name="CALCULATE" />
       ) : <div className="h-[60px]"></div>}
     </div>
   );
