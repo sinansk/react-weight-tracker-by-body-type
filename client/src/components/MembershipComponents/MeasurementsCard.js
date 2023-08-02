@@ -1,12 +1,12 @@
 import React from 'react'
-import EditButton from './EditButton'
-import { createModal } from '../utils/modalHooks'
+import { createModal } from '../../utils/modalHooks'
+import EditButton from '../CommonComponents/EditButton'
 
 const MeasurementsCard = ({ title, data, isEdiTable }) => {
 
     const handleEditClick = () => {
         createModal("MeasurementsModal", {
-            willOpenModal: true
+            willOpenModal: "UserInfoModal"
         })
     }
 

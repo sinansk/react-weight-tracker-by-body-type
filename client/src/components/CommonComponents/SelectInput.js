@@ -1,5 +1,5 @@
 import React from 'react'
-import { setInput, userInfoSelector } from '../redux/userRedux';
+import { setInput, userInfoSelector } from '../../redux/userRedux';
 import { useDispatch, useSelector } from 'react-redux';
 
 const SelectInput = (props) => {

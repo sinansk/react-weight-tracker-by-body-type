@@ -1,7 +1,7 @@
 import { heights, bodyTypes, weights } from "../data";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGender, setInput } from "../redux/userRedux";
-import SelectInput from "./SelectInput";
+import SelectInput from "./CommonComponents/SelectInput";
 
 const IdealWeightComponent = ({ gender }) => {
   const dispatch = useDispatch();

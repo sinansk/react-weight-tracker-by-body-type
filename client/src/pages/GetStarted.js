@@ -9,8 +9,9 @@ import { serverTimestamp } from "firebase/firestore";
 import GenderComponent from "../components/GetStartedComponents/GenderComponent";
 import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, updateIdealMeasurements } from "../redux/userInfoThunk";
 import { fetchUserInfo } from "../redux/userRecordsThunk";
-import Stepper from "../components/Stepper";
-import StepButton from "../components/StepButton";
+import StepButton from "../components/GetStartedComponents/StepButton";
+import Stepper from "../components/GetStartedComponents/Stepper";
+
 const GetStarted = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

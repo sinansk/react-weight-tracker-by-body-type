@@ -2,7 +2,7 @@ import { useState } from "react";
 import IdealWeightComponent from "../components/IdealWeightComponent";
 import { useSelector, useDispatch } from "react-redux/";
 import { fetchIdealWeight } from "../redux/userInfoThunk";
-import StepButton from "../components/StepButton";
+import ButtonPrimary from "../components/CommonComponents/ButtonPrimary";
 
 const IdealWeight = () => {
   const dispatch = useDispatch();
@@ -68,7 +68,7 @@ const IdealWeight = () => {
         <IdealWeightComponent gender={"male"} />
       </div>
       {userGender ? (
-        <StepButton onClick={makeRequest} loading={loading} name="CALCULATE" />
+        <ButtonPrimary onClick={makeRequest} className="mt-4" loading={loading} name="CALCULATE" />
       ) : <div className="h-[60px]"></div>}
     </div>
   );

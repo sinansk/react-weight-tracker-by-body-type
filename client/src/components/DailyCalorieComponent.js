@@ -1,7 +1,7 @@
 import { heights, weights, ages, bodyGoals, activityLevels } from "../data";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGender } from "../redux/userRedux";
-import SelectInput from "./SelectInput";
+import SelectInput from "./CommonComponents/SelectInput";
 
 const DailyCalorieComponent = ({ gender }) => {
   const dispatch = useDispatch();

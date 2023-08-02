@@ -2,7 +2,7 @@ import BodyFatComponent from "../components/BodyFatComponent";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux/";
 import { fetchBodyFat } from "../redux/userInfoThunk";
-import StepButton from "../components/StepButton";
+import ButtonPrimary from "../components/CommonComponents/ButtonPrimary";
 
 const BodyFat = () => {
   const user = useSelector((state) => state.user);
@@ -69,7 +69,7 @@ const BodyFat = () => {
         <BodyFatComponent gender={"male"} />
       </div>
       {userGender ? (
-        <StepButton onClick={makeRequest} loading={loading} name="CALCULATE" />
+        <ButtonPrimary onClick={makeRequest} className="mt-4" loading={loading} name="CALCULATE" />
       ) : <div className="h-[60px]"></div>}
     </div>
   );

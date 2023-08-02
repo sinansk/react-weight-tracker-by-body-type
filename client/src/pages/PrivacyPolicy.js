@@ -1,10 +1,9 @@
 import React from 'react'
 import "./privacy.css"
-import Navbar from '../components/Navbar'
+
 const PrivacyPolicy = () => {
     return (
         <div className='w-screen max-h-full'>
-            <Navbar />
             <div className='p-10 ml-auto mr-auto text-left md:w-3/5'>
                 <h1>Privacy Policy</h1>
                 <p>Last updated: April 01, 2023</p>

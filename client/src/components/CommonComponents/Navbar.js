@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout as logoutHandle } from "../redux/userRedux";
-import { logOut } from "../firebase";
+import { logout as logoutHandle } from "../../redux/userRedux";
+import { logOut } from "../../firebase";
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -25,7 +25,7 @@ const Navbar = () => {
     { path: "/dailycalorie", text: "DAILY CALORIE" },
     { path: "/idealmeasurements", text: "IDEAL MEASUREMENTS" },
     ...(currentUser
-      ? [{ path: "/mystats", text: "MY STATS" }]
+      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER" }, { path: "/mystats", text: "MY STATS" }]
       : [
         { path: "/register", text: "REGISTER" },
         { path: "/login", text: "LOGIN" },

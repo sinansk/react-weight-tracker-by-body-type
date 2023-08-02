@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import moment from 'moment';
-import { deleteRecord } from "../firebase";
-import DeleteButton from "./DeleteButton";
-import { motion, AnimatePresence } from "framer-motion";
+import { deleteRecord } from "../../firebase";
+import { motion, AnimatePresence, usePresence } from "framer-motion";
 import { RiWaterPercentFill } from "react-icons/ri"
 import { ImSpoonKnife } from "react-icons/im"
 import { FaWeightScale } from "react-icons/fa6"
 import { LuActivity } from "react-icons/lu"
 import { GiStairsGoal, GiMuscleFat, GiMuscleUp } from "react-icons/gi"
-import CollapseButton from "./CollapseButton";
+import DeleteButton from "../CommonComponents/DeleteButton";
+import CollapseButton from "../CommonComponents/CollapseButton";
+
 
 const UserRecordsComponent = () => {
   const [deletedRowIds, setDeletedRowIds] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);
   const userRecords = useSelector((state) => state.userRecords?.records)
   const currentUser = useSelector((state) => state.user.currentUser)
+  const [isPresent, safeToRemove] = usePresence()
   const handleDelete = async (id) => {
     await deleteRecord(currentUser.uid, id)
     setDeletedRowIds([...deletedRowIds, id]);
@@ -58,6 +60,23 @@ const UserRecordsComponent = () => {
     };
   });
 
+  const columns = [
+    { id: "date", label: "Date" },
+    { id: "weight", label: "Weight" },
+    { id: "bodyFat", label: "Body Fat" },
+    { id: "arm", label: "Arm" },
+    { id: "calve", label: "Calve" },
+    { id: "chest", label: "Chest" },
+    { id: "foreArm", label: "Forearm" },
+    { id: "hip", label: "Hip" },
+    { id: "neck", label: "Neck" },
+    { id: "shoulder", label: "Shoulder" },
+    { id: "thigh", label: "Thigh" },
+    { id: "waist", label: "Waist" },
+    { id: "wrist", label: "Wrist" },
+    { id: "actions", label: "Actions" },
+  ];
+
   const TableHeader = ({ columns }) => {
     return (
       <thead className="sticky top-0 left-0 right-0 z-40 mt-4 shadow-md bg-slate-50">
@@ -75,22 +94,6 @@ const UserRecordsComponent = () => {
     );
   };
 
-  const columns = [
-    { id: "date", label: "Date" },
-    { id: "weight", label: "Weight" },
-    { id: "bodyFat", label: "Body Fat" },
-    { id: "arm", label: "Arm" },
-    { id: "calve", label: "Calve" },
-    { id: "chest", label: "Chest" },
-    { id: "foreArm", label: "Forearm" },
-    { id: "hip", label: "Hip" },
-    { id: "neck", label: "Neck" },
-    { id: "shoulder", label: "Shoulder" },
-    { id: "thigh", label: "Thigh" },
-    { id: "waist", label: "Waist" },
-    { id: "wrist", label: "Wrist" },
-    { id: "actions", label: "Actions" },
-  ];
   return (
 
     <div className="container z-20 h-screen mx-auto mt-5 overflow-auto no-scrollbar ">

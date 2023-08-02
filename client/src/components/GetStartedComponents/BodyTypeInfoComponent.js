@@ -1,7 +1,7 @@
 import React from "react";
 import { bodyTypes, bodyGoals } from "../../data";
-import SelectInput from "../SelectInput";
 import { useSelector } from "react-redux"
+import SelectInput from "../CommonComponents/SelectInput";
 const BodyTypeInfoComponent = ({ gender }) => {
   const user = useSelector((state) => state.user);
   const userGender = user.data.personalInfo.gender;

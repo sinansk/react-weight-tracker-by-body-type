@@ -14,9 +14,7 @@ const MeasurementsModal = (data) => {
 
     const handleUpdate = async () => {
         if (data.data?.willOpenModal) {
-            createModal("UserInfoModal", {
-                willOpenModal: false
-            })
+            createModal(data.data.willOpenModal)
         } else {
             updateUserInfo()
         }
@@ -32,7 +30,7 @@ const MeasurementsModal = (data) => {
                     </li>
                 ))}
             </ul>
-            <button onClick={handleUpdate} className="h-10 mt-5 w-full font-semibold text-center grid content-center bg-indigo-700 px-1 py-2.5 text-white hover:bg-indigo-500 rounded-sm">UPDATE</button>
+            <button onClick={handleUpdate} className="h-10 mt-5 w-full font-semibold text-center grid content-center bg-pink-700 px-1 py-2.5 text-white hover:bg-pink-500 rounded-sm">UPDATE</button>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectGender,
 } from "../redux/userRedux";
-import SelectInput from "./SelectInput";
+import SelectInput from "./CommonComponents/SelectInput";
 
 const BodyFatComponent = ({ gender }) => {
   const user = useSelector((state) => state.user);

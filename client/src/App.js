@@ -17,7 +17,7 @@ import WithNavbar from "./routes/WithNavbar";
 import WithOutNavbar from "./routes/WithOutNavbar";
 import CalorieTracker from "./pages/CalorieTracker";
 import Modal from "./components/modals/Modal";
-import LoadingComponent from "./components/LoadingComponent";
+import LoadingComponent from "./components/CommonComponents/LoadingComponent";
 
 const App = () => {
   return (

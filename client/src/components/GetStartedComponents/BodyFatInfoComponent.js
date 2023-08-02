@@ -12,7 +12,7 @@ import {
   thigh,
   calve,
 } from "../../data";
-import SelectInput from "../SelectInput";
+import SelectInput from "../CommonComponents/SelectInput";
 
 const BodyFatInfoComponent = ({ gender }) => {
 

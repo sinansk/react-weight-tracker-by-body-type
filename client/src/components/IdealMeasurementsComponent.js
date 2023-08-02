@@ -1,7 +1,7 @@
 import { wrist } from "../data";
 import { selectGender } from "../redux/userRedux";
 import { useSelector, useDispatch } from "react-redux";
-import SelectInput from "./SelectInput";
+import SelectInput from "./CommonComponents/SelectInput";
 
 const IdealMeasurementsComponent = ({ gender }) => {
   const user = useSelector((state) => state.user);

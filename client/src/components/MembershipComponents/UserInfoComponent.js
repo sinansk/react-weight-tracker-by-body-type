@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import EditButton from "./EditButton";
-import LoadingComponent from "./LoadingComponent";
 import MeasurementsCard from "./MeasurementsCard";
-import { createModal } from "../utils/modalHooks";
+import { createModal } from "../../utils/modalHooks";
 import moment from "moment";
+import LoadingComponent from "../CommonComponents/LoadingComponent";
+import EditButton from "../CommonComponents/EditButton";
 
 const UserInfoComponent = () => {
   const user = useSelector((state) => state.user)
@@ -81,7 +81,7 @@ const UserInfoComponent = () => {
 
         <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 p-2 font-mono bg-yellow-400 rounded-lg shadow-md bg-opacity-30 backdrop-filter backdrop-blur-md">
           <h2 className="font-bold h-1/5">YOUR ACTUAL INFO</h2>
-          <EditButton styleProps={`absolute right-1 top-1`} onClick={() => createModal("UserInfoModal", { willOpenModal: true })} size={20} />
+          <EditButton styleProps={`absolute right-1 top-1`} onClick={() => createModal("UserInfoModal", { willOpenModal: "MeasurementsModal" })} size={20} />
           <div className="grid grid-cols-2 p-2 text-left h-4/5">
             <div className=""><span className="font-semibold text-pink-600">Age:</span> {userRecords?.[0].data.personalInfo.age}</div>
             <div className=""><span className="font-semibold text-pink-600">Body Type:</span> {userRecords?.[0].data.personalInfo.bodyType} </div>

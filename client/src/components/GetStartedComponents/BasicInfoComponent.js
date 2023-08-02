@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { heights, weights, activityLevels, ages } from "../../data";
 import "react-datepicker/dist/react-datepicker.css";
-import SelectInput from "../SelectInput";
+import SelectInput from "../CommonComponents/SelectInput";
 
 const BasicInfoComponent = ({ gender }) => {
   const user = useSelector((state) => state.user);
