@@ -11,7 +11,7 @@ const UserInfoComponent = () => {
   console.log(user)
   const userRecords = useSelector((state) => state.userRecords?.records)
   console.log("userRecords", userRecords)
-  const measurements = Object.keys(userRecords?.[0].data.personalInfo).filter((key) =>
+  const measurements = Object.keys(userRecords?.[0].data?.personalInfo).filter((key) =>
     ["arm", "calve", "chest", "foreArm", "hip", "neck", "shoulder", "thigh", "waist"].includes(key)
   ).sort()
 

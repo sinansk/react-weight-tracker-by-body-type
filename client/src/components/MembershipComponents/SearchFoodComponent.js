@@ -6,6 +6,8 @@ import { toast } from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import SearchComponent from '../SearchComponent';
 import { addToDiary } from '../../redux/userDiary';
+import { saveDailyCalorie } from '../../redux/userDiaryThunk';
+import { addDailyCalorie } from '../../firebase';
 
 const SearchFoodComponent = ({ className }) => {
     const [searchFoodInput, setSearchFoodInput] = useState();
@@ -13,6 +15,7 @@ const SearchFoodComponent = ({ className }) => {
     const [responseList, setResponseList] = useState(null)
     const [editedAmount, setEditedAmount] = useState({});
     const [isLoading, setIsLoading] = useState(false)
+    const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
     const dispatch = useDispatch()
     const inputRefs = {}
 
@@ -91,26 +94,40 @@ const SearchFoodComponent = ({ className }) => {
 
     const handleDiary = (foodItem) => {
         const amount = getAmountForDiary(foodItem.food_id, formatAmountValue(foodItem.food_description.amount).value);
-        const food = {
+        const food_detail = {
+            food_id: foodItem.food_id,
+            food_name: foodItem.food_name,
+            brand_name: foodItem?.brand_name ?? null,
+            amount: amount + formatAmountValue(foodItem.food_description.amount).unit, // Öğe ağırlığını günlüğe ekliyoruz
+            calories: (parseFloat(foodItem.food_description.calories) * parseFloat(amount) / 100).toFixed(2) + "kcal",
+            fat: (parseFloat(foodItem.food_description.fat) * parseFloat(amount) / 100).toFixed(2) + "g",
+            carbs: (parseFloat(foodItem.food_description.carbs) * parseFloat(amount) / 100).toFixed(2) + "g",
+            protein: (parseFloat(foodItem.food_description.protein) * parseFloat(amount) / 100).toFixed(2) + "g",
 
-            food_detail: {
-                food_id: foodItem.food_id,
-                food_name: foodItem.food_name,
-                brand_name: foodItem.brand_name,
-                amount: amount + formatAmountValue(foodItem.food_description.amount).unit, // Öğe ağırlığını günlüğe ekliyoruz
-                calories: (parseFloat(foodItem.food_description.calories) * parseFloat(amount) / 100).toFixed(2) + "kcal",
-                fat: (parseFloat(foodItem.food_description.fat) * parseFloat(amount) / 100).toFixed(2) + "g",
-                carbs: (parseFloat(foodItem.food_description.carbs) * parseFloat(amount) / 100).toFixed(2) + "g",
-                protein: (parseFloat(foodItem.food_description.protein) * parseFloat(amount) / 100).toFixed(2) + "g",
-            }
         }
-        dispatch(addToDiary(food))
+        // dispatch(addToDiary(food))
+        addDailyCalorie({
+            uid: currentUser.uid,
+            food: food_detail
+        })
+
         toast.success(`You have added ${foodItem.food_name} in your diary!`)
     };
 
     useEffect(() => {
         console.log(responseList)
     }, [responseList])
+
+    // useEffect(() => {
+    //     if (calorieDiary.length > 0) {
+    //         console.log(calorieDiary)
+    //         addDailyCalorie({
+    //             uid: currentUser.uid,
+    //             calorieDiary: calorieDiary
+    //         })
+    //     }
+    // }, [calorieDiary, currentUser]);
+
     return (
         <div className={`${className} py-10 w-full`}>
             <SearchComponent value={searchFoodInput} onChange={handleInputChange} placeholder="Search food..." onButtonClick={handleSearch} loading={isLoading} />
@@ -137,10 +154,10 @@ const SearchFoodComponent = ({ className }) => {
                                 />
                                 <span className="ml-1">{formatAmountValue(item.food_description.amount).unit}</span>
                             </div>
-                            | Calories: {parseFloat(item.food_description.calories) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100}kcal |
-                            Fat: {parseFloat(item.food_description.fat) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100}g |
-                            Carbs: {parseFloat(item.food_description.carbs) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100}g |
-                            Protein: {parseFloat(item.food_description.protein) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100}g
+                            | Calories: {(parseFloat(item.food_description.calories) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}kcal |
+                            Fat: {(parseFloat(item.food_description.fat) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}g |
+                            Carbs: {(parseFloat(item.food_description.carbs) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}g |
+                            Protein: {(parseFloat(item.food_description.protein) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}g
                             {currentUser &&
                                 <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd size={20} className='hover:text-pink-400' title="Add To Diary" aria-label='Add To Diary' /></button>
                             }

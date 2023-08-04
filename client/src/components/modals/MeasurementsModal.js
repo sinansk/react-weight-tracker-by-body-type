@@ -21,6 +21,8 @@ const MeasurementsModal = (data) => {
     }
 
     return (
+
+        userPersonalInfo &&
         <div className=''>
             <ul className="grid gap-2">
                 {measurements?.map((key) => (
@@ -32,6 +34,7 @@ const MeasurementsModal = (data) => {
             </ul>
             <button onClick={handleUpdate} className="h-10 mt-5 w-full font-semibold text-center grid content-center bg-pink-700 px-1 py-2.5 text-white hover:bg-pink-500 rounded-sm">UPDATE</button>
         </div>
+
     )
 }
 

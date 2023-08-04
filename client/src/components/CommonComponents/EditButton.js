@@ -5,7 +5,7 @@ const EditButton = (props) => {
 
     return (
         <button onClick={props.onClick} className={` ${props.styleProps}`}>
-            <RiEditBoxLine className='hover:text-gray-700' title="Edit" aria-label="Edit" size={props.size} />
+            <RiEditBoxLine className={`${props.className} hover:text-gray-700`} title="Edit" aria-label="Edit" size={props.size} />
         </button>
     );
 };

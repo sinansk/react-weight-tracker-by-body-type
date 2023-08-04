@@ -50,6 +50,7 @@ export const userSlice = createSlice({
     },
     logout: (state) => {
       state.currentUser = null;
+
     },
     setInput: (state, action) => {
       const { name, value } = action.payload;

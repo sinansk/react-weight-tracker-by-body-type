@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteRecord, fetchUserInfo } from "./userRecordsThunk";
+import { deleteUserInfo, fetchUserInfo } from "./userRecordsThunk";
 
 export const userRecordsSlice = createSlice({
     name: "userRecords",
@@ -11,10 +11,10 @@ export const userRecordsSlice = createSlice({
     },
 
     reducers: {
-        setRecords: (state, action) => {
+        setUserRecord: (state, action) => {
             state.records = action.payload
         },
-        deleteRecordAction: (state, action) => {
+        deleteUserRecord: (state, action) => {
             const id = action.payload;
             state.records = state.records.filter((record) => record.id !== id);
         },
@@ -33,15 +33,15 @@ export const userRecordsSlice = createSlice({
                 state.status = "failed";
                 state.error = true;
             })
-            .addCase(deleteRecord.pending, (state) => {
+            .addCase(deleteUserInfo.pending, (state) => {
                 state.status = "loading";
                 state.error = false;
             })
-            .addCase(deleteRecord.fulfilled, (state, action) => {
+            .addCase(deleteUserInfo.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.records = action.payload;
             })
-            .addCase(deleteRecord.rejected, (state, action) => {
+            .addCase(deleteUserInfo.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = true;
             })
@@ -49,5 +49,5 @@ export const userRecordsSlice = createSlice({
 });
 
 
-export const { setRecords, deleteRecordAction } = userRecordsSlice.actions
+export const { setUserRecord, deleteUserRecord } = userRecordsSlice.actions
 export default userRecordsSlice.reducer

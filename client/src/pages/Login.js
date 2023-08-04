@@ -12,10 +12,9 @@ const Login = () => {
     const user = await login(email, password);
     console.log("loginpage", user)
     // user.emailVerified &&
-    user &&
-      navigate("/mystats", {
-        replace: true,
-      });
+    if (user) {
+      navigate("/mystats", { replace: true });
+    }
 
   };
 
@@ -25,7 +24,7 @@ const Login = () => {
         <div className="px-5 md:w-1/2">
           <h2 className="text-2xl font-bold text-[#002D74]">Login</h2>
           <p className="text-sm mt-4 text-[#002D74]">If you have an account, please login</p>
-          <form className="mt-6" onSubmit={handleSubmit}>
+          <form className="mt-6" onSubmit={(e) => handleSubmit(e)}>
             <div>
               <label className="block text-gray-700">Email Address</label>
               <input
