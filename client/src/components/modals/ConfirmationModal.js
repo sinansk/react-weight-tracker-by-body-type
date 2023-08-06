@@ -1,6 +1,9 @@
 import React from 'react'
 
-const ConfirmationModal = ({ handleConfirm, handleDecline }) => {
+const ConfirmationModal = () => {
+
+    const handleConfirm = () => { }
+    const handleDecline = () => { }
     return (
         <div className="flex flex-col items-center justify-center w-30">
             <h2>WOULD YOU LIKE TO UPDATE OTHER INFOS ?</h2>

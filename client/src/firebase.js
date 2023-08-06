@@ -33,12 +33,15 @@ import {
   logout as logoutHandle,
   reset,
   setData,
-  setPersonalInfo,
 } from "./redux/userRedux";
-import { deleteRecordAction, deleteUserRecord, setRecords } from "./redux/userRecords";
+import { deleteUserRecord } from "./redux/userRecords";
 import { fetchUserInfo } from "./redux/userRecordsThunk";
 import moment from "moment"
-import { setDiary, setDiaryWithNutrientRecalculation } from "./redux/userDiary";
+import { setDiary } from "./redux/userDiary";
+import { calculateTotalNutrients } from "./utils/calculateTotalNutrients";
+import { fetchCalorieRecords } from "./redux/userDiaryThunk";
+import { setCustomFoods } from "./redux/customFoods";
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: process.env.REACT_APP_AUTHDOMAIN,
@@ -86,6 +89,8 @@ export const login = async (email, password) => {
     if (user) {
       store.dispatch(loginHandle(user))
       store.dispatch(fetchUserInfo(user.uid))
+      store.dispatch(fetchCalorieRecords(user.uid))
+      getCustomFoods(user.uid)
     }
     return user;
   } catch (err) {
@@ -110,7 +115,7 @@ onAuthStateChanged(auth, (user) => {
     // getUserInfo(user.uid)
   } else {
     store.dispatch(logoutHandle());
-    store.dispatch(reset())
+    store.dispatch(reset());
   }
 });
 
@@ -121,120 +126,12 @@ export const addUserInfo = async (data) => {
     // Kullanıcının "userPersonalInfos" koleksiyonunu oluşturun
     const userPersonalInfoRef = collection(userRef, "userPersonalInfos");
     const result = await addDoc(userPersonalInfoRef, data);
-    // const result = await addDoc(collection(db, "userInfos"), data);
     return result
   } catch (error) {
     toast.error(error.message)
     console.log(error)
   }
 };
-
-export const addDailyCalorie = async (data) => {
-  const uid = data.uid;
-  const currentDate = moment();
-  const dateString = currentDate.format('DD-MM-YYYY');
-
-  const diary = {
-    timestamp: currentDate.toISOString(), // Store the timestamp as a string in ISO format
-    uid: data.uid,
-    food: data.food,
-    date: dateString, // Add the date field to the document
-    id: Date.now()
-  };
-
-  try {
-    const userRef = collection(db, "users");
-    const userDocRef = doc(userRef, uid); // Reference to the user document
-    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
-    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", dateString)));
-    console.log(querySnapshot)
-    if (querySnapshot.empty) {
-      // If the document doesn't exist, create a new document with the current date
-      await addDoc(calorieRecordsRef, { date: dateString, foods: [diary] });
-    } else {
-      // If the document exists, update the array field by appending the new food data
-      const existingDocId = querySnapshot.docs[0].id;
-      await updateDoc(doc(calorieRecordsRef, existingDocId), {
-        foods: arrayUnion(diary) // Append the new diary object to the existing "foods" array
-      });
-    }
-    // Now, let's listen for any changes to the document and perform necessary actions.
-    onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
-      // This callback function will be triggered whenever there are changes to the document with the specified date.
-      // You can handle the changes here, if needed.
-      // For example, you can log the changes or dispatch an action to update your Redux store.
-      console.log("Snapshot changes:", snapshot.docs.map((doc) => doc.data()));
-      // store.dispatch(setDiary(snapshot.docs.map((doc) => doc.data())))
-      store.dispatch(setDiaryWithNutrientRecalculation(snapshot.docs.map((doc) => doc.data())))
-    });
-    return "Data added successfully.";
-  } catch (error) {
-    toast.error(error.message);
-    console.log(error);
-  }
-};
-
-
-export const deleteDailyCalorie = async (data) => {
-  console.log(data)
-  const id = data.id
-  const uid = data.uid;
-  const dateString = data.date;
-  try {
-    const userRef = collection(db, "users");
-    const userDocRef = doc(userRef, uid);
-    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
-
-    // Query for the document with the specified date
-    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", dateString)));
-    console.log(querySnapshot)
-    if (!querySnapshot.empty) {
-      // If the document exists, delete it
-      const docId = querySnapshot.docs[0].id;
-      const docData = querySnapshot.docs[0].data();
-      const updatedFoods = docData.foods.filter((food) => food.id !== id);
-      await updateDoc(doc(calorieRecordsRef, docId), { foods: updatedFoods });
-      // await deleteDoc(doc(calorieRecordsRef, docId));
-      toast.success("Data deleted successfully.");
-      return "Data deleted successfully.";
-    } else {
-      // If the document does not exist, return a message indicating that it was not found
-      return "Data not found.";
-    }
-
-  } catch (error) {
-    toast.error(error.message);
-    console.log(error);
-  }
-};
-
-
-
-
-
-
-
-
-
-// export const getUserInfo = (uid) => {
-//   return new Promise((resolve, reject) => {
-//     const unsubscribe = onSnapshot(
-//       query(collection(db, "userInfos"), where("uid", "==", uid)),
-//       (snapshot) => {
-//         const data = snapshot.docs.map((doc) => ({
-//           id: doc.id, // Belge kimliği
-//           data: doc.data() // Belge verisi
-//         })).sort((a, b) => b.data.date - a.data.date);
-
-//         unsubscribe(); // Unsubscribe from further updates
-//         resolve(data);
-//       },
-//       (error) => {
-//         reject(error);
-//       }
-//     );
-//   });
-// };
 
 export const getUserInfo = async (uid) => {
   try {
@@ -243,13 +140,11 @@ export const getUserInfo = async (uid) => {
       id: doc.id,
       data: doc.data(),
     })).sort((a, b) => b.data.date - a.data.date);
-
+    // store.dispatch(setData(data?.[0].data))
     return data;
   } catch (error) {
-
     console.log(error)
     throw new Error(error.message);
-
   }
 };
 
@@ -266,30 +161,159 @@ export const deleteRecord = async (uid, id) => {
   }
 };
 
+export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
+  const uid = data.uid;
+  const currentDate = moment();
+  const dateString = currentDate.format('DD-MM-YYYY');
+  const totalNutrient = {
+    totalFat: data.food.fat,
+    totalCarbs: data.food.carbs,
+    totalProtein: data.food.protein,
+    totalCalories: data.food.calories
+  }
+  console.log(calorieDiary, "calorieDiary", "selectedDate", selectedDate, "data", data)
 
-// export const deleteRecord = async (uid, id) => {
-//   console.log("uid", uid, "id:", id)
-//   try {
-//     await deleteDoc(doc(db, "userInfos", id))
-//     store.dispatch(deleteRecordAction(id)); // Redux store'u güncelle
-//     toast.success("Veri başarıyla silindi");
-//   } catch (error) {
-//     toast.error(error.message)
-//   }
-// }
+  const food = data.food
+  const newtotalNutrient = calculateTotalNutrients({ calorieDiary, selectedDate, food, operation: "add" });
+  const diary = {
+    timestamp: currentDate.toISOString(), // Store the timestamp as a string in ISO format
+    uid: data.uid,
+    food: data.food,
+    id: Date.now()
+  };
+
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid); // Reference to the user document
+    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
+    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
+    if (querySnapshot.empty) {
+      // If the document doesn't exist, create a new document with the current date
+      await addDoc(calorieRecordsRef, { date: selectedDate, foods: [diary], totalNutrient });
+    } else {
+      // If the document exists, update the array field by appending the new food data
+      const existingDocId = querySnapshot.docs[0].id;
+      await updateDoc(doc(calorieRecordsRef, existingDocId), {
+        foods: arrayUnion(diary), // Append the new diary object to the existing "foods" array
+        totalNutrient: newtotalNutrient
+      });
+    }
+    // Now, let's listen for any changes to the document and perform necessary actions.
+    onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
+      // This callback function will be triggered whenever there are changes to the document with the specified date.
+      // You can handle the changes here, if needed.
+      // For example, you can log the changes or dispatch an action to update your Redux store.
+      console.log("Snapshot changes:", snapshot.docs.map((doc) => doc.data()));
+      store.dispatch(setDiary(snapshot.docs.map((doc) => doc.data())))
+    });
+    return "Data added successfully.";
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+};
+
+
+export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
+  console.log(data)
+  const id = data.id
+  const uid = data.uid;
+  const dateString = data.date;
+  const food = data.food
+  const newtotalNutrient = calculateTotalNutrients({ calorieDiary, selectedDate, food, operation: "delete" });
+
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid);
+    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
+    // Query for the document with the specified date
+    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
+    console.log(querySnapshot)
+    if (!querySnapshot.empty) {
+
+      const docId = querySnapshot.docs[0].id;
+      const docData = querySnapshot.docs[0].data();
+      const updatedFoods = docData.foods.filter((food) => food.id !== id);
+      if (newtotalNutrient === null) {
+        await deleteDoc(doc(calorieRecordsRef, docId)) // Delete the document if the foods array is empty      
+      } else {
+        await updateDoc(doc(calorieRecordsRef, docId), { foods: updatedFoods, totalNutrient: newtotalNutrient },);
+      }
+      toast.success("Data deleted successfully.");
+      return "Data deleted successfully.";
+    }
+
+    onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
+
+      console.log("Snapshot changes:", snapshot.docs.map((doc) => doc.data()));
+      store.dispatch(setDiary(snapshot.docs.map((doc) => doc.data())))
+    });
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+};
+
+export const getCalorieRecords = async (uid) => {
+  try {
+    const snapshot = await getDocs(query(collection(db, "users", uid, "calorieRecords")));
+    const data = snapshot.docs.map((doc) => (doc.data()));
+    return data;
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.message);
+  }
+};
+
+export const saveCustomFood = async (data) => {
+  const currentDate = moment();
+  const dateString = currentDate.format('DD-MM-YYYY');
+  const customFood = {
+    timestamp: currentDate.toISOString(), // Store the timestamp as a string in ISO format
+    uid: data.uid,
+    id: data.food?.brand_name + data.food?.food_name + data.food?.amount,
+    food: data.food,
+    date: dateString, // Add the date field to the document
+
+  };
+  const uid = data.uid;
+  const food = data.food;
+  console.log(food, uid, "CUSTOMFOO")
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid); // Reference to the user document
+    const customFoodsRef = collection(userDocRef, "customFoods");
+    // Check if a food with the same ID already exists in the collection
+    const querySnapshot = await getDocs(customFoodsRef, where("id", "==", customFood.id));
+    if (!querySnapshot.empty) {
+      // A food with the same ID already exists, skip saving
+      return;
+    }
+    await addDoc(customFoodsRef, customFood);
+    toast.success("Özel yiyecek başarıyla kaydedildi.");
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+}
+
+export const getCustomFoods = async (uid) => {
+  try {
+    const snapshot = await getDocs(query(collection(db, "users", uid, "customFoods")));
+    const data = snapshot.docs.map((doc) => (doc.data()));
+    console.log(data, "CUSTOMFOODS get")
+    store.dispatch(setCustomFoods(data))
+    return data;
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.message);
+  }
+}
 
 
 
-// export const addUserInfo = async (data) => {
-//   const result = await setDoc(doc(db, "users", data.uid), data);
-//   console.log(data);
-//   console.log(result);
-// };
 
-// export const addUserInfo = async (data) => {
-//   const result = await setDoc(collection(db, "users", data.uid), data);
-//   console.log(data);
-//   console.log(result);
-// };
 
 export default app;
+
+

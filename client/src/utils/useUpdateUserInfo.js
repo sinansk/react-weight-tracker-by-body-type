@@ -34,10 +34,10 @@ const useUpdateUserInfo = () => {
     });
     // Reset the flag to false after the data is saved to the database
     setDataFetchingCompleted(false);
-    // dispatch(fetchUserInfo(user.currentUser.uid));
+    dispatch(fetchUserInfo(user.currentUser.uid));
     destroyAllModal()
 
-  }, [user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results]);
+  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results]);
 
   useEffect(() => {
     if (dataFetchingCompleted) {

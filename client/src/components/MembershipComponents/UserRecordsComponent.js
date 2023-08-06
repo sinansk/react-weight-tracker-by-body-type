@@ -10,6 +10,7 @@ import { LuActivity } from "react-icons/lu"
 import { GiStairsGoal, GiMuscleFat, GiMuscleUp } from "react-icons/gi"
 import DeleteButton from "../CommonComponents/DeleteButton";
 import CollapseButton from "../CommonComponents/CollapseButton";
+import { findDiaryEntryIndex } from "../../utils/findDiaryEntryIndex";
 
 
 const UserRecordsComponent = () => {
@@ -22,7 +23,7 @@ const UserRecordsComponent = () => {
     await deleteRecord(currentUser.uid, id)
     setDeletedRowIds([...deletedRowIds, id]);
   }
-
+  const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
   const handleToggleRow = (id) => {
     setExpandedRows((prevExpandedRows) =>
       prevExpandedRows.includes(id)
@@ -170,6 +171,13 @@ const UserRecordsComponent = () => {
                           <p className="underline text-slate-600">Calorie Need By {item.data.bodyGoalStatus}</p>
                           <p className="text-cyan-700">{item.data.calorieNeedByBodyGoal}</p>
                         </div>
+                        {/* {findDiaryEntryIndex(calorieDiary, moment(item.data.date).format("DD-MM-YYYY")).totalNutrient.totalCalories &&
+                          <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                            <ImSpoonKnife size={34} className="text-green-700" />
+                            <p className="underline text-slate-600">Calorie You Got</p>
+                            <p className="text-cyan-700">{findDiaryEntryIndex(calorieDiary, moment(item.data.date).format("DD-MM-YYYY")).totalNutrient.totalCalories}</p>
+                          </div>
+                        } */}
                         <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
                           <LuActivity size={34} className="text-cyan-700" />
                           <p className="underline text-slate-600">Activity Level</p>

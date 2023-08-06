@@ -9,7 +9,7 @@ import { addToDiary } from '../../redux/userDiary';
 import { saveDailyCalorie } from '../../redux/userDiaryThunk';
 import { addDailyCalorie } from '../../firebase';
 
-const SearchFoodComponent = ({ className }) => {
+const SearchFoodComponent = ({ className, selectedDate }) => {
     const [searchFoodInput, setSearchFoodInput] = useState();
     const { currentUser } = useSelector((state) => state.user)
     const [responseList, setResponseList] = useState(null)
@@ -109,7 +109,7 @@ const SearchFoodComponent = ({ className }) => {
         addDailyCalorie({
             uid: currentUser.uid,
             food: food_detail
-        })
+        }, calorieDiary, selectedDate)
 
         toast.success(`You have added ${foodItem.food_name} in your diary!`)
     };
@@ -117,6 +117,9 @@ const SearchFoodComponent = ({ className }) => {
     useEffect(() => {
         console.log(responseList)
     }, [responseList])
+    useEffect(() => {
+        console.log(selectedDate, "selectedDateSEARCH")
+    }, [selectedDate])
 
     // useEffect(() => {
     //     if (calorieDiary.length > 0) {

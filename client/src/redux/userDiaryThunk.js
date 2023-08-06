@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addDailyCalorie } from "../firebase";
+import { addDailyCalorie, getCalorieRecords } from "../firebase";
 
 export const saveDailyCalorie = createAsyncThunk(
     "userDiary/saveDailyCalorie",
@@ -14,12 +14,15 @@ export const saveDailyCalorie = createAsyncThunk(
     }
 )
 
-// export const getCalorieRecords = createAsyncThunk(
-//     "userDiary/getCalorieRecords",
-//     async(_, {getState}) => {
-//         try {
-//             const {uid} => getState().user.currentUser
-//             const data = await
-//         }
-//     }
-// )
+export const fetchCalorieRecords = createAsyncThunk(
+    "userDiary/fetchCalorieRecords",
+    async (_, { getState }) => {
+        try {
+            const { uid } = getState().user.currentUser
+            const data = await getCalorieRecords(uid);
+            return data
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+)

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 
-const Calendar = ({ diaryDates, onDateClick }) => {
+const Calendar = ({ className, diaryDates, onDateClick }) => {
     const [selectedDate, setSelectedDate] = useState(moment());
 
     const isDateInDiary = (date) => {
@@ -30,10 +30,10 @@ const Calendar = ({ diaryDates, onDateClick }) => {
         return (
             <td
                 key={date.format('DD-MM-YYYY')}
-                className={`cursor-pointer ${isInDiary ? ' border-b-4 border-green-500' : ''} ${isActive ? 'bg-blue-500  text-white' : ''}`}
+                className={`cursor-pointer hover:bg-slate-100 rounded-sm ${isInDiary ? ' border-b-4 border-green-500' : ''} ${isActive ? 'bg-pink-500 hover:bg-pink-500 text-white' : ''}`}
                 onClick={() => handleDateClick(date)}
             >
-                <div className={`relative ${isToday ? 'border-2 border-blue-500' : ''}`}>
+                <div className={`relative ${isToday ? 'border-2  border-pink-500' : ''}`}>
                     {date.date()}
 
                 </div>
@@ -64,9 +64,14 @@ const Calendar = ({ diaryDates, onDateClick }) => {
 
     const allDays = [...blankDays, ...daysInMonthCells, ...lastBlankDays];
 
+
+    useEffect(() => {
+        console.log("selectedDate", selectedDate)
+    }, [selectedDate])
+
     return (
-        <div className="my-4">
-            <div className="flex items-center justify-between mb-4">
+        <div className={`${className} `}>
+            <div className="flex items-center justify-between min-w-full mx-auto mb-4">
                 <button onClick={() => setSelectedDate(selectedDate.clone().subtract(1, 'month'))} className="px-2 py-1 text-sm font-semibold text-gray-700">
                     {'<'}
                 </button>
@@ -77,7 +82,7 @@ const Calendar = ({ diaryDates, onDateClick }) => {
                     {'>'}
                 </button>
             </div>
-            <table className="border-collapse">
+            <table className="mx-auto border-collapse">
                 <thead>
                     <tr>
                         <th className="px-4 py-2">Sun</th>

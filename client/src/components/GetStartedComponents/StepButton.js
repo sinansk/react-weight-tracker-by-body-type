@@ -1,14 +1,14 @@
 import React from 'react';
 
-const StepButton = ({ name, onClick, loading }) => {
+const StepButton = ({ text, onClick, loading }) => {
     return (
         <button
             onClick={onClick}
             className="relative inline-flex items-center px-8 py-3 mx-2 overflow-hidden text-white bg-pink-500 rounded-lg hover:bg-pink-400 focus:bg-pink-400 sm:mt-4 group active:bg-pink-400 focus:outline-none focus:ring"
-            name={name}
+            name={text}
         >
             <span
-                className={`absolute left-0 pointer-events-none transition-transform ${name === 'BACK' ? '-translate-x-full group-hover:translate-x-4 rotate-180' : 'group-hover:translate-x-4'
+                className={`absolute left-0 pointer-events-none transition-transform ${text === 'BACK' ? '-translate-x-full group-hover:translate-x-4 rotate-180' : 'group-hover:translate-x-4'
                     }`}
             >
                 <svg
@@ -24,7 +24,7 @@ const StepButton = ({ name, onClick, loading }) => {
 
             <span className="font-semibold transition-all pointer-events-none group-hover:ml-4">
                 {!loading ? (
-                    name
+                    text
                 ) : (
                     <svg
                         role="status"

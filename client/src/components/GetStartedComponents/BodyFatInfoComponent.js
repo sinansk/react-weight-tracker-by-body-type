@@ -24,7 +24,7 @@ const BodyFatInfoComponent = ({ gender }) => {
         ? `red-card`
         : `blue-card`
         }
-          `}
+      `}
     >
       {gender === "male" ? (
         <>

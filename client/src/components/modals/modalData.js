@@ -1,7 +1,8 @@
-import MeasurementsModal from "./components/modals/MeasurementsModal";
-import UserInfoModal from "./components/modals/UserInfoModal";
-import LoginModal from "./components/modals/LoginModal";
-import ConfirmationModal from "./components/modals/ConfirmationModal";
+import MeasurementsModal from "./MeasurementsModal";
+import UserInfoModal from "./UserInfoModal";
+import LoginModal from "./LoginModal";
+import ConfirmationModal from "./ConfirmationModal";
+import AddCustomFoodModal from "./AddCustomFoodModal";
 
 const modalData = [
     {
@@ -19,7 +20,11 @@ const modalData = [
     {
         name: "MeasurementsModal",
         element: MeasurementsModal
-    }
+    },
+    {
+        name: "AddCustomFoodModal",
+        element: AddCustomFoodModal
+    },
 
 ]
 

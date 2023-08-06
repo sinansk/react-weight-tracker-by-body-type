@@ -7,21 +7,24 @@ import moment from 'moment'
 
 const CalorieTracker = () => {
 
-    const [selectedDate, setSelectedDate] = useState();
+    const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'));
     const userDiary = useSelector((state) => state.userDiary)
-    const diary = userDiary.calorieDiary
 
     const handleDateClick = (date) => {
         setSelectedDate(date);
     };
 
-    const diaryDates = userDiary.calorieDiary.map((diaryItem) => diaryItem.date);
-    console.log(diaryDates, "diaryDates")
+    const diaryDates = userDiary.calorieDiary?.map((diaryItem) => diaryItem.date);
+
     return (
-        <div className='flex'>
-            <SearchFoodComponent className="sm:w-[600px] mx-auto" />
-            <Calendar className="my-10" diaryDates={userDiary.calorieDiary.map(entry => entry.date)} onDateClick={handleDateClick} />
-            {selectedDate && <DiaryCardComponent className="my-10" selectedDate={selectedDate} />}
+        <div className='grid grid-cols-2 px-20 py-10'>
+            <div className="">
+                <Calendar className="sm:w-[600px] mx-auto" diaryDates={diaryDates} onDateClick={handleDateClick} />
+                <SearchFoodComponent className="sm:w-[600px] mx-auto" selectedDate={selectedDate} />
+            </div>
+            <div className='flex-col'>
+                {selectedDate && <DiaryCardComponent className="ml-auto" selectedDate={selectedDate} />}
+            </div>
         </div>
     )
 }

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteFromDiary } from '../../redux/userDiary'
 import DeleteButton from '../CommonComponents/DeleteButton'
 import { deleteDailyCalorie } from '../../firebase'
-
+import { IoIosAdd } from 'react-icons/io'
+import { createModal } from '../../utils/modalHooks'
 const DiaryCardComponent = ({ className, selectedDate }) => {
     console.log(selectedDate, "selectedDate")
     const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
 
     // Seçilen tarihe ait kayıtları bulmak için döngü ile kontrol edelim.
     const diary = userDiary.calorieDiary.find((entry) => entry.date === selectedDate);
+    const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
     const foods = diary?.foods;
     console.log(diary, "DiaryComponent");
 
@@ -35,12 +37,14 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
             </thead>
         )
     }
-
+    const handleAddButton = () => {
+        createModal("AddCustomFoodModal", { selectedDate: selectedDate })
+    }
     return (
         foods && (
             <>
                 <div className={`${className} p-5 pt-0 mx-auto shadow-lg rounded-xl bg-white w-[600px] h-fit`}>
-                    <h2 className='my-auto p-2 text-lg'>{diary.date}</h2>
+                    <h2 className='p-2 my-auto text-lg'>{diary.date}</h2>
                     <table className='min-w-full p-5 divide-y divide-gray-200'>
                         <TableHeader columns={columns} />
                         <tbody className="bg-white divide-y divide-gray-200 text-slate-700">
@@ -60,21 +64,24 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
                                     ))}
                                     <td className='ml-1 '>
                                         {/* <DeleteButton onClick={() => dispatch(deleteFromDiary(item))} className="my-auto" /> */}
-                                        <DeleteButton onClick={() => deleteDailyCalorie(item)} className="my-auto" />
+                                        <DeleteButton onClick={() => deleteDailyCalorie(item, calorieDiary, selectedDate)} className="my-auto" />
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
-                        <tfoot className='font-bold'> {/* Footer row */}
-                            <tr>
-                                <td colSpan={2} /> {/* Empty cells for the first two columns */}
-                                <td>{userDiary?.nutrientDetails.totalCarbs.toFixed(2)}g</td>
-                                <td>{userDiary?.nutrientDetails.totalFat.toFixed(2)}g</td>
-                                <td>{userDiary?.nutrientDetails.totalProtein.toFixed(2)}g</td>
-                                <td>{userDiary?.nutrientDetails.totalCalorie.toFixed(2)}kcal</td>
-                                <td /> {/* Empty cell for the delete button column */}
-                            </tr>
-                        </tfoot>
+
+                        {diary &&
+                            <tfoot className='font-bold'>
+                                <tr>
+                                    <td onClick={handleAddButton} colSpan={2}><span className="flex flex-row items-center justify-center px-3 py-1.5 text-pink-500 rounded-lg cursor-pointer hover:bg-gray-100" ><IoIosAdd size={20} /> Add custom food</span></td>
+                                    <td>{diary?.totalNutrient?.totalCarbs}</td>
+                                    <td>{diary?.totalNutrient?.totalFat}</td>
+                                    <td>{diary?.totalNutrient?.totalProtein}</td>
+                                    <td>{diary?.totalNutrient?.totalCalories}</td>
+                                    <td />
+                                </tr>
+                            </tfoot>
+                        }
                     </table>
                 </div>
             </>

@@ -1,15 +1,13 @@
 import React from 'react';
 
-const LoadingSpinner = ({ size = "w-4 h-4", color = "text-cyan-600", center = true }) => {
-    const spinnerStyle = center
-        ? "w-full"
-        : "";
+const LoadingSpinner = ({ className }) => {
+
 
     return (
-        <div className={`flex ${spinnerStyle}`}>
+        <div className={`flex `}>
             <svg
                 role="status"
-                className={`inline ${size} ${color} animate-spin `}
+                className={`w-4 h-4 inline animate-spin ${className}`}
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

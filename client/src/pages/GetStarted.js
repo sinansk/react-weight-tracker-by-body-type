@@ -24,6 +24,7 @@ const GetStarted = () => {
 
   const handleStep = async (e) => {
     e.preventDefault();
+    console.log("butonName", e.target.name)
 
     if (e.target.name === "NEXT" && registerStep >= 0 && registerStep < 3) {
       setRegisterStep((prev) => prev + 1);
@@ -116,10 +117,10 @@ const GetStarted = () => {
         </div>
         <div className="flex items-center justify-center gap-2">
           {registerStep > 0 && (
-            <StepButton name="BACK" onClick={handleStep} loading={loading} />
+            <StepButton text="BACK" onClick={handleStep} loading={loading} />
           )}
           {userGender ? (
-            <StepButton name={registerStep === 3 ? "CONFIRM" : "NEXT"} onClick={handleStep} loading={loading} />
+            <StepButton text={registerStep === 3 ? "CONFIRM" : "NEXT"} onClick={handleStep} loading={loading} />
           ) : <div className="h-[60px]"></div>}
         </div>
 

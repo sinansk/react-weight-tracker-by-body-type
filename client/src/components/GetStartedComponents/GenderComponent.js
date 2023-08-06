@@ -2,12 +2,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGender } from "../../redux/userRedux";
 
-const GenderComponent = ({ gender }) => {
+const GenderComponent = ({ gender, onClick }) => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const handleGender = () => {
     dispatch(selectGender(gender));
+    onClick()
   };
 
   return (

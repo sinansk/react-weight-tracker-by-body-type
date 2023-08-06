@@ -14,6 +14,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import customFoods from "./customFoods";
 
 
 const persistConfig = {
@@ -26,6 +27,7 @@ const combinedReducer = combineReducers({
   user: userReducer,
   userRecords: userRecords,
   userDiary: userDiary,
+  customFoods: customFoods,
   modal: modal
 });
 

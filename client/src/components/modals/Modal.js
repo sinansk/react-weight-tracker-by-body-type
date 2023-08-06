@@ -1,5 +1,5 @@
 import React from 'react'
-import modalData from '../../modalData'
+import modalData from './modalData';
 import { destroyModal, useModals } from '../../utils/modalHooks'
 import { createPortal } from 'react-dom';
 import { useState, forwardRef, useImperativeHandle } from "react";
