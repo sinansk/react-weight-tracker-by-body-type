@@ -71,7 +71,7 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
 
     return (
         <div className={`${className} `}>
-            <div className="flex items-center justify-between min-w-full mx-auto mb-4">
+            <div className="flex items-center justify-between w-full px-20 mb-4">
                 <button onClick={() => setSelectedDate(selectedDate.clone().subtract(1, 'month'))} className="px-2 py-1 text-sm font-semibold text-gray-700">
                     {'<'}
                 </button>

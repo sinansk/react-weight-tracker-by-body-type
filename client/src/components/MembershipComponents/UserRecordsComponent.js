@@ -54,8 +54,8 @@ const UserRecordsComponent = () => {
         bmi: item.data.results.bmi,
         activityLevel: item.data.personalInfo.activityLevel,
         bodyGoalStatus: item.data.personalInfo.bodyGoalStatus,
-        bodyFatMass: item.data.results.bodyFat["Body Fat Mass"],
-        leanBodyMass: item.data.results.bodyFat["Lean Body Mass"],
+        bodyFatMass: item.data.results.bodyFat["Body Fat Mass"] + `kg`,
+        leanBodyMass: item.data.results.bodyFat["Lean Body Mass"] + `kg`,
         bodyFatCategory: item.data.results.bodyFat["Body Fat Category"],
       }
     };

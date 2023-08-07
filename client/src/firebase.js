@@ -171,7 +171,7 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
     totalProtein: data.food.protein,
     totalCalories: data.food.calories
   }
-  console.log(calorieDiary, "calorieDiary", "selectedDate", selectedDate, "data", data)
+  console.log(data, "data")
 
   const food = data.food
   const newtotalNutrient = calculateTotalNutrients({ calorieDiary, selectedDate, food, operation: "add" });
@@ -197,6 +197,7 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
         foods: arrayUnion(diary), // Append the new diary object to the existing "foods" array
         totalNutrient: newtotalNutrient
       });
+      toast.success("Food added successfully.");
     }
     // Now, let's listen for any changes to the document and perform necessary actions.
     onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
@@ -215,7 +216,7 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
 
 
 export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
-  console.log(data)
+  console.log(data.id)
   const id = data.id
   const uid = data.uid;
   const dateString = data.date;

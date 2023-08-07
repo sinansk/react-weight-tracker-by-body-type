@@ -76,7 +76,7 @@ const UserInfoComponent = () => {
             )}
           </blockquote>
 
-          <h2>Welcome <span className="font-semibold underline">{user.currentUser.email}</span> You are our member since {moment(user.currentUser?.createdAt).format("DD MMM YYYY")}.</h2>
+          <h2>Welcome <span className="font-semibold underline">{user.currentUser.email}</span> You are our member since {moment(user.currentUser?.createdAt * 1).format("DD MMM YYYY")}.</h2>
         </div>
 
         <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 p-2 font-mono bg-yellow-400 rounded-lg shadow-md bg-opacity-30 backdrop-filter backdrop-blur-md">

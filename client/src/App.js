@@ -18,6 +18,8 @@ import WithOutNavbar from "./routes/WithOutNavbar";
 import CalorieTracker from "./pages/CalorieTracker";
 import Modal from "./components/modals/Modal";
 import LoadingComponent from "./components/CommonComponents/LoadingComponent";
+import Test from "./pages/Test";
+import QuickCalorieForm from "./components/MembershipComponents/QuickCalorieForm";
 
 const App = () => {
   return (
@@ -36,6 +38,7 @@ const App = () => {
             <Route path="/idealmeasurements" element={<IdealMeasurements />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/calorie-tracker" element={<CalorieTracker />} />
+            <Route path="/test" element={<QuickCalorieForm />} />
           </Route>
           <Route element={<WithOutNavbar />}>
             <Route element={<AuthRoutes />}>
