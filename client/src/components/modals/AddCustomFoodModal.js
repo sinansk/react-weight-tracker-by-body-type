@@ -3,18 +3,17 @@ import { addDailyCalorie, saveCustomFood } from '../../firebase';
 import { useSelector } from 'react-redux';
 import ButtonPrimary from '../CommonComponents/ButtonPrimary';
 import SearchDropdown from '../CommonComponents/SearchDropdown';
+import { formatInputValue } from '../../utils/formatInputValue';
 
 const AddCustomFoodModal = (data) => {
     const uid = useSelector((state) => state.user.currentUser.uid);
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary);
-    console.log(data)
     const customFoods = useSelector((state) => state.customFoods.customFoods);
     const [selectedOption, setSelectedOption] = useState("");
     useEffect(() => {
         console.log(customFoods, "customFoodsMODAL")
     }, [customFoods])
     const [customFood, setCustomFood] = useState({
-        id: Date.now(),
         uid: uid,
         food: {
             food_name: "",
@@ -36,65 +35,135 @@ const AddCustomFoodModal = (data) => {
     },
     {
         name: "amount",
-        placeholder: "Amount"
+        placeholder: "Amount",
+        unit: "g"
     },
     {
         name: "fat",
-        placeholder: "Fat"
+        placeholder: "Fat",
+        unit: "g"
     },
     {
         name: "carbs",
-        placeholder: "Carbs"
+        placeholder: "Carbs",
+        unit: "g"
     },
     {
         name: "protein",
-        placeholder: "Protein"
+        placeholder: "Protein",
+        unit: "g"
     },
     {
         name: "calories",
-        placeholder: "Calories"
+        placeholder: "Calories",
+        unit: "kcal"
     },
     ]
-    const handleInputChange = (e, key) => {
-        const { value } = e.target;
-        setCustomFood((prevCustomFood) => ({
-            ...prevCustomFood,
-            food: {
-                ...prevCustomFood.food,
-                [key]: value,
-            },
-        }));
+    const handleInputChange = (e) => {
+        const { name, value, dataset } = e.target;
+
+        if (dataset.unit && value.trim() !== '') {
+            const trimmedValue = formatInputValue(value, dataset.unit);
+            setCustomFood((prevCustomFood) => ({
+                ...prevCustomFood,
+                food: {
+                    ...prevCustomFood.food,
+                    [name]: trimmedValue,
+                },
+            }));
+        } else {
+            setCustomFood((prevCustomFood) => ({
+                ...prevCustomFood,
+                food: {
+                    ...prevCustomFood.food,
+                    [name]: value,
+                },
+            }));
+        }
     };
 
+    const handleInputFocus = (e) => {
+        const { name, value, dataset } = e.target;
 
+        if (dataset.unit && value.trim() !== '') {
+            const trimmedValue = formatInputValue(value, dataset.unit);
+            setCustomFood((prevCustomFood) => ({
+                ...prevCustomFood,
+                food: {
+                    ...prevCustomFood.food,
+                    [name]: trimmedValue,
+                },
+            }));
+        } else {
+            setCustomFood((prevCustomFood) => ({
+                ...prevCustomFood,
+                food: {
+                    ...prevCustomFood.food,
+                    [name]: value,
+                },
+            }));
+        }
+    };
+
+    const handleInputBlur = (e) => {
+        const { name, value, dataset } = e.target;
+
+        if (dataset.unit && value.trim() !== '') {
+            const trimmedValue = formatInputValue(value, dataset.unit);
+            const formattedValue = trimmedValue.endsWith('.') || trimmedValue.endsWith(',')
+                ? trimmedValue + '00'
+                : trimmedValue.includes('.')
+                    ? trimmedValue.replace(/\.(\d$|\.$)/, (match, group1) => `.${group1 || '00'}`)
+                    : trimmedValue.length > 0 && !trimmedValue.endsWith('.')
+                        ? `${trimmedValue}.00`
+                        : '';
+
+            setCustomFood((prevCustomFood) => ({
+                ...prevCustomFood,
+                food: {
+                    ...prevCustomFood.food,
+                    [name]: formattedValue + dataset.unit,
+                },
+            }));
+        } else {
+            setCustomFood((prevCustomFood) => ({
+                ...prevCustomFood,
+                food: {
+                    ...prevCustomFood.food,
+                    [name]: value,
+                },
+            }));
+        }
+    };
     const handleSaveFood = () => {
         saveCustomFood(customFood)
         addDailyCalorie(customFood, calorieDiary, data.data.selectedDate)
     }
     useEffect(() => {
-        console.log(selectedOption?.value, "selectedOption")
         setCustomFood(prevCustomFood => ({
             ...prevCustomFood,
             food: selectedOption?.value
-
         }))
     }, [selectedOption])
 
-    useEffect(() => {
-        console.log(customFood, "customFood")
-    }, [customFood])
     return (
         <div className="flex flex-col gap-2 sm:w-80">
             <>
-                <SearchDropdown data={customFoods} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+                {customFoods?.length > 0 &&
+                    <SearchDropdown data={customFoods} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+                }
                 {inputs.map((input, i) => (
                     <input
                         key={i}
+                        name={input.name}
                         type="text"
                         className="w-full p-2 border-2 border-gray-300 rounded-md"
                         placeholder={input.placeholder}
                         value={customFood?.food?.[input.name]}
                         onChange={(e) => handleInputChange(e, input.name)}
+                        onBlur={handleInputBlur}
+                        onFocus={handleInputFocus}
+                        data-unit={input?.unit}
                     />
                 ))}
                 <ButtonPrimary className="w-full" onClick={handleSaveFood} text="SAVE FOOD"></ButtonPrimary>

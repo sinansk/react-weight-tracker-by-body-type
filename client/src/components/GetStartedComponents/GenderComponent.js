@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGender } from "../../redux/userRedux";
 
-const GenderComponent = ({ gender, onClick }) => {
+const GenderComponent = ({ className, gender, onClick }) => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -14,7 +14,7 @@ const GenderComponent = ({ gender, onClick }) => {
   return (
     <div
       onClick={handleGender}
-      className={`card cursor-pointer ${gender === "female"
+      className={`${className} card cursor-pointer ${gender === "female"
         ? `red-card`
         : `blue-card`
         } ${user.data.personalInfo.gender && user.data.personalInfo.gender === gender

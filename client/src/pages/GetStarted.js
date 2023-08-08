@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import BasicInfoComponent from "../components/GetStartedComponents/BasicInfoComponent";
 import BodyFatInfoComponent from "../components/GetStartedComponents/BodyFatInfoComponent";
 import BodyTypeInfoComponent from "../components/GetStartedComponents/BodyTypeInfoComponent";
 import { useDispatch, useSelector } from "react-redux/";
@@ -11,11 +10,12 @@ import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, updateIdealMeasuremen
 import { fetchUserInfo } from "../redux/userRecordsThunk";
 import StepButton from "../components/GetStartedComponents/StepButton";
 import Stepper from "../components/GetStartedComponents/Stepper";
+import IdealWeightComponent from "../components/IdealWeightComponent";
 
 const GetStarted = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.user);
   const personalInfo = user.data?.personalInfo;
   const userGender = personalInfo?.gender;
@@ -24,19 +24,19 @@ const GetStarted = () => {
 
   const handleStep = async (e) => {
     e.preventDefault();
-    console.log("butonName", e.target.name)
-
     if (e.target.name === "NEXT" && registerStep >= 0 && registerStep < 3) {
       setRegisterStep((prev) => prev + 1);
     } else if (e.target.name === "BACK" && registerStep > 0) {
       setRegisterStep((prev) => prev - 1);
     }
-
-    if (e.target.name === "NEXT" && registerStep === 2) {
+    if (e.target.name === "NEXT" && registerStep === 1) {
+      setLoading(true);
       await dispatch(fetchIdealWeight());
+      setLoading(false);
+    }
+    if (e.target.name === "NEXT" && registerStep === 2) {
       await dispatch(fetchCalorieNeed());
     }
-
     if (e.target.name === "CONFIRM" && registerStep === 3) {
       handleSubmit()
     }
@@ -98,8 +98,8 @@ const GetStarted = () => {
           )}
           {registerStep === 1 && (
             <>
-              <BasicInfoComponent gender={"female"} />
-              <BasicInfoComponent gender={"male"} />
+              <IdealWeightComponent gender={"female"} />
+              <IdealWeightComponent gender={"male"} />
             </>
           )}
           {registerStep === 2 && (

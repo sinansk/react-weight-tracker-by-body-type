@@ -1,5 +1,5 @@
 import React from "react";
-import { bodyTypes, bodyGoals } from "../../data";
+import { bodyTypes, bodyGoals, activityLevels } from "../../data";
 import { useSelector } from "react-redux"
 import SelectInput from "../CommonComponents/SelectInput";
 const BodyTypeInfoComponent = ({ gender }) => {
@@ -15,21 +15,17 @@ const BodyTypeInfoComponent = ({ gender }) => {
     >
       {gender === "male" ? (
         <>
-          <span className="flex flex-col items-center h-full">
-            <h2 className="font-semibold xl:text-2xl">SET YOUR FRAME SIZE!</h2>
-            <img
-              className="md:my-4 h-1/3"
-              src={require(`../../assets/washing-hands-${gender}.png`)}
-              alt="washing-hands"
-            />
-            <p className="font-semibold">
-              Please wrap your thumb and forefinger around your wrist in the
-              area you normally wear a watch.
-            </p>
-            <form className="font-semibold text-center md:mt-4 lg:mt-auto">
-              <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" />
-            </form>
-          </span>
+          <img
+            className="h-20 mb-4 md:h-20 lg:h-44"
+            src={require(`../../assets/fitness-${userGender}.png`)}
+            alt="gender"
+          />
+          <h2>
+            Set your activity level based on your routin. We will use your info
+            to calculate your ideal weight, body fat, daily calorie need and
+            ideal body measurements. You can change this later!
+          </h2>
+          <SelectInput className="mt-auto font-semibold" options={activityLevels} label="Activity Level" name="activityLevel" />
         </>
       ) : (
         <span className="flex flex-col items-center h-full">

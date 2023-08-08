@@ -15,6 +15,6 @@ export const customFoods = createSlice({
     },
     extraReducers: (builder) => { }
 
-}); // createSlice  
+});
 export const { setCustomFoods } = customFoods.actions;
 export default customFoods.reducer

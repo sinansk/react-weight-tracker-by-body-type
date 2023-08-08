@@ -279,19 +279,22 @@ export const saveCustomFood = async (data) => {
   };
   const uid = data.uid;
   const food = data.food;
-  console.log(food, uid, "CUSTOMFOO")
+  console.log(food, uid, "food")
   try {
+    console.log(customFood, "customFood")
     const userRef = collection(db, "users");
     const userDocRef = doc(userRef, uid); // Reference to the user document
     const customFoodsRef = collection(userDocRef, "customFoods");
     // Check if a food with the same ID already exists in the collection
-    const querySnapshot = await getDocs(customFoodsRef, where("id", "==", customFood.id));
-    if (!querySnapshot.empty) {
+    const querySnapshot = await getDocs(query(customFoodsRef, where("id", "==", customFood.id)));
+    console.log(querySnapshot, "querySnapshot")
+    if (querySnapshot.empty) {
+      await addDoc(customFoodsRef, customFood);
+      toast.success("Özel yiyecek başarıyla kaydedildi.");
       // A food with the same ID already exists, skip saving
+    } else {
       return;
     }
-    await addDoc(customFoodsRef, customFood);
-    toast.success("Özel yiyecek başarıyla kaydedildi.");
   } catch (error) {
     toast.error(error.message);
     console.log(error);

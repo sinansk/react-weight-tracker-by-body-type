@@ -53,11 +53,11 @@ const IdealWeightComponent = ({ gender }) => {
               src={require(`../assets/washing-hands-${gender}.png`)}
               alt="washing-hands"
             />
-            <p className=" 2xl:text-xl">
+            <p className=" 2xl:text-lg">
               Please wrap your thumb and forefinger around your wrist in the area
-              you normally wear a watch.
+              you normally wear a watch. We will learn your body type!
             </p>
-            <form className="text-center md:mt-4 xl:mt-auto xl:mb-6 md:text-2xl">
+            <form className="text-center md:mt-auto xl:mt-auto md:text-2xl">
               <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" />
             </form>
           </span>

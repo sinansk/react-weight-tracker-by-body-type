@@ -9,7 +9,7 @@ const SelectInput = (props) => {
     );
 
     return (
-        <>
+        <div className={`${props.className}`}>
             <label htmlFor={props.name} className="-mb-1">
                 {props.label}
             </label>
@@ -26,7 +26,7 @@ const SelectInput = (props) => {
                     </option>
                 ))}
             </select>
-        </>
+        </div>
     )
 }
 

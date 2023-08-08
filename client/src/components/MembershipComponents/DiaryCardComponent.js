@@ -8,6 +8,8 @@ import { createModal } from '../../utils/modalHooks'
 import { TbSquareRoundedCheckFilled } from 'react-icons/tb'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { setCustomFoods } from '../../redux/customFoods'
+import { formatInputValue } from '../../utils/formatInputValue'
 
 const DiaryCardComponent = ({ className, selectedDate }) => {
     console.log(selectedDate, "selectedDate")
@@ -41,7 +43,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
         )
     }
     const [isQuickCalorie, setIsQuickCalorie] = useState(false)
-    const [quickCalorie, setQuickCalorie] = useState({
+    const initalCustomFood = {
         id: Date.now(),
         uid: uid,
         food: {
@@ -53,18 +55,17 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
             protein: "",
             calories: ""
         }
-    })
+    }
+    const [quickCalorie, setQuickCalorie] = useState(initalCustomFood)
     const handleAddButton = () => {
         // createModal("AddCustomFoodModal", { selectedDate: selectedDate })
         setIsQuickCalorie(!isQuickCalorie)
 
     }
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        const unit = name === 'calories' ? 'kcal' : 'g';
+        const { name, value, dataset } = e.target;
 
-        // Remove the unit from the value if it's there, so it's added only once
-        const trimmedValue = value.replace(unit, '');
+        const trimmedValue = formatInputValue(value, dataset.unit);
 
         setQuickCalorie((prevQuickCalorie) => ({
             ...prevQuickCalorie,
@@ -76,11 +77,9 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
     };
 
     const handleInputFocus = (e) => {
-        const { name, value } = e.target;
-        const unit = name === 'calories' ? 'kcal' : 'g';
+        const { name, value, dataset } = e.target;
 
-        // Remove the unit from the value if it's there, so it's added only once
-        const trimmedValue = value.replace(unit, '');
+        const trimmedValue = formatInputValue(value, dataset.unit);
 
         setQuickCalorie((prevQuickCalorie) => ({
             ...prevQuickCalorie,
@@ -92,17 +91,22 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
     };
 
     const handleInputBlur = (e) => {
-        const { name, value } = e.target;
-        const unit = name === 'calories' ? 'kcal' : 'g';
+        const { name, value, dataset } = e.target;
 
-        // Remove the unit from the value if it's there, so it's added only once
-        const trimmedValue = value.replace(unit, '');
+        const trimmedValue = formatInputValue(value, dataset.unit);
+        const formattedValue = trimmedValue.endsWith('.') || trimmedValue.endsWith(',')
+            ? trimmedValue + '00'
+            : trimmedValue.includes('.')
+                ? trimmedValue.replace(/\.(\d$|\.$)/, (match, group1) => `.${group1 || '00'}`)
+                : trimmedValue.length > 0 && !trimmedValue.endsWith('.')
+                    ? `${trimmedValue}.00`
+                    : '';
         trimmedValue.length > 0 &&
             setQuickCalorie((prevQuickCalorie) => ({
                 ...prevQuickCalorie,
                 food: {
                     ...prevQuickCalorie.food,
-                    [name]: trimmedValue + unit,
+                    [name]: formattedValue + dataset.unit,
                 },
             }));
     };
@@ -114,6 +118,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
     const addCustomFood = () => {
         dispatch(addDailyCalorie(quickCalorie, calorieDiary, selectedDate))
         setIsQuickCalorie(false)
+        setQuickCalorie(initalCustomFood)
     }
     return (
 
@@ -139,13 +144,15 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
                                             )}
                                         </td>
                                     ))}
-                                    <td className='ml-1 '>
-                                        <DeleteButton onClick={() => deleteDailyCalorie(item, calorieDiary, selectedDate)} className="my-auto" size={18} />
+                                    <td className=''>
+                                        <DeleteButton onClick={() => deleteDailyCalorie(item, calorieDiary, selectedDate)} className="m-auto " size={18} />
                                     </td>
                                 </tr>
                             ))}
                             <tr className={`${isQuickCalorie ? `table-row outline-dashed outline-2 outline-offset-1 ` : `hidden`}`}>
-                                <td colSpan={2} className=''></td>
+                                <td colSpan={2} className=''>
+                                    quick-calorie
+                                </td>
                                 <td > <div className="relative">
                                     <input
                                         name="carbs"
