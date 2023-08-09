@@ -39,7 +39,7 @@ const App = () => {
             <Route path="/idealmeasurements" element={<IdealMeasurements />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/calorie-tracker" element={<CalorieTracker />} />
-            <Route path="/test" element={<TotalCalorieCard />} />
+            <Route path="/test" element={<Test />} />
           </Route>
           <Route element={<WithOutNavbar />}>
             <Route element={<AuthRoutes />}>

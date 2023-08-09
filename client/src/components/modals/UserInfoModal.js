@@ -5,7 +5,7 @@ import { activityLevels, ages, bodyGoals, bodyTypes, heights, weights } from '..
 import useUpdateUserInfo from '../../utils/useUpdateUserInfo'
 
 const UserInfoModal = (data) => {
-
+    console.log(data)
     const updateUserInfo = useUpdateUserInfo()
     const handleUpdate = async () => {
         if (data.data?.willOpenModal) {

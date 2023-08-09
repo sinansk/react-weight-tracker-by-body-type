@@ -25,6 +25,7 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
+import { getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import { store } from "./redux/store";
@@ -56,6 +57,7 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 export const auth = getAuth();
 export const db = getFirestore(app);
+export const storage = getStorage();
 
 export const register = async (email, password) => {
   try {
@@ -148,6 +150,8 @@ export const getUserInfo = async (uid) => {
   }
 };
 
+export const updateUserInfo = async (uid, id, data) => {
+}
 export const deleteRecord = async (uid, id) => {
   console.log("uid", uid, "id:", id);
   try {
@@ -158,6 +162,63 @@ export const deleteRecord = async (uid, id) => {
     toast.error(error.message);
     console.log(error)
     throw new Error(error.message);
+  }
+};
+
+export const addPhoto = async (uid, id, photoFile, docId) => {
+  console.log("uid", uid, "id:", id, "photoFile", photoFile);
+  try {
+
+
+    // Firebase Storage'da fotoğrafı yüklemek ve indirme URL'sini almak için gerekli adımlar
+    const storageRef = ref(storage, `users/${uid}/photos/${id}`);
+    const result = await uploadBytes(storageRef, photoFile);
+    console.log("result", result)
+    // Veritabanına fotoğrafı eklemek için dökümanı güncelle
+
+
+    // Fotoğrafın indirme URL'sini al
+    const downloadURL = await getDownloadURL(storageRef);
+    // await updateDoc(doc(db, "users", uid, "userPersonalInfos", docId), {
+    //   photo: downloadURL, // Varsa mevcut fotoğraf alanını güncellemek için true değeri kullanabilirsiniz
+    // });
+    toast.success("Fotoğraf başarıyla eklendi");
+    return downloadURL; // Eğer URL'yi kullanmak isterseniz geri dönebilirsiniz
+  } catch (error) {
+    toast.error(error.message);
+    console.error(error);
+    throw new Error(error.message);
+  }
+};
+
+// Kullanıcının fotoğrafını görüntülemek için kullanılacak fonksiyon
+export const viewPhoto = async (uid, id) => {
+  try {
+    const storageRef = ref(storage, `users/${uid}/photos/${id}`);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Fotoğraf bulunamadı");
+  }
+};
+
+export const viewAllPhotos = async (uid) => {
+  try {
+    const storageRef = ref(storage, `users/${uid}/photos/`);
+    const fileList = await listAll(storageRef);
+
+    const photoURLs = await Promise.all(
+      fileList.items.map(async (item) => {
+        const downloadURL = await getDownloadURL(item);
+        return downloadURL;
+      })
+    );
+
+    return photoURLs;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Fotoğraflar alınamadı");
   }
 };
 

@@ -66,7 +66,9 @@ export const userSlice = createSlice({
     selectGender: (state, action) => {
       state.data.personalInfo.gender = action.payload;
     },
-
+    setPhotoUrl: (state, action) => {
+      state.data.photo = action.payload;
+    },
     reset: (state) => { },
   },
   extraReducers: (builder) => {
@@ -151,6 +153,7 @@ export const {
   setIdealWeight,
   setInput,
   reset,
+  setPhotoUrl
 } = userSlice.actions;
 
 export const userInfoSelector = (state) => state.user.data.personalInfo;

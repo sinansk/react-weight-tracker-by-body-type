@@ -11,7 +11,7 @@ import { GiStairsGoal, GiMuscleFat, GiMuscleUp } from "react-icons/gi"
 import DeleteButton from "../CommonComponents/DeleteButton";
 import CollapseButton from "../CommonComponents/CollapseButton";
 import { findDiaryEntryIndex } from "../../utils/findDiaryEntryIndex";
-
+import { MdPhotoCamera } from "react-icons/md"
 
 const UserRecordsComponent = () => {
   const [deletedRowIds, setDeletedRowIds] = useState([]);
@@ -57,6 +57,7 @@ const UserRecordsComponent = () => {
         bodyFatMass: item.data.results.bodyFat["Body Fat Mass"] + `kg`,
         leanBodyMass: item.data.results.bodyFat["Lean Body Mass"] + `kg`,
         bodyFatCategory: item.data.results.bodyFat["Body Fat Category"],
+        photo: item.data?.photo,
       }
     };
   });
@@ -171,13 +172,6 @@ const UserRecordsComponent = () => {
                           <p className="underline text-slate-600">Calorie Need By {item.data.bodyGoalStatus}</p>
                           <p className="text-cyan-700">{item.data.calorieNeedByBodyGoal}</p>
                         </div>
-                        {/* {findDiaryEntryIndex(calorieDiary, moment(item.data.date).format("DD-MM-YYYY")).totalNutrient.totalCalories &&
-                          <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                            <ImSpoonKnife size={34} className="text-green-700" />
-                            <p className="underline text-slate-600">Calorie You Got</p>
-                            <p className="text-cyan-700">{findDiaryEntryIndex(calorieDiary, moment(item.data.date).format("DD-MM-YYYY")).totalNutrient.totalCalories}</p>
-                          </div>
-                        } */}
                         <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
                           <LuActivity size={34} className="text-cyan-700" />
                           <p className="underline text-slate-600">Activity Level</p>
@@ -188,6 +182,11 @@ const UserRecordsComponent = () => {
                           <p className="underline text-slate-600">BMI</p>
                           <p className="text-cyan-700">{item.data.bmi}</p>
                         </div>
+                        {item.data?.photo &&
+                          <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                            <img src={item.data?.photo} className="w-20 h-20" alt="user" />
+                          </div>
+                        }
                       </div>
                     </td>
                   </motion.tr>

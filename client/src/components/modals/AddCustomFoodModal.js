@@ -146,11 +146,16 @@ const AddCustomFoodModal = (data) => {
         }))
     }, [selectedOption])
 
+    const searchDropdownOptions = customFoods?.map((food) => ({
+        value: food.food,
+        label: food.food?.brand_name + " " + food.food.food_name,
+    }));
+
     return (
         <div className="flex flex-col gap-2 sm:w-80">
             <>
                 {customFoods?.length > 0 &&
-                    <SearchDropdown data={customFoods} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+                    <SearchDropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={searchDropdownOptions} />
                 }
                 {inputs.map((input, i) => (
                     <input

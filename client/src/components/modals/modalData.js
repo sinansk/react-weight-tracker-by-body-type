@@ -3,6 +3,8 @@ import UserInfoModal from "./UserInfoModal";
 import LoginModal from "./LoginModal";
 import ConfirmationModal from "./ConfirmationModal";
 import AddCustomFoodModal from "./AddCustomFoodModal";
+import PhotoUpdateModal from "./PhotoUpdateModal";
+import UpdateProfileModal from "./UpdateProfileModal";
 
 const modalData = [
     {
@@ -24,6 +26,14 @@ const modalData = [
     {
         name: "AddCustomFoodModal",
         element: AddCustomFoodModal
+    },
+    {
+        name: "PhotoUpdateModal",
+        element: PhotoUpdateModal
+    },
+    {
+        name: "UpdateProfileModal",
+        element: UpdateProfileModal
     },
 
 ]

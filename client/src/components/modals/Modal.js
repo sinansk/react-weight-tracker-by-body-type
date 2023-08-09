@@ -41,7 +41,7 @@ const Modal = forwardRef((props, ref) => {
                 >
                     X
                 </button>
-                <div className="grid w-full h-full p-10" >{modals?.map(modal => {
+                <div className="grid w-full h-full p-10 " >{modals?.map(modal => {
                     const currentModal = modalData.find(m => m.name === modal.name)
                     return <div className='hidden last:block'>
                         <currentModal.element data={modal.data} />

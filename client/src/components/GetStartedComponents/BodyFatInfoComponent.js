@@ -30,19 +30,19 @@ const BodyFatInfoComponent = ({ gender }) => {
         <>
           <form className="flex flex-row items-center flex-1 h-full md:text-2xl">
             <div className="flex w-full h-full gap-1 px-2">
-              <div className="w-1/2">
-                <SelectInput options={neck} label="Neck" name="neck" />
-                <SelectInput options={shoulder} label="Shoulder" name="shoulder" />
-                <SelectInput options={chest} label="Chest" name="chest" />
-                <SelectInput options={arm} label="Arm" name="arm" />
-                <SelectInput options={foreArm} label="Fore Arm" name="forearm" />
+              <div className="">
+                <SelectInput options={neck} label="Neck" name="neck" className="w-32" />
+                <SelectInput options={shoulder} label="Shoulder" name="shoulder" className="w-32" />
+                <SelectInput options={chest} label="Chest" name="chest" className="w-32" />
+                <SelectInput options={arm} label="Arm" name="arm" className="w-32" />
+                <SelectInput options={foreArm} label="Fore Arm" name="forearm" className="w-32" />
               </div>
-              <div className="w-1/2">
-                <SelectInput options={wrist} label="Wrist" name="wrist" />
-                <SelectInput options={waist} label="Waist" name="waist" />
-                <SelectInput options={hip} label="Hip" name="hip" />
-                <SelectInput options={thigh} label="Thigh" name="thigh" />
-                <SelectInput options={calve} label="Calve" name="calve" />
+              <div className="">
+                <SelectInput options={wrist} label="Wrist" name="wrist" className="w-32" />
+                <SelectInput options={waist} label="Waist" name="waist" className="w-32" />
+                <SelectInput options={hip} label="Hip" name="hip" className="w-32" />
+                <SelectInput options={thigh} label="Thigh" name="thigh" className="w-32" />
+                <SelectInput options={calve} label="Calve" name="calve" className="w-32" />
               </div>
             </div>
           </form>
