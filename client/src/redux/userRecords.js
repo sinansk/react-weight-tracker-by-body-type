@@ -18,6 +18,9 @@ export const userRecordsSlice = createSlice({
             const id = action.payload;
             state.records = state.records.filter((record) => record.id !== id);
         },
+        deletePhotoRedux: (state, action) => {
+            state.records.find((record) => record.id === action.payload).data.photo = null
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -49,5 +52,5 @@ export const userRecordsSlice = createSlice({
 });
 
 
-export const { setUserRecord, deleteUserRecord } = userRecordsSlice.actions
+export const { setUserRecord, deleteUserRecord, deletePhotoRedux } = userRecordsSlice.actions
 export default userRecordsSlice.reducer

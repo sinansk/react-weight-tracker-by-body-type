@@ -25,7 +25,7 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
-import { getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import { store } from "./redux/store";
@@ -35,7 +35,7 @@ import {
   reset,
   setData,
 } from "./redux/userRedux";
-import { deleteUserRecord } from "./redux/userRecords";
+import { deletePhotoRedux, deleteUserRecord } from "./redux/userRecords";
 import { fetchUserInfo } from "./redux/userRecordsThunk";
 import moment from "moment"
 import { setDiary } from "./redux/userDiary";
@@ -90,7 +90,7 @@ export const login = async (email, password) => {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     if (user) {
       store.dispatch(loginHandle(user))
-      store.dispatch(fetchUserInfo(user.uid))
+      // store.dispatch(fetchUserInfo(user.uid))
       store.dispatch(fetchCalorieRecords(user.uid))
       getCustomFoods(user.uid)
     }
@@ -113,7 +113,7 @@ export const logOut = async () => {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // store.dispatch(loginHandle(user))
-    // store.dispatch(fetchUserInfo(user.uid))
+    store.dispatch(fetchUserInfo(user.uid))
     // getUserInfo(user.uid)
   } else {
     store.dispatch(logoutHandle());
@@ -122,6 +122,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 export const addUserInfo = async (data) => {
+  console.log(data, "addUserInfo")
   try {
     const uid = data.uid
     const userRef = doc(db, "users", uid);
@@ -183,7 +184,28 @@ export const addPhoto = async (uid, id, photoFile, docId) => {
     //   photo: downloadURL, // Varsa mevcut fotoğraf alanını güncellemek için true değeri kullanabilirsiniz
     // });
     toast.success("Fotoğraf başarıyla eklendi");
-    return downloadURL; // Eğer URL'yi kullanmak isterseniz geri dönebilirsiniz
+    return {
+      id: id,
+      url: downloadURL,
+    }; // Eğer URL'yi kullanmak isterseniz geri dönebilirsiniz
+  } catch (error) {
+    toast.error(error.message);
+    console.error(error);
+    throw new Error(error.message);
+  }
+};
+
+export const deletePhoto = async (uid, id, docId) => {
+  console.log("uid", uid, "id:", id, "docId", docId);
+  try {
+    const storageRef = ref(storage, `users/${uid}/photos/${id}`);
+    await deleteObject(storageRef);
+
+    await updateDoc(doc(db, "users", uid, "userPersonalInfos", docId), {
+      photo: null
+    })
+    store.dispatch(deletePhotoRedux(docId)); // Redux store'u güncelle
+    toast.success("Fotoğraf başarıyla silindi");
   } catch (error) {
     toast.error(error.message);
     console.error(error);

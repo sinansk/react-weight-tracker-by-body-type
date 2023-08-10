@@ -5,7 +5,7 @@ import Select from 'react-select';
 const SelectInput = ({ label, name, options, className }) => {
     const dispatch = useDispatch();
     const selectedValue = useSelector((state) => userInfoSelector(state)[name]);
-
+    console.log(selectedValue, "selectedValue")
     const handleSelectChange = (selectedOption) => {
         dispatch(setInput({ name, value: selectedOption?.value }));
     };
@@ -19,7 +19,7 @@ const SelectInput = ({ label, name, options, className }) => {
         <div className={`${className} w-48 `} >
             <label htmlFor={name} >{label}</label>
             <Select
-                className={``}
+                className={`max-w-full`}
                 options={mappedOptions}
                 value={mappedOptions.find((option) => option.value === selectedValue)}
                 onChange={handleSelectChange}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import moment from 'moment';
-import { deleteRecord } from "../../firebase";
+import { deletePhoto, deleteRecord } from "../../firebase";
 import { motion, AnimatePresence, usePresence } from "framer-motion";
 import { RiWaterPercentFill } from "react-icons/ri"
 import { ImSpoonKnife } from "react-icons/im"
@@ -12,7 +12,11 @@ import DeleteButton from "../CommonComponents/DeleteButton";
 import CollapseButton from "../CommonComponents/CollapseButton";
 import { findDiaryEntryIndex } from "../../utils/findDiaryEntryIndex";
 import { MdPhotoCamera } from "react-icons/md"
-
+import bodyPNG from "../../assets/body.png";
+import { AiFillEye } from "react-icons/ai"
+import { TiDeleteOutline } from "react-icons/ti"
+import { createModal } from "../../utils/modalHooks";
+import PhotoDisplayComponent from "./PhotoDisplayComponent";
 const UserRecordsComponent = () => {
   const [deletedRowIds, setDeletedRowIds] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);
@@ -182,10 +186,8 @@ const UserRecordsComponent = () => {
                           <p className="underline text-slate-600">BMI</p>
                           <p className="text-cyan-700">{item.data.bmi}</p>
                         </div>
-                        {item.data?.photo &&
-                          <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                            <img src={item.data?.photo} className="w-20 h-20" alt="user" />
-                          </div>
+                        {item.data?.photo?.url &&
+                          <PhotoDisplayComponent item={item} className="w-32 h-32" isEditable={true} />
                         }
                       </div>
                     </td>

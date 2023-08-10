@@ -7,11 +7,11 @@ import UserRecordsComponent from "../components/MembershipComponents/UserRecords
 
 const MyStats = () => {
   const isLoading = useSelector((state) => state.userRecords.status);
-  const userRecords = useSelector((state) => state.userRecords.records);
+  const userRecords = useSelector((state) => state.userRecords);
 
   return (
     <div className="items-center justify-center w-screen h-full min-h-screen overflow-x-hidden text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 ">
-      {(isLoading === "loading" || isLoading === "idle" || userRecords.length === 0) ? (
+      {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
         <LoadingComponent />
       ) : (
         <>

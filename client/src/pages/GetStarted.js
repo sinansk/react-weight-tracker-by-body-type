@@ -15,7 +15,7 @@ import IdealWeightComponent from "../components/IdealWeightComponent";
 const GetStarted = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
   const user = useSelector((state) => state.user);
   const personalInfo = user.data?.personalInfo;
   const userGender = personalInfo?.gender;
@@ -28,16 +28,10 @@ const GetStarted = () => {
       setRegisterStep((prev) => prev + 1);
     } else if (e.target.name === "BACK" && registerStep > 0) {
       setRegisterStep((prev) => prev - 1);
-    }
-    if (e.target.name === "NEXT" && registerStep === 1) {
-      setLoading(true);
+    } else if (e.target.name === "NEXT" && registerStep === 2) {
       await dispatch(fetchIdealWeight());
-      setLoading(false);
-    }
-    if (e.target.name === "NEXT" && registerStep === 2) {
       await dispatch(fetchCalorieNeed());
-    }
-    if (e.target.name === "CONFIRM" && registerStep === 3) {
+    } else if (e.target.name === "CONFIRM" && registerStep === 3) {
       handleSubmit()
     }
   };

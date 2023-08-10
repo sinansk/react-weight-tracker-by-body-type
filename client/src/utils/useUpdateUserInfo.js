@@ -31,7 +31,10 @@ const useUpdateUserInfo = () => {
       personalInfo: user.data?.personalInfo,
       idealMeasurements: user.data?.idealMeasurements,
       results: user.data?.results,
-      photo: user.data?.photo,
+      photo: {
+        id: user.data?.photo?.id || null,
+        url: user.data?.photo?.url || null,
+      }
     });
     // Reset the flag to false after the data is saved to the database
     setDataFetchingCompleted(false);

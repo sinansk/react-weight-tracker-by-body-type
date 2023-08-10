@@ -1,49 +1,68 @@
-import React from 'react'
-import { addPhoto } from "../../firebase";
+import React, { useEffect, useState } from 'react'
+import { addPhoto, deletePhoto } from "../../firebase";
 import { setPhotoUrl } from "../../redux/userRedux";
 import { useDispatch, useSelector } from "react-redux";
 import bodyPNG from "../../assets/body.png";
+import { createModal } from '../../utils/modalHooks';
+import { AiFillEye } from 'react-icons/ai';
+import { TiDeleteOutline } from 'react-icons/ti';
+
 const PhotoUploadComponent = () => {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
-
-    console.log(user)
+    const latestPhoto = useSelector((state) => state.userRecords?.records[0]?.data?.photo)
+    const [photoUrl, setPhoto] = useState(latestPhoto)
     const userRecords = useSelector((state) => state.userRecords?.records)
+
     const handlePhotoUpload = async (event) => {
         const file = event.target.files[0];
-
+        event.stopPropagation();
         if (file) {
             try {
-                // Kullanıcının UID ve ID'sini burada elde edin (örneğin, oturum açma veya kullanıcı oluşturma işlemleri)
-                const uid = user.currentUser.uid // Kullanıcının UID'sini buraya yerleştirin
-                const id = Date.now(); // Fotoğrafın ID'sini buraya yerleştirin
-                const docId = userRecords?.[0].id // Kullanıcının Firestore'daki kaydının ID'sini buraya yerleştirin  
-                // Fotoğrafı Firestore'a eklemek ve URL'yi almak için utility fonksiyonunu çağırın
-                const downloadURL = await addPhoto(uid, id, file, docId);
-
-                // İşlem başarılıysa veya URL gerekiyorsa, burada uygun işlemleri gerçekleştirin
-                console.log("Fotoğraf yüklendi. İndirme URL'si:", downloadURL);
-
-                // Seçilen fotoğrafı temizle
-
-                dispatch(setPhotoUrl(downloadURL));
+                const uid = user.currentUser.uid
+                const id = Date.now();
+                const docId = userRecords?.[0].id
+                const photo = await addPhoto(uid, id, file, docId);
+                setPhoto(photo)
             } catch (error) {
                 console.error("Fotoğraf yüklenirken bir hata oluştu:", error);
             }
         }
     };
+
+    const handleDeletePhoto = () => {
+        // deletePhoto(user.currentUser.uid, userRecords[0]?.data?.photo?.id)
+        setPhoto(null)
+    }
+
+    useEffect(() => {
+        dispatch(setPhotoUrl(photoUrl))
+    }, [photoUrl, dispatch])
+
     return (
-        <div className="w-full h-full text-center">
-            <h2 className="font-bold">YOUR ACTUAL PHOTO</h2>
+        <div className="w-full mb-auto text-center">
+            {/* <h2 className="font-bold">YOUR ACTUAL PHOTO</h2> */}
             <label htmlFor="photo-upload" className="cursor-pointer">
                 <div>
-                    {userRecords[0]?.data?.photo ? (
-                        <img src={userRecords[0]?.data?.photo} className="w-56 h-48 mx-auto my-4" alt="body" />
+                    {photoUrl?.url ? (
+                        <div className="relative inline-block group">
+                            <img src={photoUrl?.url} className="w-56 h-48 mx-auto " alt="body" />
+                            <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+                                <div className="flex items-center justify-center w-full h-full text-white bg-black rounded bg-opacity-20">
+                                    <button onClick={() => createModal("ImageModal", { photo: photoUrl?.url })} className="px-3 py-1 text-white rounded "><AiFillEye size={30} /></button>
+                                    <button onClick={handleDeletePhoto} className="px-3 py-1 text-white rounded "><TiDeleteOutline size={30} /></button>
+                                </div>
+                            </div>
+                        </div>
+
                     ) : (
-                        <img src={bodyPNG} className="w-56 h-48 mx-auto my-4" alt="body" />
+                        <div className=''>
+                            <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
+                            <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
+                            <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
+                        </div>
                     )}
-                    <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
-                    <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
+
                 </div>
             </label>
         </div>

@@ -18,9 +18,9 @@ const MeasurementsCard = ({ title, data, isEdiTable }) => {
         <div className="items-center justify-center flex-1 text-center">
             <div className="flex items-center justify-center text-center">
                 <h2 className="font-bold">{title}</h2>
-                {isEdiTable &&
+                {/* {isEdiTable &&
                     <EditButton styleProps={`ml-1 absolute right-1 top-1`} onClick={handleEditClick} size={20} />
-                }
+                } */}
             </div>
             {data &&
                 <ul className="grid mt-4 uppercase">
