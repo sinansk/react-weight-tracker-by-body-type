@@ -1,4 +1,5 @@
 export const calculateTotalNutrients = ({ selectedDate, food, calorieDiary, operation }) => {
+    console.log("food", food)
     const removeUnit = (value1, value2, operation) => {
         const unitRegex = /[^\d.-]+$/;
         const unit = value1.match(unitRegex)[0];

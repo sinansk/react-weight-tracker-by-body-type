@@ -7,7 +7,7 @@ import { deletePhoto } from '../../firebase';
 import { deletePhotoRedux } from '../../redux/userRecords';
 
 const PhotoDisplayComponent = ({ className, isEditable, item }) => {
-    const [photo, setPhoto] = useState(item.data?.photo?.url);
+    const [photo, setPhoto] = useState(item?.data?.photo?.url);
     const currentUser = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
 

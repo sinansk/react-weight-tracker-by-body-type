@@ -1,15 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { BiMessageSquareAdd } from "react-icons/bi"
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import SearchComponent from '../SearchComponent';
-import { addToDiary } from '../../redux/userDiary';
-import { saveDailyCalorie } from '../../redux/userDiaryThunk';
 import { addDailyCalorie } from '../../firebase';
-import { IoIosAdd } from 'react-icons/io';
 import { createModal } from '../../utils/modalHooks';
+import { formatInputValue } from '../../utils/formatInputValue';
 
 const SearchFoodComponent = ({ className, selectedDate }) => {
     const [searchFoodInput, setSearchFoodInput] = useState();
@@ -18,7 +16,6 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     const [editedAmount, setEditedAmount] = useState({});
     const [isLoading, setIsLoading] = useState(false)
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
-    const dispatch = useDispatch()
     const inputRefs = {}
 
     const handleDivClick = (foodId) => {
@@ -49,13 +46,12 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                     // Modify the "food_description" field and return the updated object
                     const newData = {
                         ...food,
-                        food_description: {
-                            amount: amount,
-                            calories: calories,
-                            fat: fat,
-                            carbs: carbs,
-                            protein: protein,
-                        },
+                        amount: amount,
+                        calories: calories,
+                        fat: fat,
+                        carbs: carbs,
+                        protein: protein,
+
                     };
                     return newData;
                 }
@@ -71,9 +67,10 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     }
 
     const handleAmountChange = (foodId, newAmount) => {
+        const sanitizedValue = formatInputValue(newAmount);
         setEditedAmount((prevEditedAmount) => ({
             ...prevEditedAmount,
-            [foodId]: newAmount,
+            [foodId]: sanitizedValue,
         }));
     };
 
@@ -95,16 +92,17 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     };
 
     const handleDiary = (foodItem) => {
-        const amount = getAmountForDiary(foodItem.food_id, formatAmountValue(foodItem.food_description.amount).value);
+        console.log(foodItem, "foodItem")
+        const amount = getAmountForDiary(foodItem.food_id, formatAmountValue(foodItem.amount).value);
         const food_detail = {
             food_id: foodItem.food_id,
             food_name: foodItem.food_name,
             brand_name: foodItem?.brand_name ?? null,
-            amount: amount + formatAmountValue(foodItem.food_description.amount).unit, // Öğe ağırlığını günlüğe ekliyoruz
-            calories: (parseFloat(foodItem.food_description.calories) * parseFloat(amount) / 100).toFixed(2) + "kcal",
-            fat: (parseFloat(foodItem.food_description.fat) * parseFloat(amount) / 100).toFixed(2) + "g",
-            carbs: (parseFloat(foodItem.food_description.carbs) * parseFloat(amount) / 100).toFixed(2) + "g",
-            protein: (parseFloat(foodItem.food_description.protein) * parseFloat(amount) / 100).toFixed(2) + "g",
+            amount: amount + formatAmountValue(foodItem.amount).unit, // Öğe ağırlığını günlüğe ekliyoruz
+            calories: (parseFloat(foodItem.calories) * parseFloat(amount) / 100).toFixed(2) + "kcal",
+            fat: (parseFloat(foodItem.fat) * parseFloat(amount) / 100).toFixed(2) + "g",
+            carbs: (parseFloat(foodItem.carbs) * parseFloat(amount) / 100).toFixed(2) + "g",
+            protein: (parseFloat(foodItem.protein) * parseFloat(amount) / 100).toFixed(2) + "g",
 
         }
         // dispatch(addToDiary(food))
@@ -155,16 +153,16 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                                 <input
                                     type="text"
                                     ref={(ref) => { inputRefs[item.food_id] = ref }}
-                                    value={editedAmount[item.food_id] !== undefined ? editedAmount[item.food_id] : formatAmountValue(item.food_description.amount).value}
+                                    value={editedAmount[item.food_id] !== undefined ? editedAmount[item.food_id] : formatAmountValue(item.amount).value}
                                     onChange={(e) => handleAmountChange(item.food_id, e.target.value)}
                                     className="w-16 px-2 py-1 border border-gray-300 rounded-md focus:outline-pink-500 "
                                 />
-                                <span className="ml-1">{formatAmountValue(item.food_description.amount).unit}</span>
+                                <span className="ml-1">{formatAmountValue(item.amount).unit}</span>
                             </div>
-                            | Calories: {(parseFloat(item.food_description.calories) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}kcal |
-                            Fat: {(parseFloat(item.food_description.fat) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}g |
-                            Carbs: {(parseFloat(item.food_description.carbs) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}g |
-                            Protein: {(parseFloat(item.food_description.protein) * parseFloat(editedAmount[item.food_id] || item.food_description.amount) / 100).toFixed(2)}g
+                            | Calories: {(parseFloat(item.calories) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}kcal |
+                            Fat: {(parseFloat(item.fat) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                            Carbs: {(parseFloat(item.carbs) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                            Protein: {(parseFloat(item.protein) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g
                             {currentUser &&
                                 <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd size={20} className='hover:text-pink-400' title="Add To Diary" aria-label='Add To Diary' /></button>
                             }

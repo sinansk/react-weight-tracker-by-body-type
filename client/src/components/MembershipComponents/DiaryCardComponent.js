@@ -49,7 +49,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
         food: {
             amount: "",
             brand_name: "",
-            food_name: "quick-calorie",
+            food_name: "Quick Calorie",
             carbs: "",
             fat: "",
             protein: "",
@@ -135,11 +135,11 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
                                     {columns.map((column) => (
                                         <td className='px-3 py-2 ' key={column.id}>
                                             {column.id !== "food_name" ? (
-                                                <p className='font-medium text-gray-600 text-md'>{item.food[column.id]}</p>
+                                                <p className='font-medium text-gray-600 text-md'>{item[column.id]}</p>
                                             ) : (
                                                 <>
-                                                    <p className='font-medium text-gray-600 text-md'>{item.food.food_name}</p>
-                                                    <p className='text-gray-500'>{item.food?.brand_name}</p>
+                                                    <p className='font-medium text-gray-600 text-md'>{item?.food_name}</p>
+                                                    <p className='text-gray-500'>{item?.brand_name}</p>
                                                 </>
                                             )}
                                         </td>
@@ -151,7 +151,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
                             ))}
                             <tr className={`${isQuickCalorie ? `table-row outline-dashed outline-2 outline-offset-1 ` : `hidden`}`}>
                                 <td colSpan={2} className=''>
-                                    quick-calorie
+                                    Quick Calorie
                                 </td>
                                 <td > <div className="relative">
                                     <input

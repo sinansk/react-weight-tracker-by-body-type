@@ -10,21 +10,17 @@ const AddCustomFoodModal = (data) => {
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary);
     const customFoods = useSelector((state) => state.customFoods.customFoods);
     const [selectedOption, setSelectedOption] = useState("");
-    useEffect(() => {
-        console.log(customFoods, "customFoodsMODAL")
-    }, [customFoods])
+
     const [customFood, setCustomFood] = useState({
-        uid: uid,
-        food: {
-            food_name: "",
-            brand_name: "",
-            amount: "",
-            calories: "",
-            fat: "",
-            carbs: "",
-            protein: "",
-        },
+        food_name: "",
+        brand_name: "",
+        amount: "",
+        calories: "",
+        fat: "",
+        carbs: "",
+        protein: "",
     });
+
     const inputs = [{
         name: "food_name",
         placeholder: "Food Name"
@@ -66,18 +62,12 @@ const AddCustomFoodModal = (data) => {
             const trimmedValue = formatInputValue(value, dataset.unit);
             setCustomFood((prevCustomFood) => ({
                 ...prevCustomFood,
-                food: {
-                    ...prevCustomFood.food,
-                    [name]: trimmedValue,
-                },
+                [name]: trimmedValue,
             }));
         } else {
             setCustomFood((prevCustomFood) => ({
                 ...prevCustomFood,
-                food: {
-                    ...prevCustomFood.food,
-                    [name]: value,
-                },
+                [name]: value,
             }));
         }
     };
@@ -89,18 +79,12 @@ const AddCustomFoodModal = (data) => {
             const trimmedValue = formatInputValue(value, dataset.unit);
             setCustomFood((prevCustomFood) => ({
                 ...prevCustomFood,
-                food: {
-                    ...prevCustomFood.food,
-                    [name]: trimmedValue,
-                },
+                [name]: trimmedValue,
             }));
         } else {
             setCustomFood((prevCustomFood) => ({
                 ...prevCustomFood,
-                food: {
-                    ...prevCustomFood.food,
-                    [name]: value,
-                },
+                [name]: value,
             }));
         }
     };
@@ -120,35 +104,34 @@ const AddCustomFoodModal = (data) => {
 
             setCustomFood((prevCustomFood) => ({
                 ...prevCustomFood,
-                food: {
-                    ...prevCustomFood.food,
-                    [name]: formattedValue + dataset.unit,
-                },
+                [name]: formattedValue + dataset.unit,
             }));
         } else {
             setCustomFood((prevCustomFood) => ({
                 ...prevCustomFood,
-                food: {
-                    ...prevCustomFood.food,
-                    [name]: value,
-                },
+                [name]: value,
             }));
         }
     };
     const handleSaveFood = () => {
-        saveCustomFood(customFood)
-        addDailyCalorie(customFood, calorieDiary, data.data.selectedDate)
+        saveCustomFood({
+            uid: uid,
+            food: customFood,
+        })
+        addDailyCalorie({
+            uid: uid,
+            food: customFood,
+        }, calorieDiary, data.data.selectedDate)
     }
     useEffect(() => {
-        setCustomFood(prevCustomFood => ({
-            ...prevCustomFood,
-            food: selectedOption?.value
-        }))
-    }, [selectedOption])
+        setCustomFood({
+            ...selectedOption?.value,
+        })
+    }, [selectedOption, uid])
 
     const searchDropdownOptions = customFoods?.map((food) => ({
-        value: food.food,
-        label: food.food?.brand_name + " " + food.food.food_name,
+        value: food,
+        label: food?.brand_name + " " + food?.food_name,
     }));
 
     return (
@@ -164,7 +147,7 @@ const AddCustomFoodModal = (data) => {
                         type="text"
                         className="w-full p-2 border-2 border-gray-300 rounded-md"
                         placeholder={input.placeholder}
-                        value={customFood?.food?.[input.name]}
+                        value={customFood?.[input.name]}
                         onChange={(e) => handleInputChange(e, input.name)}
                         onBlur={handleInputBlur}
                         onFocus={handleInputFocus}

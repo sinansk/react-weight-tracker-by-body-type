@@ -10,9 +10,7 @@ const MeasurementsCard = ({ title, data, isEdiTable }) => {
         })
     }
 
-    const measurements = Object.keys(data).filter((key) =>
-        ["arm", "calve", "chest", "forearm", "wrist", "hip", "neck", "shoulder", "thigh", "waist"].includes(key)
-    ).sort()
+    const measurements = ["arm", "calve", "chest", "forearm", "wrist", "hip", "neck", "shoulder", "thigh", "waist"]
 
     return (
         <div className="items-center justify-center flex-1 text-center">

@@ -90,7 +90,7 @@ export const login = async (email, password) => {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     if (user) {
       store.dispatch(loginHandle(user))
-      // store.dispatch(fetchUserInfo(user.uid))
+      store.dispatch(fetchUserInfo(user.uid))
       store.dispatch(fetchCalorieRecords(user.uid))
       getCustomFoods(user.uid)
     }
@@ -113,7 +113,7 @@ export const logOut = async () => {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // store.dispatch(loginHandle(user))
-    store.dispatch(fetchUserInfo(user.uid))
+    // store.dispatch(fetchUserInfo(user.uid))
     // getUserInfo(user.uid)
   } else {
     store.dispatch(logoutHandle());
@@ -259,9 +259,9 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
   const food = data.food
   const newtotalNutrient = calculateTotalNutrients({ calorieDiary, selectedDate, food, operation: "add" });
   const diary = {
+    ...food,
     timestamp: currentDate.toISOString(), // Store the timestamp as a string in ISO format
     uid: data.uid,
-    food: data.food,
     id: Date.now()
   };
 
@@ -299,11 +299,11 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
 
 
 export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
-  console.log(data.id)
+  console.log(data)
   const id = data.id
   const uid = data.uid;
   const dateString = data.date;
-  const food = data.food
+  const food = data
   const newtotalNutrient = calculateTotalNutrients({ calorieDiary, selectedDate, food, operation: "delete" });
 
   try {
@@ -350,18 +350,21 @@ export const getCalorieRecords = async (uid) => {
 };
 
 export const saveCustomFood = async (data) => {
+  console.log(data, "data SAVE CUSTOM FOOD")
   const currentDate = moment();
   const dateString = currentDate.format('DD-MM-YYYY');
+  const food = data.food;
   const customFood = {
+    ...food,
     timestamp: currentDate.toISOString(), // Store the timestamp as a string in ISO format
     uid: data.uid,
-    id: data.food?.brand_name + data.food?.food_name + data.food?.amount,
-    food: data.food,
+    id: Date.now(),
+    food_id: (data?.food.brand_name + data?.food.food_name + data?.food.amount).replace(/\s+/g, ''),
     date: dateString, // Add the date field to the document
 
   };
   const uid = data.uid;
-  const food = data.food;
+
   console.log(food, uid, "food")
   try {
     console.log(customFood, "customFood")
@@ -369,7 +372,7 @@ export const saveCustomFood = async (data) => {
     const userDocRef = doc(userRef, uid); // Reference to the user document
     const customFoodsRef = collection(userDocRef, "customFoods");
     // Check if a food with the same ID already exists in the collection
-    const querySnapshot = await getDocs(query(customFoodsRef, where("id", "==", customFood.id)));
+    const querySnapshot = await getDocs(query(customFoodsRef, where("food_id", "==", customFood.food_id)));
     console.log(querySnapshot, "querySnapshot")
     if (querySnapshot.empty) {
       await addDoc(customFoodsRef, customFood);
