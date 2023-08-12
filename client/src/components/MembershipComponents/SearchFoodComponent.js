@@ -127,7 +127,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     const [isInputFocused, setIsInputFocused] = useState(false)
 
     return (
-        <div className={`${className} py-10 w-full  `} >
+        <div className={`${className} py-10 w-full`} >
             <div className='flex items-center justify-between gap-2'>
                 <SearchComponent onBlur={() => setIsInputFocused(false)} onFocus={() => setIsInputFocused(true)} className={``} value={searchFoodInput} onChange={handleInputChange} placeholder="Search food..." onButtonClick={handleSearch} loading={isLoading} />
                 {currentUser && (

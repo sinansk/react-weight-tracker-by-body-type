@@ -19,8 +19,6 @@ import CalorieTracker from "./pages/CalorieTracker";
 import Modal from "./components/modals/Modal";
 import LoadingComponent from "./components/CommonComponents/LoadingComponent";
 import Test from "./pages/Test";
-import QuickCalorieForm from "./components/MembershipComponents/QuickCalorieForm";
-import TotalCalorieCard from "./components/MembershipComponents/TotalCalorieCard";
 
 const App = () => {
   return (

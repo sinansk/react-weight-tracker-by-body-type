@@ -2,10 +2,11 @@ import MeasurementsModal from "./MeasurementsModal";
 import UserInfoModal from "./UserInfoModal";
 import LoginModal from "./LoginModal";
 import ConfirmationModal from "./ConfirmationModal";
-import AddCustomFoodModal from "./AddCustomFoodModal";
+
 import PhotoUpdateModal from "./PhotoUpdateModal";
 import UpdateProfileModal from "./UpdateProfileModal";
 import ImageModal from "./ImageModal";
+import AddCustomFoodModal from "./AddCustomFoodModal";
 
 const modalData = [
     {

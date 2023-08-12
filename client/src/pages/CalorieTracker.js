@@ -18,15 +18,15 @@ const CalorieTracker = () => {
     const diaryDates = userDiary.calorieDiary?.map((diaryItem) => diaryItem.date);
 
     return (
-        <div className='flex px-20 py-10 overflow-hidden justify-evenly '>
+        <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 sm:flex-row sm:justify-evenly '>
             <div className=''>
-                <Calendar className="sm:w-[550px] py-5 mx-auto bg-white shadow-lg rounded-xl " diaryDates={diaryDates} onDateClick={handleDateClick} />
-                <SearchFoodComponent className=" sm:w-[600px] mx-auto" selectedDate={selectedDate} />
+                <Calendar className="sm:w-[550px] w-full max-w-fit py-5 mx-auto bg-white shadow-lg rounded-xl " diaryDates={diaryDates} onDateClick={handleDateClick} />
+                <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full" selectedDate={selectedDate} />
 
             </div>
             <div className='flex flex-col gap-16'>
                 {/* <TotalCalorieCard className="" selectedDate={selectedDate} /> */}
-                {selectedDate && <DiaryCardComponent className="" selectedDate={selectedDate} />}
+                {selectedDate && <DiaryCardComponent className="max-w-full" selectedDate={selectedDate} />}
             </div>
 
 

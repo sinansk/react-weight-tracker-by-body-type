@@ -5,7 +5,7 @@ export const userDiary = createSlice({
     name: "userDiary",
     initialState: {
         calorieDiary: [],
-        exerciseDiary: [],
+        exerciseDiary: [{ date: "12-08-2023", exercises: [{ exercise_name: "Pushups", calories: 100, set: 4, rep: 10, weight: 10 }, { exercise_name: "Pullups", calories: 100, set: 4, rep: 10, weight: 10 }] }],
         selectedDate: moment().format('DD-MM-YYYY'),
         status: "idle",
         error: null,

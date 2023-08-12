@@ -10,54 +10,30 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { setCustomFoods } from '../../redux/customFoods'
 import { formatInputValue } from '../../utils/formatInputValue'
-import toast from 'react-hot-toast'
 
-const DiaryCardComponent = ({ className, selectedDate }) => {
-    console.log(selectedDate, "selectedDate")
+const DiaryCardComponent = ({ className, selectedDate, headerColumns, diaryEntry, diaryItems, initalCustomCalorie }) => {
+    console.log(diaryEntry, "diaryEntry")
+
+    console.log(diaryItems, "diaryItems");
     const dispatch = useDispatch()
     const uid = useSelector((state) => state.user.currentUser.uid)
-    const userDiary = useSelector((state) => state.userDiary);
 
-    const diary = userDiary.calorieDiary.find((entry) => entry.date === selectedDate);
-    const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
-    const foods = diary?.foods;
-    console.log(diary, "DiaryComponent");
+    // const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
 
-    const columns = [
-        { id: "amount", label: "Amount" },
-        { id: "food_name", label: "Food" },
-        { id: "carbs", label: "Carbs" },
-        { id: "fat", label: "Fat" },
-        { id: "protein", label: "Protein" },
-        { id: "calories", label: "Calories" }
-    ]
-
-    const TableHeader = ({ columns }) => {
+    const TableHeader = ({ headerColumns }) => {
         return (
             <thead className='w-full '>
                 <tr>
-                    {columns.map((column) => (
-                        <th key={column.id}>{column.label}</th>
+                    {headerColumns.map((column) => (
+                        <th colSpan={column.colSpan} key={column.id}>{column.label}</th>
                     ))}
                 </tr>
             </thead>
         )
     }
     const [isQuickCalorie, setIsQuickCalorie] = useState(false)
-    const initalCustomFood = {
-        id: Date.now(),
-        uid: uid,
-        food: {
-            amount: "",
-            brand_name: "",
-            food_name: "Quick Calorie",
-            carbs: "",
-            fat: "",
-            protein: "",
-            calories: ""
-        }
-    }
-    const [quickCalorie, setQuickCalorie] = useState(initalCustomFood)
+
+    const [quickCalorie, setQuickCalorie] = useState(initalCustomCalorie)
     const handleAddButton = () => {
         // createModal("AddCustomFoodModal", { selectedDate: selectedDate })
         setIsQuickCalorie(!isQuickCalorie)
@@ -70,8 +46,8 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
 
         setQuickCalorie((prevQuickCalorie) => ({
             ...prevQuickCalorie,
-            food: {
-                ...prevQuickCalorie.food,
+            calorie: {
+                ...prevQuickCalorie.calorie,
                 [name]: trimmedValue,
             },
         }));
@@ -84,8 +60,8 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
 
         setQuickCalorie((prevQuickCalorie) => ({
             ...prevQuickCalorie,
-            food: {
-                ...prevQuickCalorie.food,
+            calorie: {
+                ...prevQuickCalorie.calorie,
                 [name]: trimmedValue,
             },
         }));
@@ -93,7 +69,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
 
     const handleInputBlur = (e) => {
         const { name, value, dataset } = e.target;
-
+        console.log(name, value, dataset, "name, value, dataset")
         const trimmedValue = formatInputValue(value, dataset.unit);
         const formattedValue = trimmedValue.endsWith('.') || trimmedValue.endsWith(',')
             ? trimmedValue + '00'
@@ -105,8 +81,8 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
         trimmedValue.length > 0 &&
             setQuickCalorie((prevQuickCalorie) => ({
                 ...prevQuickCalorie,
-                food: {
-                    ...prevQuickCalorie.food,
+                calorie: {
+                    ...prevQuickCalorie.calorie,
                     [name]: formattedValue + dataset.unit,
                 },
             }));
@@ -117,27 +93,24 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
     }, [quickCalorie])
 
     const addCustomFood = () => {
-        if (!quickCalorie.food.calories === "") {
-            dispatch(addDailyCalorie(quickCalorie, calorieDiary, selectedDate))
-            setQuickCalorie(initalCustomFood)
-        } else {
-            toast.error("Please fill calories!")
-        }
+        addDailyCalorie(quickCalorie, diaryEntry, selectedDate)
+        setIsQuickCalorie(false)
+        setQuickCalorie(initalCustomCalorie)
     }
     return (
 
         <>
             <div className={`${className} p-5 pt-0 mx-auto shadow-lg rounded-xl bg-white w-[600px] h-fit`}>
                 <h2 className='p-2 my-auto text-lg'>{selectedDate}</h2>
-                {foods ? (
+                {diaryItems ? (
                     <table className='min-w-full p-5 divide-y divide-gray-200'>
-                        <TableHeader columns={columns} />
+                        <TableHeader headerColumns={headerColumns} />
 
                         <tbody className="bg-white divide-y divide-gray-200 text-slate-700">
-                            {foods?.map((item, rowIndex) => (
+                            {diaryItems?.map((item, rowIndex) => (
                                 <tr key={rowIndex} className=''>
-                                    {columns.map((column) => (
-                                        <td className='px-3 py-2 ' key={column.id}>
+                                    {headerColumns.map((column) => (
+                                        <td className='px-3 py-2 ' key={column.id} colSpan={column.colSpan}>
                                             {column.id !== "food_name" ? (
                                                 <p className='font-medium text-gray-600 text-md'>{item[column.id]}</p>
                                             ) : (
@@ -149,7 +122,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
                                         </td>
                                     ))}
                                     <td className=''>
-                                        <DeleteButton onClick={() => deleteDailyCalorie(item, calorieDiary, selectedDate)} className="m-auto " size={18} />
+                                        <DeleteButton onClick={() => deleteDailyCalorie(item, diaryEntry, selectedDate)} className="m-auto " size={18} />
                                     </td>
                                 </tr>
                             ))}
@@ -157,35 +130,41 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
                                 <td colSpan={2} className=''>
                                     Quick Calorie
                                 </td>
-                                {['carbs', 'fat', 'protein', 'calories'].map((nutrient) => (
-                                    <td key={nutrient}>
+
+
+                                {headerColumns.map((item) => (
+                                    item.unit &&
+
+                                    <td key={item.id} className=''>
+                                        {console.log(item, "item")}
                                         <div className="relative">
                                             <input
-                                                name={nutrient}
+                                                name={item.id}
                                                 onChange={handleInputChange}
                                                 onFocus={handleInputFocus}
                                                 onBlur={handleInputBlur}
-                                                value={quickCalorie.food[nutrient]}
-                                                data-unit={nutrient === 'calories' ? 'kcal' : 'g'}
-                                                placeholder={nutrient === 'calories' ? 'required' : 'optional'}
+                                                value={quickCalorie.calorie[item.id]}
+                                                data-unit={item.unit}
+                                                placeholder={item.id === 'calories' ? 'required' : 'optional'}
                                                 className="w-20 px-1 border-[1px] focus:outline-pink-500 rounded-md bg-slate-50"
                                                 type="text"
                                             />
                                         </div>
                                     </td>
                                 ))}
+
                                 <td><button className='flex items-center justify-center' onClick={addCustomFood}><TbSquareRoundedCheckFilled size={18} className='m-auto cursor-pointer hover:text-pink-500' /></button></td>
                             </tr>
                         </tbody>
 
-                        {diary &&
+                        {diaryEntry &&
                             <tfoot className='font-bold'>
                                 <tr>
                                     <td onClick={handleAddButton} colSpan={2}><span className="flex flex-row items-center justify-center px-3 py-1.5 text-pink-500 rounded-lg cursor-pointer hover:bg-gray-100" ><IoIosAdd size={20} /> Add Quick Calorie</span></td>
-                                    <td>{diary?.totalNutrient?.totalCarbs}</td>
-                                    <td>{diary?.totalNutrient?.totalFat}</td>
-                                    <td>{diary?.totalNutrient?.totalProtein}</td>
-                                    <td>{diary?.totalNutrient?.totalCalories}</td>
+                                    <td>{diaryEntry?.totalNutrient?.totalCarbs}</td>
+                                    <td>{diaryEntry?.totalNutrient?.totalFat}</td>
+                                    <td>{diaryEntry?.totalNutrient?.totalProtein}</td>
+                                    <td>{diaryEntry?.totalNutrient?.totalCalories}</td>
                                     <td />
                                 </tr>
                             </tfoot>
@@ -199,6 +178,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
                 )}
             </div>
         </>
+
     )
 }
 

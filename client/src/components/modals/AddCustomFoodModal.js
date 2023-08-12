@@ -161,7 +161,3 @@ const AddCustomFoodModal = (data) => {
 };
 
 export default AddCustomFoodModal;
-
-
-
-
