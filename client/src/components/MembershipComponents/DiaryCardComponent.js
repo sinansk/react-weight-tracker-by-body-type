@@ -12,7 +12,7 @@ import { setCustomFoods } from '../../redux/customFoods'
 import { formatInputValue } from '../../utils/formatInputValue'
 import toast from 'react-hot-toast'
 
-const DiaryCardComponent = ({ className, selectedDate }) => {
+const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalendarExpand }) => {
     console.log(selectedDate, "selectedDate")
     const dispatch = useDispatch()
     const uid = useSelector((state) => state.user.currentUser.uid)
@@ -37,7 +37,7 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
             <thead className='w-full '>
                 <tr>
                     {columns.map((column) => (
-                        <th key={column.id}>{column.label}</th>
+                        <th className={` `} key={column.id}>{column.label}</th>
                     ))}
                 </tr>
             </thead>
@@ -117,18 +117,22 @@ const DiaryCardComponent = ({ className, selectedDate }) => {
     }, [quickCalorie])
 
     const addCustomFood = () => {
-        if (!quickCalorie.food.calories === "") {
+        if (quickCalorie.food.calories !== undefined && quickCalorie.food.calories !== "") {
             dispatch(addDailyCalorie(quickCalorie, calorieDiary, selectedDate))
             setQuickCalorie(initalCustomFood)
         } else {
             toast.error("Please fill calories!")
         }
     }
+    const handleCalendarExpand = () => {
+        console.log("handleCalendarExpand")
+        setCalendarExpand(!calendarExpand)
+    }
     return (
 
         <>
-            <div className={`${className} p-5 pt-0 mx-auto shadow-lg rounded-xl bg-white w-[600px] h-fit`}>
-                <h2 className='p-2 my-auto text-lg'>{selectedDate}</h2>
+            <div className={`${className} p-5 pt-0 mx-auto shadow-lg rounded-xl bg-white w-[600px] h-fit overflow-auto no-scrollbar`}>
+                <h2 className='p-2 my-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>
                 {foods ? (
                     <table className='min-w-full p-5 divide-y divide-gray-200'>
                         <TableHeader columns={columns} />

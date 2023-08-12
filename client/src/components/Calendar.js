@@ -3,14 +3,15 @@ import moment from 'moment';
 
 const Calendar = ({ className, diaryDates, onDateClick }) => {
     const [selectedDate, setSelectedDate] = useState(moment());
-    const [isExpanded, setIsExpanded] = useState(false);
+    // const [isExpanded, setIsExpanded] = useState(false);
     const isDateInDiary = (date) => {
         return diaryDates.includes(date.format('DD-MM-YYYY'));
     };
 
     const handleDateClick = (date) => {
         setSelectedDate(moment(date));
-        onDateClick(date.format('DD-MM-YYYY'));
+        onDateClick(date.format('DD-MM-YYYY'))
+
     };
 
     const getMonthName = () => {
@@ -70,17 +71,12 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
         console.log("selectedDate", selectedDate)
     }, [selectedDate])
 
-    const handleCollapse = (e) => {
-        e.stopPropagation();
-        setIsExpanded(!isExpanded);
-    }
 
-    useEffect(() => {
-        console.log("isExpanded", isExpanded)
-    }, [isExpanded])
+
+
     return (
         <div className={`${className} `}>
-            <div className="flex items-center justify-between mb-4 sm:w-full sm:px-20" onClick={handleCollapse}>
+            <div className="flex items-center justify-between mb-4 sm:w-full sm:px-20" >
                 <button onClick={() => setSelectedDate(selectedDate.clone().subtract(1, 'month'))} className="px-2 py-1 text-sm font-semibold text-gray-700">
                     {'<'}
                 </button>
@@ -91,7 +87,7 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
                     {'>'}
                 </button>
             </div>
-            <table className={`${!isExpanded && `hidden sm:block`} mx-auto border-collapse sm:`}>
+            <table className={` mx-auto border-collapse sm:`}>
                 <thead>
                     <tr>
                         <th className="px-2 py-2 sm:px-4">Sun</th>

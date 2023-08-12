@@ -12,21 +12,23 @@ const CalorieTracker = () => {
     const userDiary = useSelector((state) => state.userDiary)
 
     const handleDateClick = (date) => {
+        setCalendarExpand(!calendarExpand)
         setSelectedDate(date);
     };
 
     const diaryDates = userDiary.calorieDiary?.map((diaryItem) => diaryItem.date);
-
+    const [calendarExpand, setCalendarExpand] = useState(false)
     return (
-        <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 sm:flex-row sm:justify-evenly '>
+        <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 '>
             <div className=''>
-                <Calendar className="sm:w-[550px] w-full max-w-fit py-5 mx-auto bg-white shadow-lg rounded-xl " diaryDates={diaryDates} onDateClick={handleDateClick} />
+                {selectedDate && <DiaryCardComponent className={`${calendarExpand && `hidden`} max-w-full`} selectedDate={selectedDate} calendarExpand={calendarExpand} setCalendarExpand={setCalendarExpand} />}
+                <Calendar className={`${!calendarExpand && `hidden`} sm:w-[550px] w-full max-w-fit py-5 mx-auto bg-white shadow-lg rounded-xl `} diaryDates={diaryDates} onDateClick={handleDateClick} />
                 <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full" selectedDate={selectedDate} />
 
             </div>
             <div className='flex flex-col gap-16'>
                 {/* <TotalCalorieCard className="" selectedDate={selectedDate} /> */}
-                {selectedDate && <DiaryCardComponent className="max-w-full" selectedDate={selectedDate} />}
+                {/* {selectedDate && <DiaryCardComponent className={`${calendarExpand && `hidden`} max-w-full`} selectedDate={selectedDate} calendarExpand={calendarExpand} setCalendarExpand={setCalendarExpand} />} */}
             </div>
 
 
