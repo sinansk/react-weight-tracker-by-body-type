@@ -40,7 +40,7 @@ const UserRecordsComponent = () => {
     return {
       id: item.id,
       data: {
-        date: moment(item.data.date.seconds * 1000).format("DD MMM YYYY"),
+        date: item.data.date,
         weight: item.data.personalInfo.weight,
         bodyFat: item.data.results.bodyFatUsNavy,
         arm: item.data.personalInfo.arm,

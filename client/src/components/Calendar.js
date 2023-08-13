@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCalendarDate } from '../redux/userDiary';
 
 const Calendar = ({ className, diaryDates, onDateClick }) => {
-    const [selectedDate, setSelectedDate] = useState(moment());
+    const dispatch = useDispatch()
+    const calendarDate = useSelector((state) => state.userDiary?.calendarDate)
+    const [selectedDate, setSelectedDate] = useState(calendarDate ? calendarDate : moment());
     // const [isExpanded, setIsExpanded] = useState(false);
     const isDateInDiary = (date) => {
-        return diaryDates.includes(date.format('DD-MM-YYYY'));
+        if (diaryDates) {
+            return diaryDates.includes(date.format('DD-MM-YYYY'));
+        }
     };
 
     const handleDateClick = (date) => {
         setSelectedDate(moment(date));
         onDateClick(date.format('DD-MM-YYYY'))
-
+        dispatch(setCalendarDate(date))
     };
 
+    const handleTodayClick = () => {
+        setSelectedDate(moment());
+        onDateClick(moment().format('DD-MM-YYYY'))
+        dispatch(setCalendarDate(moment()))
+    }
     const getMonthName = () => {
         return selectedDate.format('MMMM');
     };
@@ -75,7 +86,8 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
 
 
     return (
-        <div className={`${className} `}>
+        <div className={`${className} w-fit relative`}>
+            <button onClick={handleTodayClick} className='absolute px-2.5 py-1 text-xs  border-2 border-pink-500 rounded-md top-2 right-2 text pink-500 hover:bg-pink-500 hover:text-white'>TODAY</button>
             <div className="flex items-center justify-between mb-4 sm:w-full sm:px-20" >
                 <button onClick={() => setSelectedDate(selectedDate.clone().subtract(1, 'month'))} className="px-2 py-1 text-sm font-semibold text-gray-700">
                     {'<'}

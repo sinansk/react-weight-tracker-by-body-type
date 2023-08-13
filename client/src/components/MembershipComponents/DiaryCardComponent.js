@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToDiary, deleteFromDiary } from '../../redux/userDiary'
 import DeleteButton from '../CommonComponents/DeleteButton'
@@ -12,8 +12,8 @@ import { setCustomFoods } from '../../redux/customFoods'
 import { formatInputValue } from '../../utils/formatInputValue'
 import toast from 'react-hot-toast'
 
-const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalendarExpand }) => {
-    console.log(selectedDate, "selectedDate")
+const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalendarExpand, handleAdd }) => {
+    console.log(selectedDate, "selectedDateDiaryCrardComponent")
     const dispatch = useDispatch()
     const uid = useSelector((state) => state.user.currentUser.uid)
     const userDiary = useSelector((state) => state.userDiary);
@@ -128,6 +128,8 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
         console.log("handleCalendarExpand")
         setCalendarExpand(!calendarExpand)
     }
+
+
     return (
 
         <>
@@ -198,7 +200,7 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                 ) : (
                     <>
                         <h2>THERE IS NO FOOD</h2>
-                        <button onClick={handleAddButton} ><span className="flex flex-row items-center justify-center px-3 py-1.5 text-pink-500 rounded-lg cursor-pointer hover:bg-gray-100" ><IoIosAdd size={20} /> Add custom food</span></button>
+                        {/* <button onClick={handleAdd} ><span className="flex flex-row items-center justify-center px-3 py-1.5 text-pink-500 rounded-lg cursor-pointer hover:bg-gray-100" ><IoIosAdd size={20} /> Add custom food</span></button> */}
                     </>
                 )}
             </div>

@@ -6,7 +6,7 @@ export const userDiary = createSlice({
     initialState: {
         calorieDiary: [],
         exerciseDiary: [{ date: "12-08-2023", exercises: [{ exercise_name: "Pushups", calories: 100, set: 4, rep: 10, weight: 10 }, { exercise_name: "Pullups", calories: 100, set: 4, rep: 10, weight: 10 }] }],
-        selectedDate: moment().format('DD-MM-YYYY'),
+        calendarDate: moment(),
         status: "idle",
         error: null,
     },
@@ -14,8 +14,8 @@ export const userDiary = createSlice({
         setDiary: (state, action) => {
             state.calorieDiary = action.payload
         },
-        setSelectedDate: (state, action) => {
-            state.selectedDate = action.payload
+        setCalendarDate: (state, action) => {
+            state.calendarDate = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -49,6 +49,6 @@ export const userDiary = createSlice({
     },
 });
 
-export const { addToDiary, deleteFromDiary, setDiary, setSelectedDate, recalculateNutrientDetails, setTotal } = userDiary.actions;
+export const { addToDiary, deleteFromDiary, setDiary, setCalendarDate, recalculateNutrientDetails, setTotal } = userDiary.actions;
 export default userDiary.reducer
 

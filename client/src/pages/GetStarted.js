@@ -11,6 +11,7 @@ import { fetchUserInfo } from "../redux/userRecordsThunk";
 import StepButton from "../components/GetStartedComponents/StepButton";
 import Stepper from "../components/GetStartedComponents/Stepper";
 import IdealWeightComponent from "../components/IdealWeightComponent";
+import moment from "moment";
 
 const GetStarted = () => {
   const dispatch = useDispatch();
@@ -28,14 +29,15 @@ const GetStarted = () => {
       setRegisterStep((prev) => prev + 1);
     } else if (e.target.name === "BACK" && registerStep > 0) {
       setRegisterStep((prev) => prev - 1);
-    } else if (e.target.name === "NEXT" && registerStep === 2) {
+    }
+    if (e.target.name === "NEXT" && registerStep === 2) {
       await dispatch(fetchIdealWeight());
       await dispatch(fetchCalorieNeed());
-    } else if (e.target.name === "CONFIRM" && registerStep === 3) {
+    }
+    if (e.target.name === "CONFIRM" && registerStep === 3) {
       handleSubmit()
     }
   };
-
   const handleSubmit = useCallback(async () => {
     try {
       setLoading(true);
@@ -43,7 +45,6 @@ const GetStarted = () => {
       await Promise.all([
         dispatch(fetchBodyFat()),
         dispatch(updateIdealMeasurements()),
-
       ]);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -53,10 +54,10 @@ const GetStarted = () => {
       setIsFetchingData(false);
     }
   }, [dispatch]);
-
   const userInfoToDB = useCallback(async () => {
     await addUserInfo({
-      date: serverTimestamp(),
+      timestamp: serverTimestamp(),
+      date: moment().format("DD-MM-YYYY"),
       uid: user.currentUser.uid,
       personalInfo: user.data?.personalInfo,
       idealMeasurements: user.data?.idealMeasurements,
@@ -64,15 +65,12 @@ const GetStarted = () => {
     });
     dispatch(fetchUserInfo(user.currentUser.uid)); // fetchUserInfo işlemini tetikle
   }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results]);
-
-
   useEffect(() => {
     if (!isFetchingData) {
       userInfoToDB();
       const timeoutId = setTimeout(() => {
         navigate("/mystats", { replace: true }); // sayfa yönlendirmesi
       }, 4000); // 4 saniye
-
       return () => clearTimeout(timeoutId);
     }
   }, [dispatch, userInfoToDB, isFetchingData, user.currentUser.uid, navigate]);

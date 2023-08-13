@@ -1,8 +1,4 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import userReducer from "./userRedux";
-import userRecords from "./userRecords";
-import modal from "./modal";
-import userDiary from "./userDiary";
 import {
   persistStore,
   persistReducer,
@@ -14,8 +10,11 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import userReducer from "./userRedux";
+import userRecords from "./userRecords";
+import userDiary from "./userDiary";
 import customFoods from "./customFoods";
-
+import modal from "./modal";
 
 const persistConfig = {
   key: "root",

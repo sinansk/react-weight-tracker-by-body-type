@@ -1,46 +1,98 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import Calendar from './Calendar';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import useDiaryEntry from '../utils/findUserDiary';
+import useUserRecord from '../utils/findUserRecord';
+import { BsCalendarWeek } from 'react-icons/bs';
+import { MdExpandCircleDown } from 'react-icons/md';
+import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { PiForkKnife, PiForkKnifeThin } from 'react-icons/pi'
+import { FaWeight } from 'react-icons/fa'
 const StickyInfo = () => {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isCalendarVisible, setIsCalendarVisible] = useState(false);
+    const [isbottommBarVisible, setIsbottomBarVisible] = useState(true);
+    // const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'));
+    const calendar = useSelector((state) => state.userDiary?.calendarDate)
+    const calendarDate = calendar?.format('DD-MM-YYYY')
+    const userRecords = useSelector((state) => state.userRecords);
+    const userDiary = useSelector((state) => state.userDiary)
+    const diaryEntry = useDiaryEntry(calendarDate);
+    console.log(diaryEntry, "diaryEntry")
+    const handleDateClick = (date) => {
+        // setSelectedDate(date);
+    };
+    const record = useUserRecord(calendarDate);
+    console.log(record, "record")
+    const diaryDates = userDiary.calorieDiary?.map((diaryItem) => diaryItem.date);
+    const handleCollapse = (e) => {
+
+        setIsbottomBarVisible(!isbottommBarVisible)
+    }
 
     useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            setIsVisible(scrollY > 360);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
+        console.log(isbottommBarVisible, "isbottommBarVisible")
+    }, [isbottommBarVisible])
     return (
-        <div
-            className={`z-50 fixed top-0 left-0 w-full h-28 bg-gray-200 p-4 transition-transform duration-300 ${isVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
-                }`}
-        >
-            <div className="sticky top-4">
-                <h2 className="mb-2 text-lg font-bold">Sticky Info</h2>
-                <p className="mb-4 text-gray-700">Bu bilgiler sticky olarak görüntülenecek.</p>
-                {/* <div className="flex flex-wrap">
-                    <div className="w-1/2">
-                        <p className="font-semibold">Bilgi 1:</p>
-                        <p>Değer 1</p>
+        <AnimatePresence>
+
+
+            <motion.div
+                initial={{ opacity: 1, height: 'auto' }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 1, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed bottom-0 left-0 right-0 invisible py-2 mt-10 bg-white border-t-2 rounded-t-lg sm:visible text-cyan-600 border-cyan-500">
+                {isbottommBarVisible ? (
+                    <div className="grid items-center grid-cols-7 gap-4">
+
+                        <div className="relative flex flex-col items-center justify-center h-full p-4 text-center cursor-pointer" onMouseEnter={() => setIsCalendarVisible(true)} onMouseLeave={() => setIsCalendarVisible(false)}>
+                            <div className='flex items-center justify-between gap-2'>
+                                <BsCalendarWeek size={40} className=" text-cyan-500 group-hover:text-cyan-600" />
+                                <p className="text-xl font-bold group">{calendarDate}</p>
+                            </div>
+                            {isCalendarVisible && (
+                                <div className="absolute left-0 bottom-full">
+                                    <Calendar className="p-5 bg-white border-2 border-b-0 rounded-lg border-slate-300 w-fit" onDateClick={handleDateClick} diaryDates={diaryDates} />
+                                </div>
+                            )}
+                        </div>
+                        <div className='flex items-center justify-center'>
+                            <PiForkKnife size={60} />
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <p className="text-lg font-bold">Calorie Need</p>
+                            <p className="text-4xl font-bold">{record?.results?.calorieNeedByBodyGoal}</p>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <p className="text-lg font-bold">Calories Taken</p>
+                            <p className="text-4xl font-bold">{diaryEntry?.totalNutrient.totalCalories}</p>
+                        </div>
+                        <div className='flex items-center justify-center'>
+                            <FaWeight size={60} />
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <p className="text-lg font-bold">Ideal Weight</p>
+                            <p className="text-4xl font-bold">{record?.results?.idealWeightRange}</p>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <p className="text-lg font-bold">Weight</p>
+                            <p className="text-4xl font-bold">{record?.personalInfo?.weight}</p>
+                        </div>
+
+                        <button onClick={handleCollapse} className='absolute right-1 -top-2'><BiSolidDownArrow size={40} /></button>
+
                     </div>
-                    <div className="w-1/2">
-                        <p className="font-semibold">Bilgi 2:</p>
-                        <p>Değer 2</p>
-                    </div>
-                    <div className="w-1/2">
-                        <p className="font-semibold">Bilgi 3:</p>
-                        <p>Değer 3</p>
-                    </div>
-                    <div className="w-1/2">
-                        <p className="font-semibold">Bilgi 4:</p>
-                        <p>Değer 4</p>
-                    </div>
-                </div> */}
-            </div>
-        </div>
+                ) : (
+                    <button onClick={handleCollapse} className='absolute right-1 -top-8 text-cyan-500'><BiSolidUpArrow size={40} /></button>
+                )
+                }
+            </motion.div>
+
+
+
+        </AnimatePresence>
     );
 };
 

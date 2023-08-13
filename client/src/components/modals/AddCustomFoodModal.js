@@ -4,14 +4,13 @@ import { useSelector } from 'react-redux';
 import ButtonPrimary from '../CommonComponents/ButtonPrimary';
 import SearchDropdown from '../CommonComponents/SearchDropdown';
 import { formatInputValue } from '../../utils/formatInputValue';
-
+import { AiOutlineMinusCircle } from 'react-icons/ai';
 const AddCustomFoodModal = (data) => {
     const uid = useSelector((state) => state.user.currentUser.uid);
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary);
     const customFoods = useSelector((state) => state.customFoods.customFoods);
     const [selectedOption, setSelectedOption] = useState("");
-
-    const [customFood, setCustomFood] = useState({
+    const initialCustomFodd = {
         food_name: "",
         brand_name: "",
         amount: "",
@@ -19,7 +18,8 @@ const AddCustomFoodModal = (data) => {
         fat: "",
         carbs: "",
         protein: "",
-    });
+    };
+    const [customFood, setCustomFood] = useState(initialCustomFodd);
 
     const inputs = [{
         name: "food_name",
@@ -129,16 +129,26 @@ const AddCustomFoodModal = (data) => {
         })
     }, [selectedOption, uid])
 
+    useEffect(() => {
+        console.log(customFood)
+    }, [selectedOption, customFood])
+
     const searchDropdownOptions = customFoods?.map((food) => ({
         value: food,
         label: food?.brand_name + " " + food?.food_name,
     }));
-
+    const handleRemove = () => {
+        setSelectedOption("")
+        setCustomFood(initialCustomFodd)
+    }
     return (
         <div className="flex flex-col gap-2 sm:w-80">
             <>
                 {customFoods?.length > 0 &&
-                    <SearchDropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={searchDropdownOptions} />
+                    <div className='flex items-center justify-between'>
+                        <SearchDropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={searchDropdownOptions} />
+                        <AiOutlineMinusCircle className='cursor-pointer' size={26} onClick={handleRemove} />
+                    </div>
                 }
                 {inputs.map((input, i) => (
                     <input

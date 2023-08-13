@@ -36,7 +36,6 @@ const App = () => {
             <Route path="/dailycalorie" element={<DailiyCalorie />} />
             <Route path="/idealmeasurements" element={<IdealMeasurements />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/calorie-tracker" element={<CalorieTracker />} />
             <Route path="/test" element={<Test />} />
           </Route>
           <Route element={<WithOutNavbar />}>
@@ -48,6 +47,7 @@ const App = () => {
           <Route element={<ProtectedRoutes />}>
             <Route element={<WithNavbar />}>
               <Route path="/mystats" element={<MyStats />} />
+              <Route path="/calorie-tracker" element={<CalorieTracker />} />
             </Route>
             <Route element={<WithOutNavbar />}>
               <Route path="/getstarted" element={<GetStarted />} />

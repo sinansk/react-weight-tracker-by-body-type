@@ -5,7 +5,7 @@ import { serverTimestamp } from 'firebase/firestore';
 import { fetchUserInfo } from '../redux/userRecordsThunk';
 import { useCallback, useEffect, useState } from 'react';
 import { destroyAllModal } from './modalHooks';
-
+import moment from 'moment';
 const useUpdateUserInfo = () => {
   const dispatch = useDispatch();
   const [dataFetchingCompleted, setDataFetchingCompleted] = useState(false);
@@ -26,7 +26,8 @@ const useUpdateUserInfo = () => {
 
   const userInfoToDB = useCallback(async () => {
     await addUserInfo({
-      date: serverTimestamp(),
+      timestamp: serverTimestamp(),
+      date: moment().format('DD-MM-YYYY'),
       uid: user.currentUser.uid,
       personalInfo: user.data?.personalInfo,
       idealMeasurements: user.data?.idealMeasurements,

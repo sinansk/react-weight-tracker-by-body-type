@@ -142,8 +142,8 @@ export const getUserInfo = async (uid) => {
     const data = snapshot.docs.map((doc) => ({
       id: doc.id,
       data: doc.data(),
-    })).sort((a, b) => b.data.date - a.data.date);
-    // store.dispatch(setData(data?.[0].data))
+    })).sort((a, b) => b.data.timestamp - a.data.timestamp);
+    store.dispatch(setData(data?.[0].data))
     return data;
   } catch (error) {
     console.log(error)
