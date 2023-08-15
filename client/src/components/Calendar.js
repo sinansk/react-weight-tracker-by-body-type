@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCalendarDate } from '../redux/userDiary';
+import { getCalorieRecordsForMonth } from '../firebase';
+import { fetchCalorieRecordsForMonth } from '../redux/userDiaryThunk';
 
 const Calendar = ({ className, diaryDates, onDateClick }) => {
     const dispatch = useDispatch()
     const calendarDate = useSelector((state) => state.userDiary?.calendarDate)
     const [selectedDate, setSelectedDate] = useState(calendarDate ? calendarDate : moment());
+    const uid = useSelector((state) => state.user.currentUser.uid);
     // const [isExpanded, setIsExpanded] = useState(false);
     const isDateInDiary = (date) => {
         if (diaryDates) {
@@ -21,9 +24,12 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
     };
 
     const handleTodayClick = () => {
+        const year = moment().year();
+        const month = moment().month() + 1;
         setSelectedDate(moment());
         onDateClick(moment().format('DD-MM-YYYY'))
         dispatch(setCalendarDate(moment()))
+        dispatch(fetchCalorieRecordsForMonth({ year, month }))
     }
     const getMonthName = () => {
         return selectedDate.format('MMMM');
@@ -77,25 +83,40 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
 
     const allDays = [...blankDays, ...daysInMonthCells, ...lastBlankDays];
 
+    const handlePrevMonthClick = () => {
+        const prevMonth = selectedDate.clone().subtract(1, 'month');
+        console.log(prevMonth, "prevMonth")
+        setSelectedDate(prevMonth);
+        onDateClick(prevMonth.format('DD-MM-YYYY'));
+        dispatch(setCalendarDate(prevMonth));
 
-    useEffect(() => {
-        console.log("selectedDate", selectedDate)
-    }, [selectedDate])
+        const year = prevMonth.year();
+        const month = prevMonth.month() + 1; // moment.js ay indeksi 0-11 arasında olduğu için +1 ekliyoruz
+        dispatch(fetchCalorieRecordsForMonth({ year, month }))
+    };
 
+    const handleNextMonthClick = () => {
+        const nextMonth = selectedDate.clone().add(1, 'month');
+        setSelectedDate(nextMonth);
+        onDateClick(nextMonth.format('DD-MM-YYYY'));
+        dispatch(setCalendarDate(nextMonth));
 
-
+        const year = nextMonth.year();
+        const month = nextMonth.month() + 1;
+        dispatch(fetchCalorieRecordsForMonth({ year, month }))
+    };
 
     return (
         <div className={`${className} w-fit relative`}>
             <button onClick={handleTodayClick} className='absolute px-2.5 py-1 text-xs  border-2 border-pink-500 rounded-md top-2 right-2 text pink-500 hover:bg-pink-500 hover:text-white'>TODAY</button>
             <div className="flex items-center justify-between mb-4 sm:w-full sm:px-20" >
-                <button onClick={() => setSelectedDate(selectedDate.clone().subtract(1, 'month'))} className="px-2 py-1 text-sm font-semibold text-gray-700">
+                <button onClick={handlePrevMonthClick} className="px-2 py-1 text-sm font-semibold text-gray-700">
                     {'<'}
                 </button>
                 <div className="text-lg font-semibold">
                     {getMonthName()} {getYear()}
                 </div>
-                <button onClick={() => setSelectedDate(selectedDate.clone().add(1, 'month'))} className="px-2 py-1 text-sm font-semibold text-gray-700">
+                <button onClick={handleNextMonthClick} className="px-2 py-1 text-sm font-semibold text-gray-700">
                     {'>'}
                 </button>
             </div>

@@ -10,7 +10,7 @@ const useUserRecord = (selectedDate) => {
     const record = userRecords.find((entry) => entry.data.date === selectedDate);
     if (record) {
         return record.data;
-    } else return userRecords[0].data
+    } else return userRecords[0]?.data
 
 };
 

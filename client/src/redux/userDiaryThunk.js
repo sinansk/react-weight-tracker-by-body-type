@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addDailyCalorie, getCalorieRecords } from "../firebase";
+import { addDailyCalorie, getCalorieRecords, getCalorieRecordsForMonth } from "../firebase";
 
 export const saveDailyCalorie = createAsyncThunk(
     "userDiary/saveDailyCalorie",
@@ -26,3 +26,16 @@ export const fetchCalorieRecords = createAsyncThunk(
         }
     }
 )
+
+export const fetchCalorieRecordsForMonth = createAsyncThunk(
+    'userDiary/fetchCalorieRecordsForMonth',
+    async ({ year, month }, { getState }, thunkAPI,) => {
+        try {
+            const { uid } = getState().user.currentUser
+            const data = await getCalorieRecordsForMonth(uid, year, month);
+            return data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);

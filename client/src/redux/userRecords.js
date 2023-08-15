@@ -7,7 +7,9 @@ export const userRecordsSlice = createSlice({
         currentUser: null,
         status: "idle",
         error: false,
-        records: null
+        records: null,
+        currentPage: 1,
+        itemsPerPage: 30,
     },
 
     reducers: {
@@ -20,6 +22,12 @@ export const userRecordsSlice = createSlice({
         },
         deletePhotoRedux: (state, action) => {
             state.records.find((record) => record.id === action.payload).data.photo = null
+        },
+        setTotalPages: (state, action) => {
+            state.totalPages = action.payload
+        },
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -51,6 +59,6 @@ export const userRecordsSlice = createSlice({
     },
 });
 
-
-export const { setUserRecord, deleteUserRecord, deletePhotoRedux } = userRecordsSlice.actions
+export const usePageSize = (state) => state.userRecords.pageSize
+export const { setUserRecord, deleteUserRecord, deletePhotoRedux, setTotalPages, setCurrentPage } = userRecordsSlice.actions
 export default userRecordsSlice.reducer

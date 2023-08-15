@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCalorieRecords, saveDailyCalorie } from "./userDiaryThunk";
+import { fetchCalorieRecords, fetchCalorieRecordsForMonth, saveDailyCalorie } from "./userDiaryThunk";
 import moment from "moment";
 export const userDiary = createSlice({
     name: "userDiary",
@@ -16,6 +16,9 @@ export const userDiary = createSlice({
         },
         setCalendarDate: (state, action) => {
             state.calendarDate = action.payload
+        },
+        setMonthlyDiary: (state, action) => {
+            state.calorieDiary = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -46,9 +49,22 @@ export const userDiary = createSlice({
                 state.status = "failed";
                 state.error = true;
             })
+            .addCase(fetchCalorieRecordsForMonth.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(fetchCalorieRecordsForMonth.fulfilled, (state, action) => {
+                state.calorieDiary = action.payload
+                state.status = "succeeded";
+                state.error = null;
+            })
+            .addCase(fetchCalorieRecordsForMonth.rejected, (state) => {
+                state.status = "failed";
+                state.error = true;
+            })
     },
 });
 
-export const { addToDiary, deleteFromDiary, setDiary, setCalendarDate, recalculateNutrientDetails, setTotal } = userDiary.actions;
+export const { addToDiary, deleteFromDiary, setDiary, setCalendarDate, recalculateNutrientDetails, setTotal, setMonthlyDiary } = userDiary.actions;
 export default userDiary.reducer
 

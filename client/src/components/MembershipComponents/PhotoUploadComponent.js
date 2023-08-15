@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { addPhoto, deletePhoto } from "../../firebase";
+import { addPhoto, deletePhoto, updateUserInfo } from "../../firebase";
 import { setPhotoUrl } from "../../redux/userRedux";
 import { useDispatch, useSelector } from "react-redux";
 import bodyPNG from "../../assets/body.png";
 import { createModal } from '../../utils/modalHooks';
 import { AiFillEye } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
+import { deletePhotoRedux } from '../../redux/userRecords';
 
-const PhotoUploadComponent = () => {
+const PhotoUploadComponent = (isUpdate) => {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
-    const latestPhoto = useSelector((state) => state.userRecords?.records[0]?.data?.photo)
+    const latestPhoto = useSelector((state) => state.userRecords?.records[0].data?.photo) || null
     const [photoUrl, setPhoto] = useState(latestPhoto)
     const userRecords = useSelector((state) => state.userRecords?.records)
 
@@ -19,11 +20,14 @@ const PhotoUploadComponent = () => {
         event.stopPropagation();
         if (file) {
             try {
-                const uid = user.currentUser.uid
+                const uid = user?.currentUser?.uid
                 const id = Date.now();
                 const docId = userRecords?.[0].id
                 const photo = await addPhoto(uid, id, file, docId);
                 setPhoto(photo)
+                if (isUpdate) {
+                    updateUserInfo(uid, userRecords[0]?.id, { photo: photo })
+                }
             } catch (error) {
                 console.error("Fotoğraf yüklenirken bir hata oluştu:", error);
             }
@@ -33,6 +37,10 @@ const PhotoUploadComponent = () => {
     const handleDeletePhoto = () => {
         // deletePhoto(user.currentUser.uid, userRecords[0]?.data?.photo?.id)
         setPhoto(null)
+        if (isUpdate) {
+            updateUserInfo(user.currentUser.uid, userRecords[0]?.id, { photo: null })
+            dispatch(deletePhotoRedux(userRecords[0]?.id));
+        }
     }
 
     useEffect(() => {

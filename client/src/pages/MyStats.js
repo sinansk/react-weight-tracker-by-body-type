@@ -11,15 +11,15 @@ const MyStats = () => {
 
   return (
     <div className="items-center justify-center w-screen h-full min-h-screen overflow-x-hidden text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 ">
-      {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
+      {/* {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
         <LoadingComponent />
-      ) : (
-        <>
-          <UserInfoComponent />
-          <UserRecordsComponent />
-          <StickyInfo />
-        </>
-      )}
+      ) : ( */}
+      <>
+        <UserInfoComponent />
+        <UserRecordsComponent />
+        <StickyInfo />
+      </>
+      {/* )} */}
     </div>
   );
 };

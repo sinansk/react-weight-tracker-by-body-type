@@ -5,11 +5,11 @@ import moment from 'moment';
 import useDiaryEntry from '../utils/findUserDiary';
 import useUserRecord from '../utils/findUserRecord';
 import { BsCalendarWeek } from 'react-icons/bs';
-import { MdExpandCircleDown } from 'react-icons/md';
 import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PiForkKnife, PiForkKnifeThin } from 'react-icons/pi'
-import { FaWeight } from 'react-icons/fa'
+import { PiForkKnife } from 'react-icons/pi'
+import { NavLink } from "react-router-dom";
+import { FaWeightScale } from 'react-icons/fa6';
 const StickyInfo = () => {
     const [isCalendarVisible, setIsCalendarVisible] = useState(false);
     const [isbottommBarVisible, setIsbottomBarVisible] = useState(true);
@@ -36,8 +36,6 @@ const StickyInfo = () => {
     }, [isbottommBarVisible])
     return (
         <AnimatePresence>
-
-
             <motion.div
                 initial={{ opacity: 1, height: 'auto' }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -45,10 +43,11 @@ const StickyInfo = () => {
                 transition={{ duration: 0.2 }}
                 className="fixed bottom-0 left-0 right-0 invisible py-2 mt-10 bg-white border-t-2 rounded-t-lg sm:visible text-cyan-600 border-cyan-500">
                 {isbottommBarVisible ? (
-                    <div className="grid items-center grid-cols-7 gap-4">
+                    <div className="grid items-center grid-cols-5 gap-10">
 
-                        <div className="relative flex flex-col items-center justify-center h-full p-4 text-center cursor-pointer" onMouseEnter={() => setIsCalendarVisible(true)} onMouseLeave={() => setIsCalendarVisible(false)}>
-                            <div className='flex items-center justify-between gap-2'>
+                        <div className="relative flex flex-col items-center justify-center h-full col-span-1 p-4 text-center cursor-pointer place-content-start" onMouseEnter={() => setIsCalendarVisible(true)} onMouseLeave={() => setIsCalendarVisible(false)}>
+
+                            <div className='flex items-center justify-between gap-2 '>
                                 <BsCalendarWeek size={40} className=" text-cyan-500 group-hover:text-cyan-600" />
                                 <p className="text-xl font-bold group">{calendarDate}</p>
                             </div>
@@ -58,40 +57,41 @@ const StickyInfo = () => {
                                 </div>
                             )}
                         </div>
-                        <div className='flex items-center justify-center'>
-                            <PiForkKnife size={60} />
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="text-lg font-bold">Calorie Need</p>
-                            <p className="text-4xl font-bold">{record?.results?.calorieNeedByBodyGoal}</p>
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="text-lg font-bold">Calories Taken</p>
-                            <p className="text-4xl font-bold">{diaryEntry?.totalNutrient.totalCalories}</p>
-                        </div>
-                        <div className='flex items-center justify-center'>
-                            <FaWeight size={60} />
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="text-lg font-bold">Ideal Weight</p>
-                            <p className="text-4xl font-bold">{record?.results?.idealWeightRange}</p>
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="text-lg font-bold">Weight</p>
-                            <p className="text-4xl font-bold">{record?.personalInfo?.weight}</p>
-                        </div>
+                        <div className='flex items-center justify-center col-span-2 gap-8'>
+                            <NavLink to="/calorie-tracker" className="flex items-center justify-center text-cyan-600 hover:text-cyan-500">
+                                <PiForkKnife size={60} />
+                            </NavLink>
 
-                        <button onClick={handleCollapse} className='absolute right-1 -top-2'><BiSolidDownArrow size={40} /></button>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-lg font-bold">Calorie Need</p>
+                                <p className="text-4xl font-bold">{record?.results?.calorieNeedByBodyGoal}</p>
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-lg font-bold">Calories Taken</p>
+                                <p className="text-4xl font-bold">{diaryEntry?.totalNutrient.totalCalories}</p>
+                            </div>
+                        </div>
+                        <div className='flex items-center col-span-2 gap-8'>
 
+                            <NavLink to="/mystats" className="flex items-center justify-center text-cyan-600 hover:text-cyan-500">
+                                <FaWeightScale size={60} />
+                            </NavLink>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-lg font-bold">Ideal Weight</p>
+                                <p className="text-4xl font-bold">{record?.results?.idealWeightRange}</p>
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-lg font-bold">Weight</p>
+                                <p className="text-4xl font-bold">{record?.personalInfo?.weight} kg</p>
+                            </div>
+                        </div>
+                        <button onClick={handleCollapse} className='absolute right-1 -top-2 text-cyan-600 hover:text-cyan-500'><BiSolidDownArrow size={40} /></button>
                     </div>
                 ) : (
-                    <button onClick={handleCollapse} className='absolute right-1 -top-8 text-cyan-500'><BiSolidUpArrow size={40} /></button>
+                    <button onClick={handleCollapse} className='absolute right-1 -top-8 text-cyan-600 hover:text-cyan-500'><BiSolidUpArrow size={40} /></button>
                 )
                 }
             </motion.div>
-
-
-
         </AnimatePresence>
     );
 };

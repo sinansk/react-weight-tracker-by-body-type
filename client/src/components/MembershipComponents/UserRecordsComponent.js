@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import moment from 'moment';
-import { deletePhoto, deleteRecord } from "../../firebase";
+import { deletePhoto, deleteRecord, getUserInfoForMonth } from "../../firebase";
 import { motion, AnimatePresence, usePresence } from "framer-motion";
 import { RiWaterPercentFill } from "react-icons/ri"
 import { ImSpoonKnife } from "react-icons/im"
@@ -10,19 +10,21 @@ import { LuActivity } from "react-icons/lu"
 import { GiStairsGoal, GiMuscleFat, GiMuscleUp } from "react-icons/gi"
 import DeleteButton from "../CommonComponents/DeleteButton";
 import CollapseButton from "../CommonComponents/CollapseButton";
-import { findDiaryEntryIndex } from "../../utils/findDiaryEntryIndex";
-import { MdPhotoCamera } from "react-icons/md"
-import bodyPNG from "../../assets/body.png";
-import { AiFillEye } from "react-icons/ai"
-import { TiDeleteOutline } from "react-icons/ti"
-import { createModal } from "../../utils/modalHooks";
 import PhotoDisplayComponent from "./PhotoDisplayComponent";
+import { usePageSize } from "../../redux/userRecords";
+import PaginationComponent from "../CommonComponents/PaginationComponent";
+import { fetchUserInfo } from "../../redux/userRecordsThunk";
+import LoadingComponent from "../CommonComponents/LoadingComponent";
 const UserRecordsComponent = () => {
+  const isLoading = useSelector((state) => state.userRecords.status);
   const [deletedRowIds, setDeletedRowIds] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);
   const userRecords = useSelector((state) => state.userRecords?.records)
   const currentUser = useSelector((state) => state.user.currentUser)
   const [isPresent, safeToRemove] = usePresence()
+  const totalPages = useSelector((state) => state.userRecords?.totalPages)
+  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch()
   const handleDelete = async (id) => {
     await deleteRecord(currentUser.uid, id)
     setDeletedRowIds([...deletedRowIds, id]);
@@ -34,6 +36,11 @@ const UserRecordsComponent = () => {
         ? prevExpandedRows.filter((rowId) => rowId !== id)
         : [...prevExpandedRows, id]
     );
+  };
+  const itemsPerPage = 30; // Sayfa başına gösterilecek öğe sayısı
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   const transformedData = userRecords?.map(item => {
@@ -82,7 +89,10 @@ const UserRecordsComponent = () => {
     { id: "wrist", label: "Wrist" },
     { id: "actions", label: "Actions" },
   ];
-
+  const currentPageIndex = currentPage - 1;
+  const startIndex = currentPageIndex * itemsPerPage;
+  const endIndex = (currentPageIndex + 1) * itemsPerPage;
+  const paginatedData = transformedData?.slice(startIndex, endIndex);
   const TableHeader = ({ columns }) => {
     return (
       <thead className="sticky top-0 left-0 right-0 z-40 mt-4 shadow-md bg-slate-50">
@@ -104,100 +114,116 @@ const UserRecordsComponent = () => {
 
     <div className="container z-20 h-screen mx-auto mt-5 overflow-auto no-scrollbar ">
       <table className="min-w-full divide-y divide-gray-200 ">
-        <TableHeader columns={columns} />
-        <tbody className="bg-white divide-y divide-gray-200 text-slate-700">
-          <AnimatePresence>
-            {transformedData?.map((item, index) => (
-              <React.Fragment key={item.id}>
-                <motion.tr
-                  initial={{ opacity: 1, x: 0 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }} // Slide left effect
-                  transition={{ duration: 0.095 }} // Animation duration
-                  className="font-medium cursor-pointer"
-                  key={item.id}
-                  onDoubleClick={() => handleToggleRow(item.id)}
-                >
-                  {columns.map((column) => (
-                    <td
-                      key={column.id}
-                      className={`${column.id === "date" ? "sticky left-0 " : ""
-                        }px-6 py-4 whitespace-nowrap bg-slate-50`}
-                      title={column.label}
+        {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
+          <LoadingComponent />
+        ) : (
+          <>
+
+            <TableHeader columns={columns} />
+            <tbody className="bg-white divide-y divide-gray-200 text-slate-700">
+              <AnimatePresence>
+                {paginatedData?.map((item, index) => (
+                  <React.Fragment key={item.id}>
+                    <motion.tr
+                      initial={{ opacity: 1, x: 0 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }} // Slide left effect
+                      transition={{ duration: 0.095 }} // Animation duration
+                      className="font-medium cursor-pointer"
+                      key={item.id}
+                      onDoubleClick={() => handleToggleRow(item.id)}
                     >
-                      {column.id !== "actions" ? item.data[column.id] : (
-                        <div className="flex items-center justify-center gap-5 whitespace-nowrap">
-                          {(index !== 0 || (index === 0 && transformedData.length > 1)) && (
-                            <DeleteButton onClick={() => handleDelete(item.id)} size={20} />
+                      {columns.map((column) => (
+                        <td
+                          key={column.id}
+                          className={`${column.id === "date" ? "sticky left-0 " : ""
+                            }px-6 py-4 whitespace-nowrap bg-slate-50`}
+                          title={column.label}
+                        >
+                          {column.id !== "actions" ? item.data[column.id] : (
+                            <div className="flex items-center justify-center gap-5 whitespace-nowrap">
+                              {(index !== 0 || (index === 0 && transformedData.length > 1)) && (
+                                <DeleteButton onClick={() => handleDelete(item.id)} size={20} />
+                              )}
+                              <CollapseButton
+                                onClick={() => handleToggleRow(item.id)}
+                                isExpanded={expandedRows.includes(item.id)}
+                                size={20}
+                              />
+                            </div>
                           )}
-                          <CollapseButton
-                            onClick={() => handleToggleRow(item.id)}
-                            isExpanded={expandedRows.includes(item.id)}
-                            size={20}
-                          />
-                        </div>
-                      )}
-                    </td>
-                  ))}
-                </motion.tr>
-                {expandedRows.includes(item.id) && (
-                  <motion.tr
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    key={item.id + "-details"}
-                    className=""
-                  >
-                    <td colSpan={columns.length + 1} className="bg-gray-100 shadow-sm">
-                      <div className="flex items-center flex-1 p-2 justify-evenly">
-                        <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                          <RiWaterPercentFill size={34} className="text-cyan-700" />
-                          <p className="underline text-slate-600">Body Fat Category</p>
-                          <p className="text-cyan-700">{item.data.bodyFatCategory}</p>
-                        </div>
-                        <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                          <GiMuscleUp size={34} className="text-cyan-700" />
-                          <p className="underline text-slate-600">Lean Body Mass</p>
-                          <p className="text-cyan-700">{item.data.leanBodyMass}</p>
-                        </div>
-                        <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                          <GiMuscleFat size={34} className="text-cyan-700" />
-                          <p className="underline text-slate-600">Body Fat Mass</p>
-                          <p className="text-cyan-700">{item.data.bodyFatMass}</p>
-                        </div>
-                        <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                          <GiStairsGoal size={34} className="text-cyan-700" />
-                          <p className="underline text-slate-600">Body Goal</p>
-                          <p className="text-cyan-700">{item.data.bodyGoalStatus}</p>
-                        </div>
-                        <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                          <ImSpoonKnife size={34} className="text-cyan-700" />
-                          <p className="underline text-slate-600">Calorie Need By {item.data.bodyGoalStatus}</p>
-                          <p className="text-cyan-700">{item.data.calorieNeedByBodyGoal}</p>
-                        </div>
-                        <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                          <LuActivity size={34} className="text-cyan-700" />
-                          <p className="underline text-slate-600">Activity Level</p>
-                          <p className="text-cyan-700">{item.data.activityLevel}</p>
-                        </div>
-                        <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                          <FaWeightScale size={34} className="text-cyan-700" />
-                          <p className="underline text-slate-600">BMI</p>
-                          <p className="text-cyan-700">{item.data.bmi}</p>
-                        </div>
-                        {item.data?.photo?.url &&
-                          <PhotoDisplayComponent item={item} className="w-32 h-32" isEditable={true} />
-                        }
-                      </div>
-                    </td>
-                  </motion.tr>
-                )}
-              </React.Fragment>
-            ))}
-          </AnimatePresence>
-        </tbody>
+                        </td>
+                      ))}
+                    </motion.tr>
+                    {expandedRows.includes(item.id) && (
+                      <motion.tr
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        key={item.id + "-details"}
+                        className=""
+                      >
+                        <td colSpan={columns.length + 1} className="bg-gray-100 shadow-sm">
+                          <div className="flex items-center flex-1 p-2 justify-evenly">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                              <RiWaterPercentFill size={34} className="text-cyan-700" />
+                              <p className="underline text-slate-600">Body Fat Category</p>
+                              <p className="text-cyan-700">{item.data.bodyFatCategory}</p>
+                            </div>
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                              <GiMuscleUp size={34} className="text-cyan-700" />
+                              <p className="underline text-slate-600">Lean Body Mass</p>
+                              <p className="text-cyan-700">{item.data.leanBodyMass}</p>
+                            </div>
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                              <GiMuscleFat size={34} className="text-cyan-700" />
+                              <p className="underline text-slate-600">Body Fat Mass</p>
+                              <p className="text-cyan-700">{item.data.bodyFatMass}</p>
+                            </div>
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                              <GiStairsGoal size={34} className="text-cyan-700" />
+                              <p className="underline text-slate-600">Body Goal</p>
+                              <p className="text-cyan-700">{item.data.bodyGoalStatus}</p>
+                            </div>
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                              <ImSpoonKnife size={34} className="text-cyan-700" />
+                              <p className="underline text-slate-600">Calorie Need By {item.data.bodyGoalStatus}</p>
+                              <p className="text-cyan-700">{item.data.calorieNeedByBodyGoal}</p>
+                            </div>
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                              <LuActivity size={34} className="text-cyan-700" />
+                              <p className="underline text-slate-600">Activity Level</p>
+                              <p className="text-cyan-700">{item.data.activityLevel}</p>
+                            </div>
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
+                              <FaWeightScale size={34} className="text-cyan-700" />
+                              <p className="underline text-slate-600">BMI</p>
+                              <p className="text-cyan-700">{item.data.bmi}</p>
+                            </div>
+                            {item.data?.photo?.url &&
+                              <PhotoDisplayComponent item={item} className="w-32 h-32" isEditable={true} />
+                            }
+                          </div>
+                        </td>
+                      </motion.tr>
+                    )}
+                  </React.Fragment>
+                ))}
+              </AnimatePresence>
+            </tbody>
+          </>
+        )}
       </table>
+      {totalPages > 1 && (
+        <PaginationComponent
+          totalPages={Math.ceil(transformedData?.length / itemsPerPage)}
+          totalItems={transformedData?.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          currentPage={currentPage}
+        />
+      )}
     </div>
   );
 };

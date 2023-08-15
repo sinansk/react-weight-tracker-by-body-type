@@ -12,8 +12,8 @@ const PhotoDisplayComponent = ({ className, isEditable, item }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setPhoto(item.data?.photo?.url);
-    }, [item.data?.photo?.url]);
+        setPhoto(item?.data?.photo?.url);
+    }, [item?.data?.photo?.url]);
 
     const handleDelete = () => {
         deletePhoto(currentUser.uid, item.data?.photo?.id, item?.id);
@@ -38,7 +38,6 @@ const PhotoDisplayComponent = ({ className, isEditable, item }) => {
                 !isEditable && (
                     <div className=''>
                         <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
-                        <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
                     </div>
                 )
             )}

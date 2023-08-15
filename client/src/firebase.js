@@ -24,6 +24,9 @@ import {
   getDocs,
   updateDoc,
   arrayUnion,
+  getDoc,
+  startAfter,
+  limit,
 } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
 import toast from "react-hot-toast";
@@ -35,12 +38,12 @@ import {
   reset,
   setData,
 } from "./redux/userRedux";
-import { deletePhotoRedux, deleteUserRecord } from "./redux/userRecords";
+import { deletePhotoRedux, deleteUserRecord, setTotalPages, setUserRecord } from "./redux/userRecords";
 import { fetchUserInfo } from "./redux/userRecordsThunk";
 import moment from "moment"
-import { setDiary } from "./redux/userDiary";
+import { setDiary, setMonthlyDiary } from "./redux/userDiary";
 import { calculateTotalNutrients } from "./utils/calculateTotalNutrients";
-import { fetchCalorieRecords } from "./redux/userDiaryThunk";
+import { fetchCalorieRecords, fetchCalorieRecordsForMonth } from "./redux/userDiaryThunk";
 import { setCustomFoods } from "./redux/customFoods";
 
 const firebaseConfig = {
@@ -67,6 +70,7 @@ export const register = async (email, password) => {
       password
     );
     // emailVerification();
+    store.dispatch(loginHandle(user))
     return user;
   } catch (err) {
     toast.error(err.message);
@@ -90,8 +94,13 @@ export const login = async (email, password) => {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     if (user) {
       store.dispatch(loginHandle(user))
-      store.dispatch(fetchUserInfo(user.uid))
-      store.dispatch(fetchCalorieRecords(user.uid))
+      store.dispatch(fetchUserInfo())
+      // getUserInfo(user.uid)
+      // store.dispatch(fetchCalorieRecords(user.uid))
+      const currentDate = moment();
+      const year = currentDate.year();
+      const month = currentDate.month() + 1;
+      store.dispatch(fetchCalorieRecordsForMonth({ year, month }));
       getCustomFoods(user.uid)
     }
     return user;
@@ -152,6 +161,19 @@ export const getUserInfo = async (uid) => {
 };
 
 export const updateUserInfo = async (uid, id, data) => {
+  try {
+    const userRef = doc(db, "users", uid, "userPersonalInfos", id);
+    await updateDoc(userRef, data);
+    toast.success("Veri başarıyla güncellendi");
+    onSnapshot(userRef, (snapshot) => {
+      console.log("Snapshot changes:", snapshot.data());
+    });
+    return true;
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error)
+    throw new Error(error.message);
+  }
 }
 export const deleteRecord = async (uid, id) => {
   console.log("uid", uid, "id:", id);
@@ -247,6 +269,7 @@ export const viewAllPhotos = async (uid) => {
 export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
   const uid = data.uid;
   const currentDate = moment();
+  const timestamp = moment(selectedDate, "DD-MM-YYYY").toISOString();
   const dateString = currentDate.format('DD-MM-YYYY');
   const totalNutrient = {
     totalFat: data.food.fat,
@@ -254,15 +277,14 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
     totalProtein: data.food.protein,
     totalCalories: data.food.calories
   }
-  console.log(data, "data")
-
   const food = data.food
   const newtotalNutrient = calculateTotalNutrients({ calorieDiary, selectedDate, food, operation: "add" });
   const diary = {
     ...food,
-    timestamp: currentDate.toISOString(), // Store the timestamp as a string in ISO format
+    timestamp,
     uid: data.uid,
-    id: Date.now()
+    id: Date.now(),
+    createdAt: currentDate.toISOString(), // Store the timestamp as a string in ISO format
   };
 
   try {
@@ -272,7 +294,7 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
     const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
     if (querySnapshot.empty) {
       // If the document doesn't exist, create a new document with the current date
-      await addDoc(calorieRecordsRef, { date: selectedDate, foods: [diary], totalNutrient });
+      await addDoc(calorieRecordsRef, { date: selectedDate, foods: [diary], totalNutrient, timestamp });
     } else {
       // If the document exists, update the array field by appending the new food data
       const existingDocId = querySnapshot.docs[0].id;
@@ -283,20 +305,27 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
       toast.success("Food added successfully.");
     }
     // Now, let's listen for any changes to the document and perform necessary actions.
-    onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
-      // This callback function will be triggered whenever there are changes to the document with the specified date.
-      // You can handle the changes here, if needed.
-      // For example, you can log the changes or dispatch an action to update your Redux store.
-      console.log("Snapshot changes:", snapshot.docs.map((doc) => doc.data()));
-      store.dispatch(setDiary(snapshot.docs.map((doc) => doc.data())))
-    });
+    // onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
+    //   // This callback function will be triggered whenever there are changes to the document with the specified date.
+    //   // You can handle the changes here, if needed.
+    //   // For example, you can log the changes or dispatch an action to update your Redux store.
+    //   console.log("Snapshot changes:", snapshot.docs.map((doc) => doc.data()));
+    //   store.dispatch(setDiary(snapshot.docs.map((doc) => doc.data())))
+    // });
+
+    // Listen for changes in the monthly records
+    const selectedMoment = moment(selectedDate, 'DD-MM-YYYY');
+    const year = selectedMoment.year();
+    const month = selectedMoment.month() + 1;
+    store.dispatch(fetchCalorieRecordsForMonth({ uid, year, month }));
+    // const monthlyRecords = await getCalorieRecordsForMonth(uid, year, month);
+    // store.dispatch(setMonthlyDiary(monthlyRecords)); // Assuming you have an action like "setMonthlyDiary" to update the Redux store
     return "Data added successfully.";
   } catch (error) {
     toast.error(error.message);
     console.log(error);
   }
 };
-
 
 export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
   console.log(data)
@@ -348,6 +377,29 @@ export const getCalorieRecords = async (uid) => {
     throw new Error(error.message);
   }
 };
+
+export const getCalorieRecordsForMonth = async (uid, year, month) => {
+  try {
+    console.log("records", month,)
+    const startDateWithTime = moment([year, month - 1, 1]).toISOString(); // ISO 8601 formatında tarih ve saat
+    const endDateWithTime = moment([year, month - 1]).endOf('month').toISOString(); // ISO 8601 formatında tarih ve saat
+    console.log(startDateWithTime, "startDateWithTime", endDateWithTime, "endDateWithTime", "records")
+    const snapshot = await getDocs(
+      query(
+        collection(db, "users", uid, "calorieRecords"),
+        where("timestamp", ">=", startDateWithTime),
+        where("timestamp", "<=", endDateWithTime)
+      )
+    );
+    const data = snapshot.docs.map((doc) => doc.data());
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
 
 export const saveCustomFood = async (data) => {
   console.log(data, "data SAVE CUSTOM FOOD")
