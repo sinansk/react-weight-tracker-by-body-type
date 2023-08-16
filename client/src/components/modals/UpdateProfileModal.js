@@ -44,8 +44,8 @@ const UpdateProfileModal = () => {
                                 <ul className="grid">
                                     {measurements?.map((key) => (
                                         <li key={key}>
-                                            <span>{key}: </span>
-                                            <input className="w-full px-4 font-thin border-gray-500/20 rounded-sm outline-none h-[38px] border-[1px]  focus:border-2 focus:border-blue-400" type="number" defaultValue={userPersonalInfo[key]} name={key} onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))} />
+                                            <span className="capitalize">{key}: </span>
+                                            <input className="w-full px-4 font-thin border-zinc-400 rounded-md outline-none lg:h-[38px] border-[1px] focus:border-2 focus:border-blue-400" type="number" defaultValue={userPersonalInfo[key]} name={key} onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))} />
 
                                         </li>
                                     ))}
@@ -55,7 +55,7 @@ const UpdateProfileModal = () => {
                 </div>
             </div>
             <div className="flex mt-5">
-                <ButtonPrimary className="mx-auto" text="UPDATE" onClick={handleUpdate} />
+                <ButtonPrimary onClick={handleUpdate} className="mx-auto" >UPDATE</ButtonPrimary>
             </div>
         </div>
     );

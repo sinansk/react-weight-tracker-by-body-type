@@ -53,7 +53,7 @@ const IdealWeightComponent = ({ gender }) => {
               src={require(`../assets/washing-hands-${gender}.png`)}
               alt="washing-hands"
             />
-            <p className=" 2xl:text-lg">
+            <p className="my-auto text-sm font-semibold md:text-md xl:text-lg">
               Please wrap your thumb and forefinger around your wrist in the area
               you normally wear a watch. We will learn your body type!
             </p>

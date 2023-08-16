@@ -15,27 +15,28 @@ const BodyTypeInfoComponent = ({ gender }) => {
     >
       {gender === "male" ? (
         <>
+          <h2 className="font-semibold xl:text-2xl">YOUR ACTIVITY LEVEL</h2>
           <img
-            className="h-20 mb-4 md:h-20 lg:h-44"
+            className="h-16 md:h-20 lg:h-44"
             src={require(`../../assets/fitness-${userGender}.png`)}
             alt="gender"
           />
-          <h2>
+          <p className="my-auto text-sm font-semibold md:text-md">
             Set your activity level based on your routin. We will use your info
             to calculate your ideal weight, body fat, daily calorie need and
             ideal body measurements. You can change this later!
-          </h2>
+          </p>
           <SelectInput className="mt-auto font-semibold" options={activityLevels} label="Activity Level" name="activityLevel" />
         </>
       ) : (
         <span className="flex flex-col items-center h-full">
           <h2 className="font-semibold xl:text-2xl">SET YOUR BODY GOAL</h2>
           <img
-            className="md:my-4 h-1/3"
+            className="h-16 md:h-20 lg:h-44"
             src={require(`../../assets/goal-${userGender}.png`)}
             alt="washing-hands"
           />
-          <p className="font-semibold">
+          <p className="my-auto text-sm font-semibold md:text-md lg:text-lg">
             Please set your body goal and we will calculate your daily calorie
             need!
           </p>

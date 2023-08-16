@@ -12,7 +12,7 @@ const CalorieTracker = () => {
     // const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'));
     const userDiary = useSelector((state) => state.userDiary)
     const calendar = useSelector((state) => state.userDiary?.calendarDate)
-    const calendarDate = calendar?.format('DD-MM-YYYY')
+    const calendarDate = calendar ? calendar?.format('DD-MM-YYYY') : moment().format('DD-MM-YYYY');
     const handleDateClick = (date) => {
         setCalendarExpand(!calendarExpand)
         // setSelectedDate(date);

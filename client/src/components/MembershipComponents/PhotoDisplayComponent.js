@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AiFillEye } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { createModal } from '../../utils/modalHooks';
-import { deletePhoto } from '../../firebase';
-import { deletePhotoRedux } from '../../redux/userRecords';
+import { addPhoto, deletePhoto, updateUserInfo } from '../../firebase';
+import { updatePhotoRedux } from '../../redux/userRecords';
 
-const PhotoDisplayComponent = ({ className, isEditable, item }) => {
+const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = false }) => {
     const [photo, setPhoto] = useState(item?.data?.photo?.url);
     const currentUser = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
@@ -17,9 +17,26 @@ const PhotoDisplayComponent = ({ className, isEditable, item }) => {
 
     const handleDelete = () => {
         deletePhoto(currentUser.uid, item.data?.photo?.id, item?.id);
-        dispatch(deletePhotoRedux(item.data?.photo?.id));
     };
+    const handlePhotoUpload = async (e) => {
+        if (willUpdateNow) {
 
+            const file = e.target.files[0];
+            e.stopPropagation();
+            if (file) {
+                try {
+                    const uid = currentUser?.uid
+                    const id = Date.now();
+                    const docId = item?.id
+                    const photo = await addPhoto(uid, id, file, docId);
+                    updateUserInfo(uid, docId, { photo: photo })
+                    dispatch(updatePhotoRedux({ id: docId, photo: photo }));
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+    };
     return (
         <div className={`${className} relative inline-block group`}>
             {photo ? (
@@ -35,9 +52,13 @@ const PhotoDisplayComponent = ({ className, isEditable, item }) => {
                     </div>
                 </>
             ) : (
-                !isEditable && (
+                willUpdateNow && (
                     <div className=''>
-                        <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
+                        <label htmlFor="photo-upload" className="cursor-pointer">
+                            <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
+                            <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
+                            <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
+                        </label>
                     </div>
                 )
             )}

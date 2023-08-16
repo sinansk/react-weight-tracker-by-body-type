@@ -38,7 +38,7 @@ import {
   reset,
   setData,
 } from "./redux/userRedux";
-import { deletePhotoRedux, deleteUserRecord, setTotalPages, setUserRecord } from "./redux/userRecords";
+import { deleteUserRecord, setTotalPages, setUserRecord, updatePhotoRedux } from "./redux/userRecords";
 import { fetchUserInfo } from "./redux/userRecordsThunk";
 import moment from "moment"
 import { setDiary, setMonthlyDiary } from "./redux/userDiary";
@@ -161,6 +161,7 @@ export const getUserInfo = async (uid) => {
 };
 
 export const updateUserInfo = async (uid, id, data) => {
+  console.log("uid", uid, "id:", id, "data", data)
   try {
     const userRef = doc(db, "users", uid, "userPersonalInfos", id);
     await updateDoc(userRef, data);
@@ -205,7 +206,7 @@ export const addPhoto = async (uid, id, photoFile, docId) => {
     // await updateDoc(doc(db, "users", uid, "userPersonalInfos", docId), {
     //   photo: downloadURL, // Varsa mevcut fotoğraf alanını güncellemek için true değeri kullanabilirsiniz
     // });
-    toast.success("Fotoğraf başarıyla eklendi");
+
     return {
       id: id,
       url: downloadURL,
@@ -226,8 +227,8 @@ export const deletePhoto = async (uid, id, docId) => {
     await updateDoc(doc(db, "users", uid, "userPersonalInfos", docId), {
       photo: null
     })
-    store.dispatch(deletePhotoRedux(docId)); // Redux store'u güncelle
-    toast.success("Fotoğraf başarıyla silindi");
+    store.dispatch(updatePhotoRedux({ id: docId, photo: null })); // Redux store'u güncelle
+
   } catch (error) {
     toast.error(error.message);
     console.error(error);
@@ -267,6 +268,7 @@ export const viewAllPhotos = async (uid) => {
 };
 
 export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
+  console.log(data, "data", calorieDiary, "calorieDiary", selectedDate, "selectedDate")
   const uid = data.uid;
   const currentDate = moment();
   const timestamp = moment(selectedDate, "DD-MM-YYYY").toISOString();
@@ -302,7 +304,6 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
         foods: arrayUnion(diary), // Append the new diary object to the existing "foods" array
         totalNutrient: newtotalNutrient
       });
-      toast.success("Food added successfully.");
     }
     // Now, let's listen for any changes to the document and perform necessary actions.
     // onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
@@ -353,14 +354,15 @@ export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
         await updateDoc(doc(calorieRecordsRef, docId), { foods: updatedFoods, totalNutrient: newtotalNutrient },);
       }
       toast.success("Data deleted successfully.");
+      store.dispatch(fetchCalorieRecordsForMonth({ uid, year: moment(selectedDate, 'DD-MM-YYYY').year(), month: moment(selectedDate, 'DD-MM-YYYY').month() + 1 }));
       return "Data deleted successfully.";
     }
 
-    onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
+    // onSnapshot(collection(userDocRef, "calorieRecords"), (snapshot) => {
 
-      console.log("Snapshot changes:", snapshot.docs.map((doc) => doc.data()));
-      store.dispatch(setDiary(snapshot.docs.map((doc) => doc.data())))
-    });
+    //   console.log("Snapshot changes:", snapshot.docs.map((doc) => doc.data()));
+    //   store.dispatch(setDiary(snapshot.docs.map((doc) => doc.data())))
+    // });
   } catch (error) {
     toast.error(error.message);
     console.log(error);
@@ -428,7 +430,7 @@ export const saveCustomFood = async (data) => {
     console.log(querySnapshot, "querySnapshot")
     if (querySnapshot.empty) {
       await addDoc(customFoodsRef, customFood);
-      toast.success("Özel yiyecek başarıyla kaydedildi.");
+      getCustomFoods(uid)
       // A food with the same ID already exists, skip saving
     } else {
       return;

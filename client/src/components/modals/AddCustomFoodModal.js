@@ -155,7 +155,7 @@ const AddCustomFoodModal = (data) => {
                         key={i}
                         name={input.name}
                         type="text"
-                        className="w-full p-2 border-2 border-gray-300 rounded-md"
+                        className="w-full p-2 border-2 border-gray-300 rounded-md h-9 lg:h-11"
                         placeholder={input.placeholder}
                         value={customFood?.[input.name]}
                         onChange={(e) => handleInputChange(e, input.name)}
@@ -164,7 +164,7 @@ const AddCustomFoodModal = (data) => {
                         data-unit={input?.unit}
                     />
                 ))}
-                <ButtonPrimary className="w-full" onClick={handleSaveFood} text="SAVE FOOD"></ButtonPrimary>
+                <ButtonPrimary className="w-full" onClick={handleSaveFood} >SAVE FOOD</ButtonPrimary>
             </>
         </div>
     );

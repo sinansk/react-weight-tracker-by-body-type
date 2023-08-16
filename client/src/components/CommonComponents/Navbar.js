@@ -33,9 +33,9 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="flex items-center justify-between border-gray-400 lg:border-b">
+    <div className="flex items-center justify-between border-gray-400 lg:border-b -z-50">
       <nav className="flex w-screen">
-        <section className="flex justify-between px-4 py-4 ml-auto lg:hidden">
+        <section className="flex justify-between max-h-screen px-4 py-4 ml-auto overflow-hidden lg:hidden">
           <div className="space-y-2" onClick={toggleNav}>
             <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>
             <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>

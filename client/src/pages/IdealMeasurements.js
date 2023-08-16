@@ -44,7 +44,7 @@ const IdealMeasurements = () => {
         <IdealMeasurementsComponent gender={"male"} />
       </div>
       {userGender ? (
-        <ButtonPrimary onClick={calculateMeasurements} className="mt-4" loading={loading} text="CALCULATE" />
+        <ButtonPrimary onClick={calculateMeasurements} className="mt-4" loading={loading}>CALCULATE</ButtonPrimary>
       ) : <div className="h-[60px]"></div>}
     </CalculatorLayout>
   );

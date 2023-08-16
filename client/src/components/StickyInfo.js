@@ -15,7 +15,7 @@ const StickyInfo = () => {
     const [isbottommBarVisible, setIsbottomBarVisible] = useState(true);
     // const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'));
     const calendar = useSelector((state) => state.userDiary?.calendarDate)
-    const calendarDate = calendar?.format('DD-MM-YYYY')
+    const calendarDate = calendar ? calendar.format('DD-MM-YYYY') : moment().format('DD-MM-YYYY');
     const userRecords = useSelector((state) => state.userRecords);
     const userDiary = useSelector((state) => state.userDiary)
     const diaryEntry = useDiaryEntry(calendarDate);
@@ -34,6 +34,15 @@ const StickyInfo = () => {
     useEffect(() => {
         console.log(isbottommBarVisible, "isbottommBarVisible")
     }, [isbottommBarVisible])
+
+    const handleActiveClass = (isActive) => {
+        if (isActive) {
+            return "text-cyan-500 flex items-center shadow-[inset_0_1px_-2px_rgba(0,0,0,0.6)] justify-center border-2 rounded-md p-2";
+        } else {
+            return "text-cyan-600 group-hover:text-cyan-500 flex items-center justify-center hover:text-cyan-500 p-2";
+        }
+    }
+
     return (
         <AnimatePresence>
             <motion.div
@@ -48,7 +57,7 @@ const StickyInfo = () => {
                         <div className="relative flex flex-col items-center justify-center h-full col-span-1 p-4 text-center cursor-pointer place-content-start" onMouseEnter={() => setIsCalendarVisible(true)} onMouseLeave={() => setIsCalendarVisible(false)}>
 
                             <div className='flex items-center justify-between gap-2 '>
-                                <BsCalendarWeek size={40} className=" text-cyan-500 group-hover:text-cyan-600" />
+                                <BsCalendarWeek size={40} className={`text-cyan-600`} />
                                 <p className="text-xl font-bold group">{calendarDate}</p>
                             </div>
                             {isCalendarVisible && (
@@ -58,10 +67,9 @@ const StickyInfo = () => {
                             )}
                         </div>
                         <div className='flex items-center justify-center col-span-2 gap-8'>
-                            <NavLink to="/calorie-tracker" className="flex items-center justify-center text-cyan-600 hover:text-cyan-500">
+                            <NavLink to="/calorie-tracker" className={({ isActive }) => handleActiveClass(isActive)}>
                                 <PiForkKnife size={60} />
                             </NavLink>
-
                             <div className="flex flex-col items-center justify-center">
                                 <p className="text-lg font-bold">Calorie Need</p>
                                 <p className="text-4xl font-bold">{record?.results?.calorieNeedByBodyGoal}</p>
@@ -72,8 +80,7 @@ const StickyInfo = () => {
                             </div>
                         </div>
                         <div className='flex items-center col-span-2 gap-8'>
-
-                            <NavLink to="/mystats" className="flex items-center justify-center text-cyan-600 hover:text-cyan-500">
+                            <NavLink to="/mystats" className={({ isActive }) => handleActiveClass(isActive)}>
                                 <FaWeightScale size={60} />
                             </NavLink>
                             <div className="flex flex-col items-center justify-center">

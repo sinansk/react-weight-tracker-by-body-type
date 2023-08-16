@@ -8,10 +8,10 @@ import { AiFillEye } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { deletePhotoRedux } from '../../redux/userRecords';
 
-const PhotoUploadComponent = (isUpdate) => {
+const PhotoUploadComponent = () => {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
-    const latestPhoto = useSelector((state) => state.userRecords?.records[0].data?.photo) || null
+    const latestPhoto = useSelector((state) => state.userRecords?.records[0].data?.photo)
     const [photoUrl, setPhoto] = useState(latestPhoto)
     const userRecords = useSelector((state) => state.userRecords?.records)
 
@@ -25,9 +25,7 @@ const PhotoUploadComponent = (isUpdate) => {
                 const docId = userRecords?.[0].id
                 const photo = await addPhoto(uid, id, file, docId);
                 setPhoto(photo)
-                if (isUpdate) {
-                    updateUserInfo(uid, userRecords[0]?.id, { photo: photo })
-                }
+
             } catch (error) {
                 console.error("Fotoğraf yüklenirken bir hata oluştu:", error);
             }
@@ -37,10 +35,7 @@ const PhotoUploadComponent = (isUpdate) => {
     const handleDeletePhoto = () => {
         // deletePhoto(user.currentUser.uid, userRecords[0]?.data?.photo?.id)
         setPhoto(null)
-        if (isUpdate) {
-            updateUserInfo(user.currentUser.uid, userRecords[0]?.id, { photo: null })
-            dispatch(deletePhotoRedux(userRecords[0]?.id));
-        }
+
     }
 
     useEffect(() => {
@@ -65,9 +60,11 @@ const PhotoUploadComponent = (isUpdate) => {
 
                     ) : (
                         <div className=''>
-                            <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
-                            <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
-                            <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
+                            <label htmlFor="photo-upload" className="cursor-pointer">
+                                <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
+                                <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
+                                <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
+                            </label>
                         </div>
                     )}
 

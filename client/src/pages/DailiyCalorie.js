@@ -39,7 +39,7 @@ const DailiyCalorie = () => {
         <DailyCalorieComponent gender={"male"} />
       </div>
       {userGender ? (
-        <ButtonPrimary onClick={makeRequest} className="mt-4" loading={loading} text="CALCULATE" />
+        <ButtonPrimary onClick={makeRequest} className="mt-4" loading={loading}>CALCULATE</ButtonPrimary>
       ) : <div className="h-[60px]"></div>}
     </CalculatorLayout>
   );

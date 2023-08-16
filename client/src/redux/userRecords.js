@@ -20,8 +20,9 @@ export const userRecordsSlice = createSlice({
             const id = action.payload;
             state.records = state.records.filter((record) => record.id !== id);
         },
-        deletePhotoRedux: (state, action) => {
-            state.records.find((record) => record.id === action.payload).data.photo = null
+        updatePhotoRedux: (state, action) => {
+            console.log(action.payload, "UPDATEPHOTO")
+            state.records.find((record) => record.id === action.payload.id).data.photo = action.payload.photo;
         },
         setTotalPages: (state, action) => {
             state.totalPages = action.payload
@@ -60,5 +61,5 @@ export const userRecordsSlice = createSlice({
 });
 
 export const usePageSize = (state) => state.userRecords.pageSize
-export const { setUserRecord, deleteUserRecord, deletePhotoRedux, setTotalPages, setCurrentPage } = userRecordsSlice.actions
+export const { setUserRecord, deleteUserRecord, updatePhotoRedux, setTotalPages, setCurrentPage } = userRecordsSlice.actions
 export default userRecordsSlice.reducer

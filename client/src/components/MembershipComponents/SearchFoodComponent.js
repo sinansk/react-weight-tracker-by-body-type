@@ -128,7 +128,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
 
     return (
         <div className={`${className} py-10 w-full`} >
-            <div className='flex items-center justify-between gap-2'>
+            <div className='flex items-center justify-between gap-4'>
                 <SearchComponent onBlur={() => setIsInputFocused(false)} onFocus={() => setIsInputFocused(true)} className={``} value={searchFoodInput} onChange={handleInputChange} placeholder="Search food..." onButtonClick={handleSearch} loading={isLoading} />
                 {currentUser && (
                     <button className='flex items-center whitespace-nowrap py-1.5 h-10 font-semibold text-pink-500 border-pink-500 rounded-lg border-[0.5px] px-4 bg-slate-50  hover:bg-pink-500 hover:text-white' onClick={handleAddButton}>
