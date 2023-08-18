@@ -26,7 +26,7 @@ const BodyTypeInfoComponent = ({ gender }) => {
             to calculate your ideal weight, body fat, daily calorie need and
             ideal body measurements. You can change this later!
           </p>
-          <SelectInput className="mt-auto font-semibold" options={activityLevels} label="Activity Level" name="activityLevel" />
+          <SelectInput className="mt-auto font-semibold" options={activityLevels} label="Activity Level" name="activityLevel" reduxName={'personalInfo'} />
         </>
       ) : (
         <span className="flex flex-col items-center h-full">
@@ -41,7 +41,7 @@ const BodyTypeInfoComponent = ({ gender }) => {
             need!
           </p>
           <form className="font-semibold text-center lg:mt-auto">
-            <SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" status="bodyGoalStatus" />
+            <SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" status="bodyGoalStatus" reduxName={'personalInfo'} />
           </form>
         </span>
       )}

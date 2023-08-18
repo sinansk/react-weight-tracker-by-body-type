@@ -64,6 +64,15 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
+              {currentUser && (
+                <NavLink
+                  to="/login"
+                  onClick={handleLogout}
+                  className="px-5 py-2 mx-1 text-teal-900 bg-pink-200 bg-opacity-25 border-2 border-pink-500 rounded-md lg:mx-4"
+                >
+                  LOG OUT
+                </NavLink>
+              )}
             </ul>
           </div>
         </section>

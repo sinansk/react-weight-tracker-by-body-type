@@ -10,8 +10,9 @@ import BigLoader from "../CommonComponents/Loaders/BigLoader";
 import ProfileLoader from "../CommonComponents/Loaders/ProfileLoader";
 const UserInfoComponent = () => {
   const user = useSelector((state) => state.user)
-  const userData = user?.data
+  // const userData = user?.data
   const userRecords = useSelector((state) => state.userRecords?.records)
+  const userData = userRecords?.[0].data
   const isLoading = user.status
   const userRecordsStatus = useSelector((state) => state.userRecords.status);
   const bottomRef = useRef(null);
@@ -29,11 +30,11 @@ const UserInfoComponent = () => {
     <div ref={bottomRef} className="flex flex-col gap-2 p-2 lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
 
 
-      <div className="flex items-center justify-center col-span-6 text-lg rounded-lg shadow-md lg:flex-col bg-cyan-400/20 bg-opacity-30 backdrop-filter backdrop-blur-md">
+      <div className="flex items-center justify-center col-span-6 text-lg rounded-lg shadow-md lg:flex-col bg-cyan-400/20 bg-opacity-30 backdrop-blur-md">
         <h2>Welcome <span className="font-semibold underline">{user.currentUser.email}</span> You are our member .</h2>
         <SiAddthis className="absolute my-auto text-2xl cursor-pointer right-8 hover:text-pink-500 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" />
       </div>
-      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 p-2 font-mono rounded-lg shadow-md bg-amber-400/30 backdrop-filter backdrop-blur-md">
+      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 p-2 font-mono rounded-lg shadow-md bg-amber-400/30 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
@@ -50,7 +51,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="col-span-3 col-start-1 row-span-2 row-start-4 p-2 font-mono rounded-lg shadow-md bg-green-300/20 backdrop-filter backdrop-blur-md">
+      <div className="col-span-3 col-start-1 row-span-2 row-start-4 p-2 font-mono rounded-lg shadow-md bg-green-300/20 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
@@ -66,7 +67,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="flex h-full col-span-2 col-start-4 row-span-4 p-2 font-mono rounded-lg shadow-md bg-rose-500/10 backdrop-filter backdrop-blur-md">
+      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 p-2 font-mono rounded-lg shadow-md bg-rose-500/10 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <div className="flex justify-around w-full ">
             <BigLoader />
@@ -74,12 +75,12 @@ const UserInfoComponent = () => {
           </div>
         ) : (
           <>
-            <MeasurementsCard title="YOUR ACTUAL MEASUREMENTS" data={userData.personalInfo} isEdiTable={true} name="actualMeasurements" />
+            <MeasurementsCard title="YOUR ACTUAL MEASUREMENTS" data={userData.measurements} isEdiTable={true} name="actualMeasurements" />
             <MeasurementsCard title="YOUR IDEAL MEASUREMENTS" data={userData.idealMeasurements} isEdiTable={false} name="idealMeasurements" />
           </>
         )}
       </div>
-      <div className="flex flex-col h-full col-span-1 col-start-6 row-span-4 p-2 font-mono rounded-lg shadow-md bg-teal-400/20 backdrop-filter backdrop-blur-md">
+      <div className="flex flex-col h-full col-span-1 col-start-6 row-span-4 p-2 font-mono rounded-lg shadow-md bg-teal-400/20 ">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <ProfileLoader />
         ) : (

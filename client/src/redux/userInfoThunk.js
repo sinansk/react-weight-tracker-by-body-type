@@ -21,7 +21,8 @@ export const fetchIdealWeight = createAsyncThunk(
 export const fetchBodyFat = createAsyncThunk(
     "user/fetchBodyFat",
     async (_, { getState }) => {
-        const { age, weight, height, neck, waist, hip, gender } = getState().user.data.personalInfo;
+        const { neck, waist, hip } = getState().user.data.measurements
+        const { age, weight, height, gender } = getState().user.data.personalInfo;
         const response = await fitnessRequest.get(
             `/bodyfat?age=${age}&gender=${gender}&weight=${weight}&height=${height}&neck=${neck}&waist=${waist}&hip=${hip}`
         );
@@ -46,9 +47,17 @@ export const fetchCalorieNeed = createAsyncThunk(
 export const updateIdealMeasurements = createAsyncThunk(
     'user/updateIdealMeasurements',
     async (_, { getState, dispatch }) => {
-        const { wrist, gender } = getState().user.data.personalInfo;
+        const { wrist } = getState().user.data.measurements;
+        const { gender } = getState().user.data.personalInfo;
         const idealMeasurements = await calculateMeasurements(wrist, gender);
 
         return idealMeasurements;
     }
 );
+
+// export const setMeasurements = createAsyncThunk(
+//     'user/setMeasurements',
+//     async (values) => {
+//         return values
+//     }
+// )

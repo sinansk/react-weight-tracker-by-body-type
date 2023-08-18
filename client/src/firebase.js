@@ -135,7 +135,6 @@ export const addUserInfo = async (data) => {
   try {
     const uid = data.uid
     const userRef = doc(db, "users", uid);
-    // Kullanıcının "userPersonalInfos" koleksiyonunu oluşturun
     const userPersonalInfoRef = collection(userRef, "userPersonalInfos");
     const result = await addDoc(userPersonalInfoRef, data);
     return result
@@ -152,7 +151,7 @@ export const getUserInfo = async (uid) => {
       id: doc.id,
       data: doc.data(),
     })).sort((a, b) => b.data.timestamp - a.data.timestamp);
-    store.dispatch(setData(data?.[0].data))
+    // store.dispatch(setData(data?.[0].data))
     return data;
   } catch (error) {
     console.log(error)
@@ -165,7 +164,7 @@ export const updateUserInfo = async (uid, id, data) => {
   try {
     const userRef = doc(db, "users", uid, "userPersonalInfos", id);
     await updateDoc(userRef, data);
-    toast.success("Veri başarıyla güncellendi");
+    toast.success("Updated successfully");
     onSnapshot(userRef, (snapshot) => {
       console.log("Snapshot changes:", snapshot.data());
     });
@@ -181,7 +180,7 @@ export const deleteRecord = async (uid, id) => {
   try {
     await deleteDoc(doc(db, "users", uid, "userPersonalInfos", id));
     store.dispatch(deleteUserRecord(id)); // Redux store'u güncelle
-    toast.success("Veri başarıyla silindi");
+    toast.success("Deleted successfully");
   } catch (error) {
     toast.error(error.message);
     console.log(error)
@@ -192,20 +191,10 @@ export const deleteRecord = async (uid, id) => {
 export const addPhoto = async (uid, id, photoFile, docId) => {
   console.log("uid", uid, "id:", id, "photoFile", photoFile);
   try {
-
-
-    // Firebase Storage'da fotoğrafı yüklemek ve indirme URL'sini almak için gerekli adımlar
     const storageRef = ref(storage, `users/${uid}/photos/${id}`);
     const result = await uploadBytes(storageRef, photoFile);
     console.log("result", result)
-    // Veritabanına fotoğrafı eklemek için dökümanı güncelle
-
-
-    // Fotoğrafın indirme URL'sini al
     const downloadURL = await getDownloadURL(storageRef);
-    // await updateDoc(doc(db, "users", uid, "userPersonalInfos", docId), {
-    //   photo: downloadURL, // Varsa mevcut fotoğraf alanını güncellemek için true değeri kullanabilirsiniz
-    // });
 
     return {
       id: id,
@@ -453,10 +442,6 @@ export const getCustomFoods = async (uid) => {
     throw new Error(error.message);
   }
 }
-
-
-
-
 
 export default app;
 

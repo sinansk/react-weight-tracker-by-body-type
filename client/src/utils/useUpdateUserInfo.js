@@ -30,6 +30,7 @@ const useUpdateUserInfo = () => {
       date: moment().format('DD-MM-YYYY'),
       uid: user.currentUser.uid,
       personalInfo: user.data?.personalInfo,
+      measurements: user.data?.measurements,
       idealMeasurements: user.data?.idealMeasurements,
       results: user.data?.results,
       photo: {
@@ -42,7 +43,7 @@ const useUpdateUserInfo = () => {
     dispatch(fetchUserInfo(user.currentUser.uid));
     destroyAllModal()
 
-  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results, user.data?.photo]);
+  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results, user.data?.photo, user.data?.measurements]);
 
   useEffect(() => {
     if (dataFetchingCompleted) {

@@ -1,14 +1,17 @@
 import React from 'react'
-import { setInput, userInfoSelector } from '../../redux/userRedux';
+import { setInput } from '../../redux/userRedux';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { useMediaQuery } from '../../utils/useMediaQuery';
-const SelectInput = ({ label, name, options, className }) => {
+const SelectInput = ({ label, name, options, className, reduxName }) => {
     const dispatch = useDispatch();
-    const selectedValue = useSelector((state) => userInfoSelector(state)[name]);
-    console.log(selectedValue, "selectedValue")
+    const inputValue = useSelector((state) => state.user.data.personalInfo[name]);
+    const redux = useSelector((state) => state.userRecords?.records?.[0].data?.[reduxName])
+    console.log(redux, "redux")
+    const defaultValue = useSelector((state) => state.userRecords?.records?.[0].data?.[reduxName]?.[name])
+    console.log(defaultValue, "defaultValue")
     const handleSelectChange = (selectedOption) => {
-        dispatch(setInput({ name, value: selectedOption?.value }));
+        dispatch(setInput({ reduxName, name, value: selectedOption?.value }));
     };
     const isMobile = useMediaQuery('(max-width: 767px)'); // Örneğin, mobil genişlik için bir sorgu
     const mappedOptions = options.map((option) => ({
@@ -21,6 +24,7 @@ const SelectInput = ({ label, name, options, className }) => {
             ...base,
             height: isMobile && "28px",
             minHeight: isMobile && "28px",
+            padding: !isMobile ? '0 0 0 16px' : '0 6px',
         }),
         valueContainer: (provided, state) => ({
             ...provided,
@@ -44,10 +48,11 @@ const SelectInput = ({ label, name, options, className }) => {
         <>
             <label htmlFor={name} >{label}</label>
             <Select
+                required
                 className={`  border-zinc-400 w-full max-w-full`}
                 classNamePrefix="react-select"
                 options={mappedOptions}
-                value={mappedOptions.find((option) => option.value === selectedValue)}
+                defaultValue={mappedOptions.find((option) => option.value === defaultValue)}
                 onChange={handleSelectChange}
                 isSearchable={true}
                 placeholder={label}

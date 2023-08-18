@@ -8,7 +8,7 @@ export const userSlice = createSlice({
     currentUser: null,
     data: {
       personalInfo: {
-        birthDay: "29.01.1993",
+        birthDay: "1993-01-29",
         gender: "male",
         height: 169,
         weight: 60,
@@ -17,17 +17,8 @@ export const userSlice = createSlice({
         bodyGoal: "maintain weight",
         bodyGoalStatus: "Maintain Weight",
         activityLevel: "Sedentary: little or no exercise",
-        neck: 34,
-        shoulder: 112,
-        chest: 95,
-        arm: 34,
-        forearm: 28,
-        wrist: 15,
-        waist: 70,
-        hip: 86,
-        thigh: 56,
-        calve: 34,
       },
+      measurements: null,
       idealMeasurements: null,
       results: {
         idealWeight: null,
@@ -53,11 +44,19 @@ export const userSlice = createSlice({
 
     },
     setInput: (state, action) => {
-      const { name, value } = action.payload;
-      state.data.personalInfo[name] = value;
+      const { name, value, reduxName } = action.payload;
+      console.log("reduxName", reduxName, name, value)
+      state.data[reduxName] = { ...state.data[reduxName], [name]: value };
       if (name === "bodyGoal") {
         state.data.personalInfo.bodyGoalStatus = converBodyGoalStatus(value)
       }
+      if (name === "birthDay") {
+        state.data.personalInfo.age = Math.floor((new Date() - new Date(value).getTime()) / 3.15576e+10)
+      }
+    },
+    setMeasurements: (state, action) => {
+      state.data.measurements = action.payload
+      console.log("reduxa yazıldı")
     },
     setData: (state, action) => {
       state.data = action.payload
@@ -153,8 +152,9 @@ export const {
   setIdealWeight,
   setInput,
   reset,
-  setPhotoUrl
+  setPhotoUrl,
+  setMeasurements
 } = userSlice.actions;
 
-export const userInfoSelector = (state) => state.user.data.personalInfo;
+export const userInfoSelector = (state) => state.user?.data?.personalInfo;
 export default userSlice.reducer;

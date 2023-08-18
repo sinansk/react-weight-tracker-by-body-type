@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { deleteRecord, getUserInfo } from "../firebase";
 
-// Async thunk to fetch user info
 export const fetchUserInfo = createAsyncThunk(
     "userRecords/fetchUserInfo",
     async (_, { getState }) => {

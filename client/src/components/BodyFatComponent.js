@@ -18,14 +18,14 @@ const BodyFatComponent = ({ gender }) => {
           <>
             <form className="flex flex-row items-center h-full gap-2 md:text-2xl">
               <div className="flex flex-col w-1/2 h-full sm:px-4 justify-evenly">
-                <SelectInput options={ages} label="Age" name="age" className="w-32" />
-                <SelectInput options={heights} label="Height" name="height" className="w-32" />
-                <SelectInput options={weights} label="Weight" name="weight" className="w-32" />
+                <SelectInput options={ages} label="Age" name="age" className="w-32" reduxName={`personalInfo`} />
+                <SelectInput options={heights} label="Height" name="height" className="w-32" reduxName={`personalInfo`} />
+                <SelectInput options={weights} label="Weight" name="weight" className="w-32" reduxName={`personalInfo`} />
               </div>
               <div className="flex flex-col w-1/2 h-full sm:px-4 justify-evenly">
-                <SelectInput options={neck} label="Neck" name="neck" className="w-32" />
-                <SelectInput options={waist} label="Waist" name="waist" className="w-32" />
-                <SelectInput options={hip} label="Hip" name="hip" className="w-32" />
+                <SelectInput options={neck} label="Neck" name="neck" className="w-32" reduxName="measurements" />
+                <SelectInput options={waist} label="Waist" name="waist" className="w-32" reduxName="measurements" />
+                <SelectInput options={hip} label="Hip" name="hip" className="w-32" reduxName="measurements" />
               </div>
             </form>
           </>

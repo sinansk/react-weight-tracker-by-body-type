@@ -9,6 +9,7 @@ import { updatePhotoRedux } from '../../redux/userRecords';
 const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = false }) => {
     const [photo, setPhoto] = useState(item?.data?.photo?.url);
     const currentUser = useSelector((state) => state.user.currentUser);
+    const userGender = item?.data?.personalInfo?.gender
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,23 +20,24 @@ const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = fa
         deletePhoto(currentUser.uid, item.data?.photo?.id, item?.id);
     };
     const handlePhotoUpload = async (e) => {
-        if (willUpdateNow) {
+        e.stopPropagation();
 
-            const file = e.target.files[0];
-            e.stopPropagation();
-            if (file) {
-                try {
-                    const uid = currentUser?.uid
-                    const id = Date.now();
-                    const docId = item?.id
-                    const photo = await addPhoto(uid, id, file, docId);
-                    updateUserInfo(uid, docId, { photo: photo })
-                    dispatch(updatePhotoRedux({ id: docId, photo: photo }));
-                } catch (error) {
-                    console.log(error);
-                }
+
+        const file = e.target.files[0];
+
+        if (file) {
+            try {
+                const uid = currentUser?.uid
+                const id = Date.now();
+                const docId = item?.id
+                const photo = await addPhoto(uid, id, file, docId);
+                updateUserInfo(uid, docId, { photo: photo })
+                dispatch(updatePhotoRedux({ id: docId, photo: photo }));
+            } catch (error) {
+                console.log(error);
             }
         }
+
     };
     return (
         <div className={`${className} relative inline-block group`}>
@@ -52,12 +54,12 @@ const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = fa
                     </div>
                 </>
             ) : (
-                willUpdateNow && (
-                    <div className=''>
-                        <label htmlFor="photo-upload" className="cursor-pointer">
-                            <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
-                            <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
-                            <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
+                isEditable && willUpdateNow && (
+                    <div className='w-full md:mt-10'>
+                        <label htmlFor="photo-update" className="w-full cursor-pointer">
+                            <img src={require(`../../assets/body-${userGender}.png`)} className="w-full mx-auto h-28 md:my-4 md:h-40 md:w-40" alt="body" />
+                            <input type="file" id="photo-update" onChange={handlePhotoUpload} className="hidden" />
+                            <p className="w-full text-sm font-bold sm:text-lg">CLICK TO UPLOAD A PHOTO</p>
                         </label>
                     </div>
                 )

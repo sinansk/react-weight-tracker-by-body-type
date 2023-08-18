@@ -18,7 +18,7 @@ const Home = () => {
           <h2>SELECT YOUR GENDER</h2>
         </div>
       </div>
-      <div className="flex flex-col mx-auto mt-4 lg:flex-row lg:w-1/2">
+      <div className="flex flex-col w-full mt-4 lg:flex-row lg:w-1/2">
         <HomeComponent gender={"female"} />
         <HomeComponent gender={"male"} />
       </div>

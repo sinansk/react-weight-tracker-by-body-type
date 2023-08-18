@@ -26,7 +26,7 @@ const IdealMeasurementsComponent = ({ gender }) => {
                 area you normally wear a watch.
               </p>
 
-              <SelectInput options={wrist} label="Wrist" name="wrist" />
+              <SelectInput options={wrist} label="Wrist" name="wrist" reduxName="measurements" />
             </form>
           </>
         ) : (

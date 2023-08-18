@@ -10,24 +10,23 @@ const MeasurementsCard = ({ title, data, isEdiTable }) => {
         })
     }
 
-    const measurements = ["arm", "calve", "chest", "forearm", "wrist", "hip", "neck", "shoulder", "thigh", "waist"]
-
     return (
-        <div className="items-center justify-center flex-1 text-center">
-            <div className="flex items-center justify-center text-center">
+        <div className="items-center justify-center flex-1 text-left">
+            <div className="flex">
                 <h2 className="font-bold">{title}</h2>
                 {/* {isEdiTable &&
                     <EditButton styleProps={`ml-1 absolute right-1 top-1`} onClick={handleEditClick} size={20} />
                 } */}
             </div>
             {data &&
-                <ul className="grid mt-4 uppercase">
-                    {measurements?.map((key) => (
-                        <li key={key}>
-                            <span className='font-semibold text-cyan-600'>{key}: </span>
-                            <span className=''>{data[key] + ` cm`}</span>
-                        </li>
-                    ))}
+                <ul className="grid mt-4 text-left uppercase">
+                    {Object.entries(data).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+                        .map(([key, value]) => (
+                            <li key={key}>
+                                <span className='font-semibold text-cyan-600'>{key}: </span>
+                                <span className=''>{value} cm</span>
+                            </li>
+                        ))}
                 </ul>
             }
         </div>

@@ -1,4 +1,4 @@
-import { heights, bodyTypes, weights } from "../data";
+import { heights, bodyTypes, weights, ages } from "../data";
 import { useDispatch, useSelector } from "react-redux";
 import { setInput } from "../redux/userRedux";
 import SelectInput from "./CommonComponents/SelectInput";
@@ -18,8 +18,18 @@ const IdealWeightComponent = ({ gender }) => {
         {gender === "male" ? (
           <>
             <form className="flex flex-col items-center h-full md:text-2xl justify-evenly">
-              <SelectInput options={heights} label="Height" name="height" />
-              <SelectInput options={weights} label="Weight" name="weight" />
+              {user ? (
+                <>
+                  <label htmlFor="date"> Birthday</label>
+                  <input type="date" className="border rounded h-9 border-[hsl(0,0%,80%)]" name="birthDay" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))} />
+                </>
+              ) : (
+                <SelectInput options={ages} label="Age" name="age" reduxName={`personalInfo`} />
+
+              )}
+
+              <SelectInput options={heights} label="Height" name="height" reduxName={`personalInfo`} />
+              <SelectInput options={weights} label="Weight" name="weight" reduxName={`personalInfo`} />
 
               <label htmlFor="bodyType" className="-mb-3 ">
                 Body Type
@@ -58,7 +68,7 @@ const IdealWeightComponent = ({ gender }) => {
               you normally wear a watch. We will learn your body type!
             </p>
             <form className="text-center md:mt-auto xl:mt-auto md:text-2xl">
-              <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" />
+              <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" reduxName={`personalInfo`} />
             </form>
           </span>
         )}

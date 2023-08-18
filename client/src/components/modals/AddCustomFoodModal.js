@@ -5,6 +5,9 @@ import ButtonPrimary from '../CommonComponents/ButtonPrimary';
 import SearchDropdown from '../CommonComponents/SearchDropdown';
 import { formatInputValue } from '../../utils/formatInputValue';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
+import FormatedInputComponent from '../MembershipComponents/FormatedInputComponent';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
 const AddCustomFoodModal = (data) => {
     const uid = useSelector((state) => state.user.currentUser.uid);
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary);
@@ -55,72 +58,43 @@ const AddCustomFoodModal = (data) => {
         unit: "kcal"
     },
     ]
-    const handleInputChange = (e) => {
-        const { name, value, dataset } = e.target;
+    // ... (import statements)
 
-        if (dataset.unit && value.trim() !== '') {
-            const trimmedValue = formatInputValue(value, dataset.unit);
-            setCustomFood((prevCustomFood) => ({
-                ...prevCustomFood,
-                [name]: trimmedValue,
-            }));
-        } else {
-            setCustomFood((prevCustomFood) => ({
-                ...prevCustomFood,
-                [name]: value,
-            }));
-        }
+
+    // ... (other code)
+
+    const handleInputChange = (name, newValue) => {
+        setCustomFood((prevCustomFood) => ({
+            ...prevCustomFood,
+            [name]: newValue,
+        }));
     };
 
-    const handleInputFocus = (e) => {
-        const { name, value, dataset } = e.target;
-
-        if (dataset.unit && value.trim() !== '') {
-            const trimmedValue = formatInputValue(value, dataset.unit);
-            setCustomFood((prevCustomFood) => ({
-                ...prevCustomFood,
-                [name]: trimmedValue,
-            }));
-        } else {
-            setCustomFood((prevCustomFood) => ({
-                ...prevCustomFood,
-                [name]: value,
-            }));
-        }
+    const handleInputBlur = (name, newValue) => {
+        // Perform any additional formatting or handling if needed
+        setCustomFood((prevCustomFood) => ({
+            ...prevCustomFood,
+            [name]: newValue,
+        }));
     };
 
-    const handleInputBlur = (e) => {
-        const { name, value, dataset } = e.target;
-
-        if (dataset.unit && value.trim() !== '') {
-            const trimmedValue = formatInputValue(value, dataset.unit);
-            const formattedValue = trimmedValue.endsWith('.') || trimmedValue.endsWith(',')
-                ? trimmedValue + '00'
-                : trimmedValue.includes('.')
-                    ? trimmedValue.replace(/\.(\d$|\.$)/, (match, group1) => `.${group1 || '00'}`)
-                    : trimmedValue.length > 0 && !trimmedValue.endsWith('.')
-                        ? `${trimmedValue}.00`
-                        : '';
-
-            setCustomFood((prevCustomFood) => ({
-                ...prevCustomFood,
-                [name]: formattedValue + dataset.unit,
-            }));
-        } else {
-            setCustomFood((prevCustomFood) => ({
-                ...prevCustomFood,
-                [name]: value,
-            }));
-        }
+    const handleInputFocus = (name, newValue) => {
+        // Perform any additional handling if needed
+        setCustomFood((prevCustomFood) => ({
+            ...prevCustomFood,
+            [name]: newValue,
+        }));
     };
-    const handleSaveFood = () => {
+
+    const handleSaveFood = ({ values }) => {
+        console.log(values, "values")
         saveCustomFood({
             uid: uid,
-            food: customFood,
+            food: values,
         })
         addDailyCalorie({
             uid: uid,
-            food: customFood,
+            food: values,
         }, calorieDiary, data.data.selectedDate)
     }
     useEffect(() => {
@@ -141,30 +115,62 @@ const AddCustomFoodModal = (data) => {
         setSelectedOption("")
         setCustomFood(initialCustomFodd)
     }
+
+    const validation = Yup.object().shape({
+        food_name: Yup.string().required("Required"),
+        brand_name: Yup.string().required("Required"),
+        amount: Yup.string().required("Required"),
+        calories: Yup.string().required("Required"),
+        fat: Yup.string().required("Required"),
+        carbs: Yup.string().required("Required"),
+        protein: Yup.string().required("Required"),
+    })
     return (
         <div className="flex flex-col gap-2 sm:w-80">
             <>
-                {customFoods?.length > 0 &&
-                    <div className='flex items-center justify-between'>
-                        <SearchDropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={searchDropdownOptions} />
-                        <AiOutlineMinusCircle className='cursor-pointer' size={26} onClick={handleRemove} />
-                    </div>
-                }
-                {inputs.map((input, i) => (
-                    <input
-                        key={i}
-                        name={input.name}
-                        type="text"
-                        className="w-full p-2 border-2 border-gray-300 rounded-md h-9 lg:h-11"
-                        placeholder={input.placeholder}
-                        value={customFood?.[input.name]}
-                        onChange={(e) => handleInputChange(e, input.name)}
-                        onBlur={handleInputBlur}
-                        onFocus={handleInputFocus}
-                        data-unit={input?.unit}
-                    />
-                ))}
-                <ButtonPrimary className="w-full" onClick={handleSaveFood} >SAVE FOOD</ButtonPrimary>
+                <Formik initialValues={
+                    Object.fromEntries(
+                        Object.entries(customFood).map(([key, value]) => [key, value])
+                    )
+                } onSubmit={(values) => handleSaveFood({ values })} validationSchema={validation}>
+                    {({ values, errors, touched, handleChange, handleBlur }) => (
+
+                        <Form>
+
+                            {customFoods?.length > 0 &&
+                                <div className='flex items-center justify-between'>
+                                    <SearchDropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={searchDropdownOptions} />
+                                    <AiOutlineMinusCircle className='cursor-pointer' size={26} onClick={handleRemove} />
+                                </div>
+                            }
+                            {inputs.map((input, i) => (
+
+                                <div>
+
+                                    <ErrorMessage
+
+                                        name={input.name}
+                                        component="div"
+                                        className="text-red-500 "
+                                    />
+                                    <span className={`${errors[input.name] && 'hidden'} capitalize`}>{input.name.replace("_", " ")}: </span>
+                                    <Field
+                                        name={input.name}
+                                        type="text"
+                                        className={`${errors[input.name] && touched[input.name] ? 'border-red-500' : 'border-[hsl(0,0%,80%)] '} w-full p-2 border-2 border-gray-300 rounded-md h-9 lg:h-11`}
+                                        placeholder={input.placeholder}
+                                        unit={input?.unit}
+                                        component={FormatedInputComponent}
+                                        formatValue={formatInputValue}
+
+                                    />
+
+                                </div>
+                            ))}
+                            <ButtonPrimary className="w-full" type={"submit"} onClick={handleSaveFood} >SAVE FOOD</ButtonPrimary>
+                        </Form>
+                    )}
+                </Formik>
             </>
         </div>
     );

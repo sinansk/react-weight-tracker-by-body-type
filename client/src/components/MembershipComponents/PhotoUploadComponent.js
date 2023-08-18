@@ -11,13 +11,15 @@ import { deletePhotoRedux } from '../../redux/userRecords';
 const PhotoUploadComponent = () => {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
-    const latestPhoto = useSelector((state) => state.userRecords?.records[0].data?.photo)
-    const [photoUrl, setPhoto] = useState(latestPhoto)
     const userRecords = useSelector((state) => state.userRecords?.records)
+    const latestPhoto = userRecords?.[0].data?.photo
+    const userGender = userRecords?.[0].data?.personalInfo?.gender
+    const [photoUrl, setPhoto] = useState(latestPhoto ?? null)
 
     const handlePhotoUpload = async (event) => {
-        const file = event.target.files[0];
         event.stopPropagation();
+        const file = event.target.files[0];
+
         if (file) {
             try {
                 const uid = user?.currentUser?.uid
@@ -40,6 +42,7 @@ const PhotoUploadComponent = () => {
 
     useEffect(() => {
         dispatch(setPhotoUrl(photoUrl))
+        console.log(photoUrl, "photoUrl")
     }, [photoUrl, dispatch])
 
     return (
@@ -59,9 +62,9 @@ const PhotoUploadComponent = () => {
                         </div>
 
                     ) : (
-                        <div className=''>
+                        <div className='m-auto'>
                             <label htmlFor="photo-upload" className="cursor-pointer">
-                                <img src={require("../../assets/profile.png")} className="w-40 h-40 mx-auto my-4" alt="body" />
+                                <img src={require(`../../assets/body-${userGender}.png`)} className="w-40 h-40 mx-auto my-4" alt="body" />
                                 <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
                                 <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
                             </label>

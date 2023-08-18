@@ -32,18 +32,18 @@ const BodyFatInfoComponent = ({ gender }) => {
           <form className="flex flex-row items-center flex-1 h-full md:text-2xl">
             <div className="flex w-full h-full gap-1 px-2">
               <div className="">
-                <SelectInput options={neck} label="Neck" name="neck" />
-                <SelectInput options={shoulder} label="Shoulder" name="shoulder" />
-                <SelectInput options={chest} label="Chest" name="chest" />
-                <SelectInput options={arm} label="Arm" name="arm" />
-                <SelectInput options={foreArm} label="Fore Arm" name="forearm" />
+                <SelectInput options={neck} label="Neck" name="neck" reduxName={'measurements'} />
+                <SelectInput options={shoulder} label="Shoulder" name="shoulder" reduxName={'measurements'} />
+                <SelectInput options={chest} label="Chest" name="chest" reduxName={'measurements'} />
+                <SelectInput options={arm} label="Arm" name="arm" reduxName={'measurements'} />
+                <SelectInput options={foreArm} label="Fore Arm" name="forearm" reduxName={'measurements'} />
               </div>
               <div className="">
-                <SelectInput options={wrist} label="Wrist" name="wrist" />
-                <SelectInput options={waist} label="Waist" name="waist" />
-                <SelectInput options={hip} label="Hip" name="hip" />
-                <SelectInput options={thigh} label="Thigh" name="thigh" />
-                <SelectInput options={calve} label="Calve" name="calve" />
+                <SelectInput options={wrist} label="Wrist" name="wrist" reduxName={'measurements'} />
+                <SelectInput options={waist} label="Waist" name="waist" reduxName={'measurements'} />
+                <SelectInput options={hip} label="Hip" name="hip" reduxName={'measurements'} />
+                <SelectInput options={thigh} label="Thigh" name="thigh" reduxName={'measurements'} />
+                <SelectInput options={calve} label="Calve" name="calve" reduxName={'measurements'} />
               </div>
             </div>
           </form>

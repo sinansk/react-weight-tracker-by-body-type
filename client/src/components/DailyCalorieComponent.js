@@ -17,10 +17,10 @@ const DailyCalorieComponent = ({ gender }) => {
         {gender === "male" ? (
           <>
             <form className="flex flex-col items-center justify-between h-full md:text-2xl">
-              <SelectInput options={ages} label="Age" name="age" />
-              <SelectInput options={heights} label="Height" name="height" />
-              <SelectInput options={weights} label="Weight" name="weight" />
-              <SelectInput options={activityLevels} label="Activity Level" name="activityLevel" />
+              <SelectInput options={ages} label="Age" name="age" reduxName={`personalInfo`} />
+              <SelectInput options={heights} label="Height" name="height" reduxName={`personalInfo`} />
+              <SelectInput options={weights} label="Weight" name="weight" reduxName={`personalInfo`} />
+              <SelectInput options={activityLevels} label="Activity Level" name="activityLevel" reduxName={`personalInfo`} />
             </form>
           </>
         ) : (
@@ -36,7 +36,7 @@ const DailyCalorieComponent = ({ gender }) => {
               need!
             </p>
             <form className="text-center lg:mt-auto md:text-2xl">
-              <SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" />
+              <SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" reduxName={`personalInfo`} />
             </form>
           </span>
         )}
