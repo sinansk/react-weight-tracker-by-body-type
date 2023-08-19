@@ -420,6 +420,7 @@ export const saveCustomFood = async (data) => {
     if (querySnapshot.empty) {
       await addDoc(customFoodsRef, customFood);
       getCustomFoods(uid)
+      toast.success("Food Saved And Added To Diary ")
       // A food with the same ID already exists, skip saving
     } else {
       return;
@@ -429,6 +430,28 @@ export const saveCustomFood = async (data) => {
     console.log(error);
   }
 }
+
+export const deleteCustomFood = async (data) => {
+  const uid = data.uid;
+  const id = data.id;
+  console.log("uid", data, "id:", data, "deleteCustomFood");
+  try {
+    const customFoodsRef = collection(db, "users", uid, "customFoods");
+    const querySnapshot = await getDocs(query(customFoodsRef, where("id", "==", id)));
+    if (!querySnapshot.empty) {
+      const docSnapshot = querySnapshot.docs[0];
+      await deleteDoc(doc(customFoodsRef, docSnapshot.id));
+      getCustomFoods(uid)
+    } else {
+      console.log("Custom food not found. deleteCustomFood");
+    }
+  } catch (error) {
+    toast.error(error.message);
+    console.error(error);
+    throw new Error(error.message);
+  }
+}
+
 
 export const getCustomFoods = async (uid) => {
   try {
@@ -444,5 +467,3 @@ export const getCustomFoods = async (uid) => {
 }
 
 export default app;
-
-

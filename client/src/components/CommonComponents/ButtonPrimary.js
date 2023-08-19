@@ -1,5 +1,5 @@
 import React from 'react'
-import LoadingSpinner from './LoadingSpinner'
+import LoadingSpinner from './Loaders/LoadingSpinner'
 
 const ButtonPrimary = ({ type, onClick, loading, children, className, disabled = false }) => {
 

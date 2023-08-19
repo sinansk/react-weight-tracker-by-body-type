@@ -8,8 +8,6 @@ import TotalCalorieCard from '../components/MembershipComponents/TotalCalorieCar
 import StickyInfo from '../components/StickyInfo'
 
 const CalorieTracker = () => {
-
-    // const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'));
     const userDiary = useSelector((state) => state.userDiary)
     const calendar = useSelector((state) => state.userDiary?.calendarDate)
     const calendarDate = calendar ? calendar?.format('DD-MM-YYYY') : moment().format('DD-MM-YYYY');
@@ -23,7 +21,7 @@ const CalorieTracker = () => {
 
 
     return (
-        <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 '>
+        <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 px-1.5'>
             <div className=''>
                 {calendarDate && <DiaryCardComponent className={`${calendarExpand && `hidden`} max-w-full`} selectedDate={calendarDate} calendarExpand={calendarExpand} setCalendarExpand={setCalendarExpand} />}
                 <Calendar className={`${!calendarExpand && `hidden`} sm:w-[550px] w-full max-w-fit py-5 mx-auto bg-white shadow-lg rounded-xl `} diaryDates={diaryDates} onDateClick={handleDateClick} />

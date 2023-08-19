@@ -1,5 +1,5 @@
 import React from 'react'
-import LoadingSpinner from './CommonComponents/LoadingSpinner'
+import LoadingSpinner from './CommonComponents/Loaders/LoadingSpinner'
 
 const ResultComponent = ({ children, loading, title }) => {
     return (

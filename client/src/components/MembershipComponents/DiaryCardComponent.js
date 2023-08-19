@@ -131,7 +131,6 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
 
 
     return (
-
         <>
             <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl bg-white w-[600px] h-fit overflow-auto no-scrollbar`}>
                 <h2 className='p-2 my-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>

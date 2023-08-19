@@ -127,11 +127,11 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     const [isInputFocused, setIsInputFocused] = useState(false)
 
     return (
-        <div className={`${className} py-10 w-full`} >
-            <div className='flex items-center justify-between gap-4'>
+        <div className={`${className} py-10  w-full`} >
+            <div className='flex items-center justify-between gap-4 '>
                 <SearchComponent onBlur={() => setIsInputFocused(false)} onFocus={() => setIsInputFocused(true)} className={``} value={searchFoodInput} onChange={handleInputChange} placeholder="Search food..." onButtonClick={handleSearch} loading={isLoading} />
                 {currentUser && (
-                    <button className='flex items-center whitespace-nowrap py-1.5 h-10 font-semibold text-pink-500 border-pink-500 rounded-lg border-[0.5px] sm:px-4 px-2 text-xs sm:text-base bg-slate-50  hover:bg-pink-500 hover:text-white' onClick={handleAddButton}>
+                    <button className='flex items-center whitespace-nowrap py-1.5 h-8 sm:h-10  font-semibold text-pink-500 border-pink-500 rounded-lg border-[0.5px] sm:px-4 px-2 text-xs sm:text-base bg-slate-50  hover:bg-pink-500 hover:text-white' onClick={handleAddButton}>
                         Custom Food
                     </button>
                 )}
@@ -144,7 +144,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                         onClick={() => handleDivClick(item.food_id)}
-                        className='px-3 py-2 bg-white cursor-auto hover:bg-slate-100 group'>
+                        className='p-1 sm:px-3 sm:py-2 text-sm sm:text-base bg-white cursor-auto hover:bg-slate-100 group'>
                         <p className="font-medium text-gray-600 text-md">
                             <span>{item?.brand_name}</span> {item.food_name}
                         </p>

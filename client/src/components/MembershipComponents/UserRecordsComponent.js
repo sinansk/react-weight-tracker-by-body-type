@@ -14,7 +14,8 @@ import PhotoDisplayComponent from "./PhotoDisplayComponent";
 import { usePageSize } from "../../redux/userRecords";
 import PaginationComponent from "../CommonComponents/PaginationComponent";
 import { fetchUserInfo } from "../../redux/userRecordsThunk";
-import LoadingComponent from "../CommonComponents/LoadingComponent";
+import LoadingComponent from "../CommonComponents/Loaders/LoadingComponent";
+import { createModal } from "../../utils/modalHooks";
 const UserRecordsComponent = () => {
   const isLoading = useSelector((state) => state.userRecords.status);
   const [deletedRowIds, setDeletedRowIds] = useState([]);
@@ -95,12 +96,12 @@ const UserRecordsComponent = () => {
   const paginatedData = transformedData?.slice(startIndex, endIndex);
   const TableHeader = ({ columns }) => {
     return (
-      <thead className="sticky top-0 left-0 right-0 z-40 mt-4 shadow-md bg-slate-50">
+      <thead className="sticky top-0 left-0 right-0 z-40 mt-4 text-sm sm:text-base shadow-md bg-slate-50">
         <tr>
           {columns.map((column) => (
             <th
               key={column.id}
-              className={`px-6 z-20 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase ${column.id === 'date' ? 'sticky left-0 top-0  bg-slate-50' : ''}`}
+              className={`px-2 py-1 sm:px-6 z-20 sm:py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase ${column.id === 'date' ? 'sticky left-0 top-0  bg-slate-50' : ''}`}
             >
               {column.label}
             </th>
@@ -112,7 +113,7 @@ const UserRecordsComponent = () => {
 
   return (
 
-    <div className="container z-20 h-screen mx-auto mt-5 overflow-auto no-scrollbar ">
+    <div className="container z-20 text-sm sm:text-base h-screen mx-auto mt-5 overflow-auto no-scrollbar ">
       <table className="min-w-full divide-y divide-gray-200 ">
         {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
           <LoadingComponent />
@@ -137,13 +138,17 @@ const UserRecordsComponent = () => {
                         <td
                           key={column.id}
                           className={`${column.id === "date" ? "sticky left-0 " : ""
-                            }px-6 py-4 whitespace-nowrap bg-slate-50`}
+                            } px-2 py-1 sm:px-6 sm:py-4 whitespace-nowrap bg-slate-50`}
                           title={column.label}
                         >
                           {column.id !== "actions" ? item.data[column.id] : (
                             <div className="flex items-center justify-center gap-5 whitespace-nowrap">
                               {(index !== 0 || (index === 0 && transformedData.length > 1)) && (
-                                <DeleteButton onClick={() => handleDelete(item.id)} size={20} />
+                                <DeleteButton onClick={() => createModal("ConfirmationModal", {
+                                  title: "Delete Record",
+                                  text: "Are you sure you want to delete this record?",
+                                  onConfirm: () => handleDelete(item.id)
+                                })} size={20} />
                               )}
                               <CollapseButton
                                 onClick={() => handleToggleRow(item.id)}
@@ -162,47 +167,47 @@ const UserRecordsComponent = () => {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.2 }}
                         key={item.id + "-details"}
-                        className=""
+                        className="text-sm sm:text-base"
                       >
-                        <td colSpan={columns.length + 1} className="bg-gray-100 shadow-sm">
-                          <div className="flex items-center flex-1 p-2 justify-evenly">
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                              <RiWaterPercentFill size={34} className="text-cyan-700" />
+                        <td colSpan={columns.length + 1} className="bg-gray-100 shadow-sm ">
+                          <div className="flex items-center flex-1 sm:p-2 justify-evenly">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-sm sm:text-base">
+                              <RiWaterPercentFill size={34} className="text-cyan-700 h-5 sm:h-9" />
                               <p className="underline text-slate-600">Body Fat Category</p>
                               <p className="text-cyan-700">{item.data.bodyFatCategory}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                              <GiMuscleUp size={34} className="text-cyan-700" />
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-sm sm:text-base">
+                              <GiMuscleUp size={34} className="text-cyan-700 h-5 sm:h-9" />
                               <p className="underline text-slate-600">Lean Body Mass</p>
                               <p className="text-cyan-700">{item.data.leanBodyMass}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                              <GiMuscleFat size={34} className="text-cyan-700" />
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-sm sm:text-base">
+                              <GiMuscleFat size={34} className="text-cyan-700 h-5 sm:h-9" />
                               <p className="underline text-slate-600">Body Fat Mass</p>
                               <p className="text-cyan-700">{item.data.bodyFatMass}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                              <GiStairsGoal size={34} className="text-cyan-700" />
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-sm sm:text-base">
+                              <GiStairsGoal size={34} className="text-cyan-700 h-5 sm:h-9" />
                               <p className="underline text-slate-600">Body Goal</p>
                               <p className="text-cyan-700">{item.data.bodyGoalStatus}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                              <ImSpoonKnife size={34} className="text-cyan-700" />
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-sm sm:text-base">
+                              <ImSpoonKnife size={34} className="text-cyan-700 h-5 sm:h-9" />
                               <p className="underline text-slate-600">Calorie Need By {item.data.bodyGoalStatus}</p>
                               <p className="text-cyan-700">{item.data.calorieNeedByBodyGoal}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                              <LuActivity size={34} className="text-cyan-700" />
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-sm sm:text-base">
+                              <LuActivity size={34} className="text-cyan-700 h-5 sm:h-9" />
                               <p className="underline text-slate-600">Activity Level</p>
                               <p className="text-cyan-700">{item.data.activityLevel}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-md">
-                              <FaWeightScale size={34} className="text-cyan-700" />
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 font-semibold text-sm sm:text-base">
+                              <FaWeightScale size={34} className="text-cyan-700 h-5 sm:h-9" />
                               <p className="underline text-slate-600">BMI</p>
                               <p className="text-cyan-700">{item.data.bmi}</p>
                             </div>
                             {item.data?.photo?.url &&
-                              <PhotoDisplayComponent item={item} className="w-32 h-32" isEditable={true} />
+                              <PhotoDisplayComponent item={item} className="w-20 h-20 sm:w-32 sm:h-32" isEditable={true} />
                             }
                           </div>
                         </td>

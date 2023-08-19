@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import MeasurementsCard from "./MeasurementsCard";
 import { createModal } from "../../utils/modalHooks";
-import moment from "moment";
 import { SiAddthis } from "react-icons/si";
 import PhotoDisplayComponent from "./PhotoDisplayComponent";
 import UserInfoLoader from "./UserInfoLoader";
@@ -10,7 +9,6 @@ import BigLoader from "../CommonComponents/Loaders/BigLoader";
 import ProfileLoader from "../CommonComponents/Loaders/ProfileLoader";
 const UserInfoComponent = () => {
   const user = useSelector((state) => state.user)
-  // const userData = user?.data
   const userRecords = useSelector((state) => state.userRecords?.records)
   const userData = userRecords?.[0].data
   const isLoading = user.status
@@ -27,7 +25,7 @@ const UserInfoComponent = () => {
   }, []);
 
   return (
-    <div ref={bottomRef} className="flex flex-col gap-2 p-2 lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
+    <div ref={bottomRef} className="flex flex-col text-sm sm:text-base gap-2 p-2 lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
 
 
       <div className="flex items-center justify-center col-span-6 text-lg rounded-lg shadow-md lg:flex-col bg-cyan-400/20 bg-opacity-30 backdrop-blur-md">
@@ -67,7 +65,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 p-2 font-mono rounded-lg shadow-md bg-rose-500/10 backdrop-blur-md">
+      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 py-2 px-4 font-mono rounded-lg shadow-md bg-rose-500/10 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <div className="flex justify-around w-full ">
             <BigLoader />
@@ -84,7 +82,7 @@ const UserInfoComponent = () => {
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <ProfileLoader />
         ) : (
-          <PhotoDisplayComponent item={userRecords?.[0]} isEditable={true} willUpdateNow={true} className="w-40 h-40 mx-auto lg:w-full lg:h-full" />
+          <PhotoDisplayComponent item={userRecords?.[0]} isEditable={true} willUpdateNow={true} className="rounded-lg w-40 h-40 mx-auto lg:w-full lg:h-full" />
         )}
       </div>
     </div>

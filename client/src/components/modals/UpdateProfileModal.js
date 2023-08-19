@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useUpdateUserInfo from "../../utils/useUpdateUserInfo"
 import ButtonPrimary from "../CommonComponents/ButtonPrimary";
 import SelectInput from "../CommonComponents/SelectInput";
-import { activityLevels, ages, bodyGoals, bodyTypes, heights, weights } from "../../data";
+import { activityLevels, bodyGoals, bodyTypes, heights, weights } from "../../data";
 
 import { setInput, setMeasurements } from "../../redux/userRedux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -51,7 +51,7 @@ const UpdateProfileModal = () => {
                                     <div className="flex flex-col items-start">
                                         <label htmlFor="date"> Birthday</label>
                                         <input type="date"
-                                            className="border rounded h-[38px] border-[hsl(0,0%,80%)]"
+                                            className="border rounded sm:h-[38px] border-[hsl(0,0%,80%)]"
                                             name="birthDay"
                                             onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))}
                                             defaultValue={userData.birthDay}

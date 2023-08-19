@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux/";
-import LoadingComponent from "../components/CommonComponents/LoadingComponent";
+import LoadingComponent from "../components/CommonComponents/Loaders/LoadingComponent";
 import UserInfoComponent from "../components/MembershipComponents/UserInfoComponent";
 import UserRecordsComponent from "../components/MembershipComponents/UserRecordsComponent";
 import StickyInfo from "../components/StickyInfo";

@@ -4,11 +4,11 @@ import EditButton from '../CommonComponents/EditButton'
 
 const MeasurementsCard = ({ title, data, isEdiTable }) => {
 
-    const handleEditClick = () => {
-        createModal("MeasurementsModal", {
-            willOpenModal: "UserInfoModal"
-        })
-    }
+    // const handleEditClick = () => {
+    //     createModal("MeasurementsModal", {
+    //         willOpenModal: "UserInfoModal"
+    //     })
+    // }
 
     return (
         <div className="items-center justify-center flex-1 text-left">

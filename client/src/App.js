@@ -17,12 +17,12 @@ import WithNavbar from "./routes/WithNavbar";
 import WithOutNavbar from "./routes/WithOutNavbar";
 import CalorieTracker from "./pages/CalorieTracker";
 import Modal from "./components/modals/Modal";
-import LoadingComponent from "./components/CommonComponents/LoadingComponent";
+import LoadingComponent from "./components/CommonComponents/Loaders/LoadingComponent";
 import Test from "./pages/Test";
 
 const App = () => {
   return (
-    <div className="w-full min-h-screen text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100">
+    <div className="w-full min-h-screen text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 pb-10">
 
       <Toaster position="top-right" />
       {/* <LoadingComponent /> */}
