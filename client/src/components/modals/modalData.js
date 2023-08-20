@@ -1,8 +1,6 @@
 import MeasurementsModal from "./MeasurementsModal";
 import UserInfoModal from "./UserInfoModal";
-import LoginModal from "./LoginModal";
 import ConfirmationModal from "./ConfirmationModal";
-
 import PhotoUpdateModal from "./PhotoUpdateModal";
 import UpdateProfileModal from "./UpdateProfileModal";
 import ImageModal from "./ImageModal";
@@ -16,10 +14,6 @@ const modalData = [
     {
         name: "UserInfoModal",
         element: UserInfoModal
-    },
-    {
-        name: "LoginModal",
-        element: LoginModal
     },
     {
         name: "MeasurementsModal",
