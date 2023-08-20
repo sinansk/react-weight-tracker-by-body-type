@@ -29,21 +29,21 @@ const BodyFatInfoComponent = ({ gender }) => {
     >
       {gender === "male" ? (
         <>
-          <form className="flex flex-row items-center flex-1 h-full md:text-2xl">
+          <form className="flex flex-row items-center flex-1 h-full text-xs md:text-2xl -mt-4">
             <div className="flex w-full h-full gap-1 px-2">
               <div className="">
-                <SelectInput options={neck} label="Neck" name="neck" reduxName={'measurements'} />
-                <SelectInput options={shoulder} label="Shoulder" name="shoulder" reduxName={'measurements'} />
-                <SelectInput options={chest} label="Chest" name="chest" reduxName={'measurements'} />
-                <SelectInput options={arm} label="Arm" name="arm" reduxName={'measurements'} />
-                <SelectInput options={foreArm} label="Fore Arm" name="forearm" reduxName={'measurements'} />
+                <SelectInput options={neck} label="Neck" name="neck" reduxName='measurements' />
+                <SelectInput options={shoulder} label="Shoulder" name="shoulder" reduxName='measurements' />
+                <SelectInput options={chest} label="Chest" name="chest" reduxName='measurements' />
+                <SelectInput options={arm} label="Arm" name="arm" reduxName='measurements' />
+                <SelectInput options={foreArm} label="Fore Arm" name="forearm" reduxName='measurements' />
               </div>
               <div className="">
-                <SelectInput options={wrist} label="Wrist" name="wrist" reduxName={'measurements'} />
-                <SelectInput options={waist} label="Waist" name="waist" reduxName={'measurements'} />
-                <SelectInput options={hip} label="Hip" name="hip" reduxName={'measurements'} />
-                <SelectInput options={thigh} label="Thigh" name="thigh" reduxName={'measurements'} />
-                <SelectInput options={calve} label="Calve" name="calve" reduxName={'measurements'} />
+                <SelectInput options={wrist} label="Wrist" name="wrist" reduxName='measurements' />
+                <SelectInput options={waist} label="Waist" name="waist" reduxName='measurements' />
+                <SelectInput options={hip} label="Hip" name="hip" reduxName='measurements' />
+                <SelectInput options={thigh} label="Thigh" name="thigh" reduxName='measurements' />
+                <SelectInput options={calve} label="Calve" name="calve" reduxName='measurements' />
               </div>
             </div>
           </form>
@@ -56,7 +56,7 @@ const BodyFatInfoComponent = ({ gender }) => {
             src={require(`../../assets/body-${user.data.personalInfo.gender}.png`)}
             alt="washing-hands"
           />
-          <p className="text-sm font-semibold">
+          <p className="text-xs font-semibold">
             Please measure your neck at widest point, your chest just under your
             armpit, your arm and leg muscles at largest point, your waist over
             belly button and your hip over largest point with a tape measure.

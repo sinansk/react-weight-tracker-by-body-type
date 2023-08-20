@@ -32,10 +32,10 @@ const GetStarted = () => {
       setRegisterStep((prev) => prev - 1);
     }
     if (e.target.name === "CONFIRM" && registerStep === 3) {
-      updateUserInfo()
+      await updateUserInfo()
       const timeoutId = setTimeout(() => {
         navigate("/mystats", { replace: true }); // sayfa yönlendirmesi
-      }, 4000); // 4 saniye
+      }, 6000); // 6 saniye
       return () => clearTimeout(timeoutId);
     }
   };
@@ -44,9 +44,9 @@ const GetStarted = () => {
   return (
     <>
       {/* {user.currentUser.emailVerified && ( */}
-      <div className="flex flex-col items-center justify-center w-screen h-full min-h-screen gap-10 md:h-screen md:flex ">
+      <div className="flex flex-col items-center justify-center w-screen h-full min-h-screen gap-2 sm:gap-10 md:h-screen md:flex ">
         <Stepper registerStep={registerStep} setRegisterStep={setRegisterStep} onStepChange={handleStep} />
-        <div className="flex flex-col w-full lg:flex-row lg:w-1/2 lg:mt-10">
+        <div className="flex flex-col w-full mt-10 lg:flex-row lg:w-1/2">
           {registerStep === 0 && (
             <>
               <GenderComponent gender={"female"} />

@@ -18,7 +18,8 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
     const inputRefs = {}
 
-    const handleDivClick = (foodId) => {
+    const handleDivClick = (e, foodId) => {
+        e.preventDefault()
         inputRefs[foodId].focus()
     }
 
@@ -29,9 +30,10 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     const handleSearch = async (e) => {
         e.preventDefault()
         const query = searchFoodInput
+        const api = process.env.REACT_APP_API_URL;
         try {
             setIsLoading(true)
-            const response = await axios.post("http://localhost:5000/api/search-food", { food: query });
+            const response = await axios.post(`${api}/search-food`, { food: query });
             console.log("response", response.data.foods.food)
             setResponseList(response.data.foods.food)
             // Process the food data and update state
@@ -128,7 +130,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
 
     return (
         <div className={`${className} py-10  w-full`} >
-            <div className='flex items-center justify-between gap-4 '>
+            <div className='flex items-center justify-between gap-1 sm:gap-4 '>
                 <SearchComponent onBlur={() => setIsInputFocused(false)} onFocus={() => setIsInputFocused(true)} className={``} value={searchFoodInput} onChange={handleInputChange} placeholder="Search food..." onButtonClick={handleSearch} loading={isLoading} />
                 {currentUser && (
                     <button className='flex items-center whitespace-nowrap py-1.5 h-8 sm:h-10  font-semibold text-pink-500 border-pink-500 rounded-lg border-[0.5px] sm:px-4 px-2 text-xs sm:text-base bg-slate-50  hover:bg-pink-500 hover:text-white' onClick={handleAddButton}>
@@ -143,8 +145,8 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        onClick={() => handleDivClick(item.food_id)}
-                        className='p-1 sm:px-3 sm:py-2 text-sm sm:text-base bg-white cursor-auto hover:bg-slate-100 group'>
+                        onClick={(e) => handleDivClick(e, item.food_id)}
+                        className='p-1 text-sm bg-white cursor-auto sm:px-3 sm:py-2 sm:text-base hover:bg-slate-100 group'>
                         <p className="font-medium text-gray-600 text-md">
                             <span>{item?.brand_name}</span> {item.food_name}
                         </p>

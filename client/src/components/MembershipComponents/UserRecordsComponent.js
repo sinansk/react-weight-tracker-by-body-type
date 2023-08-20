@@ -141,7 +141,7 @@ const UserRecordsComponent = () => {
                             } px-2 py-1 sm:px-6 sm:py-4 whitespace-nowrap bg-slate-50`}
                           title={column.label}
                         >
-                          {column.id !== "actions" ? item.data[column.id] : (
+                          {column.id !== "actions" ? item?.data[column.id] : (
                             <div className="flex items-center justify-center gap-5 whitespace-nowrap">
                               {(index !== 0 || (index === 0 && transformedData.length > 1)) && (
                                 <DeleteButton onClick={() => createModal("ConfirmationModal", {

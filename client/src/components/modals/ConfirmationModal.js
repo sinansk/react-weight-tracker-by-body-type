@@ -5,6 +5,7 @@ const ConfirmationModal = (data) => {
     const title = data.data?.title
     const text = data.data?.text
     const handleConfirm = () => {
+        console.log(data, 'data')
         data.data.onConfirm()
         destroyModal()
     }

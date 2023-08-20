@@ -1,6 +1,6 @@
 import axios from "axios";
 const FITNESS_URL = "https://fitness-calculator.p.rapidapi.com/";
-const API = "http://localhost:5000/api/";
+const API = process.env.REACT_APP_API_URL;
 const KEY = process.env.REACT_APP_FITNESS_KEY;
 export const apiRequest = axios.create({
   baseURL: API

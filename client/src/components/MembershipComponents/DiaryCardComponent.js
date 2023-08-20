@@ -154,7 +154,7 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                                         </td>
                                     ))}
                                     <td className=''>
-                                        <DeleteButton onClick={() => deleteDailyCalorie(item, calorieDiary, selectedDate)} className="m-auto " size={18} />
+                                        <DeleteButton onClick={() => deleteDailyCalorie(item, calorieDiary, selectedDate)} className="w-3 h-3 m-auto sm:h-5 sm:w-5" />
                                     </td>
                                 </tr>
                             ))}

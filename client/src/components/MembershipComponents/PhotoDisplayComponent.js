@@ -20,10 +20,12 @@ const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = fa
         createModal("ConfirmationModal", {
             title: "Delete Photo",
             text: "Are you sure you want to delete this photo?",
-            oncConfirm: async () => {
-                await deletePhoto(currentUser.uid, item.data?.photo?.id, item?.id)
-            }
-        })
+            onConfirm: () => {
+                deletePhoto(currentUser.uid, item.data?.photo?.id, item?.id);
+                updateUserInfo(currentUser.uid, item?.id, { photo: null })
+                dispatch(updatePhotoRedux({ id: item?.id, photo: null }));
+            },
+        });
     };
     const handlePhotoUpload = async (e) => {
         e.stopPropagation();

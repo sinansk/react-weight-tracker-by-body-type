@@ -21,17 +21,17 @@ const IdealWeightComponent = ({ gender }) => {
               {user ? (
                 <>
                   <label htmlFor="date"> Birthday</label>
-                  <input type="date" className="border rounded h-9 border-[hsl(0,0%,80%)]" name="birthDay" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))} />
+                  <input type="date" className="border rounded sm:h-9 border-[hsl(0,0%,80%)]" name="birthDay" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))} />
                 </>
               ) : (
-                <SelectInput options={ages} label="Age" name="age" reduxName={`personalInfo`} />
+                <SelectInput options={ages} label="Age" name="age" reduxName='personalInfo' />
 
               )}
 
-              <SelectInput options={heights} label="Height" name="height" reduxName={`personalInfo`} />
-              <SelectInput options={weights} label="Weight" name="weight" reduxName={`personalInfo`} />
+              <SelectInput options={heights} label="Height" name="height" reduxName='personalInfo' />
+              <SelectInput options={weights} label="Weight" name="weight" reduxName='personalInfo' />
 
-              <label htmlFor="bodyType" className="-mb-3 ">
+              {/* <label htmlFor="bodyType" className="-mb-3 ">
                 Body Type
               </label>
               <select
@@ -52,7 +52,7 @@ const IdealWeightComponent = ({ gender }) => {
                     {bodyType.value}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </form>
           </>
         ) : (
@@ -63,12 +63,12 @@ const IdealWeightComponent = ({ gender }) => {
               src={require(`../assets/washing-hands-${gender}.png`)}
               alt="washing-hands"
             />
-            <p className="my-auto text-sm font-semibold md:text-md xl:text-lg">
+            <p className="my-auto text-xs font-semibold  xl:text-lg">
               Please wrap your thumb and forefinger around your wrist in the area
-              you normally wear a watch. We will learn your body type!
+              you normally wear a watch!
             </p>
             <form className="text-center md:mt-auto xl:mt-auto md:text-2xl">
-              <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" reduxName={`personalInfo`} />
+              <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" reduxName='personalInfo' />
             </form>
           </span>
         )}

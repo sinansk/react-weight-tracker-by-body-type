@@ -133,9 +133,9 @@ const AddCustomFoodModal = (data) => {
                                 <div className='flex items-center justify-between'>
                                     <SearchDropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={searchDropdownOptions} />
                                     {selectedOption && (
-                                        <DeleteButton className='w-6 h-6' onClick={handleDeleteButton} type="button" />
+                                        <DeleteButton className='w-4 h-4 sm:w-6 sm:h-6' onClick={handleDeleteButton} type="button" />
                                     )}
-                                    <AiOutlineMinusCircle type='button' title='Clear Form' className='cursor-pointer' size={26} onClick={() => {
+                                    <AiOutlineMinusCircle type='button' title='Clear Form' className='w-4 h-4 cursor-pointer sm:w-6 sm:h-6' onClick={() => {
                                         handleClear()
                                         resetForm()
                                     }} />

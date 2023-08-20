@@ -55,7 +55,7 @@ const Stepper = ({ registerStep, setRegisterStep }) => {
                 <div className={`${registerStep >= 2 ? `border-pink-600` : `border-gray-400`} stepper-line`}></div>
                 <div className="relative flex items-center ">
                     <div data-step="2" className={`${registerStep === 2 && `stepper-active`} ${registerStep > 2 && `stepper-prev`} grid content-center stepper`} onClick={() => handleStepClick(2)}>
-                        <svg className="w-8 h-8 m-auto " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <circle cx="12" cy="12" r=".5" fill="currentColor" />  <circle cx="12" cy="12" r="7" />  <line x1="12" y1="3" x2="12" y2="5" />  <line x1="3" y1="12" x2="5" y2="12" />  <line x1="12" y1="19" x2="12" y2="21" />  <line x1="19" y1="12" x2="21" y2="12" /></svg>
+                        <svg className="m-auto " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <circle cx="12" cy="12" r=".5" fill="currentColor" />  <circle cx="12" cy="12" r="7" />  <line x1="12" y1="3" x2="12" y2="5" />  <line x1="3" y1="12" x2="5" y2="12" />  <line x1="12" y1="19" x2="12" y2="21" />  <line x1="19" y1="12" x2="21" y2="12" /></svg>
                     </div>
                     <div className={`${registerStep >= 2 ? `text-pink-600` : `text-gray-400`} stepper-text`}>STEP 3</div>
                 </div>
