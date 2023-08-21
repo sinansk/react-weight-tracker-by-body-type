@@ -39,7 +39,7 @@ const UserInfoComponent = () => {
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
-            <h2 className="text-base font-bold h-1/5">YOUR ACTUAL INFO</h2>
+            <h2 className="text-base font-bold h-1/5">ACTUAL INFO</h2>
             {/* <EditButton styleProps={`absolute right-1 top-1`} onClick={() => createModal("UserInfoModal", { willOpenModal: "MeasurementsModal" })} size={20} /> */}
             <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
@@ -84,8 +84,8 @@ const UserInfoComponent = () => {
           </div>
         ) : (
           <>
-            <MeasurementsCard title="YOUR ACTUAL MEASUREMENTS" data={userData?.measurements} isEdiTable={true} name="actualMeasurements" />
-            <MeasurementsCard title="YOUR IDEAL MEASUREMENTS" data={userData?.idealMeasurements} isEdiTable={false} name="idealMeasurements" />
+            <MeasurementsCard title="ACTUAL MEASUREMENTS" data={userData?.measurements} isEdiTable={true} name="actualMeasurements" />
+            <MeasurementsCard title="IDEAL MEASUREMENTS" data={userData?.idealMeasurements} isEdiTable={false} name="idealMeasurements" />
           </>
         )}
       </div>
