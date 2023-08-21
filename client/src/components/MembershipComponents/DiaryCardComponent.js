@@ -132,23 +132,23 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
 
     return (
         <>
-            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl bg-white w-[600px] h-fit overflow-auto no-scrollbar`}>
+            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200 bg-gray-500/50 w-[600px] h-fit overflow-auto no-scrollbar`}>
                 <h2 className='p-2 my-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>
                 {foods ? (
                     <table className='min-w-full p-5 divide-y divide-gray-200'>
                         <TableHeader columns={columns} />
 
-                        <tbody className="bg-white divide-y divide-gray-200 text-slate-700">
+                        <tbody className="divide-y divide-gray-200 ">
                             {foods?.map((item, rowIndex) => (
                                 <tr key={rowIndex} className=''>
                                     {columns.map((column) => (
                                         <td className='px-1.5 py-1 sm:px-3 sm:py-2 ' key={column.id}>
                                             {column.id !== "food_name" ? (
-                                                <p className='font-medium text-gray-600 text-md'>{item[column.id]}</p>
+                                                <p className='font-medium text-md'>{item[column.id]}</p>
                                             ) : (
                                                 <>
-                                                    <p className='font-medium text-gray-600 text-md'>{item?.food_name}</p>
-                                                    <p className='text-gray-500'>{item?.brand_name}</p>
+                                                    <p className='font-medium text-md'>{item?.food_name}</p>
+                                                    <p className='0'>{item?.brand_name}</p>
                                                 </>
                                             )}
                                         </td>
@@ -158,7 +158,7 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                                     </td>
                                 </tr>
                             ))}
-                            <tr className={`${isQuickCalorie ? `table-row outline-dashed outline-2 outline-offset-1 ` : `hidden`}`}>
+                            <tr className={`${isQuickCalorie ? `table-row outline-dashed outline-2  outline-offset-1 ` : `hidden`}`}>
                                 <td colSpan={2} className=''>
                                     Quick Calorie
                                 </td>
@@ -173,20 +173,20 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                                                 value={quickCalorie.food[nutrient]}
                                                 data-unit={nutrient === 'calories' ? 'kcal' : 'g'}
                                                 placeholder={nutrient === 'calories' ? 'required' : 'optional'}
-                                                className="w-12 sm:w-20 px-1 border-[1px] focus:outline-pink-500 rounded-md bg-slate-50"
+                                                className="w-12 sm:w-20 px-1 border-[1px] focus:outline-teal-500 rounded-md placeholder:text-gray-200 bg-slate-500"
                                                 type="text"
                                             />
                                         </div>
                                     </td>
                                 ))}
-                                <td><button className='flex items-center justify-center' onClick={addCustomFood}><TbSquareRoundedCheckFilled size={18} className='m-auto cursor-pointer hover:text-pink-500' /></button></td>
+                                <td><button className='flex items-center justify-center' onClick={addCustomFood}><TbSquareRoundedCheckFilled size={18} className='m-auto text-teal-500 cursor-pointer hover:text-teal-400' /></button></td>
                             </tr>
                         </tbody>
 
                         {diary &&
                             <tfoot className='font-bold'>
                                 <tr>
-                                    <td onClick={handleAddButton} colSpan={2}><span className="flex flex-row items-center justify-center px-3 py-1.5 text-pink-500 rounded-lg cursor-pointer hover:bg-gray-100" ><IoIosAdd size={20} /> Add Quick Calorie</span></td>
+                                    <td onClick={handleAddButton} colSpan={2}><span className="flex flex-row items-center justify-center px-3 py-1.5  text-teal-500 rounded-lg cursor-pointer hover:bg-gray-400/40" ><IoIosAdd size={20} /> Add Quick Calorie</span></td>
                                     <td>{diary?.totalNutrient?.totalCarbs}</td>
                                     <td>{diary?.totalNutrient?.totalFat}</td>
                                     <td>{diary?.totalNutrient?.totalProtein}</td>

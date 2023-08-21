@@ -23,7 +23,7 @@ const MeasurementsCard = ({ title, data, isEdiTable }) => {
                     {Object.entries(data).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
                         .map(([key, value]) => (
                             <li key={key}>
-                                <span className='font-semibold text-cyan-600'>{key}: </span>
+                                <span className='font-semibold text-cyan-400'>{key}: </span>
                                 <span className=''>{value} cm</span>
                             </li>
                         ))}

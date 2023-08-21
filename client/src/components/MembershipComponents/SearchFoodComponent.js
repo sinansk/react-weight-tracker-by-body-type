@@ -133,12 +133,12 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
             <div className='flex items-center justify-between gap-1 sm:gap-4 '>
                 <SearchComponent onBlur={() => setIsInputFocused(false)} onFocus={() => setIsInputFocused(true)} className={``} value={searchFoodInput} onChange={handleInputChange} placeholder="Search food..." onButtonClick={handleSearch} loading={isLoading} />
                 {currentUser && (
-                    <button className='flex items-center whitespace-nowrap py-1.5 h-8 sm:h-10  font-semibold text-pink-500 border-pink-500 rounded-lg border-[0.5px] sm:px-4 px-2 text-xs sm:text-base bg-slate-50  hover:bg-pink-500 hover:text-white' onClick={handleAddButton}>
+                    <button className='flex items-center whitespace-nowrap py-1.5 h-8 sm:h-10  font-semibold text-teal-600 border-teal-900 rounded-lg border-[0.5px] sm:px-4 px-2 text-xs sm:text-base bg-slate-50  hover:bg-teal-500 hover:text-white' onClick={handleAddButton}>
                         Custom Food
                     </button>
                 )}
             </div>
-            <div className="grid min-w-full gap-1 mt-2 overflow-hidden rounded-lg ">
+            <div className="grid min-w-full gap-1 mt-2 overflow-hidden text-gray-200 rounded-lg">
                 {responseList?.map((item, index) => (
                     <motion.div
                         key={index}
@@ -146,18 +146,18 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                         onClick={(e) => handleDivClick(e, item.food_id)}
-                        className='p-1 text-sm bg-white cursor-auto sm:px-3 sm:py-2 sm:text-base hover:bg-slate-100 group'>
-                        <p className="font-medium text-gray-600 text-md">
+                        className='p-1 text-sm cursor-auto bg-gray-500/50 sm:px-3 sm:py-2 sm:text-base hover:bg-slate-600/50 group'>
+                        <p className="font-medium text-md">
                             <span>{item?.brand_name}</span> {item.food_name}
                         </p>
-                        <div className='flex items-center gap-2 mt-2 text-gray-500'>
+                        <div className='flex items-center gap-2 mt-2 text-gray-300'>
                             <div className="flex items-center">
                                 <input
                                     type="text"
                                     ref={(ref) => { inputRefs[item.food_id] = ref }}
                                     value={editedAmount[item.food_id] !== undefined ? editedAmount[item.food_id] : formatAmountValue(item.amount).value}
                                     onChange={(e) => handleAmountChange(item.food_id, e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded-md focus:outline-pink-500 "
+                                    className="w-16 px-2 py-1 text-gray-500 border border-gray-300 rounded-md focus:outline-teal-500 "
                                 />
                                 <span className="ml-1">{formatAmountValue(item.amount).unit}</span>
                             </div>
@@ -166,7 +166,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                             Carbs: {(parseFloat(item.carbs) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
                             Protein: {(parseFloat(item.protein) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g
                             {currentUser &&
-                                <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd size={20} className='hover:text-pink-400' title="Add To Diary" aria-label='Add To Diary' /></button>
+                                <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd size={20} className='hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' /></button>
                             }
                         </div>
                     </motion.div>

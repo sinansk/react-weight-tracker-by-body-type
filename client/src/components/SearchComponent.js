@@ -4,10 +4,10 @@ import { FaSearch } from "react-icons/fa"
 const SearchComponent = ({ className, value, onButtonClick, onChange, onBlur, onFocus, placeholder, loading }) => {
     return (
         <form onMouseEnter={onFocus} onMouseLeave={onBlur} className={`${className} flex items-center justify-between w-full gap-2 sm:gap-3`}>
-            <input onFocus={onFocus} type='text' id='searchComponent' value={value} onChange={onChange} className='flex-auto h-8 sm:h-10 px-3 rounded-lg focus:outline-pink-500' placeholder={placeholder} />
+            <input onFocus={onFocus} type='text' id='searchComponent' value={value} onChange={onChange} className='flex-auto h-8 px-3 text-gray-200 rounded-lg bg-gray-500/50 sm:h-10 focus:outline-teal-500' placeholder={placeholder} />
             {/* <ButtonPrimary onClick={onButtonClick} loading={loading} disabled={!value?.trim()} className={``}>SEARCH</ButtonPrimary> */}
             <button onClick={onButtonClick}>
-                <FaSearch className='text-slate-600 hover:text-pink-500 h-7 sm:h-9' size={36} />
+                <FaSearch className='text-teal-500 hover:text-teal-400 h-7 sm:h-9' size={36} />
             </button>
         </form>
     )

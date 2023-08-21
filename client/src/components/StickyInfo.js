@@ -50,7 +50,7 @@ const StickyInfo = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 1, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed bottom-0 left-0 right-0 invisible py-2 mt-10 bg-white border-t-2 rounded-t-lg sm:visible text-cyan-600 border-cyan-500">
+                className="fixed bottom-0 left-0 right-0 invisible py-2 mt-10 border-t-2 rounded-t-lg bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 sm:visible text-cyan-600 border-cyan-500">
                 {isbottommBarVisible ? (
                     <div className="grid items-center grid-cols-5 gap-10">
 

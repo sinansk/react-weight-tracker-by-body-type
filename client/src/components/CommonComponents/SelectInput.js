@@ -20,11 +20,15 @@ const SelectInput = ({ label, name, options, className, reduxName }) => {
     }));
 
     const customStyles = {
-        control: base => ({
-            ...base,
+        control: (provided, state) => ({
+            ...provided,
             height: isMobile && "28px",
             minHeight: isMobile && "28px",
             padding: !isMobile ? '0 0 0 16px' : '0 6px',
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            color: 'black'
         }),
         valueContainer: (provided, state) => ({
             ...provided,

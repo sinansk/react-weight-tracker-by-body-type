@@ -26,11 +26,11 @@ const UserInfoComponent = () => {
 
   return (
     <div ref={bottomRef} className="flex flex-col gap-2 p-2 text-sm sm:text-base lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
-      <div className="items-center justify-center hidden col-span-6 text-xs rounded-lg shadow-md sm:flex lg:flex-col bg-cyan-400/20 bg-opacity-30 backdrop-blur-md">
+      <div className="items-center justify-center hidden col-span-6 text-xs rounded-lg shadow-md sm:flex lg:flex-col bg-cyan-400/80 backdrop-blur-md">
         <h2>Welcome <span className="font-semibold underline ">{user.currentUser.email}</span> You are our member .</h2>
-        <SiAddthis className="absolute my-auto text-2xl cursor-pointer sm:right-8 hover:text-pink-500 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" />
+        <SiAddthis className="absolute my-auto text-2xl cursor-pointer sm:right-8 hover:text-gray-200 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" />
       </div>
-      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 font-mono rounded-lg shadow-md sm:p-2 bg-amber-400/30 backdrop-blur-md">
+      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 font-mono rounded-lg shadow-md sm:p-2 bg-amber-400/80 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
@@ -38,20 +38,20 @@ const UserInfoComponent = () => {
             {/* <EditButton styleProps={`absolute right-1 top-1`} onClick={() => createModal("UserInfoModal", { willOpenModal: "MeasurementsModal" })} size={20} /> */}
             <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-600">Age:</span> {userData?.personalInfo.age}</p>
-                <p className=""><span className="font-semibold text-sky-600">Height:</span> {userData?.personalInfo.height + ` cm`}</p>
-                <p className=""><span className="font-semibold text-sky-600">Weight:</span> {userData?.personalInfo.weight + ` kg`}</p>
+                <p className=""><span className="font-semibold text-sky-700">Age:</span> {userData?.personalInfo.age}</p>
+                <p className=""><span className="font-semibold text-sky-700">Height:</span> {userData?.personalInfo.height + ` cm`}</p>
+                <p className=""><span className="font-semibold text-sky-700">Weight:</span> {userData?.personalInfo.weight + ` kg`}</p>
               </div>
               <div className="col-span-4 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-600">Body Type:</span> {userData?.personalInfo.bodyType}</p>
-                <p className=""><span className="font-semibold text-sky-600">Body Goal:</span> {userData?.personalInfo.bodyGoalStatus}</p>
-                <p className=""><span className="font-semibold text-sky-600">Activity Level:</span> {userData?.personalInfo.activityLevel}</p>
+                <p className=""><span className="font-semibold text-sky-700">Body Type:</span> {userData?.personalInfo.bodyType}</p>
+                <p className=""><span className="font-semibold text-sky-700">Body Goal:</span> {userData?.personalInfo.bodyGoalStatus}</p>
+                <p className=""><span className="font-semibold text-sky-700">Activity Level:</span> {userData?.personalInfo.activityLevel}</p>
               </div>
             </div>
           </>
         )}
       </div>
-      <div className="col-span-3 col-start-1 row-span-2 row-start-4 font-mono rounded-lg shadow-md sm:p-2 bg-green-300/20 backdrop-blur-md">
+      <div className="col-span-3 col-start-1 row-span-2 row-start-4 font-mono rounded-lg shadow-md sm:p-2 bg-green-400/80 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
@@ -71,7 +71,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 px-4 py-2 font-mono rounded-lg shadow-md bg-rose-500/10 backdrop-blur-md">
+      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 px-4 py-2 font-mono text-gray-200 rounded-lg shadow-md bg-teal-700/50 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <div className="flex justify-around w-full ">
             <BigLoader />
@@ -84,7 +84,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="flex-col hidden h-full col-span-1 col-start-6 row-span-4 p-2 font-mono rounded-lg shadow-md sm:flex bg-teal-400/20 ">
+      <div className="flex-col hidden h-full col-span-1 col-start-6 row-span-4 p-2 font-mono text-gray-200 rounded-lg shadow-md sm:flex bg-slate-600/60">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <ProfileLoader />
         ) : (

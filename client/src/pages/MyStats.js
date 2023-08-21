@@ -10,7 +10,7 @@ const MyStats = () => {
   const userRecords = useSelector((state) => state.userRecords);
 
   return (
-    <div className="items-center justify-center w-screen h-full min-h-screen overflow-x-hidden text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 ">
+    <div className="items-center justify-center w-screen h-full min-h-screen overflow-x-hidden text-center ">
       {/* {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
         <LoadingComponent />
       ) : ( */}

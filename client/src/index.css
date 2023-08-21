@@ -8,14 +8,14 @@
     @apply h-14;
   }
   .stepper {
-    @apply w-8 h-8 sm:w-12 sm:h-12 py-1 sm:py-3 text-gray-400 transition duration-500 ease-in-out border-2 border-gray-400 rounded-full cursor-pointer;
+    @apply w-8 h-8 py-1 text-gray-400 transition duration-500 ease-in-out border-2 border-gray-400 rounded-full cursor-pointer sm:w-12 sm:h-12 sm:py-3;
   }
   .stepper-prev {
-    @apply  text-pink-600 border-pink-600;
+    @apply  border-cyan-600 text-cyan-600;
 
   }
   .stepper-active {
-    @apply  text-white bg-pink-600 border-pink-600; 
+    @apply  text-white bg-cyan-600 border-cyan-600; 
   }
   .stepper-next {
     @apply  text-gray-500 border-gray-500; 
@@ -27,19 +27,19 @@
     @apply border-gray-500;
   }
   .stepper-line-next {
-    @apply border-pink-600;
+    @apply border-cyan-600;
   }
   .stepper-text {
-    @apply absolute top-0 w-32 mt-10 sm:mt-16 -ml-12 sm:-ml-10 text-xs font-medium text-center uppercase;
+    @apply absolute top-0 w-32 mt-10 -ml-12 text-xs font-medium text-center uppercase sm:mt-16 sm:-ml-10;
   }
   .card {
-    @apply flex flex-col items-center p-4 mx-4 mb-2 border-2 shadow-md h-56 md:h-72 lg:h-96 lg:w-1/2 lg:mb-0 rounded-xl;
+    @apply flex flex-col items-center h-56 p-4 mx-4 mb-2 border-2 shadow-md md:h-72 lg:h-96 lg:w-1/2 lg:mb-0 rounded-xl;
   }
   .red-card {
-    @apply border-rose-300/90 text-rose-500/95 bg-rose-50;
+    @apply text-gray-200 border-cyan-300/30 bg-cyan-200/20;
   }
   .blue-card {
-    @apply border-sky-300/80 text-sky-500/95 bg-blue-50/90;
+    @apply text-gray-200 border-sky-400/30 bg-sky-500/10 ;
   }
 }
 

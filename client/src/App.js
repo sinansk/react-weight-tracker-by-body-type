@@ -22,7 +22,7 @@ import Test from "./pages/Test";
 
 const App = () => {
   return (
-    <div className="w-full min-h-screen text-center bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 pb-10">
+    <div className="w-full min-h-screen pb-10 text-center bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800">
 
       <Toaster position="top-right" />
       {/* <LoadingComponent /> */}
