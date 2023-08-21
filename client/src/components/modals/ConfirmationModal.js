@@ -1,5 +1,6 @@
 import React from 'react'
 import { destroyModal } from '../../utils/modalHooks'
+import ButtonPrimary from '../CommonComponents/ButtonPrimary'
 
 const ConfirmationModal = (data) => {
     const title = data.data?.title
@@ -13,12 +14,12 @@ const ConfirmationModal = (data) => {
         destroyModal()
     }
     return (
-        <div className="flex flex-col items-center justify-center gap-2 p-5 w-30">
-            <h2>{title}</h2>
+        <div className="flex flex-col items-center justify-center gap-5 p-5 w-30">
+            <h2 className='text-lg'>{title}</h2>
             <p>{text}</p>
             <div className="flex justify-center gap-5 mx-auto text-center">
-                <button onClick={handleConfirm} className="px-4 py-3 mt-6 font-semibold text-white bg-pink-500 rounded-lg hover:bg-pink-400 focus:bg-pink-400">YES</button>
-                <button onClick={handleDecline} className="px-4 py-3 mt-6 font-semibold text-white bg-pink-500 rounded-lg hover:bg-pink-400 focus:bg-pink-400">NO</button>
+                <ButtonPrimary onClick={handleConfirm} >YES</ButtonPrimary>
+                <ButtonPrimary onClick={handleDecline} >NO</ButtonPrimary>
             </div>
         </div>
     )

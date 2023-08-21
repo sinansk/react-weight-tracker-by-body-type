@@ -7,6 +7,8 @@ import PhotoDisplayComponent from "./PhotoDisplayComponent";
 import UserInfoLoader from "./UserInfoLoader";
 import BigLoader from "../CommonComponents/Loaders/BigLoader";
 import ProfileLoader from "../CommonComponents/Loaders/ProfileLoader";
+import ButtonPrimary from "../CommonComponents/ButtonPrimary";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 const UserInfoComponent = () => {
   const user = useSelector((state) => state.user)
   const userRecords = useSelector((state) => state.userRecords?.records)
@@ -26,10 +28,13 @@ const UserInfoComponent = () => {
 
   return (
     <div ref={bottomRef} className="flex flex-col gap-2 p-2 text-sm sm:text-base lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
-      <div className="items-center justify-center hidden col-span-6 text-xs rounded-lg shadow-md sm:flex lg:flex-col bg-cyan-400/80 backdrop-blur-md">
-        <h2>Welcome <span className="font-semibold underline ">{user.currentUser.email}</span> You are our member .</h2>
-        <SiAddthis className="absolute my-auto text-2xl cursor-pointer sm:right-8 hover:text-gray-200 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" />
-      </div>
+      <button onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" type="button" className="flex items-center justify-center col-span-6 gap-5 text-xs rounded-lg shadow-md text-gray-50 lg:text-xl bg-cyan-400/80 hover:bg-cyan-400 backdrop-blur-md">
+        <AiOutlineCloudUpload className="w-8 h-8 lg:w-14 lg:h-14" />
+        <h3 className="font-bold">Add New Record</h3>
+        <AiOutlineCloudUpload className="w-8 h-8 lg:w-14 lg:h-14" />
+        {/* <h2 className="hidden sm:block">Welcome <span className="font-semibold underline ">{user.currentUser.email}</span> You are our member .</h2>
+        <SiAddthis className="absolute hidden my-auto text-2xl cursor-pointer sm:block sm:right-8 hover:text-gray-200 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" /> */}
+      </button>
       <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 font-mono rounded-lg shadow-md sm:p-2 bg-amber-400/80 backdrop-blur-md">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (

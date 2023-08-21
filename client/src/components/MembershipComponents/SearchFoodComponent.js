@@ -166,7 +166,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                             Carbs: {(parseFloat(item.carbs) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
                             Protein: {(parseFloat(item.protein) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g
                             {currentUser &&
-                                <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd size={20} className='hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' /></button>
+                                <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd size={22} className='hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' /></button>
                             }
                         </div>
                     </motion.div>

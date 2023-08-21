@@ -48,7 +48,7 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
         return (
             <td
                 key={date.format('DD-MM-YYYY')}
-                className={`cursor-pointer  hover:bg-slate-100 rounded-sm relative  ${isActive ? ' bg-teal-500 hover:bg-pink-500 text-white' : ''}`}
+                className={`cursor-pointer  hover:bg-gray-200/30 rounded-sm relative  ${isActive ? ' bg-teal-500 hover:bg-teal-500 text-white' : ''}`}
                 onClick={() => handleDateClick(date)}
             >
                 <div className={`absolute bottom-[0.5px] right-0 left-0 z-10 ${isInDiary ? ' border-b-[3px] rounded-t-md rounded-b-none border-green-500' : ''}`}></div>
@@ -108,15 +108,15 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
 
     return (
         <div className={`${className} w-fit relative`}>
-            <button onClick={handleTodayClick} className='absolute px-2.5 py-1 text-xs  border-2 border-teal-500 rounded-md top-2 right-2 text pink-500 hover:bg-teal-500 hover:text-white'>TODAY</button>
-            <div className="flex items-center justify-between mb-4 sm:w-full sm:px-20" >
-                <button onClick={handlePrevMonthClick} className="px-2 py-1 text-sm font-semibold text-gray-700">
+            <button onClick={handleTodayClick} className='absolute top-0 right-0 px-2.5 py-1 text-xs  border-2 border-teal-500 rounded-lg sm:top-2 sm:right-2 text pink-500 hover:bg-teal-500 hover:text-white'>TODAY</button>
+            <div className="flex items-center justify-between mt-2 mb-4 sm:mt0 sm:w-full sm:px-20" >
+                <button onClick={handlePrevMonthClick} className="px-2 py-1 text-sm font-semibold ">
                     {'<'}
                 </button>
                 <div className="text-lg font-semibold">
                     {getMonthName()} {getYear()}
                 </div>
-                <button onClick={handleNextMonthClick} className="px-2 py-1 text-sm font-semibold text-gray-700">
+                <button onClick={handleNextMonthClick} className="px-2 py-1 text-sm font-semibold ">
                     {'>'}
                 </button>
             </div>
