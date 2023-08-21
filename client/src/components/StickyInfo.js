@@ -62,7 +62,7 @@ const StickyInfo = () => {
                             </div>
                             {isCalendarVisible && (
                                 <div className="absolute left-0 bottom-full">
-                                    <Calendar className="p-5 text-gray-200 border-2 border-b-0 rounded-lg border-cyan-300 w-fit" onDateClick={handleDateClick} diaryDates={diaryDates} />
+                                    <Calendar className="p-5 text-gray-200 border-2 border-b-0 rounded-lg bg-gradient-to-r from-teal-900 to-teal-900/95 backdrop:blur-lg w-fit" onDateClick={handleDateClick} diaryDates={diaryDates} />
                                 </div>
                             )}
                         </div>
