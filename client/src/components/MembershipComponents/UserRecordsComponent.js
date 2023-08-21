@@ -170,7 +170,7 @@ const UserRecordsComponent = () => {
                         key={item.id + "-details"}
                         className="text-sm sm:text-base"
                       >
-                        <td colSpan={columns.length + 1} className="shadow-sm bg-slate-600 ">
+                        <td colSpan={columns.length + 1} className="bg-gray-600 shadow-sm ">
                           <div className="flex items-center flex-1 sm:p-2 justify-evenly">
                             <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
                               <RiWaterPercentFill size={34} className="h-5 text-teal-500 sm:h-9" />

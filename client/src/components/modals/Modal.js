@@ -33,7 +33,7 @@ const Modal = forwardRef((props, ref) => {
                 className="fixed inset-0 z-40 flex items-center justify-center bg-gray-900 cursor-pointer opacity-90"
             />
             <div
-                className={`${props.styleProps} fixed no-scrollbar overflow-y-scroll  overflow-scroll top-4 right-4 left-4 bottom-4 lg:top-12 lg:right-12 lg:left-12 lg:bottom-12 z-50 lg:w-fit h-fit max-h-full rounded-md border-[0.5px] bg-white dark:bg-gray-700 dark:text-slate-200 border-gray-400 shadow-lg m-auto`}
+                className={`${props.styleProps} fixed no-scrollbar overflow-y-scroll  overflow-scroll top-4 right-4 left-4 bottom-4 lg:top-12 lg:right-12 lg:left-12 lg:bottom-12 z-50 sm:w-fit lg:w-fit h-fit max-h-full rounded-md border-[0.5px] bg-white dark:bg-gray-700 dark:text-slate-200 border-gray-400 shadow-lg m-auto`}
             >
                 <button
                     onClick={() => destroyModal()}
@@ -41,7 +41,7 @@ const Modal = forwardRef((props, ref) => {
                 >
                     X
                 </button>
-                <div className="grid w-full " >{modals?.map(modal => {
+                <div className="grid max-w-full " >{modals?.map(modal => {
                     const currentModal = modalData.find(m => m.name === modal.name)
                     return <div className='hidden lg:max-h-screen last:block'>
                         <currentModal.element data={modal.data} />

@@ -120,7 +120,7 @@ const AddCustomFoodModal = (data) => {
     }
 
     return (
-        <div className="flex flex-col gap-2 p-2 sm:py-10 sm:px-5 sm:w-80">
+        <div className="flex flex-col gap-2 p-2 sm:py-10 sm:px-5 sm:w-80 bg-gradient-to-tl from-teal-900 via-slate-700 to-slate-800">
             <>
                 <Formik initialValues={
                     Object.fromEntries(
@@ -135,7 +135,7 @@ const AddCustomFoodModal = (data) => {
                                     {selectedOption && (
                                         <DeleteButton className='w-4 h-4 sm:w-6 sm:h-6' onClick={handleDeleteButton} type="button" />
                                     )}
-                                    <AiOutlineMinusCircle type='button' title='Clear Form' className='w-4 h-4 cursor-pointer sm:w-6 sm:h-6' onClick={() => {
+                                    <AiOutlineMinusCircle type='button' title='Clear Form' className='w-4 h-4 text-gray-200 cursor-pointer hover:text-teal-500 sm:w-6 sm:h-6' onClick={() => {
                                         handleClear()
                                         resetForm()
                                     }} />
@@ -145,7 +145,7 @@ const AddCustomFoodModal = (data) => {
                                 <div>
                                     <div className='flex items-center justify-between'>
 
-                                        <span className={`capitalize`}>{input.name.replace("_", " ")}: </span>
+                                        <span className={`capitalize text-slate-200`}>{input.name.replace("_", " ")}: </span>
                                         <ErrorMessage
                                             name={input.name}
                                             component="div"
