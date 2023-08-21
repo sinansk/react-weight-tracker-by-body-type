@@ -33,15 +33,15 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="flex items-center justify-between border-gray-400 lg:border-b -z-50">
+    <div className="z-50 flex items-center border-gray-400 justify-betwee overflow-hiddenn lg:border-b">
       <nav className="flex w-screen">
-        <section className="flex justify-between max-h-screen px-4 py-4 ml-auto overflow-hidden lg:hidden">
+        <section className="z-50 flex justify-between max-h-screen px-4 py-4 ml-auto overflow-hidden lg:hidden">
           <div className="space-y-2" onClick={toggleNav}>
             <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>
             <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>
             <span className="block w-8 h-0.5 bg-pink-600 animate-pulse"></span>
           </div>
-          <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center absolute top-0 left-0 bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 z-10 w-screen h-screen` : `hidden`}`}>
+          <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center absolute overflow-hidden top-0 left-0 bg-gradient-to-r from-rose-100 via-violet-100 to-cyan-100 z-10 w-screen h-screen` : `hidden`}`}>
             <div className="absolute top-0 right-0 px-4 py-4" onClick={() => setIsNavOpen(false)}>
               <svg
                 className="w-8 h-8 text-pink-600"

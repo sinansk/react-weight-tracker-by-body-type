@@ -37,11 +37,11 @@ const Modal = forwardRef((props, ref) => {
             >
                 <button
                     onClick={() => destroyModal()}
-                    className="flex btn rounded-sm ml-auto z-50 px-2.5 py-1 border-[1px] border-pink-700 dark:border-cyan-400 text-white bg-pink-700/90 dark:bg-cyan-500/90 dark:hover:bg-cyan-500/80 hover:bg-pink-500/80 border-orange-500-70 hover:text-white fixed top-0 right-0 sm:sticky sm:top-0 sm:-right-3"
+                    className="flex btn rounded-sm ml-auto z-50 px-2.5 py-1 border-[1px] border-pink-700 dark:border-cyan-400 text-white bg-pink-700/90 dark:bg-cyan-500/90 dark:hover:bg-cyan-500/80 hover:bg-pink-500/80 border-orange-500-70 hover:text-white fixed top-0 right-0 sm:top-5 sm:right-5"
                 >
                     X
                 </button>
-                <div className="grid w-full p-3 lg:p-10 " >{modals?.map(modal => {
+                <div className="grid w-full " >{modals?.map(modal => {
                     const currentModal = modalData.find(m => m.name === modal.name)
                     return <div className='hidden lg:max-h-screen last:block'>
                         <currentModal.element data={modal.data} />

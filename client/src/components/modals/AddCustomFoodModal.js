@@ -120,7 +120,7 @@ const AddCustomFoodModal = (data) => {
     }
 
     return (
-        <div className="flex flex-col gap-2 sm:w-80">
+        <div className="flex flex-col gap-2 p-2 sm:py-10 sm:px-5 sm:w-80">
             <>
                 <Formik initialValues={
                     Object.fromEntries(
@@ -130,7 +130,7 @@ const AddCustomFoodModal = (data) => {
                     {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
                         <Form>
                             {customFoods?.length > 0 &&
-                                <div className='flex items-center justify-between'>
+                                <div className='flex items-center justify-between gap-2'>
                                     <SearchDropdown selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={searchDropdownOptions} />
                                     {selectedOption && (
                                         <DeleteButton className='w-4 h-4 sm:w-6 sm:h-6' onClick={handleDeleteButton} type="button" />

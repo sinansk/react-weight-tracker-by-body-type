@@ -25,10 +25,8 @@ const UserInfoComponent = () => {
   }, []);
 
   return (
-    <div ref={bottomRef} className="flex flex-col gap-2 p-2 text-xs sm:text-base lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
-
-
-      <div className="flex items-center justify-center col-span-6 text-xs rounded-lg shadow-md lg:flex-col bg-cyan-400/20 bg-opacity-30 backdrop-blur-md">
+    <div ref={bottomRef} className="flex flex-col gap-2 p-2 text-sm sm:text-base lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
+      <div className="items-center justify-center hidden col-span-6 text-xs rounded-lg shadow-md sm:flex lg:flex-col bg-cyan-400/20 bg-opacity-30 backdrop-blur-md">
         <h2>Welcome <span className="font-semibold underline ">{user.currentUser.email}</span> You are our member .</h2>
         <SiAddthis className="absolute my-auto text-2xl cursor-pointer sm:right-8 hover:text-pink-500 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" />
       </div>
@@ -36,11 +34,11 @@ const UserInfoComponent = () => {
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
-            <h2 className="text-sm font-bold h-1/5">YOUR ACTUAL INFO</h2>
+            <h2 className="text-base font-bold h-1/5">YOUR ACTUAL INFO</h2>
             {/* <EditButton styleProps={`absolute right-1 top-1`} onClick={() => createModal("UserInfoModal", { willOpenModal: "MeasurementsModal" })} size={20} /> */}
             <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-600">Age:</span>{userData?.personalInfo.age}</p>
+                <p className=""><span className="font-semibold text-sky-600">Age:</span> {userData?.personalInfo.age}</p>
                 <p className=""><span className="font-semibold text-sky-600">Height:</span> {userData?.personalInfo.height + ` cm`}</p>
                 <p className=""><span className="font-semibold text-sky-600">Weight:</span> {userData?.personalInfo.weight + ` kg`}</p>
               </div>
@@ -57,11 +55,11 @@ const UserInfoComponent = () => {
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
-            <h2 className="text-sm font-bold h-1/5">CALCULATED RESULTS</h2>
+            <h2 className="text-base font-bold h-1/5">CALCULATED RESULTS</h2>
             <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
                 <p className=""><span className="font-semibold text-sky-700">Body Fat (%):</span> {userData.results?.bodyFatUsNavy}</p>
-                <p className=""><span className="font-semibold text-sky-700">BMI:</span>{userData.results?.bmi}</p>
+                <p className=""><span className="font-semibold text-sky-700">BMI:</span> {userData.results?.bmi}</p>
                 <p className="" ><span className="font-semibold text-sky-700">BMR:</span> {userData.results?.calorieNeed?.BMR} kcal</p>
               </div>
               <div className="col-span-4 sm:col-span-1">
@@ -86,7 +84,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="flex flex-col h-full col-span-1 col-start-6 row-span-4 p-2 font-mono rounded-lg shadow-md bg-teal-400/20 ">
+      <div className="flex-col hidden h-full col-span-1 col-start-6 row-span-4 p-2 font-mono rounded-lg shadow-md sm:flex bg-teal-400/20 ">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <ProfileLoader />
         ) : (

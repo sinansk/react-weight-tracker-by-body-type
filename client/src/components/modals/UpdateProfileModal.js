@@ -39,10 +39,10 @@ const UpdateProfileModal = () => {
             Object.fromEntries(
                 Object.entries(measure).map(([key, value]) => [key, value || ""])
             )
-        } onSubmit={(values) => handleUpdate({ values })} validationSchema={measurementValidationSchema}>
+        } onSubmit={(values) => handleUpdate({ values })} validationSchema={measurementValidationSchema} >
             {({ values, errors, touched, handleChange, handleBlur }) => (
-                <Form>
-                    <div className="flex flex-col w-full h-full min-w-full min-h-full gap-2 p-2 sm:divide-x lg:grid lg:grid-cols-6 lg:grid-rows-2">
+                <Form className="p-2 sm:p-5">
+                    <div className="flex flex-col w-full h-full min-w-full min-h-full gap-2 sm:divide-x lg:grid lg:grid-cols-6 lg:grid-rows-2">
                         <div className="relative w-full col-span-3 col-start-1 row-span-2 row-start-1 p-2 mx-auto font-mono rounded-lg">
                             <div className="flex flex-col h-full sm:w-80">
                                 <h2 className="text-xl font-semibold ">Personal Info</h2>
@@ -87,7 +87,6 @@ const UpdateProfileModal = () => {
                                                         onChange={handleChange}
                                                         value={values[key]}
                                                     />
-
                                                 </li>
                                             ))}
                                         </ul>

@@ -55,8 +55,8 @@ const PhotoUploadComponent = () => {
                             <img src={photoUrl?.url} className="w-56 h-48 mx-auto " alt="body" />
                             <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
                                 <div className="flex items-center justify-center w-full h-full text-white bg-black rounded bg-opacity-20">
-                                    <button onClick={() => createModal("ImageModal", { photo: photoUrl?.url })} className="px-3 py-1 text-white rounded "><AiFillEye size={30} /></button>
-                                    <button onClick={handleDeletePhoto} className="px-3 py-1 text-white rounded "><TiDeleteOutline size={30} /></button>
+                                    <button type="button" onClick={() => createModal("ImageModal", { photo: photoUrl?.url })} className="px-3 py-1 text-white rounded "><AiFillEye size={30} /></button>
+                                    <button type="button" onClick={handleDeletePhoto} className="px-3 py-1 text-white rounded "><TiDeleteOutline size={30} /></button>
                                 </div>
                             </div>
                         </div>

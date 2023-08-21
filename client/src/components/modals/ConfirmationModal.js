@@ -13,7 +13,7 @@ const ConfirmationModal = (data) => {
         destroyModal()
     }
     return (
-        <div className="flex flex-col gap-2 items-center justify-center w-30">
+        <div className="flex flex-col items-center justify-center gap-2 p-5 w-30">
             <h2>{title}</h2>
             <p>{text}</p>
             <div className="flex justify-center gap-5 mx-auto text-center">
