@@ -37,7 +37,7 @@ const StickyInfo = () => {
 
     const handleActiveClass = (isActive) => {
         if (isActive) {
-            return "text-cyan-500 flex items-center shadow-[inset_0_1px_-2px_rgba(0,0,0,0.6)] justify-center border-2 rounded-md p-2";
+            return "text-cyan-500 flex items-center shadow-[inset_0_1px_-2px_rgba(0,0,0,0.6)] justify-center bg-gray-300/10 rounded-md p-2";
         } else {
             return "text-cyan-600 group-hover:text-cyan-500 flex items-center justify-center hover:text-cyan-500 p-2";
         }

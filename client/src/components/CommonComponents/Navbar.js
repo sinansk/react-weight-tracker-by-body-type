@@ -33,7 +33,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="z-50 flex items-center border-gray-400 justify-betwee overflow-hiddenn lg:border-b">
+    <div className="z-50 flex items-center border-gray-400 transition-all-300 justify-betwee overflow-hiddenn lg:border-b">
       <nav className="flex w-screen">
         <section className="z-50 flex justify-between max-h-screen px-4 py-4 ml-auto overflow-hidden lg:hidden">
           <div className="space-y-2" onClick={toggleNav}>
@@ -68,7 +68,7 @@ const Navbar = () => {
                 <NavLink
                   to="/login"
                   onClick={handleLogout}
-                  className="px-5 py-2 mx-1 text-gray-200 bg-teal-200 bg-opacity-25 border-2 border-teal-500 rounded-md lg:mx-4"
+                  className="px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md lg:mx-4"
                 >
                   LOG OUT
                 </NavLink>
@@ -83,8 +83,8 @@ const Navbar = () => {
               to={path}
               className={({ isActive }) =>
                 isActive
-                  ? "border-2 border-teal-500 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-teal-400 text-white"
-                  : "border-2 border-teal-500 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-teal-200 bg-opacity-25 text-gray-200"
+                  ? "border-2 border-teal-600 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-teal-500 text-white"
+                  : "  rounded-md mx-1 lg:mx-4 px-5 py-2 relative text-gray-200 after:bg-teal-500 after:absolute after:h-0.5 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
               }
             >
               {text}
@@ -94,7 +94,7 @@ const Navbar = () => {
             <NavLink
               to="/login"
               onClick={handleLogout}
-              className="px-5 py-2 mx-1 text-gray-200 bg-teal-200 bg-opacity-25 border-2 border-teal-500 rounded-md lg:mx-4"
+              className="px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md hover:bg-teal-500 lg:mx-4"
             >
               LOG OUT
             </NavLink>
