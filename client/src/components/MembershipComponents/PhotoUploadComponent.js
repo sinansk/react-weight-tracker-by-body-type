@@ -66,7 +66,7 @@ const PhotoUploadComponent = () => {
                             <label htmlFor="photo-upload" className="cursor-pointer">
                                 <img src={require(`../../assets/body-${userGender}.png`)} className="w-40 h-40 mx-auto my-4 rounded-md" alt="body" />
                                 <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
-                                <p className="text-lg font-bold">CLICK TO UPLOAD A PHOTO</p>
+                                <p className="text-lg font-bold text-gray-200">CLICK TO UPLOAD A PHOTO</p>
                             </label>
                         </div>
                     )}

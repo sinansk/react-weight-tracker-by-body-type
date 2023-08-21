@@ -96,12 +96,12 @@ const UserRecordsComponent = () => {
   const paginatedData = transformedData?.slice(startIndex, endIndex);
   const TableHeader = ({ columns }) => {
     return (
-      <thead className="sticky top-0 left-0 right-0 z-40 mt-4 text-sm shadow-md bg-slate-200 sm:text-base">
+      <thead className="sticky top-0 left-0 right-0 z-40 mt-4 text-sm shadow-md sm:text-base">
         <tr>
           {columns.map((column) => (
             <th
               key={column.id}
-              className={`px-2 py-1 sm:px-6 z-20 sm:py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase ${column.id === 'date' ? 'sticky left-0 top-0 ' : ''}`}
+              className={`px-2 py-1 sm:px-6 z-20 sm:py-3 text-xs font-medium tracking-wider text-center bg-slate-200 text-gray-500 uppercase ${column.id === 'date' ? 'sticky left-0 top-0 bg-slate-300' : ''}`}
             >
               {column.label}
             </th>
@@ -137,7 +137,7 @@ const UserRecordsComponent = () => {
                       {columns.map((column) => (
                         <td
                           key={column.id}
-                          className={`${column.id === "date" ? "sticky left-0 bg-slate-600" : "bg-gray-500/30"
+                          className={`${column.id === "date" ? "sticky left-0 bg-gray-600" : "bg-gray-500/30"
                             } px-2 py-1 sm:px-6 sm:py-4 whitespace-nowrap `}
                           title={column.label}
                         >
