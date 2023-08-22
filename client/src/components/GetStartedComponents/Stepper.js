@@ -1,10 +1,19 @@
 import React from 'react';
 
-const Stepper = ({ activeStep, setActiveStep }) => {
+const Stepper = ({ activeStep, setActiveStep, checkFormValid }) => {
 
-    const handleStepClick = (step) => {
-
-        setActiveStep(step)
+    const handleStepClick = async (step) => {
+        if (step > 1) {
+            const isValid = await checkFormValid(step - 1)
+            if (isValid) {
+                setActiveStep(step)
+            }
+        } else {
+            const isValid = await checkFormValid(step)
+            if (isValid) {
+                setActiveStep(step)
+            }
+        }
     };
 
     return (
