@@ -57,11 +57,9 @@ const GetStarted = () => {
         "wrist", "waist", "hip", "thigh", "calve"
       ]
     ];
-
     const requiredFields = requiredFieldsByStep[step];
-
     for (const field of requiredFields) {
-      if (!userGender || !personalInfo[field] && !measurements[field]) {
+      if ((!userGender || !personalInfo[field]) && !measurements[field]) {
         toast.error("Please fill all the fields");
         return false;
       }
