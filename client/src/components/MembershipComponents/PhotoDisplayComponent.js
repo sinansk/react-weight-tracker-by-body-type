@@ -5,6 +5,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import { createModal } from '../../utils/modalHooks';
 import { addPhoto, deletePhoto, updateUserInfo } from '../../firebase';
 import { updatePhotoRedux } from '../../redux/userRecords';
+import toast from 'react-hot-toast';
 
 const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = false }) => {
     const [photo, setPhoto] = useState(item?.data?.photo?.url);
@@ -32,8 +33,8 @@ const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = fa
 
 
         const file = e.target.files[0];
-
-        if (file) {
+        const maxSize = 5 * 1024 * 1024;
+        if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
             try {
                 const uid = currentUser?.uid
                 const id = Date.now();
@@ -44,8 +45,13 @@ const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = fa
             } catch (error) {
                 console.log(error);
             }
+        } else {
+            if (file.size > maxSize) {
+                toast.error('File too large! Max 5MB.');
+            } else {
+                toast.error('Please upload a .jpg or .png file.');
+            }
         }
-
     };
     return (
         <div className={`${className} relative inline-block group `}>

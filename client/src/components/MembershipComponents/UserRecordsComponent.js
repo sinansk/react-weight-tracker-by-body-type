@@ -96,7 +96,7 @@ const UserRecordsComponent = () => {
   const paginatedData = transformedData?.slice(startIndex, endIndex);
   const TableHeader = ({ columns }) => {
     return (
-      <thead className="sticky top-0 left-0 right-0 z-40 mt-4 text-sm shadow-md sm:text-base">
+      <thead className="sticky top-0 left-0 right-0 z-20 mt-4 text-sm shadow-md sm:text-base">
         <tr>
           {columns.map((column) => (
             <th

@@ -15,7 +15,7 @@ const StickyInfo = () => {
     const [isbottommBarVisible, setIsbottomBarVisible] = useState(true);
     // const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'));
     const calendar = useSelector((state) => state.userDiary?.calendarDate)
-    const calendarDate = calendar ? calendar.format('DD-MM-YYYY') : moment().format('DD-MM-YYYY');
+    const calendarDate = calendar?.format('DD-MM-YYYY') ?? moment().format('DD-MM-YYYY');
     const userRecords = useSelector((state) => state.userRecords);
     const userDiary = useSelector((state) => state.userDiary)
     const diaryEntry = useDiaryEntry(calendarDate);
@@ -50,7 +50,7 @@ const StickyInfo = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 1, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed bottom-0 left-0 right-0 invisible py-2 mt-10 border-t-2 rounded-t-lg bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 sm:visible text-cyan-600 border-cyan-500">
+                className="fixed bottom-0 left-0 right-0 z-40 invisible py-2 mt-10 border-t-2 rounded-t-lg bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 sm:visible text-cyan-600 border-cyan-500">
                 {isbottommBarVisible ? (
                     <div className="grid items-center grid-cols-5 gap-10">
 

@@ -7,6 +7,7 @@ import { createModal } from '../../utils/modalHooks';
 import { AiFillEye } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { deletePhotoRedux } from '../../redux/userRecords';
+import toast from 'react-hot-toast';
 
 const PhotoUploadComponent = () => {
     const dispatch = useDispatch()
@@ -19,8 +20,8 @@ const PhotoUploadComponent = () => {
     const handlePhotoUpload = async (event) => {
         event.stopPropagation();
         const file = event.target.files[0];
-
-        if (file) {
+        const maxSize = 5 * 1024 * 1024;
+        if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
             try {
                 const uid = user?.currentUser?.uid
                 const id = Date.now();
@@ -30,6 +31,12 @@ const PhotoUploadComponent = () => {
 
             } catch (error) {
                 console.error("Fotoğraf yüklenirken bir hata oluştu:", error);
+            }
+        } else {
+            if (file.size > maxSize) {
+                toast.error('File too large! Max 5MB.');
+            } else {
+                toast.error('Please upload a .jpg or .png file.');
             }
         }
     };
@@ -64,8 +71,8 @@ const PhotoUploadComponent = () => {
                     ) : (
                         <div className='m-auto rounded-md'>
                             <label htmlFor="photo-upload" className="cursor-pointer">
-                                <img src={require(`../../assets/body-${userGender}.png`)} className="w-40 h-40 mx-auto my-4 rounded-md" alt="body" />
-                                <input type="file" id="photo-upload" onChange={handlePhotoUpload} className="hidden" />
+                                <img src={require(`../../assets/body-${userGender}.png`)} className="w-20 h-20 mx-auto my-4 rounded-md sm:w-40 sm:h-40" alt="body" />
+                                <input type="file" id="photo-upload" accept="image/jpeg,image/png" onChange={handlePhotoUpload} className="hidden" />
                                 <p className="text-lg font-bold text-gray-200">CLICK TO UPLOAD A PHOTO</p>
                             </label>
                         </div>

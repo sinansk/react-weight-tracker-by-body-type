@@ -4,6 +4,7 @@ import { setInput } from "../redux/userRedux";
 import SelectInput from "./CommonComponents/SelectInput";
 import CardComponent from "./CardComponent";
 import GenderComponent from "./GetStartedComponents/GenderComponent";
+import InputPrimary from "./CommonComponents/InputPrimary";
 
 const IdealWeightComponent = ({ gender }) => {
   const dispatch = useDispatch();
@@ -21,15 +22,17 @@ const IdealWeightComponent = ({ gender }) => {
               {user.currentUser ? (
                 <>
                   <label htmlFor="date"> Birthday</label>
-                  <input type="date" className="border rounded sm:h-9 border-[hsl(0,0%,80%)]" name="birthDay" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))} />
+                  <input type="date" className="border rounded sm:h-9 border-[hsl(0,0%,80%)] text-black" name="birthDay" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))} />
                 </>
               ) : (
-                <SelectInput options={ages} label="Age" name="age" reduxName='personalInfo' />
+                /* <SelectInput options={ages} label="Age" name="age" reduxName='personalInfo' /> */
+                <InputPrimary label="Age" name="age" type="number" reduxName='personalInfo' />
 
               )}
-
-              <SelectInput options={heights} label="Height" name="height" reduxName='personalInfo' />
-              <SelectInput options={weights} label="Weight" name="weight" reduxName='personalInfo' />
+              <InputPrimary label="Height" name="height" type="number" reduxName='personalInfo' />
+              <InputPrimary label="Weight" name="weight" type="number" reduxName='personalInfo' />
+              {/* <SelectInput options={heights} label="Height" name="height" reduxName='personalInfo' />
+              <SelectInput options={weights} label="Weight" name="weight" reduxName='personalInfo' /> */}
 
               {/* <label htmlFor="bodyType" className="-mb-3 ">
                 Body Type

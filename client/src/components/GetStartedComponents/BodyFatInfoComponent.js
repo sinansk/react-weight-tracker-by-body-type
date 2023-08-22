@@ -14,6 +14,7 @@ import {
 } from "../../data";
 import SelectInput from "../CommonComponents/SelectInput";
 import SelectInputSecondary from "../CommonComponents/SelectInputSecondary";
+import InputPrimary from "../CommonComponents/InputPrimary";
 
 const BodyFatInfoComponent = ({ gender }) => {
 
@@ -29,21 +30,31 @@ const BodyFatInfoComponent = ({ gender }) => {
     >
       {gender === "male" ? (
         <>
-          <form className="flex flex-row items-center flex-1 h-full text-xs md:text-2xl -mt-4">
+          <form className="flex flex-row items-center flex-1 h-full -mt-4 text-xs md:text-2xl">
             <div className="flex w-full h-full gap-1 px-2">
-              <div className="">
-                <SelectInput options={neck} label="Neck" name="neck" reduxName='measurements' />
-                <SelectInput options={shoulder} label="Shoulder" name="shoulder" reduxName='measurements' />
+              <div className="m-auto">
+                <InputPrimary label="Neck" name="neck" reduxName='measurements' type="number" />
+                <InputPrimary label="Shoulder" name="shoulder" reduxName='measurements' type="number" />
+                <InputPrimary label="Chest" name="chest" reduxName='measurements' type="number" />
+                <InputPrimary label="Arm" name="arm" reduxName='measurements' type="number" />
+                <InputPrimary label="Fore Arm" name="forearm" reduxName='measurements' type="number" />
+                {/* <SelectInput options={neck} label="Neck" name="neck" reduxName='measurements' /> */}
+                {/* <SelectInput options={shoulder} label="Shoulder" name="shoulder" reduxName='measurements' />
                 <SelectInput options={chest} label="Chest" name="chest" reduxName='measurements' />
                 <SelectInput options={arm} label="Arm" name="arm" reduxName='measurements' />
-                <SelectInput options={foreArm} label="Fore Arm" name="forearm" reduxName='measurements' />
+                <SelectInput options={foreArm} label="Fore Arm" name="forearm" reduxName='measurements' /> */}
               </div>
-              <div className="">
-                <SelectInput options={wrist} label="Wrist" name="wrist" reduxName='measurements' />
+              <div className="m-auto">
+                <InputPrimary label="Wrist" name="wrist" reduxName='measurements' type="number" />
+                <InputPrimary label="Waist" name="waist" reduxName='measurements' type="number" />
+                <InputPrimary label="Hip" name="hip" reduxName='measurements' type="number" />
+                <InputPrimary label="Thigh" name="thigh" reduxName='measurements' type="number" />
+                <InputPrimary label="Calve" name="calve" reduxName='measurements' type="number" />
+                {/* <SelectInput options={wrist} label="Wrist" name="wrist" reduxName='measurements' />
                 <SelectInput options={waist} label="Waist" name="waist" reduxName='measurements' />
                 <SelectInput options={hip} label="Hip" name="hip" reduxName='measurements' />
                 <SelectInput options={thigh} label="Thigh" name="thigh" reduxName='measurements' />
-                <SelectInput options={calve} label="Calve" name="calve" reduxName='measurements' />
+                <SelectInput options={calve} label="Calve" name="calve" reduxName='measurements' /> */}
               </div>
             </div>
           </form>

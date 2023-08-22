@@ -151,7 +151,7 @@ export const getUserInfo = async (uid) => {
       id: doc.id,
       data: doc.data(),
     })).sort((a, b) => b.data.timestamp - a.data.timestamp);
-    // store.dispatch(setData(data?.[0].data))
+    store.dispatch(setData(data?.[0].data))
     return data;
   } catch (error) {
     console.log(error)

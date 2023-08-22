@@ -4,7 +4,7 @@ import MeasurementsCard from "./MeasurementsCard";
 import { createModal } from "../../utils/modalHooks";
 import { SiAddthis } from "react-icons/si";
 import PhotoDisplayComponent from "./PhotoDisplayComponent";
-import UserInfoLoader from "./UserInfoLoader";
+import UserInfoLoader from "../CommonComponents/Loaders/UserInfoLoader";
 import BigLoader from "../CommonComponents/Loaders/BigLoader";
 import ProfileLoader from "../CommonComponents/Loaders/ProfileLoader";
 import ButtonPrimary from "../CommonComponents/ButtonPrimary";
