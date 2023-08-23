@@ -6,9 +6,9 @@ import { useMediaQuery } from '../../utils/useMediaQuery';
 const SelectInput = ({ label, name, options, className, reduxName }) => {
     const dispatch = useDispatch();
     const inputValue = useSelector((state) => state.user.data.personalInfo[name]);
-    const redux = useSelector((state) => state.userRecords?.records?.[0].data?.[reduxName])
-    console.log(redux, "redux")
-    const defaultValue = useSelector((state) => state.userRecords?.records?.[0].data?.[reduxName]?.[name])
+    const records = useSelector((state) => state.userRecords?.records?.[0].data?.[reduxName])
+    const personalData = useSelector((state) => state.user?.data[0]?.[reduxName])
+    const defaultValue = records?.[name] ?? personalData?.[name]
     console.log(defaultValue, "defaultValue")
     const handleSelectChange = (selectedOption) => {
         dispatch(setInput({ reduxName, name, value: selectedOption?.value }));

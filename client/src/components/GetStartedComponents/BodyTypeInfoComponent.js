@@ -35,8 +35,7 @@ const BodyTypeInfoComponent = ({ gender }) => {
             alt="washing-hands"
           />
           <p className="my-auto text-xs font-semibold md:text-base lg:text-lg">
-            Please set your body goal and we will calculate your daily calorie
-            need!
+            Please set your body goal. You can change this later!
           </p>
           <form className="font-semibold text-center lg:mt-auto">
             <SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" status="bodyGoalStatus" reduxName='personalInfo' />

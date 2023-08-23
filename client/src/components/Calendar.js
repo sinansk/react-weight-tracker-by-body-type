@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCalendarDate } from '../redux/userDiary';
-import { getCalorieRecordsForMonth } from '../firebase';
+import { addDailyCalorie, copyDiary, getCalorieRecordsForMonth } from '../firebase';
 import { fetchCalorieRecordsForMonth } from '../redux/userDiaryThunk';
+import ContextMenu from './MembershipComponents/ContextMenu';
+
 
 const Calendar = ({ className, diaryDates, onDateClick }) => {
+
     const dispatch = useDispatch()
     const calendarDate = useSelector((state) => state.userDiary?.calendarDate)
     const [selectedDate, setSelectedDate] = useState(calendarDate ? calendarDate : moment());
@@ -16,6 +19,50 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
             return diaryDates.includes(date.format('DD-MM-YYYY'));
         }
     };
+    const [contextMenuPos, setContextMenuPos] = useState({ top: 0, left: 0 });
+    const [contextMenuOpen, setContextMenuOpen] = useState(false);
+    const [contextMenuDate, setContextMenuDate] = useState(null);
+
+    const handleContextMenu = (e, date) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(e, "e", date, "date", contextMenuDate, "contextMenuDate")
+        // Tıklanan güne ait pozisyon bilgilerini hesaplayın
+        const rect = e.currentTarget.getBoundingClientRect();
+        const posX = e.clientX - rect.left;
+        const posY = e.clientY - rect.top;
+        console.log(posX, posY, "posX, posY")
+
+        setContextMenuPos({ top: posY, left: posX });
+        setContextMenuOpen(true);
+    };
+
+    const closeContextMenu = () => {
+        setContextMenuOpen(false);
+    };
+    const [fromDate, setFromDate] = useState(null)
+    const [toDate, setToDate] = useState(null)
+
+    const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
+
+    const onCopyFromDate = () => {
+        setFromDate(calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY")) ?? null)
+    }
+
+    useEffect(() => {
+        console.log(fromDate, "fromDate")
+    }, [fromDate])
+
+    const onCopyToDate = async () => {
+        console.log(fromDate, "fromDate")
+
+        await copyDiary({
+            uid,
+            selectedDate: contextMenuDate.format("DD-MM-YYYY"),
+            foods: fromDate?.foods,
+            totalNutrient: fromDate?.totalNutrient,
+        })
+    }
 
     const handleDateClick = (date) => {
         setSelectedDate(moment(date));
@@ -51,10 +98,10 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
                 className={`cursor-pointer  hover:bg-gray-200/30 rounded-sm relative  ${isActive ? ' bg-teal-500 hover:bg-teal-500 text-white' : ''}`}
                 onClick={() => handleDateClick(date)}
             >
-                <div className={`absolute bottom-[0.5px] right-0 left-0 z-10 ${isInDiary ? ' border-b-[3px] rounded-t-md rounded-b-none border-green-500' : ''}`}></div>
-                <div className={`relative ${isToday ? 'border-2  border-teal-500' : ''}`}>
+                <div className={`absolute bottom-[0.5px] right-0 left-0 z-10 ${isInDiary ? ' border-b-[3px] rounded-t-md rounded-b-none border-green-500' : ''}`} ></div>
+                <div className={`relative ${isToday ? 'border-2  border-teal-500' : ''}`}
+                    onContextMenu={() => setContextMenuDate(date)} >
                     {date.date()}
-
                 </div>
             </td>
         );
@@ -83,7 +130,9 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
 
     const allDays = [...blankDays, ...daysInMonthCells, ...lastBlankDays];
 
-    const handlePrevMonthClick = () => {
+    const handlePrevMonthClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const prevMonth = selectedDate.clone().subtract(1, 'month');
         console.log(prevMonth, "prevMonth")
         setSelectedDate(prevMonth);
@@ -95,7 +144,10 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
         dispatch(fetchCalorieRecordsForMonth({ year, month }))
     };
 
-    const handleNextMonthClick = () => {
+    const handleNextMonthClick = (e) => {
+        console.log(e, "event")
+        e.preventDefault();
+        e.stopPropagation();
         const nextMonth = selectedDate.clone().add(1, 'month');
         setSelectedDate(nextMonth);
         onDateClick(nextMonth.format('DD-MM-YYYY'));
@@ -107,20 +159,20 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
     };
 
     return (
-        <div className={`${className} w-fit relative`}>
+        <div className={`${className} w-fit relative`} onContextMenu={(e) => handleContextMenu(e)}>
             <button onClick={handleTodayClick} className='absolute top-0 right-0 px-2.5 py-1 text-xs  border-2 border-teal-500 rounded-lg sm:top-2 sm:right-2 text pink-500 hover:bg-teal-500 hover:text-white'>TODAY</button>
             <div className="flex items-center justify-between mt-2 mb-4 sm:mt0 sm:w-full sm:px-20" >
-                <button onClick={handlePrevMonthClick} className="px-2 py-1 text-sm font-semibold ">
+                <button onClick={(e) => handlePrevMonthClick(e)} className="px-2 py-1 text-sm font-semibold ">
                     {'<'}
                 </button>
                 <div className="text-lg font-semibold">
                     {getMonthName()} {getYear()}
                 </div>
-                <button onClick={handleNextMonthClick} className="px-2 py-1 text-sm font-semibold ">
+                <button onClick={(e) => handleNextMonthClick(e)} className="px-2 py-1 text-sm font-semibold ">
                     {'>'}
                 </button>
             </div>
-            <table className={` mx-auto border-collapse sm:`}>
+            <table className={` mx-auto border-collapse sm:`} >
                 <thead>
                     <tr>
                         <th className="px-2 py-2 sm:px-4">Sun</th>
@@ -132,14 +184,15 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
                         <th className="px-2 py-2 sm:px-4">Sat</th>
                     </tr>
                 </thead>
-                <tbody className=''>
+                <tbody className='' >
                     {Array.from({ length: 6 }).map((_, rowIndex) => (
-                        <tr key={rowIndex}>
+                        <tr key={rowIndex} >
                             {allDays.slice(rowIndex * 7, rowIndex * 7 + 7)}
                         </tr>
                     ))}
                 </tbody>
             </table>
+            <ContextMenu isOpen={contextMenuOpen} x={contextMenuPos.left} y={contextMenuPos.top} contextMenuDate={contextMenuDate?.format("DD-MM-YYYY")} onCopyToDate={onCopyToDate} onCopyFromDate={onCopyFromDate} onClose={closeContextMenu} />
         </div>
     );
 };

@@ -317,6 +317,43 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
   }
 };
 
+export const copyDiary = async (data) => {
+  console.log(data, "data")
+  const uid = data.uid;
+  const foods = data.foods;
+  const selectedDate = data.selectedDate;
+  const totalNutrient = data.totalNutrient;
+  const currentDate = moment();
+  const timestamp = moment(selectedDate, "DD-MM-YYYY").toISOString();
+  const dateString = currentDate.format('DD-MM-YYYY');
+
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid); // Reference to the user document
+    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
+    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
+    if (querySnapshot.empty) {
+      await addDoc(calorieRecordsRef, { date: selectedDate, foods, totalNutrient, timestamp });
+    } else {
+      const existingDocId = querySnapshot.docs[0].id;
+      await updateDoc(doc(calorieRecordsRef, existingDocId), {
+        foods: arrayUnion(foods), // Append the new diary object to the existing "foods" array
+
+      });
+
+    }
+    const selectedMoment = moment(selectedDate, 'DD-MM-YYYY');
+    const year = selectedMoment.year();
+    const month = selectedMoment.month() + 1;
+    store.dispatch(fetchCalorieRecordsForMonth({ uid, year, month }));
+    toast.success("Data copied successfully.");
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+}
+
+
 export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
   console.log(data)
   const id = data.id

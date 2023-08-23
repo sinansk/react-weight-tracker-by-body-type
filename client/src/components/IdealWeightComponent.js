@@ -21,8 +21,9 @@ const IdealWeightComponent = ({ gender }) => {
             <form className="flex flex-col items-center h-full md:text-2xl justify-evenly">
               {user.currentUser ? (
                 <>
-                  <label htmlFor="date"> Birthday</label>
-                  <input type="date" className="border rounded sm:h-9 border-[hsl(0,0%,80%)] text-black" name="birthDay" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))} />
+                  <InputPrimary label="Birthday" name="birthDay" type="date" reduxName='personalInfo' />
+                  {/* <label htmlFor="date"> Birthday</label>
+                  <input type="date" className="border rounded sm:h-9 border-[hsl(0,0%,80%)] text-black" name="birthDay" onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))} /> */}
                 </>
               ) : (
                 /* <SelectInput options={ages} label="Age" name="age" reduxName='personalInfo' /> */

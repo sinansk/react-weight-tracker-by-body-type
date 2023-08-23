@@ -67,7 +67,7 @@ const BodyFatInfoComponent = ({ gender }) => {
             src={require(`../../assets/body-${user.data.personalInfo.gender}.png`)}
             alt="washing-hands"
           />
-          <p className="text-xs font-semibold">
+          <p className="text-xs font-semibold lg:text-base">
             Please measure your neck at widest point, your chest just under your
             armpit, your arm and leg muscles at largest point, your waist over
             belly button and your hip over largest point with a tape measure.

@@ -73,12 +73,14 @@ const UpdateProfileModal = () => {
                                         <ul className="grid">
                                             {Object.entries(measure).map(([key, value]) => (
                                                 <li key={key}>
-                                                    <ErrorMessage
-                                                        name={key}
-                                                        component="div"
-                                                        className="text-red-500 "
-                                                    />
-                                                    <span className={`${errors[key] && 'hidden'} capitalize text-gray-200`}>{key}: </span>
+                                                    <div className='flex items-center justify-between'>
+                                                        <span className={`capitalize text-slate-200`}>{key}: </span>
+                                                        <ErrorMessage
+                                                            name={key}
+                                                            component="div"
+                                                            className="text-red-500 "
+                                                        />
+                                                    </div>
                                                     <Field
                                                         required
                                                         className={`${errors[key] && touched[key] ? 'border-red-500' : 'border-[hsl(0,0%,80%)] '} w-full px-4 font-thin rounded outline-none lg:h-[38px] border-[1px] focus:border-2 focus:border-blue-400`}
