@@ -8,6 +8,8 @@ import {
   signOut,
   onAuthStateChanged,
   sendEmailVerification,
+  EmailAuthProvider,
+  reauthenticateWithCredential
 } from "firebase/auth";
 import {
   getFirestore,
@@ -129,6 +131,22 @@ onAuthStateChanged(auth, (user) => {
     store.dispatch(reset());
   }
 });
+
+export const deleteAccount = async (password) => {
+  const user = auth.currentUser;
+  console.log(password, "password")
+
+  const credential = EmailAuthProvider.credential(user.email, password);
+
+  const reauth = reauthenticateWithCredential(user, credential).then(() => {
+    console.log(reauth, "reauth")
+    user.delete()
+    // User re-authenticated.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+  });
+}
 
 export const addUserInfo = async (data) => {
   console.log(data, "addUserInfo")

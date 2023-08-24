@@ -19,6 +19,7 @@ import CalorieTracker from "./pages/CalorieTracker";
 import Modal from "./components/modals/Modal";
 import LoadingComponent from "./components/CommonComponents/Loaders/LoadingComponent";
 import Test from "./pages/Test";
+import ProfileSettings from "./pages/ProfileSettings";
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
             <Route element={<WithNavbar />}>
               <Route path="/mystats" element={<MyStats />} />
               <Route path="/calorie-tracker" element={<CalorieTracker />} />
+              <Route path="/profile" element={<ProfileSettings />} />
             </Route>
             <Route element={<WithOutNavbar />}>
               <Route path="/getstarted" element={<GetStarted />} />

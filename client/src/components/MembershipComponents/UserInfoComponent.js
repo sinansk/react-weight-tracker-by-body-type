@@ -63,13 +63,13 @@ const UserInfoComponent = () => {
             <h2 className="text-base font-bold h-1/5">CALCULATED RESULTS</h2>
             <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-700">Body Fat (%):</span> {userData.results?.bodyFatUsNavy}</p>
-                <p className=""><span className="font-semibold text-sky-700">BMI:</span> {userData.results?.bmi}</p>
-                <p className="" ><span className="font-semibold text-sky-700">BMR:</span> {userData.results?.calorieNeed?.BMR} kcal</p>
+                <p className=""><span className="font-semibold text-sky-700">Body Fat (%):</span> {userData?.results?.bodyFatUsNavy}</p>
+                <p className=""><span className="font-semibold text-sky-700">BMI:</span> {userData?.results?.bmi}</p>
+                <p className="" ><span className="font-semibold text-sky-700">BMR:</span> {userData?.results?.calorieNeed?.BMR} kcal</p>
               </div>
               <div className="col-span-4 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-700">Ideal Weight:</span> {userData.results?.idealWeightRange}</p>
-                <p className=""><span className="font-semibold text-sky-700">Weight Status:</span> {userData.results?.idealWeightStatus}</p>
+                <p className=""><span className="font-semibold text-sky-700">Ideal Weight:</span> {userData?.results?.idealWeightRange}</p>
+                <p className=""><span className="font-semibold text-sky-700">Weight Status:</span> {userData?.results?.idealWeightStatus}</p>
                 <p className=""><span className="font-semibold text-sky-700">Daily Calorie Need :</span> {userData?.results?.calorieNeedByBodyGoal}</p>
               </div>
             </div>

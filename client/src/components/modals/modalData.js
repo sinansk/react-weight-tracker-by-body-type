@@ -5,6 +5,7 @@ import PhotoUpdateModal from "./PhotoUpdateModal";
 import UpdateProfileModal from "./UpdateProfileModal";
 import ImageModal from "./ImageModal";
 import AddCustomFoodModal from "./AddCustomFoodModal";
+import ReAuthModal from "./ReAuthModal";
 
 const modalData = [
     {
@@ -35,6 +36,10 @@ const modalData = [
         name: "ImageModal",
         element: ImageModal
     },
+    {
+        name: "ReAuthModal",
+        element: ReAuthModal
+    }
 
 
 ]

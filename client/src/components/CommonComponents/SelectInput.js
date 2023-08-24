@@ -3,7 +3,7 @@ import { setInput } from '../../redux/userRedux';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { useMediaQuery } from '../../utils/useMediaQuery';
-const SelectInput = ({ label, name, options, className, reduxName }) => {
+const SelectInput = ({ label, name, options, className, reduxName, disabled }) => {
     const dispatch = useDispatch();
     const inputValue = useSelector((state) => state.user.data.personalInfo[name]);
     const records = useSelector((state) => state.userRecords?.records?.[0].data?.[reduxName])
@@ -52,8 +52,9 @@ const SelectInput = ({ label, name, options, className, reduxName }) => {
         <>
             <label htmlFor={name} >{label}</label>
             <Select
+                isDisabled={disabled}
                 required
-                className={`  border-zinc-400 w-full max-w-full`}
+                className={`${className} border-zinc-400 w-full max-w-full`}
                 classNamePrefix="react-select"
                 options={mappedOptions}
                 defaultValue={mappedOptions.find((option) => option.value === defaultValue)}
