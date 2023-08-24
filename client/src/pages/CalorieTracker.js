@@ -23,8 +23,18 @@ const CalorieTracker = () => {
     return (
         <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 px-1.5'>
             <div className=''>
-                {calendarDate && <DiaryCardComponent className={`${calendarExpand && `hidden`} max-w-full`} selectedDate={calendarDate} calendarExpand={calendarExpand} setCalendarExpand={setCalendarExpand} />}
-                <Calendar className={`${!calendarExpand && `hidden`} sm:w-[550px] w-full max-w-fit py-5 mx-auto text-gray-200 border-teal-600 border-2 shadow-lg rounded-xl `} diaryDates={diaryDates} onDateClick={handleDateClick} />
+                {calendarDate &&
+                    <DiaryCardComponent
+                        className={`${calendarExpand && `hidden`} max-w-full`}
+                        selectedDate={calendarDate}
+                        calendarExpand={calendarExpand}
+                        setCalendarExpand={setCalendarExpand} />}
+                <Calendar
+                    className={`${!calendarExpand && `hidden`} sm:w-[550px] w-full max-w-fit py-5 mx-auto text-gray-200 border-teal-600 border-2 shadow-lg rounded-xl `}
+                    diaryDates={diaryDates}
+                    onDateClick={handleDateClick}
+                    showContextMenu={true}
+                />
                 <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full" selectedDate={calendarDate} />
                 <StickyInfo />
             </div>

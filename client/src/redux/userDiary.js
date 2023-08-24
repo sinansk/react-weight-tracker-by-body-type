@@ -19,6 +19,10 @@ export const userDiary = createSlice({
         },
         setMonthlyDiary: (state, action) => {
             state.calorieDiary = action.payload
+        },
+        deleteDiaryFromRedux: (state, action) => {
+            console.log(action.payload, "action.payload")
+            state.calorieDiary = state.calorieDiary.filter((item) => item.date !== action.payload)
         }
     },
     extraReducers: (builder) => {
@@ -65,6 +69,6 @@ export const userDiary = createSlice({
     },
 });
 
-export const { addToDiary, deleteFromDiary, setDiary, setCalendarDate, recalculateNutrientDetails, setTotal, setMonthlyDiary } = userDiary.actions;
+export const { addToDiary, deleteFromDiary, setDiary, setCalendarDate, recalculateNutrientDetails, setTotal, setMonthlyDiary, deleteDiaryFromRedux } = userDiary.actions;
 export default userDiary.reducer
 

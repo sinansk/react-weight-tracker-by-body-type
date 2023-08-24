@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { AiFillDelete, AiFillCopy, AiFillCheckSquare } from 'react-icons/ai'
+import useOutSideClick from '../../utils/useOutsideClick';
+const ContextMenu = ({ isOpen, x, y, onClose, buttons }) => {
 
-const ContextMenu = ({ isOpen, x, y, onClose, onCopyFromDate, onCopyToDate, contextMenuDate }) => {
-
-
+    const contextMenuRef = useRef(null);
+    useOutSideClick(contextMenuRef, onClose);
     if (!isOpen) return null;
-    console.log(contextMenuDate, "contextMenuDate")
 
     return (
-        <div className="absolute z-50 bg-white border rounded shadow text-slate-700" style={{ top: y, left: x }}>
+        <div ref={contextMenuRef} className="absolute z-50 bg-white border rounded-md shadow min-w-max text-slate-700" style={{ top: y, left: x }}>
             <div className="py-1">
-                <button className="block w-full px-4 py-2 text-left hover:bg-gray-200" onClick={onCopyFromDate}>
-                    Copy from date
-                </button>
-                <button className="block w-full px-4 py-2 text-left hover:bg-gray-200" onClick={onCopyToDate}>
-                    Copy to date
-                </button>
+                {buttons.map((button, index) => (
+                    <button
+                        key={index}
+                        className="flex items-center justify-start w-full gap-2 px-4 py-2 text-left hover:bg-gray-200"
+                        onClick={() => {
+                            button.onClick();
+                            onClose();
+                        }}
+                    >
+                        {button.icon}
+                        {button.label}
+                    </button>
+                ))}
             </div>
         </div>
     );

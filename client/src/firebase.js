@@ -41,7 +41,7 @@ import {
 import { deleteUserRecord, setTotalPages, setUserRecord, updatePhotoRedux } from "./redux/userRecords";
 import { fetchUserInfo } from "./redux/userRecordsThunk";
 import moment from "moment"
-import { setDiary, setMonthlyDiary } from "./redux/userDiary";
+import { deleteDiaryFromRedux, setDiary, setMonthlyDiary } from "./redux/userDiary";
 import { calculateTotalNutrients } from "./utils/calculateTotalNutrients";
 import { fetchCalorieRecords, fetchCalorieRecordsForMonth } from "./redux/userDiaryThunk";
 import { setCustomFoods } from "./redux/customFoods";
@@ -337,7 +337,7 @@ export const copyDiary = async (data) => {
     } else {
       const existingDocId = querySnapshot.docs[0].id;
       await updateDoc(doc(calorieRecordsRef, existingDocId), {
-        foods: arrayUnion(foods), // Append the new diary object to the existing "foods" array
+        foods: arrayUnion(...foods), // Append the new diary object to the existing "foods" array
 
       });
 
@@ -352,6 +352,37 @@ export const copyDiary = async (data) => {
     console.log(error);
   }
 }
+
+export const deleteDiary = async (data) => {
+  console.log(data, "data")
+  const selectedDate = data.selectedDate;
+  const uid = data.uid;
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid);
+    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
+    // Query for the document with the specified date
+    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
+    console.log(querySnapshot)
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      await deleteDoc(doc(calorieRecordsRef, docId))
+      toast.success("Data deleted successfully.");
+      store.dispatch(deleteDiaryFromRedux(data.selectedDate));
+      return "Data deleted successfully.";
+    }
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+
+  // try {
+  //   await deleteDoc(doc(db, "users", data.uid, "calorieRecords", data.id));
+  //   store.dispatch(deleteDiary(data.id));
+  // } catch {
+  //   toast.error("An error occurred while deleting the diary.");
+  // }
+};
 
 
 export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {

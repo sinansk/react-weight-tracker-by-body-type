@@ -135,10 +135,10 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
             <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200 bg-gray-500/50 w-[600px] h-fit overflow-auto no-scrollbar`}>
                 <h2 className='p-2 my-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>
                 {foods ? (
-                    <table className='min-w-full p-5 divide-y divide-gray-200'>
+                    <table className='min-w-full p-5 divide-y divide-gray-100'>
                         <TableHeader columns={columns} />
 
-                        <tbody className="divide-y divide-gray-200 ">
+                        <tbody className="divide-y divide-gray-400 ">
                             {foods?.map((item, rowIndex) => (
                                 <tr key={rowIndex} className=''>
                                     {columns.map((column) => (

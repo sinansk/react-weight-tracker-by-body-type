@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCalendarDate } from '../redux/userDiary';
-import { addDailyCalorie, copyDiary, getCalorieRecordsForMonth } from '../firebase';
+import { addDailyCalorie, copyDiary, deleteDiary, getCalorieRecordsForMonth } from '../firebase';
 import { fetchCalorieRecordsForMonth } from '../redux/userDiaryThunk';
 import ContextMenu from './MembershipComponents/ContextMenu';
+import { AiFillCheckSquare, AiFillCopy, AiFillDelete } from 'react-icons/ai';
 
 
-const Calendar = ({ className, diaryDates, onDateClick }) => {
+const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
 
     const dispatch = useDispatch()
     const calendarDate = useSelector((state) => state.userDiary?.calendarDate)
@@ -39,21 +40,20 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
 
     const closeContextMenu = () => {
         setContextMenuOpen(false);
+        contextMenuDate && setContextMenuDate(null);
     };
     const [fromDate, setFromDate] = useState(null)
     const [toDate, setToDate] = useState(null)
 
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
 
-    const onCopyFromDate = () => {
+    const handleCopyFromDate = () => {
         setFromDate(calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY")) ?? null)
     }
-
     useEffect(() => {
-        console.log(fromDate, "fromDate")
-    }, [fromDate])
-
-    const onCopyToDate = async () => {
+        console.log(contextMenuDate, "contextMenuDate")
+    }, [contextMenuDate])
+    const handleCopyToDate = async () => {
         console.log(fromDate, "fromDate")
 
         await copyDiary({
@@ -63,6 +63,18 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
             totalNutrient: fromDate?.totalNutrient,
         })
     }
+    const handleDeleteFromDate = async () => {
+        await deleteDiary({
+            uid,
+            selectedDate: contextMenuDate.format("DD-MM-YYYY"),
+        })
+    }
+
+    const contextMenuButtons = [
+        { label: 'Copy from date', icon: <AiFillCopy className='w-5 h-5' />, onClick: handleCopyFromDate },
+        { label: 'Copy to date', icon: <AiFillCheckSquare className='w-5 h-5' />, onClick: handleCopyToDate },
+        { label: 'Delete diary', icon: <AiFillDelete className='w-5 h-5' />, onClick: handleDeleteFromDate },
+    ];
 
     const handleDateClick = (date) => {
         setSelectedDate(moment(date));
@@ -91,11 +103,12 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
         const isInDiary = isDateInDiary(date);
         const isSelectedDateInDiary = isDateInDiary(selectedDate);
         const isToday = date.isSame(moment(), 'day');
+        const isContextMenuDate = date.isSame(contextMenuDate, 'day');
 
         return (
             <td
                 key={date.format('DD-MM-YYYY')}
-                className={`cursor-pointer  hover:bg-gray-200/30 rounded-sm relative  ${isActive ? ' bg-teal-500 hover:bg-teal-500 text-white' : ''}`}
+                className={`cursor-pointer  hover:bg-gray-200/30 rounded-sm relative ${isContextMenuDate && 'bg-gray-200/30'} ${isActive ? ' bg-teal-500 hover:bg-teal-500 text-white' : ''}`}
                 onClick={() => handleDateClick(date)}
             >
                 <div className={`absolute bottom-[0.5px] right-0 left-0 z-10 ${isInDiary ? ' border-b-[3px] rounded-t-md rounded-b-none border-green-500' : ''}`} ></div>
@@ -160,7 +173,7 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
 
     return (
         <div className={`${className} w-fit relative`} onContextMenu={(e) => handleContextMenu(e)}>
-            <button onClick={handleTodayClick} className='absolute top-0 right-0 px-2.5 py-1 text-xs  border-2 border-teal-500 rounded-lg sm:top-2 sm:right-2 text pink-500 hover:bg-teal-500 hover:text-white'>TODAY</button>
+            <button onClick={handleTodayClick} className='absolute top-0 right-0 px-2.5 py-1 text-xs border-2 border-teal-500 rounded-lg sm:top-2 sm:right-2 text pink-500 hover:bg-teal-500 hover:text-white'>TODAY</button>
             <div className="flex items-center justify-between mt-2 mb-4 sm:mt0 sm:w-full sm:px-20" >
                 <button onClick={(e) => handlePrevMonthClick(e)} className="px-2 py-1 text-sm font-semibold ">
                     {'<'}
@@ -192,7 +205,9 @@ const Calendar = ({ className, diaryDates, onDateClick }) => {
                     ))}
                 </tbody>
             </table>
-            <ContextMenu isOpen={contextMenuOpen} x={contextMenuPos.left} y={contextMenuPos.top} contextMenuDate={contextMenuDate?.format("DD-MM-YYYY")} onCopyToDate={onCopyToDate} onCopyFromDate={onCopyFromDate} onClose={closeContextMenu} />
+            {showContextMenu &&
+                <ContextMenu isOpen={contextMenuOpen} x={contextMenuPos.left} y={contextMenuPos.top} buttons={contextMenuButtons} contextMenuDate={contextMenuDate?.format("DD-MM-YYYY")} onDeleteFromDate={handleDeleteFromDate} onCopyToDate={handleCopyToDate} onCopyFromDate={handleCopyFromDate} onClose={closeContextMenu} />
+            }
         </div>
     );
 };
