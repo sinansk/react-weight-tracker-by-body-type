@@ -48,7 +48,7 @@ const UpdateProfileModal = () => {
                                 <h2 className="text-xl font-semibold text-gray-200">Personal Info</h2>
                                 <PhotoUploadComponent />
                                 <div className="mt-auto text-gray-200">
-                                    <div className="flex flex-col items-start">
+                                    {/* <div className="flex flex-col items-start">
                                         <label htmlFor="date"> Birthday</label>
                                         <input type="date"
                                             className="border rounded sm:h-[38px] border-[hsl(0,0%,80%)] text-black"
@@ -56,10 +56,10 @@ const UpdateProfileModal = () => {
                                             onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))}
                                             defaultValue={userData.birthDay}
                                         />
-                                    </div>
+                                    </div> */}
                                     <SelectInput options={heights} label="Height" name="height" className="min-w-full" reduxName='personalInfo' />
                                     <SelectInput options={weights} label="Weight" name="weight" className="min-w-full" reduxName='personalInfo' />
-                                    <SelectInput options={bodyTypes} label="My fingers are," name="bodyType" className="min-w-full" reduxName='personalInfo' />
+                                    {/* <SelectInput options={bodyTypes} label="My fingers are," name="bodyType" className="min-w-full" reduxName='personalInfo' /> */}
                                     <SelectInput options={activityLevels} label="Activity Level:" name="activityLevel" className="min-w-full" reduxName='personalInfo' />
                                     <SelectInput options={bodyGoals} label="My goal is," name="bodyGoal" className="min-w-full" reduxName='personalInfo' />
                                 </div>

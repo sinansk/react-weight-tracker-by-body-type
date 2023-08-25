@@ -133,22 +133,28 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+export const deleteStorageDirectory = async (uid, directoryPath) => {
+  const storageRef = ref(storage, `users/${uid}/${directoryPath}`);
+  const listResult = await listAll(storageRef);
+  await Promise.all(listResult.items.map((itemRef) => deleteObject(itemRef)));
+};
+
 export const deleteAccount = async (password) => {
   const user = auth.currentUser;
-  console.log(password, "password")
-
   const credential = EmailAuthProvider.credential(user.email, password);
-
-  const reauth = reauthenticateWithCredential(user, credential).then(() => {
-    console.log(reauth, "reauth")
-    user.delete()
-    // User re-authenticated.
-  }).catch((error) => {
-    // An error ocurred
-    // ...
-  });
-}
-
+  try {
+    await reauthenticateWithCredential(user, credential);
+    await deleteUserData(user.uid);
+    await deleteStorageDirectory(user.uid, "photos");
+    await user.delete();
+    toast.success("Account deleted successfully.");
+    return true;
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+    return false;
+  }
+};
 export const resetPassword = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email)
@@ -214,6 +220,28 @@ export const deleteRecord = async (uid, id) => {
     console.log(error)
     throw new Error(error.message);
   }
+};
+
+export const deleteUserData = async (uid) => {
+  const userDocRef = doc(db, "users", uid);
+  await deleteDoc(userDocRef);
+  const userPersonalInfosRef = collection(userDocRef, "userPersonalInfos");
+  const userPersonalInfosSnapshot = await getDocs(userPersonalInfosRef);
+  userPersonalInfosSnapshot.forEach(async (doc) => {
+    await deleteDoc(doc.ref);
+  });
+  const calorieRecordsRef = collection(userDocRef, "CalorieRecords");
+  const calorieRecordsSnapshot = await getDocs(calorieRecordsRef);
+  calorieRecordsSnapshot.forEach(async (doc) => {
+    await deleteDoc(doc.ref);
+  });
+  const customFoodsRef = collection(userDocRef, "CustomFoods");
+  const customFoodsSnapshot = await getDocs(customFoodsRef);
+  customFoodsSnapshot.forEach(async (doc) => {
+    await deleteDoc(doc.ref);
+  });
+
+  console.log("User data deleted successfully.");
 };
 
 export const addPhoto = async (uid, id, photoFile, docId) => {
