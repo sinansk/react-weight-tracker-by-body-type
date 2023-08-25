@@ -6,6 +6,7 @@ import UpdateProfileModal from "./UpdateProfileModal";
 import ImageModal from "./ImageModal";
 import AddCustomFoodModal from "./AddCustomFoodModal";
 import ReAuthModal from "./ReAuthModal";
+import EmailModal from "./EmailModal";
 
 const modalData = [
     {
@@ -39,6 +40,10 @@ const modalData = [
     {
         name: "ReAuthModal",
         element: ReAuthModal
+    },
+    {
+        name: "EmailModal",
+        element: EmailModal
     }
 
 

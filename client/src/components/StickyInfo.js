@@ -15,7 +15,7 @@ const StickyInfo = () => {
     const [isbottommBarVisible, setIsbottomBarVisible] = useState(true);
     // const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'));
     const calendar = useSelector((state) => state.userDiary?.calendarDate)
-    const calendarDate = calendar?.format('DD-MM-YYYY') ?? moment().format('DD-MM-YYYY');
+    const calendarDate = calendar ? moment(calendar).format('DD-MM-YYYY') : moment().format('DD-MM-YYYY');
     const userRecords = useSelector((state) => state.userRecords);
     const userDiary = useSelector((state) => state.userDiary)
     const diaryEntry = useDiaryEntry(calendarDate);

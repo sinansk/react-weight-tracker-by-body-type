@@ -9,7 +9,8 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
   EmailAuthProvider,
-  reauthenticateWithCredential
+  reauthenticateWithCredential,
+  sendPasswordResetEmail
 } from "firebase/auth";
 import {
   getFirestore,
@@ -146,6 +147,15 @@ export const deleteAccount = async (password) => {
     // An error ocurred
     // ...
   });
+}
+
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email)
+    toast.success("Password reset email sent")
+  } catch (error) {
+    toast.error(error.message)
+  }
 }
 
 export const addUserInfo = async (data) => {

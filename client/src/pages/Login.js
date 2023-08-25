@@ -2,6 +2,7 @@ import { useState } from "react";
 import { login } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"
+import { createModal } from "../utils/modalHooks";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,12 +58,12 @@ const Login = () => {
             </div>
 
             <div className="mt-2 text-right">
-              <a
-                href=""
+              <button type='button'
+                onClick={() => createModal("EmailModal")}
                 className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
               >
                 Forgot Password?
-              </a>
+              </button>
             </div>
 
             <button

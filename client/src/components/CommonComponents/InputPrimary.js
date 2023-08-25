@@ -16,7 +16,7 @@ const InputPrimary = ({ label, name, type, className, reduxName }) => {
 
     return (
         <>
-            <label htmlFor={name}>{label}</label>
+            <label className='text-gray-200' htmlFor={name}>{label}</label>
             <input
                 type={type}
                 id={name}

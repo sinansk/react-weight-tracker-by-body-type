@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { login } from '../../firebase';
+import { createModal } from '../../utils/modalHooks';
 
 const LoginModal = () => {
     const [email, setEmail] = useState("");
@@ -44,12 +45,12 @@ const LoginModal = () => {
             </div>
 
             <div className="mt-2 text-right">
-                <a
-                    href="#"
+                <button type='button'
+                    onClick={() => createModal("EmailModal")}
                     className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
                 >
                     Forgot Password?
-                </a>
+                </button>
             </div>
 
             <button

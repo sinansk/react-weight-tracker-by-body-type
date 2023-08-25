@@ -17,7 +17,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
     // const [isExpanded, setIsExpanded] = useState(false);
     const isDateInDiary = (date) => {
         if (diaryDates) {
-            return diaryDates.includes(date.format('DD-MM-YYYY'));
+            return diaryDates.includes(moment(date).format('DD-MM-YYYY'));
         }
     };
     const [contextMenuPos, setContextMenuPos] = useState({ top: 0, left: 0 });
@@ -58,7 +58,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
 
         await copyDiary({
             uid,
-            selectedDate: contextMenuDate.format("DD-MM-YYYY"),
+            selectedDate: moment(contextMenuDate).format("DD-MM-YYYY"),
             foods: fromDate?.foods,
             totalNutrient: fromDate?.totalNutrient,
         })
@@ -66,7 +66,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
     const handleDeleteFromDate = async () => {
         await deleteDiary({
             uid,
-            selectedDate: contextMenuDate.format("DD-MM-YYYY"),
+            selectedDate: moment(contextMenuDate).format("DD-MM-YYYY"),
         })
     }
 
@@ -78,7 +78,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
 
     const handleDateClick = (date) => {
         setSelectedDate(moment(date));
-        onDateClick(date.format('DD-MM-YYYY'))
+        onDateClick(moment(date).format('DD-MM-YYYY'))
         dispatch(setCalendarDate(date))
     };
 
@@ -91,11 +91,11 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
         dispatch(fetchCalorieRecordsForMonth({ year, month }))
     }
     const getMonthName = () => {
-        return selectedDate.format('MMMM');
+        return moment(selectedDate).format('MMMM');
     };
 
     const getYear = () => {
-        return selectedDate.format('YYYY');
+        return moment(selectedDate).format('YYYY');
     };
 
     const renderCalendarCell = (date) => {
@@ -107,7 +107,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
 
         return (
             <td
-                key={date.format('DD-MM-YYYY')}
+                key={moment(date).format('DD-MM-YYYY')}
                 className={`cursor-pointer  hover:bg-gray-200/30 rounded-sm relative ${isContextMenuDate && 'bg-gray-200/30'} ${isActive ? ' bg-teal-500 hover:bg-teal-500 text-white' : ''}`}
                 onClick={() => handleDateClick(date)}
             >
@@ -149,7 +149,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
         const prevMonth = selectedDate.clone().subtract(1, 'month');
         console.log(prevMonth, "prevMonth")
         setSelectedDate(prevMonth);
-        onDateClick(prevMonth.format('DD-MM-YYYY'));
+        onDateClick(moment(prevMonth).format('DD-MM-YYYY'));
         dispatch(setCalendarDate(prevMonth));
 
         const year = prevMonth.year();
@@ -163,7 +163,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
         e.stopPropagation();
         const nextMonth = selectedDate.clone().add(1, 'month');
         setSelectedDate(nextMonth);
-        onDateClick(nextMonth.format('DD-MM-YYYY'));
+        onDateClick(moment(nextMonth).format('DD-MM-YYYY'));
         dispatch(setCalendarDate(nextMonth));
 
         const year = nextMonth.year();
@@ -206,7 +206,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
                 </tbody>
             </table>
             {showContextMenu &&
-                <ContextMenu isOpen={contextMenuOpen} x={contextMenuPos.left} y={contextMenuPos.top} buttons={contextMenuButtons} contextMenuDate={contextMenuDate?.format("DD-MM-YYYY")} onDeleteFromDate={handleDeleteFromDate} onCopyToDate={handleCopyToDate} onCopyFromDate={handleCopyFromDate} onClose={closeContextMenu} />
+                <ContextMenu isOpen={contextMenuOpen} x={contextMenuPos.left} y={contextMenuPos.top} buttons={contextMenuButtons} contextMenuDate={contextMenuDate && moment(contextMenuDate).format("DD-MM-YYYY")} onDeleteFromDate={handleDeleteFromDate} onCopyToDate={handleCopyToDate} onCopyFromDate={handleCopyFromDate} onClose={closeContextMenu} />
             }
         </div>
     );
