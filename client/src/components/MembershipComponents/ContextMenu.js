@@ -14,7 +14,18 @@ const ContextMenu = ({ isOpen, x, y, onClose, buttons }) => {
 
         const adjustedPosX = Math.min(x, maxPosX);
         const adjustedPosY = Math.min(y, maxPosY);
-        setContextMenuPos({ top: adjustedPosY, left: adjustedPosX });
+        // Check if context menu is too close to the right edge
+        if (window.innerWidth - x < contextMenuWidth) {
+            setContextMenuPos({ top: adjustedPosY, left: x - contextMenuWidth });
+        }
+        // Check if context menu is too close to the bottom edge
+        else if (window.innerHeight - y < contextMenuHeight) {
+            setContextMenuPos({ top: y - contextMenuHeight, left: adjustedPosX });
+        }
+        // Use the regular adjusted positions if none of the above conditions are met
+        else {
+            setContextMenuPos({ top: adjustedPosY, left: adjustedPosX });
+        }
     }, [x, y]);
     // const contextMenuWidth = contextMenuRef.current?.offsetWidth || 0;
     // const contextMenuHeight = contextMenuRef.current?.offsetHeight || 0;
