@@ -3,22 +3,33 @@ import { login } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"
 import { createModal } from "../utils/modalHooks";
+import { useAuth } from "../context/AuthContext";
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { currentUser } = useSelector((state) => state.user)
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const { authData, setAuthData, loginHandleContext } = useAuth();
+  console.log("loginpage", authData)
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await login(email, password);
+    const user = await login(authData.email, authData.password);
+    loginHandleContext(authData.email, authData.password);
     console.log("loginpage", user)
     // user.emailVerified &&
     if (user) {
       navigate("/mystats", { replace: true });
     }
-
   };
 
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === 'checkbox' ? checked : value;
+    setAuthData({
+      ...authData,
+      [name]: inputValue,
+    });
+  };
   return (
     <section className="flex items-center justify-center min-h-screen">
       <div className="flex w-full max-w-3xl p-5 mx-1 bg-gray-100 shadow-lg rounded-2xl">
@@ -30,15 +41,14 @@ const Login = () => {
               <label className="block text-gray-700">Email Address</label>
               <input
                 type="email"
-                name=""
-                id=""
+                name="email"
                 placeholder="Enter Email Address"
                 className="w-full px-4 py-3 mt-2 bg-gray-200 border rounded-lg focus:border-blue-500 focus:bg-white focus:outline-none"
                 autoFocus
                 autoComplete="on"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={authData.email}
+                onChange={handleInputChange}
               />
             </div>
 
@@ -46,18 +56,27 @@ const Login = () => {
               <label className="block text-gray-700">Password</label>
               <input
                 type="password"
-                name=""
+                name="password"
                 id=""
                 placeholder="Enter Password"
                 minLength="6"
                 className="w-full px-4 py-3 mt-2 bg-gray-200 border rounded-lg focus:border-blue-500 focus:bg-white focus:outline-none"
                 required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={authData.password}
+                onChange={handleInputChange}
               />
             </div>
 
-            <div className="mt-2 text-right">
+            <div className="flex items-center justify-between mt-2 text-right">
+              <div className="flex items-center ">
+                <input type="checkbox"
+                  checked={authData.rememberMe}
+                  onChange={handleInputChange}
+                  name="rememberMe"
+                  id="rememberMe"
+                  className="inline-block px-1 mr-1 text-blue-500 border rounded-sm cursor-pointer accent-slate-800 " />
+                <label htmlFor="rememberMe" className="inline-block mr-1 text-sm font-semibold text-gray-700">Remember Me</label>
+              </div>
               <button type='button'
                 onClick={() => createModal("EmailModal")}
                 className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
@@ -67,7 +86,7 @@ const Login = () => {
             </div>
 
             <button
-              diabled={email || password}
+              diabled={authData.email || authData.password}
               type="submit"
               className="block w-full px-4 py-3 mt-6 font-semibold text-white bg-teal-500 rounded-lg hover:bg-teal-400 focus:bg-teal-400"
             >
