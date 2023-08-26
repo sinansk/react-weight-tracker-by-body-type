@@ -24,35 +24,24 @@ const FormatedInputComponent = ({
         }
     };
 
-
-
-
     const handleInputBlur = (e) => {
         const { name, value, dataset } = e.target;
 
         if (dataset.unit && value.trim() !== '') {
             const trimmedValue = formatInputValue(value, dataset.unit);
-            let formattedValue = trimmedValue;
-
-            if (dataset.unit !== 'kcal') {
-                if (trimmedValue.endsWith('.') || trimmedValue.endsWith(',')) {
-                    formattedValue += '00';
-                } else if (trimmedValue.includes(',')) {
-                    formattedValue = trimmedValue.replace(',', '.');
-                } else if (trimmedValue.includes('.')) {
-                    formattedValue = trimmedValue.replace(/\.(\d$|\.$)/, (match, group1) => `.${group1 || '00'}`);
-                } else if (trimmedValue.length > 0 && !trimmedValue.endsWith('.')) {
-                    formattedValue += '.00';
-                }
-            }
+            const formattedValue = trimmedValue.endsWith('.') || trimmedValue.endsWith(',')
+                ? trimmedValue + '00'
+                : trimmedValue.includes('.')
+                    ? trimmedValue.replace(/\.(\d$|\.$)/, (match, group1) => `.${group1 || '00'}`)
+                    : trimmedValue.length > 0 && !trimmedValue.endsWith('.')
+                        ? `${trimmedValue}.00`
+                        : '';
 
             form.setFieldValue(name, formattedValue + dataset.unit);
         } else {
             form.setFieldValue(name, value);
         }
     };
-
-
 
     const handleInputFocus = (e) => {
         const { name, value, dataset } = e.target;

@@ -43,7 +43,7 @@ const Modal = forwardRef((props, ref) => {
                 </button>
                 <div className="grid max-w-full " >{modals?.map(modal => {
                     const currentModal = modalData.find(m => m.name === modal.name)
-                    return <div className='hidden lg:max-h-screen last:block'>
+                    return <div className='hidden transition-all-900 lg:max-h-screen last:block'>
                         <currentModal.element data={modal.data} />
                     </div>
                 })}</div>
