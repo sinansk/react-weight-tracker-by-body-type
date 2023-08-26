@@ -6,6 +6,7 @@ export const userDiary = createSlice({
     initialState: {
         calorieDiary: [],
         exerciseDiary: [{ date: "12-08-2023", exercises: [{ exercise_name: "Pushups", calories: 100, set: 4, rep: 10, weight: 10 }, { exercise_name: "Pullups", calories: 100, set: 4, rep: 10, weight: 10 }] }],
+        calorieRoutines: null,
         calendarDate: null,
         status: "idle",
         error: null,
@@ -23,6 +24,9 @@ export const userDiary = createSlice({
         deleteDiaryFromRedux: (state, action) => {
             console.log(action.payload, "action.payload")
             state.calorieDiary = state.calorieDiary.filter((item) => item.date !== action.payload)
+        },
+        setCalorieRoutines: (state, action) => {
+            state.calorieRoutines = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -69,6 +73,6 @@ export const userDiary = createSlice({
     },
 });
 
-export const { addToDiary, deleteFromDiary, setDiary, setCalendarDate, recalculateNutrientDetails, setTotal, setMonthlyDiary, deleteDiaryFromRedux } = userDiary.actions;
+export const { addToDiary, deleteFromDiary, setDiary, setCalendarDate, recalculateNutrientDetails, setTotal, setMonthlyDiary, deleteDiaryFromRedux, setCalorieRoutines } = userDiary.actions;
 export default userDiary.reducer
 

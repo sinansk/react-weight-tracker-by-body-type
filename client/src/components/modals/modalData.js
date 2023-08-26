@@ -7,6 +7,7 @@ import ImageModal from "./ImageModal";
 import AddCustomFoodModal from "./AddCustomFoodModal";
 import ReAuthModal from "./ReAuthModal";
 import EmailModal from "./EmailModal";
+import SaveRoutineModal from "./SaveRoutineModal";
 
 const modalData = [
     {
@@ -44,6 +45,10 @@ const modalData = [
     {
         name: "EmailModal",
         element: EmailModal
+    },
+    {
+        name: "SaveRoutineModal",
+        element: SaveRoutineModal
     }
 
 

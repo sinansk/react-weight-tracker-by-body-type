@@ -44,7 +44,7 @@ import {
 import { deleteUserRecord, setTotalPages, setUserRecord, updatePhotoRedux } from "./redux/userRecords";
 import { fetchUserInfo } from "./redux/userRecordsThunk";
 import moment from "moment"
-import { deleteDiaryFromRedux, setDiary, setMonthlyDiary } from "./redux/userDiary";
+import { deleteDiaryFromRedux, setCalorieRoutines, setDiary, setMonthlyDiary } from "./redux/userDiary";
 import { calculateTotalNutrients } from "./utils/calculateTotalNutrients";
 import { fetchCalorieRecords, fetchCalorieRecordsForMonth } from "./redux/userDiaryThunk";
 import { setCustomFoods } from "./redux/customFoods";
@@ -105,6 +105,7 @@ export const login = async (email, password) => {
       const month = currentDate.month() + 1;
       store.dispatch(fetchCalorieRecordsForMonth({ year, month }));
       getCustomFoods(user.uid)
+      getCalorieRoutines(user.uid)
     }
     return user;
   } catch (err) {
@@ -373,74 +374,6 @@ export const addDailyCalorie = async (data, calorieDiary, selectedDate) => {
   }
 };
 
-export const copyDiary = async (data) => {
-  console.log(data, "data")
-  const uid = data.uid;
-  const foods = data.foods;
-  const selectedDate = data.selectedDate;
-  const totalNutrient = data.totalNutrient;
-  const currentDate = moment();
-  const timestamp = moment(selectedDate, "DD-MM-YYYY").toISOString();
-  const dateString = currentDate.format('DD-MM-YYYY');
-
-  try {
-    const userRef = collection(db, "users");
-    const userDocRef = doc(userRef, uid); // Reference to the user document
-    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
-    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
-    if (querySnapshot.empty) {
-      await addDoc(calorieRecordsRef, { date: selectedDate, foods, totalNutrient, timestamp });
-    } else {
-      const existingDocId = querySnapshot.docs[0].id;
-      await updateDoc(doc(calorieRecordsRef, existingDocId), {
-        foods: arrayUnion(...foods), // Append the new diary object to the existing "foods" array
-
-      });
-
-    }
-    const selectedMoment = moment(selectedDate, 'DD-MM-YYYY');
-    const year = selectedMoment.year();
-    const month = selectedMoment.month() + 1;
-    store.dispatch(fetchCalorieRecordsForMonth({ uid, year, month }));
-    toast.success("Data copied successfully.");
-  } catch (error) {
-    toast.error(error.message);
-    console.log(error);
-  }
-}
-
-export const deleteDiary = async (data) => {
-  console.log(data, "data")
-  const selectedDate = data.selectedDate;
-  const uid = data.uid;
-  try {
-    const userRef = collection(db, "users");
-    const userDocRef = doc(userRef, uid);
-    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
-    // Query for the document with the specified date
-    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
-    console.log(querySnapshot)
-    if (!querySnapshot.empty) {
-      const docId = querySnapshot.docs[0].id;
-      await deleteDoc(doc(calorieRecordsRef, docId))
-      toast.success("Data deleted successfully.");
-      store.dispatch(deleteDiaryFromRedux(data.selectedDate));
-      return "Data deleted successfully.";
-    }
-  } catch (error) {
-    toast.error(error.message);
-    console.log(error);
-  }
-
-  // try {
-  //   await deleteDoc(doc(db, "users", data.uid, "calorieRecords", data.id));
-  //   store.dispatch(deleteDiary(data.id));
-  // } catch {
-  //   toast.error("An error occurred while deleting the diary.");
-  // }
-};
-
-
 export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
   console.log(data)
   const id = data.id
@@ -513,6 +446,117 @@ export const getCalorieRecordsForMonth = async (uid, year, month) => {
     console.log(error);
     throw new Error(error.message);
   }
+};
+
+export const saveDiaryAsRoutine = async (data) => {
+  const uid = data.uid;
+  const name = data.name;
+  const foods = data.foods;
+  const selectedDate = data.selectedDate;
+  const totalNutrient = data.totalNutrient;
+  const currentDate = moment();
+  const timestamp = moment().toISOString();
+  const dateString = currentDate.format('DD-MM-YYYY');
+  console.log(data, "dataROUTINE")
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid);
+    const calorieRoutineRef = collection(userDocRef, "calorieRoutines");
+    const querySnapshot = await getDocs(query(calorieRoutineRef, where("name", "==", name)));
+    if (querySnapshot.empty) {
+      await addDoc(calorieRoutineRef, { name: name, date: selectedDate, foods, totalNutrient, timestamp });
+    } else {
+      const existingDocId = querySnapshot.docs[0].id;
+      await updateDoc(doc(calorieRoutineRef, existingDocId), {
+        foods: arrayUnion(...foods), // Append the new diary object to the existing "foods" array
+
+      });
+
+    }
+    toast.success("Routine saved successfully.");
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+}
+
+export const getCalorieRoutines = async (uid) => {
+  try {
+    const snapshot = await getDocs(query(collection(db, "users", uid, "calorieRoutines")));
+    const data = snapshot.docs.map((doc) => (doc.data()));
+    console.log(data, "dataROUTINE")
+    store.dispatch(setCalorieRoutines(data))
+    return data;
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.message);
+  }
+};
+export const copyDiary = async (data) => {
+  console.log(data, "data")
+  const uid = data.uid;
+  const foods = data.foods;
+  const selectedDate = data.selectedDate;
+  const totalNutrient = data.totalNutrient;
+  const currentDate = moment();
+  const timestamp = moment(selectedDate, "DD-MM-YYYY").toISOString();
+  const dateString = currentDate.format('DD-MM-YYYY');
+
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid); // Reference to the user document
+    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
+    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
+    if (querySnapshot.empty) {
+      await addDoc(calorieRecordsRef, { date: selectedDate, foods, totalNutrient, timestamp });
+    } else {
+      const existingDocId = querySnapshot.docs[0].id;
+      await updateDoc(doc(calorieRecordsRef, existingDocId), {
+        foods: arrayUnion(...foods), // Append the new diary object to the existing "foods" array
+
+      });
+
+    }
+    const selectedMoment = moment(selectedDate, 'DD-MM-YYYY');
+    const year = selectedMoment.year();
+    const month = selectedMoment.month() + 1;
+    store.dispatch(fetchCalorieRecordsForMonth({ uid, year, month }));
+    toast.success("Data copied successfully.");
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+}
+
+export const deleteDiary = async (data) => {
+  console.log(data, "data")
+  const selectedDate = data.selectedDate;
+  const uid = data.uid;
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid);
+    const calorieRecordsRef = collection(userDocRef, "calorieRecords");
+    // Query for the document with the specified date
+    const querySnapshot = await getDocs(query(calorieRecordsRef, where("date", "==", selectedDate)));
+    console.log(querySnapshot)
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      await deleteDoc(doc(calorieRecordsRef, docId))
+      toast.success("Data deleted successfully.");
+      store.dispatch(deleteDiaryFromRedux(data.selectedDate));
+      return "Data deleted successfully.";
+    }
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+
+  // try {
+  //   await deleteDoc(doc(db, "users", data.uid, "calorieRecords", data.id));
+  //   store.dispatch(deleteDiary(data.id));
+  // } catch {
+  //   toast.error("An error occurred while deleting the diary.");
+  // }
 };
 
 

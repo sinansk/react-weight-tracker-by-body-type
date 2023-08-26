@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCalendarDate } from '../redux/userDiary';
-import { addDailyCalorie, copyDiary, deleteDiary, getCalorieRecordsForMonth } from '../firebase';
+import { addDailyCalorie, copyDiary, deleteDiary, getCalorieRecordsForMonth, saveDiaryAsRoutine } from '../firebase';
 import { fetchCalorieRecordsForMonth } from '../redux/userDiaryThunk';
 import ContextMenu from './MembershipComponents/ContextMenu';
-import { AiFillCheckSquare, AiFillCopy, AiFillDelete } from 'react-icons/ai';
+import { AiFillCheckSquare, AiFillCopy, AiFillDelete, AiFillSave } from 'react-icons/ai';
+import { createModal } from '../utils/modalHooks';
 
 
 const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
@@ -48,6 +49,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
 
     const handleCopyFromDate = () => {
+        console.log("copy from date")
         setFromDate(calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY")) ?? null)
     }
     useEffect(() => {
@@ -70,10 +72,35 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
         })
     }
 
+    const handleSaveAsRoutine = async () => {
+        createModal("SaveRoutineModal", {
+            onSubmit: async (values) => {
+                console.log(values, "values")
+                await saveDiaryAsRoutine({
+
+                    uid,
+                    selectedDate: moment(contextMenuDate).format("DD-MM-YYYY"),
+                    foods: calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY"))?.foods,
+                    totalNutrient: calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY"))?.totalNutrient,
+                    name: values.routineName
+                })
+            }
+        })
+        // const routine = calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY")) ?? null
+        // await saveDiaryAsRoutine({
+        //     uid,
+        //     selectedDate: moment(contextMenuDate).format("DD-MM-YYYY"),
+        //     foods: routine?.foods,
+        //     totalNutrient: routine?.totalNutrient,
+        //     name: "test"
+        // })
+    }
+
     const contextMenuButtons = [
-        { label: 'Copy from date', icon: <AiFillCopy className='w-5 h-5' />, onClick: handleCopyFromDate },
-        { label: 'Copy to date', icon: <AiFillCheckSquare className='w-5 h-5' />, onClick: handleCopyToDate },
-        { label: 'Delete diary', icon: <AiFillDelete className='w-5 h-5' />, onClick: handleDeleteFromDate },
+        { label: 'Copy from date', icon: <AiFillCopy className='w-5 h-5' />, onClick: handleCopyFromDate, disabled: !isDateInDiary(contextMenuDate) },
+        { label: 'Copy to date', icon: <AiFillCheckSquare className='w-5 h-5' />, onClick: handleCopyToDate, disabled: !fromDate },
+        { label: 'Delete diary', icon: <AiFillDelete className='w-5 h-5' />, onClick: handleDeleteFromDate, disabled: !isDateInDiary(contextMenuDate) },
+        { label: 'Save as routine', icon: <AiFillSave className='w-5 h-5' />, onClick: handleSaveAsRoutine, disabled: !isDateInDiary(contextMenuDate) },
     ];
 
     const handleDateClick = (date) => {

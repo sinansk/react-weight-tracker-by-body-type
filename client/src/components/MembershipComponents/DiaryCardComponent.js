@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToDiary, deleteFromDiary } from '../../redux/userDiary'
 import DeleteButton from '../CommonComponents/DeleteButton'
-import { addDailyCalorie, deleteDailyCalorie } from '../../firebase'
+import { addDailyCalorie, copyDiary, deleteDailyCalorie, saveDiaryAsRoutine } from '../../firebase'
 import { IoIosAdd } from 'react-icons/io'
 import { createModal } from '../../utils/modalHooks'
 import { TbSquareRoundedCheckFilled } from 'react-icons/tb'
@@ -11,6 +11,11 @@ import * as Yup from 'yup';
 import { setCustomFoods } from '../../redux/customFoods'
 import { formatInputValue } from '../../utils/formatInputValue'
 import toast from 'react-hot-toast'
+import SelectInput from '../CommonComponents/SelectInput'
+import SearchDropdown from '../CommonComponents/SearchDropdown'
+import ButtonPrimary from '../CommonComponents/ButtonPrimary'
+import moment from 'moment'
+import { AiFillSave } from 'react-icons/ai'
 
 const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalendarExpand, handleAdd }) => {
     console.log(selectedDate, "selectedDateDiaryCrardComponent")
@@ -19,10 +24,11 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
     const userDiary = useSelector((state) => state.userDiary);
 
     const diary = userDiary.calorieDiary.find((entry) => entry.date === selectedDate);
+    const [selectedOption, setSelectedOption] = useState("")
     const calorieDiary = useSelector((state) => state.userDiary.calorieDiary)
     const foods = diary?.foods;
     console.log(diary, "DiaryComponent");
-
+    const calorieRoutines = useSelector((state) => state.userDiary.calorieRoutines)
     const columns = [
         { id: "amount", label: "Amount" },
         { id: "food_name", label: "Food" },
@@ -59,9 +65,7 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
     }
     const [quickCalorie, setQuickCalorie] = useState(initalCustomFood)
     const handleAddButton = () => {
-        // createModal("AddCustomFoodModal", { selectedDate: selectedDate })
         setIsQuickCalorie(!isQuickCalorie)
-
     }
     const handleInputChange = (e) => {
         const { name, value, dataset } = e.target;
@@ -125,15 +129,46 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
         }
     }
     const handleCalendarExpand = () => {
-        console.log("handleCalendarExpand")
         setCalendarExpand(!calendarExpand)
     }
 
 
+    const searchDropdownOptions = calorieRoutines?.map((diary) => ({
+        value: diary,
+        label: diary?.name,
+    }));
+
+
+    const handleRoutine = async () => {
+        await copyDiary({
+            uid: uid,
+            foods: selectedOption?.value.foods,
+            totalNutrient: selectedOption?.value.totalNutrient,
+            selectedDate: selectedDate
+        })
+    }
+    const handleAddRoutine = async () => {
+        createModal("SaveRoutineModal", {
+            onSubmit: async (values) => {
+                await saveDiaryAsRoutine({
+                    uid,
+                    selectedDate: selectedDate,
+                    foods: diary?.foods,
+                    totalNutrient: diary?.totalNutrient,
+                    name: values.routineName
+                })
+            }
+        })
+    }
     return (
         <>
-            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200 bg-gray-500/50 w-[600px] h-fit overflow-auto no-scrollbar`}>
-                <h2 className='p-2 my-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>
+            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200  bg-gray-500/50 w-[600px] h-fit overflow-auto  no-scrollbar`}>
+                <div className='flex items-center'>
+                    <h2 className='p-2 m-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>
+                    {diary &&
+                        <button title='Save As Routine' onClick={handleAddRoutine} className='float-right hover:text-teal-500'><AiFillSave className='w-5 h-5 sm:w-8 sm:h-8' /></button>
+                    }
+                </div>
                 {foods ? (
                     <table className='min-w-full p-5 divide-y divide-gray-100'>
                         <TableHeader columns={columns} />
@@ -197,10 +232,25 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                         }
                     </table>
                 ) : (
-                    <>
+                    <div className='flex flex-col items-center gap-5 justify-evenly'>
                         <h2>THERE IS NO FOOD</h2>
+                        {calorieRoutines && (
+                            <div>
+                                <h2>YOU CAN ADD FROM ROUTINES</h2>
+                                <div className='z-50 flex items-center justify-center gap-5 mt-5 text-slate-700'>
+                                    <SearchDropdown
+                                        menuPortalTarget={document.body}
+                                        className={`w-64 rounded-xl`}
+                                        selectedOption={selectedOption}
+                                        setSelectedOption={setSelectedOption}
+                                        options={searchDropdownOptions}
+                                    />
+                                    <ButtonPrimary onClick={handleRoutine}>ADD</ButtonPrimary>
+                                </div>
+                            </div>
+                        )}
                         {/* <button onClick={handleAdd} ><span className="flex flex-row items-center justify-center px-3 py-1.5 text-pink-500 rounded-lg cursor-pointer hover:bg-gray-100" ><IoIosAdd size={20} /> Add custom food</span></button> */}
-                    </>
+                    </div>
                 )}
             </div>
         </>

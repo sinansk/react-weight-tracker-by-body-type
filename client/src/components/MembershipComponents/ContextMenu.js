@@ -37,6 +37,7 @@ const ContextMenu = ({ isOpen, x, y, onClose, buttons }) => {
     // const adjustedPosY = Math.min(y, maxPosY);
     // setContextMenuPos({ top: adjustedPosY, left: adjustedPosX });
     const handleItemClick = (button) => {
+        if (button.disabled) return;
         button.onClick();
         onClose();
     };
@@ -48,10 +49,16 @@ const ContextMenu = ({ isOpen, x, y, onClose, buttons }) => {
             <div className="py-1">
                 {buttons.map((button, index) => (
                     <button
+                        disabled={button.disabled}
                         key={index}
-                        className="flex items-center justify-start w-full gap-2 px-4 py-2 text-left hover:bg-gray-200"
                         onClick={() => handleItemClick(button)}
+                        className={
+                            button.disabled
+                                ? "text-gray-300 flex items-center justify-start w-full gap-2 px-4 py-2 text-left hover:bg-gray-200"
+                                : "flex items-center justify-start w-full gap-2 px-4 py-2 text-left text-slate-700 hover:bg-gray-200"
+                        }
                     >
+                        {console.log(button.disabled, "button.disabled")}
                         {button.icon}
                         {button.label}
                     </button>
