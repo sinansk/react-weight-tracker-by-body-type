@@ -49,7 +49,7 @@ const App = () => {
             <Route element={<WithNavbar />}>
               <Route path="/mystats" element={<MyStats />} />
               <Route path="/calorie-tracker" element={<CalorieTracker />} />
-              <Route path="/profile" element={<ProfileSettings />} />
+              <Route path="/settings" element={<ProfileSettings />} />
             </Route>
             <Route element={<WithOutNavbar />}>
               <Route path="/getstarted" element={<GetStarted />} />

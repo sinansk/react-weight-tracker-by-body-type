@@ -20,12 +20,9 @@ export const calculateTotalNutrients = ({ selectedDate, food, calorieDiary, oper
         result += unit;
         return result;
     }
-
-    // calorieDiary içindeki objelerde date alanını arayıp eşleşen objeyi buluyoruz
     const diaryEntry = calorieDiary.find((entry) => entry.date === selectedDate);
 
     if (!diaryEntry) {
-        // Eğer bulunan obje yoksa, yani bu tarihle kayıt yoksa, totalNutrient'i boş olarak döndürüyoruz.
         return {
             totalFat: "0g",
             totalCarbs: "0g",
@@ -33,11 +30,7 @@ export const calculateTotalNutrients = ({ selectedDate, food, calorieDiary, oper
             totalCalories: "0kcal",
         };
     }
-
-    // Bulunan objenin totalNutrient değerlerini alıyoruz
     const { totalFat, totalCarbs, totalProtein, totalCalories } = diaryEntry.totalNutrient;
-
-    // food objesindeki fat, carbs, protein ve calories değerlerini alıp totalNutrient değerleriyle topluyoruz
     const newTotalNutrient = {
         totalFat: removeUnit(totalFat, food.fat || "0g", operation),
         totalCarbs: removeUnit(totalCarbs, food.carbs || "0g", operation),

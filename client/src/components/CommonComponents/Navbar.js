@@ -3,10 +3,15 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutHandle } from "../../redux/userRedux";
 import { logOut } from "../../firebase";
-
+import { MdLogout } from 'react-icons/md'
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
@@ -33,7 +38,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="z-50 flex items-center border-gray-400 transition-all-300 justify-betwee overflow-hiddenn lg:border-b">
+    <div className="z-50 flex items-center justify-between overflow-hidden border-gray-400 transition-all-300 lg:border-b">
       <nav className="flex w-screen">
         <section className="z-50 flex justify-between max-h-screen px-4 py-4 ml-auto overflow-hidden lg:hidden">
           <div className="space-y-2" onClick={toggleNav}>
@@ -41,7 +46,7 @@ const Navbar = () => {
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
           </div>
-          <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center absolute overflow-hidden top-0 left-0 bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 text-gray-200 z-10 w-screen h-screen` : `hidden`}`}>
+          <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center fixed top-0 left-0 right-0 bottom-0 overflow-hidden bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 text-gray-200 z-10 w-screen h-screen` : `hidden`}`}>
             <div className="absolute top-0 right-0 px-4 py-4" onClick={() => setIsNavOpen(false)}>
               <svg
                 className="w-8 h-8 text-teal-600"
@@ -58,20 +63,40 @@ const Navbar = () => {
             </div>
             <ul className="flex flex-col items-center justify-between min-h-[250px]">
               {NavLinks.map(({ path, text }, index) => (
-                <li key={index} className="my-8 uppercase border-b border-gray-400">
+                <li key={index} className="my-5 uppercase border-b border-gray-400">
                   <NavLink to={path} onClick={toggleNav}>
                     {text}
                   </NavLink>
                 </li>
               ))}
               {currentUser && (
-                <NavLink
+                <>
+                  <li className="my-5 uppercase border-b border-gray-400">
+                    <NavLink
+                      onClick={toggleNav}
+                      to="/settings"
+                      className="block px-4 py-2 text-left text-gray-200 hover:bg-gray-700"
+                    >
+                      Settings
+                    </NavLink>
+                  </li>
+                  <li className="my-5 uppercase border-b border-gray-400">
+                    <NavLink
+                      to={'/login'}
+                      onClick={handleLogout}
+                      className="block w-full px-4 py-2 text-left text-gray-200 hover:bg-gray-700"
+                    >
+                      Logout<MdLogout size={20} className="inline-block ml-4 text-gray-200" />
+                    </NavLink>
+                  </li>
+                </>
+                /* <NavLink
                   to="/login"
                   onClick={handleLogout}
                   className="px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md lg:mx-4"
                 >
                   LOG OUT
-                </NavLink>
+                </NavLink> */
               )}
             </ul>
           </div>
@@ -91,13 +116,32 @@ const Navbar = () => {
             </NavLink>
           ))}
           {currentUser && (
-            <NavLink
-              to="/login"
-              onClick={handleLogout}
-              className="px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md hover:bg-teal-500 lg:mx-4"
-            >
-              LOG OUT
-            </NavLink>
+            <div className="relative z-50">
+              <button
+                onClick={toggleMenu}
+                className="px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md lg:mx-4"
+              >
+                PROFILE
+              </button>
+              {isMenuOpen && (
+                <div className="absolute left-0 right-0 py-2 mt-2 border rounded shadow-lg bg-slate-800">
+                  <NavLink
+                    onClick={() => setIsMenuOpen(false)}
+                    to="/settings"
+                    className="block px-4 py-2 text-left text-gray-200 hover:bg-gray-700"
+                  >
+                    Settings
+                  </NavLink>
+                  <NavLink
+                    to={'/login'}
+                    onClick={handleLogout}
+                    className="block w-full px-4 py-2 text-left text-gray-200 hover:bg-gray-700"
+                  >
+                    Logout<MdLogout size={20} className="inline-block ml-4 text-gray-200" />
+                  </NavLink>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </nav>

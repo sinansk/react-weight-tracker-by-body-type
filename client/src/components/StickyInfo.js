@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from './Calendar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import useDiaryEntry from '../utils/findUserDiary';
 import useUserRecord from '../utils/findUserRecord';
@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PiForkKnife } from 'react-icons/pi'
 import { NavLink } from "react-router-dom";
 import { FaWeightScale } from 'react-icons/fa6';
+import { setCalendarDate } from '../redux/userDiary';
 const StickyInfo = () => {
     const [isCalendarVisible, setIsCalendarVisible] = useState(false);
     const [isbottommBarVisible, setIsbottomBarVisible] = useState(true);
@@ -19,9 +20,11 @@ const StickyInfo = () => {
     const userRecords = useSelector((state) => state.userRecords);
     const userDiary = useSelector((state) => state.userDiary)
     const diaryEntry = useDiaryEntry(calendarDate);
+    const dispatch = useDispatch();
     console.log(diaryEntry, "diaryEntry")
     const handleDateClick = (date) => {
         // setSelectedDate(date);
+        dispatch(setCalendarDate(date))
     };
     const record = useUserRecord(calendarDate);
     console.log(record, "record")
@@ -64,7 +67,8 @@ const StickyInfo = () => {
                                 <div className="absolute left-0 bottom-full">
                                     <Calendar
                                         showContextMenu={true}
-                                        className="p-5 text-gray-200 border-2 border-b-0 rounded-lg bg-gradient-to-r from-teal-900 to-teal-900/95 backdrop:blur-lg w-fit" onDateClick={handleDateClick} diaryDates={diaryDates} />
+                                        className="p-5 text-gray-200 border-2 border-b-0 rounded-lg bg-gradient-to-r from-teal-900 to-teal-900/95 backdrop:blur-lg w-fit"
+                                        onDateClick={handleDateClick} diaryDates={diaryDates} />
                                 </div>
                             )}
                         </div>
