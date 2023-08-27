@@ -135,7 +135,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
         return (
             <td
                 key={moment(date).format('DD-MM-YYYY')}
-                className={`cursor-pointer  hover:bg-gray-200/30 rounded-sm relative ${isContextMenuDate && 'bg-gray-200/30'} ${isActive ? ' bg-teal-500 hover:bg-teal-500 text-white' : ''}`}
+                className={`cursor-pointer  hover:bg-gray-200/30 rounded-sm relative ${isContextMenuDate && 'bg-gray-200/30'} ${isActive ? ' bg-cyan-400 hover:bg-cyan-400 text-white' : ''}`}
                 onClick={() => handleDateClick(date)}
             >
                 <div className={`absolute bottom-[0.5px] right-0 left-0 z-10 ${isInDiary ? ' border-b-[3px] rounded-t-md rounded-b-none border-green-500' : ''}`} ></div>

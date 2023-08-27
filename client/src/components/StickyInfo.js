@@ -37,9 +37,9 @@ const StickyInfo = () => {
 
     const handleActiveClass = (isActive) => {
         if (isActive) {
-            return "text-cyan-500 flex items-center shadow-[inset_0_1px_-2px_rgba(0,0,0,0.6)] justify-center bg-gray-300/10 rounded-md p-2";
+            return "text-teal-400 flex items-center shadow-[inset_0_1px_-2px_rgba(0,0,0,0.6)] justify-center bg-gray-300/10 rounded-md p-2";
         } else {
-            return "text-cyan-600 group-hover:text-cyan-500 flex items-center justify-center hover:text-cyan-500 p-2";
+            return "text-teal-500 group-hover:text-cyan-400 flex items-center justify-center hover:text-teal-400 p-2";
         }
     }
 
@@ -50,14 +50,14 @@ const StickyInfo = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 1, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed bottom-0 left-0 right-0 z-40 invisible py-2 mt-10 border-t-2 rounded-t-lg bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 sm:visible text-cyan-600 border-cyan-500">
+                className="fixed bottom-0 left-0 right-0 z-40 invisible py-2 mt-10 text-gray-300 border-t-2 border-gray-300 rounded-t-lg bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 sm:visible">
                 {isbottommBarVisible ? (
                     <div className="grid items-center grid-cols-5 gap-10">
 
                         <div className="relative flex flex-col items-center justify-center h-full col-span-1 p-4 text-center cursor-pointer place-content-start"
                             onMouseEnter={() => setIsCalendarVisible(true)} onMouseLeave={() => setIsCalendarVisible(false)}>
                             <div className='flex items-center justify-between gap-2 '>
-                                <BsCalendarWeek size={40} className={`text-cyan-600`} />
+                                <BsCalendarWeek size={40} className={`text-teal-500`} />
                                 <p className="text-xl font-bold group">{calendarDate}</p>
                             </div>
                             {isCalendarVisible && (
@@ -94,10 +94,10 @@ const StickyInfo = () => {
                                 <p className="text-4xl font-bold">{record?.personalInfo?.weight} kg</p>
                             </div>
                         </div>
-                        <button onClick={handleCollapse} className='absolute right-1 -top-2 text-cyan-600 hover:text-cyan-500'><BiSolidDownArrow size={40} /></button>
+                        <button onClick={handleCollapse} className='absolute text-teal-500 right-1 -top-2 hover:text-teal-400'><BiSolidDownArrow size={40} /></button>
                     </div>
                 ) : (
-                    <button onClick={handleCollapse} className='absolute right-1 -top-8 text-cyan-600 hover:text-cyan-500'><BiSolidUpArrow size={40} /></button>
+                    <button onClick={handleCollapse} className='absolute text-teal-500 right-1 -top-8 hover:text-teal-400'><BiSolidUpArrow size={40} /></button>
                 )
                 }
             </motion.div>
