@@ -53,12 +53,14 @@ const ProfileSetting = () => {
         }
 
         if (userChanges.birthDay || userChanges.bodyType || userChanges.gender) {
-            console.log(userChanges.birthDay, "userChanges")
 
             createModal('ReAuthModal', {
                 onConfirm: async (password) => {
                     const result = await reAuth(password);
                     if (result === true) {
+                        await dispatch(setInput({ name: 'birthDay', value: values.birthDay, reduxName: 'personalInfo' }))
+                        await dispatch(setInput({ name: 'bodyType', value: values.bodyType, reduxName: 'personalInfo' }))
+                        await dispatch(setInput({ name: 'gender', value: values.gender, reduxName: 'personalInfo' }))
                         await updateUserInfo();
                     }
                 },
@@ -107,17 +109,17 @@ const ProfileSetting = () => {
                                 <input id="firstName" defaultValue={user?.currentUser.firstName} type="text" className='w-full px-2 py-1 border-2 border-gray-400 rounded-md ' placeholder='First Name' />
                                 <label htmlFor="lastName" className='text-sm font-semibold text-gray-200'>Last Name</label>
                                 <input id="lastName" defaultValue={user?.currentUser.lastName} type="text" className='w-full px-2 py-1 border-2 border-gray-400 rounded-md ' placeholder='Last Name' /> */}
-                                {/* <div className="flex flex-col items-start">
+                                <div className="flex flex-col items-start">
                                     <label htmlFor="birthDay" className="-mb-3 text-gray-200 sm:mb-0"> Birthday</label>
                                     <input type="date"
                                         id='birthDay'
                                         className="border rounded sm:h-[38px] border-[hsl(0,0%,80%)] text-black"
                                         name="birthDay"
-                                        onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value, reduxName: 'personalInfo' }))}
-                                        defaultValue={user?.data?.personalInfo?.birthDay}
+                                        onChange={handleChange}
+                                        value={values.birthDay}
                                     />
-                                </div> */}
-                                <InputPrimary name="birthDay" type="date" label="Birth Day" className="w-full text-gray-200 h-9" reduxName="personalInfo" />
+                                </div>
+                                {/* <InputPrimary name="birthDay" type="date" label="Birth Day" className="w-full text-gray-200 h-9" /> */}
                                 <label htmlFor="bodyType" className="-mb-3 text-gray-200 sm:mb-0">
                                     Body Type
                                 </label>
@@ -127,9 +129,9 @@ const ProfileSetting = () => {
                                         className="w-full text-center bg-white border-2 rounded-lg h-9 border-slate-400 outline-slate-500"
                                         id="bodyType"
                                         name="bodyType"
-                                        value={user.data?.personalInfo?.bodyType}
-                                        onChange={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))}
-                                        onBlur={(e) => dispatch(setInput({ name: e.target.name, value: e.target.value }))}
+                                        value={values?.bodyType}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
                                     >
                                         {bodyTypes.map((bodyType) => (
                                             <option key={bodyType.value} value={bodyType.value}>
@@ -140,7 +142,18 @@ const ProfileSetting = () => {
                                     <BiSolidRightArrow className="hidden float-right w-8 h-8 text-teal-500 sm:block" />
                                 </div>
                                 <label htmlFor="gender" className='text-sm font-semibold text-gray-200'>Gender</label>
-                                <SelectInput id="gender" name="gender" reduxName="personalInfo" className='w-full border-gray-400 rounded-md ' options={['male', 'female']} />
+                                <select
+                                    className="w-full text-center bg-white border-2 rounded-lg h-9 border-slate-400 outline-slate-500"
+                                    id='gender'
+                                    name='gender'
+                                    value={values.gender}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                >
+                                    <option value={'female'}>Female</option>
+                                    <option value={'male'}>Male</option>
+                                </select>
+                                {/* <SelectInput id="gender" name="gender" reduxName="personalInfo" className='w-full border-gray-400 rounded-md ' options={['male', 'female']} /> */}
                                 <div className='flex items-center justify-between'>
                                     <span className={`capitalize text-slate-200`}>Email: </span>
                                     <ErrorMessage
@@ -200,7 +213,21 @@ const ProfileSetting = () => {
                                                 you normally wear a watch!
                                             </p>
                                             <form className="text-center md:mt-auto xl:mt-auto ">
-                                                <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" reduxName='personalInfo' />
+                                                {/* <SelectInput options={bodyTypes} label="My Fingers Are," name="bodyType" reduxName='personalInfo' /> */}
+                                                <label htmlFor="bodyType" className='text-base font-semibold text-gray-200 '>My fingers are</label>
+                                                <select
+                                                    defaultValue={user?.data?.personalInfo?.bodyType}
+                                                    id="bodyType"
+                                                    name="bodyType"
+                                                    onChange={handleChange}
+                                                    className="w-full text-center bg-white border-2 rounded-lg h-9 text-slate-700 border-slate-400 outline-slate-500">
+
+                                                    {bodyTypes.map((bodyType) => (
+                                                        <option key={bodyType.value} value={bodyType.value}>
+                                                            {bodyType.status}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             </form>
                                         </span>
                                     </div>
