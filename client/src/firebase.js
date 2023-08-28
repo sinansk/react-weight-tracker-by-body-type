@@ -156,14 +156,60 @@ export const deleteAccount = async (password) => {
     return false;
   }
 };
-export const resetPassword = async (email) => {
+export const resetPassword = async (email, password) => {
+  const user = auth.currentUser;
+  const credential = EmailAuthProvider.credential(user.email, password);
   try {
+    await reauthenticateWithCredential(user, credential);
     await sendPasswordResetEmail(auth, email)
     toast.success("Password reset email sent")
   } catch (error) {
     toast.error(error.message)
   }
 }
+
+export const updateEmail = async (email, password) => {
+  const user = auth.currentUser;
+  const credential = EmailAuthProvider.credential(user.email, password);
+  try {
+    await reauthenticateWithCredential(user, credential);
+    await updateEmail(auth.currentUser, email);
+    toast.success("Email updated successfully.");
+    return true;
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+    return false;
+  }
+};
+
+export const updatePassword = async (password) => {
+  const user = auth.currentUser;
+  const credential = EmailAuthProvider.credential(user.email, password);
+  try {
+    await reauthenticateWithCredential(user, credential);
+    await updatePassword(auth.currentUser, password);
+    toast.success("Password updated successfully.");
+    return true;
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+    return false;
+  }
+};
+
+export const updateProfile = async (data) => {
+  const user = auth.currentUser;
+  try {
+    await updateProfile(user, data);
+    toast.success("Profile updated successfully.");
+    return true;
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+    return false;
+  }
+};
 
 export const addUserInfo = async (data) => {
   console.log(data, "addUserInfo")

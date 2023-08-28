@@ -46,7 +46,7 @@ const Navbar = () => {
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
           </div>
-          <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center fixed top-0 left-0 right-0 bottom-0 overflow-hidden bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 text-gray-200 z-10 w-screen h-screen` : `hidden`}`}>
+          <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center absolute top-0 left-0 right-0 bottom-0 overflow-hidden bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 text-gray-200 z-10 w-screen h-screen` : `hidden`}`}>
             <div className="absolute top-0 right-0 px-4 py-4" onClick={() => setIsNavOpen(false)}>
               <svg
                 className="w-8 h-8 text-teal-600"
@@ -116,15 +116,15 @@ const Navbar = () => {
             </NavLink>
           ))}
           {currentUser && (
-            <div className="relative z-50">
+            <div className="z-30">
               <button
                 onClick={toggleMenu}
-                className="px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md lg:mx-4"
+                className="relative px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md lg:mx-4"
               >
                 PROFILE
               </button>
               {isMenuOpen && (
-                <div className="absolute left-0 right-0 py-2 mt-2 border rounded shadow-lg bg-slate-800">
+                <div className="absolute py-2 mt-2 border rounded shadow-lg bg-slate-800">
                   <NavLink
                     onClick={() => setIsMenuOpen(false)}
                     to="/settings"

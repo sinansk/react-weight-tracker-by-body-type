@@ -55,6 +55,8 @@ const ProfileSetting = () => {
                         <input id="email" defaultValue={user.currentUser.email} type="email" className='w-full px-2 py-1 border-2 border-gray-400 rounded-md ' placeholder='Email' />
                         <label htmlFor="password" className='text-sm font-semibold text-gray-200'>Password</label>
                         <input id="password" defaultValue="" type="password" className='w-full px-2 py-1 border-2 border-gray-400 rounded-md ' placeholder='Password' />
+                        <label htmlFor="confirmPassword" className='text-sm font-semibold text-gray-200'>Confirm Password</label>
+                        <input id="confirmPassword" defaultValue="" type="password" className='w-full px-2 py-1 border-2 border-gray-400 rounded-md ' placeholder='Confirm Password' />
                     </div>
                     <div className='flex flex-col col-span-1 gap-3 p-2 text-gray-200 sm:p-5'>
                         <h1 className='text-2xl text-center text-gray-200'>INFO</h1>
@@ -84,7 +86,6 @@ const ProfileSetting = () => {
                     </div>
                     <div className='flex flex-col items-center justify-start col-span-2 col-start-1 row-start-2 gap-3'>
                         <ButtonPrimary type='submit' className='w-1/2'>Save</ButtonPrimary>
-
                     </div>
                 </div>
                 <button
