@@ -7,17 +7,6 @@ export const userSlice = createSlice({
   initialState: {
     currentUser: null,
     data: {
-      // personalInfo: {
-      //   birthDay: "1993-01-29",
-      //   gender: "male",
-      //   height: 169,
-      //   weight: 60,
-      //   age: 29,
-      //   bodyType: "Ectomorph",
-      //   bodyGoal: "maintain weight",
-      //   bodyGoalStatus: "Maintain Weight",
-      //   activityLevel: "Sedentary: little or no exercise",
-      // },
       personalInfo: {},
       measurements: {},
       idealMeasurements: {},
@@ -32,7 +21,6 @@ export const userSlice = createSlice({
         calorieNeedByBodyGoal: null,
       },
     },
-
     status: "idle",
     error: null,
   },
@@ -42,7 +30,6 @@ export const userSlice = createSlice({
     },
     logout: (state) => {
       state.currentUser = null;
-
     },
     setInput: (state, action) => {
       const { name, value, reduxName } = action.payload;
