@@ -10,7 +10,9 @@ import {
   sendEmailVerification,
   EmailAuthProvider,
   reauthenticateWithCredential,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  updateProfile,
+  updatePassword
 } from "firebase/auth";
 import {
   getFirestore,
@@ -141,6 +143,7 @@ export const deleteStorageDirectory = async (uid, directoryPath) => {
 };
 
 export const deleteAccount = async (password) => {
+  console.log(password, "password")
   const user = auth.currentUser;
   const credential = EmailAuthProvider.credential(user.email, password);
   try {
@@ -183,12 +186,14 @@ export const updateEmail = async (email, password) => {
   }
 };
 
-export const updatePassword = async (password) => {
+export const updatePasswordHandle = async (oldPassword, newPassword) => {
+  console.log(oldPassword, newPassword, "updatePassword")
   const user = auth.currentUser;
-  const credential = EmailAuthProvider.credential(user.email, password);
+  const credential = EmailAuthProvider.credential(user.email, oldPassword);
   try {
-    await reauthenticateWithCredential(user, credential);
-    await updatePassword(auth.currentUser, password);
+    const result = await reauthenticateWithCredential(user, credential);
+    console.log(result, "result")
+    await updatePassword(user, newPassword);
     toast.success("Password updated successfully.");
     return true;
   } catch (error) {
@@ -198,9 +203,24 @@ export const updatePassword = async (password) => {
   }
 };
 
-export const updateProfile = async (data) => {
+export const reAuth = async (password) => {
   const user = auth.currentUser;
+  const credential = EmailAuthProvider.credential(user.email, password);
   try {
+    await reauthenticateWithCredential(user, credential);
+    return true;
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+};
+
+export const updateProfileHandle = async (password, data) => {
+  console.log(data, "updateProfile")
+  const user = auth.currentUser;
+  const credential = EmailAuthProvider.credential(user.email, password);
+  try {
+    await reauthenticateWithCredential(user, credential);
     await updateProfile(user, data);
     toast.success("Profile updated successfully.");
     return true;

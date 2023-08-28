@@ -12,7 +12,8 @@ const ReAuthModal = (data) => {
     const handleSubmit = async (e) => {
         console.log(form.password)
         e.preventDefault()
-        await deleteAccount(form.password)
+        console.log(data)
+        data.data.onConfirm(form.password)
     }
     return (
         <div className='w-full p-5 m-5 text-slate-700 rounded-xl sm:m-auto'>
