@@ -11,8 +11,10 @@ import { BiSolidHide, BiSolidRightArrow, BiSolidShow } from 'react-icons/bi'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import useUpdateUserInfo from '../utils/useUpdateUserInfo'
+import { useAuth } from '../context/AuthContext'
 const ProfileSetting = () => {
     const [showPassword, setShowPassword] = React.useState(false)
+    const { authData, setAuthData, loginHandleContext } = useAuth();
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
     const updateUserInfo = useUpdateUserInfo()
@@ -74,7 +76,7 @@ const ProfileSetting = () => {
         birthDay: Yup.date().required('Please enter your birthday'),
         bodyType: Yup.string().required('Please select your body type'),
         gender: Yup.string().required('Please select a gender'),
-        email: Yup.string().email('Please enter a valid email'),
+        email: Yup.string().email().required('Please enter a valid email'),
         password: Yup.string().min(6, 'Password must be at least 6 characters'),
         confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
     })
@@ -85,9 +87,9 @@ const ProfileSetting = () => {
                 displayName: user?.currentUser?.displayName || '',
                 birthDay: user?.data?.personalInfo?.birthDay || '',
                 bodyType: user?.data?.personalInfo?.bodyType || '',
-                gender: user?.data?.personalInfo?.gender || '',
-                email: user?.currentUser?.email || '',
-                password: '',
+                gender: user?.data?.personalInfo?.gender,
+                email: user?.currentUser?.email,
+                password: authData.password,
                 confirmPassword: '',
             }} onSubmit={(values) => handleSubmit({ values })} validationSchema={validationSchema} >
                 {({ values, errors, touched, handleChange, handleBlur }) => (
@@ -162,7 +164,7 @@ const ProfileSetting = () => {
                                         className="text-red-500 "
                                     />
                                 </div>
-                                <Field name="email" type="email" label="Email" className="w-full h-9" />
+                                <Field required name="email" type="email" label="Email" className="w-full h-9" />
                                 <div className='flex items-center justify-between'>
                                     <span className={`capitalize text-slate-200`}>Password: </span>
                                     <ErrorMessage
@@ -171,7 +173,7 @@ const ProfileSetting = () => {
                                         className="text-red-500 "
                                     />
                                 </div>
-                                <Field name="password" type='password' label="Password" className="w-full h-9 " />
+                                <Field required name="password" type='password' label="Password" className="w-full h-9 " />
                                 <div className='flex items-center justify-between'>
                                     <span className={`capitalize text-slate-200`}>Confirm Password: </span>
                                     <ErrorMessage
@@ -249,7 +251,7 @@ const ProfileSetting = () => {
                     </Form>
                 )}
             </Formik>
-        </div>
+        </div >
     )
 }
 

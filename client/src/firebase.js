@@ -98,7 +98,16 @@ export const login = async (email, password) => {
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     if (user) {
-      store.dispatch(loginHandle(user))
+      store.dispatch(loginHandle(
+        {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          phoneNumber: user.phoneNumber,
+        }
+      ))
       store.dispatch(fetchUserInfo())
       // getUserInfo(user.uid)
       // store.dispatch(fetchCalorieRecords(user.uid))
