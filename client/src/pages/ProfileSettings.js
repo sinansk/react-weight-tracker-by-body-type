@@ -95,7 +95,7 @@ const ProfileSetting = () => {
                             <div className='flex flex-col items-start justify-center col-span-1 gap-2 sm:p-5'>
                                 <h1 className='text-2xl text-left text-gray-200 '>Profile Settings</h1>
                                 <div className='flex items-center justify-between'>
-                                    <span className={`capitalize text-slate-200`}>Display Name: </span>
+                                    <span className={`capitalize text-slate-200`}>Username: </span>
                                     <ErrorMessage
                                         name='displayName'
                                         component="div"
