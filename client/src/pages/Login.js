@@ -7,14 +7,13 @@ import { useAuth } from "../context/AuthContext";
 const Login = () => {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
-  const { authData, setAuthData, loginHandleContext } = useAuth();
-  console.log("loginpage", authData)
+
+  const [form, setForm] = useState({ email: "", password: "" })
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await login(authData.email, authData.password);
-    loginHandleContext(authData.email, authData.password);
+    const user = await login(form.email, form.password);
     console.log("loginpage", user)
     // user.emailVerified &&
     if (user) {
@@ -23,11 +22,10 @@ const Login = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const inputValue = type === 'checkbox' ? checked : value;
-    setAuthData({
-      ...authData,
-      [name]: inputValue,
+    const { name, value, } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
     });
   };
   return (
@@ -47,7 +45,7 @@ const Login = () => {
                 autoFocus
                 autoComplete="on"
                 required
-                value={authData.email}
+                value={form.email}
                 onChange={handleInputChange}
               />
             </div>
@@ -62,21 +60,12 @@ const Login = () => {
                 minLength="6"
                 className="w-full px-4 py-3 mt-2 bg-gray-200 border rounded-lg focus:border-blue-500 focus:bg-white focus:outline-none"
                 required
-                value={authData.password}
+                value={form.password}
                 onChange={handleInputChange}
               />
             </div>
 
             <div className="flex items-center justify-between mt-2 text-right">
-              <div className="flex items-center ">
-                <input type="checkbox"
-                  checked={authData.rememberMe}
-                  onChange={handleInputChange}
-                  name="rememberMe"
-                  id="rememberMe"
-                  className="inline-block px-1 mr-1 text-blue-500 border rounded-sm cursor-pointer accent-slate-800 " />
-                <label htmlFor="rememberMe" className="inline-block mr-1 text-sm font-semibold text-gray-700">Remember Me</label>
-              </div>
               <button type='button'
                 onClick={() => createModal("EmailModal")}
                 className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
@@ -86,7 +75,7 @@ const Login = () => {
             </div>
 
             <button
-              diabled={authData.email || authData.password}
+              diabled={form.email || form.password}
               type="submit"
               className="block w-full px-4 py-3 mt-6 font-semibold text-white bg-teal-500 rounded-lg hover:bg-teal-400 focus:bg-teal-400"
             >

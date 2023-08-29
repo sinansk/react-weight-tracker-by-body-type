@@ -12,7 +12,6 @@ import useUpdateUserInfo from '../utils/useUpdateUserInfo'
 import { useAuth } from '../context/AuthContext'
 const ProfileSetting = () => {
     const [showPassword, setShowPassword] = React.useState(false)
-    const { authData } = useAuth();
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
     const updateUserInfo = useUpdateUserInfo()
@@ -87,7 +86,7 @@ const ProfileSetting = () => {
                 bodyType: user?.data?.personalInfo?.bodyType || '',
                 gender: user?.data?.personalInfo?.gender,
                 email: user?.currentUser?.email,
-                password: authData.password,
+                password: "",
                 confirmPassword: '',
             }} onSubmit={(values) => handleSubmit({ values })} validationSchema={validationSchema} >
                 {({ values, errors, touched, handleChange, handleBlur }) => (
@@ -103,18 +102,18 @@ const ProfileSetting = () => {
                                         className="text-red-500 "
                                     />
                                 </div>
-                                <Field value={values.displayName} name="displayName" type="text" label="Display Name" className="w-full h-9" placeHolder="John Doe" />
-                                <div className="flex flex-col items-start">
-                                    <label htmlFor="birthDay" className="-mb-3 text-gray-200 sm:mb-0"> Birthday</label>
-                                    <input type="date"
-                                        id='birthDay'
-                                        className="border rounded sm:h-[38px] border-[hsl(0,0%,80%)] text-black"
-                                        name="birthDay"
-                                        onChange={handleChange}
-                                        value={values.birthDay}
-                                    />
-                                </div>
-                                <label htmlFor="bodyType" className="-mb-3 text-gray-200 sm:mb-0">
+                                <Field value={values.displayName} name="displayName" type="text" label="Display Name" className="w-full px-2 rounded-md h-9" placeHolder="John Doe" />
+
+                                <label htmlFor="birthDay" className="text-gray-200"> Birthday</label>
+                                <input type="date"
+                                    id='birthDay'
+                                    className="border rounded-md h-9 border-[hsl(0,0%,80%)] text-black"
+                                    name="birthDay"
+                                    onChange={handleChange}
+                                    value={values.birthDay}
+                                />
+
+                                <label htmlFor="bodyType" className="text-gray-200 ">
                                     Body Type
                                 </label>
                                 <div className='flex items-center justify-between w-full gap-3'>
@@ -137,7 +136,7 @@ const ProfileSetting = () => {
                                 </div>
                                 <label htmlFor="gender" className='text-sm font-semibold text-gray-200'>Gender</label>
                                 <select
-                                    className="w-full text-center bg-white border-2 rounded-lg h-9 border-slate-400 outline-slate-500"
+                                    className="w-full text-center bg-white border-2 rounded-md h-9 border-slate-400 outline-slate-500"
                                     id='gender'
                                     name='gender'
                                     value={values.gender}
@@ -155,7 +154,7 @@ const ProfileSetting = () => {
                                         className="text-red-500 "
                                     />
                                 </div>
-                                <Field required name="email" type="email" label="Email" className="w-full h-9" />
+                                <Field required name="email" type="email" label="Email" className="w-full px-2 rounded-md h-9" />
                                 <div className='flex items-center justify-between'>
                                     <span className={`capitalize text-slate-200`}>Password: </span>
                                     <ErrorMessage
@@ -164,7 +163,7 @@ const ProfileSetting = () => {
                                         className="text-red-500 "
                                     />
                                 </div>
-                                <Field required name="password" type='password' label="Password" className="w-full h-9 " />
+                                <Field required name="password" type='password' label="Password" className="w-full px-2 rounded-md h-9 " />
                                 <div className='flex items-center justify-between'>
                                     <span className={`capitalize text-slate-200`}>Confirm Password: </span>
                                     <ErrorMessage
@@ -174,7 +173,7 @@ const ProfileSetting = () => {
                                     />
                                 </div>
                                 <div className='relative flex items-center w-full'>
-                                    <Field name="confirmPassword" type={showPassword ? 'text' : 'password'} label="Confirm Password" className="w-full h-9 text-slate-700" />
+                                    <Field name="confirmPassword" type={showPassword ? 'text' : 'password'} label="Confirm Password" className="w-full px-2 rounded-md h-9 text-slate-700" />
                                     <button type="button" onClick={() => setShowPassword(!showPassword)}
                                         className='absolute my-auto right-3 text-slate-800'>
                                         {showPassword ? <BiSolidHide className='w-6 h-6' /> : <BiSolidShow className='w-6 h-6' />}
@@ -198,8 +197,8 @@ const ProfileSetting = () => {
                                                 Please wrap your thumb and forefinger around your wrist in the area
                                                 you normally wear a watch!
                                             </p>
-                                            <form className="text-center md:mt-auto xl:mt-auto ">
-                                                <label htmlFor="bodyType" className='text-base font-semibold text-gray-200 '>My fingers are</label>
+                                            <form className="p-3 text-center md:mt-auto xl:mt-auto">
+                                                <label htmlFor="bodyType" className='text-base font-semibold text-gray-200 underline'>My fingers are</label>
                                                 <select
                                                     defaultValue={user?.data?.personalInfo?.bodyType}
                                                     id="bodyType"
