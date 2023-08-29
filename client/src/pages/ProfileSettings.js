@@ -19,7 +19,7 @@ const ProfileSetting = () => {
         const userChanges = {
             displayName: values.displayName !== user.currentUser.displayName,
             email: values.email !== user.currentUser.email,
-            password: values.password === values.confirmPassword,
+            password: values.password.length >= 6 && values.password === values.confirmPassword,
             birthDay: values.birthDay !== user.data.personalInfo.birthDay,
             bodyType: values.bodyType !== user.data.personalInfo.bodyType,
             gender: values.gender !== user.data.personalInfo.gender,
@@ -87,7 +87,7 @@ const ProfileSetting = () => {
                 gender: user?.data?.personalInfo?.gender,
                 email: user?.currentUser?.email,
                 password: "",
-                confirmPassword: '',
+                confirmPassword: "",
             }} onSubmit={(values) => handleSubmit({ values })} validationSchema={validationSchema} >
                 {({ values, errors, touched, handleChange, handleBlur }) => (
                     <Form >
@@ -163,7 +163,7 @@ const ProfileSetting = () => {
                                         className="text-red-500 "
                                     />
                                 </div>
-                                <Field required name="password" type='password' label="Password" className="w-full px-2 rounded-md h-9 " />
+                                <Field name="password" type='password' label="Password" className="w-full px-2 rounded-md h-9 " />
                                 <div className='flex items-center justify-between'>
                                     <span className={`capitalize text-slate-200`}>Confirm Password: </span>
                                     <ErrorMessage
