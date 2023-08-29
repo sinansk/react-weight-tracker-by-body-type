@@ -235,7 +235,7 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                     <div className='flex flex-col items-center gap-5 justify-evenly'>
                         <h2>THERE IS NO FOOD</h2>
                         {calorieRoutines && (
-                            <div>
+                            <div className='choose-routine'>
                                 <h2>YOU CAN ADD FROM ROUTINES</h2>
                                 <div className='z-50 flex items-center justify-center gap-5 mt-5 text-slate-700'>
                                     <SearchDropdown

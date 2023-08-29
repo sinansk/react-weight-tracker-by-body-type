@@ -30,7 +30,7 @@ const Navbar = () => {
     { path: "/dailycalorie", text: "DAILY CALORIE" },
     { path: "/idealmeasurements", text: "IDEAL MEASUREMENTS" },
     ...(currentUser
-      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER" }, { path: "/mystats", text: "MY STATS" }]
+      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER", tourClassName: "calorie-tracker" }, { path: "/mystats", text: "MY STATS", tourClassName: "step1" }]
       : [
         { path: "/register", text: "REGISTER" },
         { path: "/login", text: "LOGIN" },
@@ -102,18 +102,20 @@ const Navbar = () => {
           </div>
         </section>
         <div className="items-center hidden mb-2 bg-transparent md:min-h-8 md:py-1 xl:px-10 lg:w-screen lg:flex sm:flex-1 justify-evenly transition-all-900">
-          {NavLinks.map(({ path, text }, index) => (
+          {NavLinks.map(({ path, text, tourClassName }, index) => (
+
             <NavLink
               key={index}
               to={path}
               className={({ isActive }) =>
                 isActive
-                  ? "border-2 border-teal-600 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-teal-500 text-white"
-                  : "  rounded-md mx-1 lg:mx-4 px-5 py-2 relative text-gray-200 after:bg-teal-500 after:absolute after:h-0.5 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+                  ? `${tourClassName} border-2 border-teal-600 rounded-md mx-1 lg:mx-4 px-5 py-2 bg-teal-500 text-white`
+                  : `${tourClassName}  rounded-md mx-1 lg:mx-4 px-5 py-2 relative text-gray-200 after:bg-teal-500 after:absolute after:h-0.5 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300`
               }
             >
               {text}
             </NavLink>
+
           ))}
           {currentUser && (
             <div className="z-30">

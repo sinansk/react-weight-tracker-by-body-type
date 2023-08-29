@@ -21,7 +21,7 @@ const CalorieTracker = () => {
 
 
     return (
-        <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 px-1.5'>
+        <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 px-1.5 calorie-tracker-page'>
             <div className=''>
                 {calendarDate &&
                     <DiaryCardComponent
@@ -35,7 +35,7 @@ const CalorieTracker = () => {
                     onDateClick={handleDateClick}
                     showContextMenu={true}
                 />
-                <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full" selectedDate={calendarDate} />
+                <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full search-food" selectedDate={calendarDate} />
                 <StickyInfo />
             </div>
             <div className='flex flex-col gap-16'>

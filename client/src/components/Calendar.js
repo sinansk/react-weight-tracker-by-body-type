@@ -97,10 +97,10 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
     }
 
     const contextMenuButtons = [
-        { label: 'Copy from date', icon: <AiFillCopy className='w-5 h-5' />, onClick: handleCopyFromDate, disabled: !isDateInDiary(contextMenuDate) },
+        { label: 'Copy from date', icon: <AiFillCopy className='w-5 h-5 copy-diary' />, onClick: handleCopyFromDate, disabled: !isDateInDiary(contextMenuDate) },
         { label: 'Copy to date', icon: <AiFillCheckSquare className='w-5 h-5' />, onClick: handleCopyToDate, disabled: !fromDate },
         { label: 'Delete diary', icon: <AiFillDelete className='w-5 h-5' />, onClick: handleDeleteFromDate, disabled: !isDateInDiary(contextMenuDate) },
-        { label: 'Save as routine', icon: <AiFillSave className='w-5 h-5' />, onClick: handleSaveAsRoutine, disabled: !isDateInDiary(contextMenuDate) },
+        { label: 'Save as routine', icon: <AiFillSave className='w-5 h-5 set-routine' />, onClick: handleSaveAsRoutine, disabled: !isDateInDiary(contextMenuDate) },
     ];
 
     const handleDateClick = (date) => {

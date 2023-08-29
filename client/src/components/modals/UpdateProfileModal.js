@@ -41,7 +41,7 @@ const UpdateProfileModal = () => {
             )
         } onSubmit={(values) => handleUpdate({ values })} validationSchema={measurementValidationSchema} >
             {({ values, errors, touched, handleChange, handleBlur }) => (
-                <Form className="p-2 sm:p-5 bg-gradient-to-t from-teal-900 via-slate-700 to-slate-800">
+                <Form className="p-2 sm:p-5 bg-gradient-to-t from-teal-900 via-slate-700 to-slate-800 step7">
                     <div className="flex flex-col w-full h-full min-w-full min-h-full gap-2 lg:divide-x lg:grid lg:grid-cols-6 lg:grid-rows-2">
                         <div className="relative w-full col-span-3 col-start-1 row-span-2 row-start-1 p-2 mx-auto font-mono rounded-lg">
                             <div className="flex flex-col h-full sm:w-80">

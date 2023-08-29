@@ -57,7 +57,7 @@ const StickyInfo = () => {
                 {isbottommBarVisible ? (
                     <div className="grid items-center grid-cols-5 gap-10">
 
-                        <div className="relative flex flex-col items-center justify-center h-full col-span-1 p-4 text-center cursor-pointer place-content-start"
+                        <div className="relative flex flex-col items-center justify-center h-full col-span-1 p-4 text-center cursor-pointer calendar place-content-start"
                             onMouseEnter={() => setIsCalendarVisible(true)} onMouseLeave={() => setIsCalendarVisible(false)}>
                             <div className='flex items-center justify-between gap-2 '>
                                 <BsCalendarWeek size={40} className={`text-teal-500`} />
