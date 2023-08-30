@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { setInput } from '../../redux/userRedux';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,7 +13,11 @@ const InputPrimary = ({ label, name, type, className, reduxName }) => {
     const handleInputChange = (event) => {
         dispatch(setInput({ reduxName, name, value: event.target.value }));
     };
+    useEffect(() => {
+        console.log(defaultValue, "defaultValue", typeof defaultValue)
+    }, [defaultValue])
 
+    console.log(type)
     return (
         <>
             <label className='text-gray-200' htmlFor={name}>{label}</label>
@@ -22,7 +26,7 @@ const InputPrimary = ({ label, name, type, className, reduxName }) => {
                 id={name}
                 className={`border-zinc-400 text-gray-700 w-full max-w-full sm:p-2 border-2 rounded-md sm:h-9  ${className}`}
                 // value={inputValue}
-                defaultValue={defaultValue ?? ""}
+                defaultValue={defaultValue}
                 onChange={handleInputChange}
                 placeholder={label}
             />

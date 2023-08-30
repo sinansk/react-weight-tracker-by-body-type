@@ -10,7 +10,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup"
 import PhotoUploadComponent from "../MembershipComponents/PhotoUploadComponent";
 
-const UpdateProfileModal = () => {
+const AddNewRecordModal = () => {
     const dispatch = useDispatch()
     const userPersonalInfo = useSelector((state) => state.user.data.personalInfo)
     const userRecords = useSelector((state) => state.userRecords?.records)
@@ -105,4 +105,4 @@ const UpdateProfileModal = () => {
     );
 };
 
-export default UpdateProfileModal
+export default AddNewRecordModal

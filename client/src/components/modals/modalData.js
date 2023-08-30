@@ -2,12 +2,12 @@ import MeasurementsModal from "./MeasurementsModal";
 import UserInfoModal from "./UserInfoModal";
 import ConfirmationModal from "./ConfirmationModal";
 import PhotoUpdateModal from "./PhotoUpdateModal";
-import UpdateProfileModal from "./UpdateProfileModal";
 import ImageModal from "./ImageModal";
 import AddCustomFoodModal from "./AddCustomFoodModal";
 import ReAuthModal from "./ReAuthModal";
 import EmailModal from "./EmailModal";
 import SaveRoutineModal from "./SaveRoutineModal";
+import AddNewRecordModal from "./AddNewRecordModal";
 
 const modalData = [
     {
@@ -31,8 +31,8 @@ const modalData = [
         element: PhotoUpdateModal
     },
     {
-        name: "UpdateProfileModal",
-        element: UpdateProfileModal
+        name: "AddNewRecordModal",
+        element: AddNewRecordModal
     },
     {
         name: "ImageModal",
