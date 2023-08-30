@@ -1,35 +1,33 @@
-import UpdateProfileModal from "./modals/UpdateProfileModal";
-
 export const myStatsSteps = [
     {
-        target: ".step1",
+        target: ".mystats",
         content: "Welcome to the Fitness Calculator App! This app will help you to calculate and track your ideal weight, body fat, daily calorie need and ideal measurements. Let's get started!",
         disableBeacon: true,
         autoStart: true,
     },
     {
-        target: ".step2",
+        target: ".actual-info",
         content: "You can see your actual information in here.",
         disableBeacon: true,
     },
     {
-        target: ".step3",
+        target: ".calculated-results",
         content: "You can see your calculated results in here.",
         disableBeacon: true,
     },
     {
-        target: ".step4",
+        target: ".measurements",
         content: "You can see your your actual body measurements and ideal body measurements in here.",
         disableBeacon: true,
     },
     {
-        target: ".step5",
+        target: ".records",
         content: "You can see your past records from here.",
         disableBeacon: true,
         position: "bottom",
     },
     {
-        target: ".step6",
+        target: ".new-record",
         content: "You can add new record from here.",
         disableBeacon: true,
     },

@@ -114,7 +114,7 @@ const UserRecordsComponent = () => {
   return (
 
     <div className="container z-20 h-screen mx-auto mt-5 overflow-auto text-sm text-gray-200 sm:text-base no-scrollbar ">
-      <table className="min-w-full divide-y divide-gray-200 step5">
+      <table className="min-w-full divide-y divide-gray-200 records">
         {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
           <LoadingComponent />
         ) : (

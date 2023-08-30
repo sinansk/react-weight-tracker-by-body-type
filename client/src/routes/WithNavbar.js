@@ -15,8 +15,8 @@ const WithNavbar = () => {
     const steps = useSelector((state) => state.uiTour?.steps);
     const tourRun = useSelector((state) => state.uiTour?.run);
     const tourStepIndex = useSelector((state) => state.uiTour?.stepIndex);
-    const tourActive = useSelector((state) => state.uiTour?.tourActive);
     const location = useLocation();
+    const tourActive = useSelector((state) => state.uiTour?.tourActive);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -24,11 +24,9 @@ const WithNavbar = () => {
         if (location.pathname === '/mystats') {
             dispatch(setTourSteps(myStatsSteps));
             dispatch(setTourRun(true));
-
         } else if (location.pathname === '/calorie-tracker') {
             dispatch(setTourSteps(calorieTrackerSteps));
             dispatch(setTourRun(true));
-
         } else {
             dispatch(setTourRun(false));
             dispatch(setTourActive(false));
@@ -44,6 +42,7 @@ const WithNavbar = () => {
             dispatch(setTourStepIndex(index + 1));
         } else if (type === 'step:after' && index === steps.length - 1) {
             dispatch(setTourRun(false));
+            dispatch(setTourStepIndex(0));
             dispatch(setTourActive(false));
         } else if (type === 'step:after' && action === 'prev' && index === 0) {
             dispatch(setTourRun(false));
@@ -66,10 +65,13 @@ const WithNavbar = () => {
             dispatch(setTourRun(false));
             dispatch(setTourStepIndex(0));
             dispatch(setTourSteps(calorieTrackerSteps));
+            setTourActive(true)
             navigate('/calorie-tracker')
+
         } else if (location.pathname === '/calorie-tracker' && index === 0) {
             dispatch(setTourRun(true));
         }
+
     };
 
     return (
