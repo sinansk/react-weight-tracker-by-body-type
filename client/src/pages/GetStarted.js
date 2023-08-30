@@ -14,6 +14,7 @@ import IdealWeightComponent from "../components/IdealWeightComponent";
 import moment from "moment";
 import useUpdateUserInfo from "../utils/useUpdateUserInfo";
 import toast from "react-hot-toast";
+import { setTourActive } from "../redux/uiTour";
 
 const GetStarted = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const GetStarted = () => {
 
       if (isValid) {
         await updateUserInfo();
+        dispatch(setTourActive(true))
         const timeoutId = setTimeout(() => {
           navigate("/mystats", { replace: true });
         }, 6000);

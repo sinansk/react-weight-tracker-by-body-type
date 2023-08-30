@@ -58,16 +58,19 @@ const StickyInfo = () => {
                     <div className="grid items-center grid-cols-5 gap-10">
 
                         <div className="relative flex flex-col items-center justify-center h-full col-span-1 p-4 text-center cursor-pointer calendar place-content-start"
-                            onMouseEnter={() => setIsCalendarVisible(true)} onMouseLeave={() => setIsCalendarVisible(false)}>
+                            onMouseEnter={() => setIsCalendarVisible(true)}
+                            onMouseLeave={() => setIsCalendarVisible(false)}
+                            onClick={() => setIsCalendarVisible(true)}
+                        >
                             <div className='flex items-center justify-between gap-2 '>
                                 <BsCalendarWeek size={40} className={`text-teal-500`} />
                                 <p className="text-xl font-bold group">{calendarDate}</p>
                             </div>
                             {isCalendarVisible && (
-                                <div className="absolute left-0 bottom-full">
+                                <div className="absolute left-0 z-30 bottom-full calendar">
                                     <Calendar
                                         showContextMenu={true}
-                                        className="p-5 text-gray-200 border-2 border-b-0 rounded-lg bg-gradient-to-r from-teal-900 to-teal-900/95 backdrop:blur-lg w-fit"
+                                        className="p-5 text-gray-200 border-2 border-b-0 rounded-lg  bg-gradient-to-r from-teal-900 to-teal-900/95 backdrop:blur-lg w-fit"
                                         onDateClick={handleDateClick} diaryDates={diaryDates} />
                                 </div>
                             )}

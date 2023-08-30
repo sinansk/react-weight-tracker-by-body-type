@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DiaryCardComponent from '../components/MembershipComponents/DiaryCardComponent'
 import SearchFoodComponent from '../components/MembershipComponents/SearchFoodComponent'
 import Calendar from '../components/Calendar'
@@ -18,7 +18,6 @@ const CalorieTracker = () => {
 
     const diaryDates = userDiary.calorieDiary?.map((diaryItem) => diaryItem.date);
     const [calendarExpand, setCalendarExpand] = useState(false)
-
 
     return (
         <div className='flex flex-col py-10 sm:overflow-hidden sm:px-20 px-1.5 calorie-tracker-page'>

@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutHandle } from "../../redux/userRedux";
 import { logOut } from "../../firebase";
@@ -22,7 +22,7 @@ const Navbar = () => {
   const toggleNav = () => {
     setIsNavOpen((prev) => !prev);
   };
-
+  const location = useLocation();
   const NavLinks = [
     { path: "/", text: "RESET" },
     { path: "/idealweight", text: "IDEAL WEIGHT" },
@@ -30,13 +30,12 @@ const Navbar = () => {
     { path: "/dailycalorie", text: "DAILY CALORIE" },
     { path: "/idealmeasurements", text: "IDEAL MEASUREMENTS" },
     ...(currentUser
-      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER", tourClassName: "calorie-tracker" }, { path: "/mystats", text: "MY STATS", tourClassName: "step1" }]
+      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER", tourClassName: location.pathname !== "/calorie-tracker" && "calorie-tracker" }, { path: "/mystats", text: "MY STATS", tourClassName: "step1" }]
       : [
         { path: "/register", text: "REGISTER" },
         { path: "/login", text: "LOGIN" },
       ]),
   ];
-
   return (
     <div className="z-50 flex items-center justify-between overflow-hidden border-gray-400 transition-all-300 lg:border-b">
       <nav className="flex w-screen">

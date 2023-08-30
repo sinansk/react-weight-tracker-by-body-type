@@ -48,42 +48,8 @@ const App = () => {
           </Route>
           <Route element={<ProtectedRoutes />}>
             <Route element={<WithNavbar />}>
-              <Route path="/mystats" element={<React.Fragment>
-                <MyStats />
-                <ReactJoyride steps={myStatsSteps}
-                  continuous={true}
-                  showProgress={true}
-                  showSkipButton={true}
-                  run={true}
-                  styles={{
-                    options: {
-                      arrowColor: '#fffbeb',
-                      backgroundColor: '#fffbeb',
-                      primaryColor: '#0284c7',
-                      textColor: '#004a14',
-                      zIndex: 1000,
-                    }
-                  }}
-                />
-              </React.Fragment>} />
-              <Route path="/calorie-tracker" element={<React.Fragment>
-                <CalorieTracker />
-                <ReactJoyride steps={calorieTrackerSteps}
-                  continuous={true}
-                  showProgress={true}
-                  showSkipButton={true}
-                  run={true}
-                  styles={{
-                    options: {
-                      arrowColor: '#fffbeb',
-                      backgroundColor: '#fffbeb',
-                      primaryColor: '#0284c7',
-                      textColor: '#004a14',
-                      zIndex: 1000,
-                    }
-                  }}
-                />
-              </React.Fragment>} />
+              <Route path="/mystats" element={<MyStats />} />
+              <Route path="/calorie-tracker" element={<CalorieTracker />} />
               <Route path="/settings" element={<ProfileSettings />} />
             </Route>
             <Route element={<WithOutNavbar />}>

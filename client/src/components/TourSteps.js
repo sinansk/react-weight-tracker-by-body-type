@@ -10,59 +10,99 @@ export const myStatsSteps = [
     {
         target: ".step2",
         content: "You can see your actual information in here.",
+        disableBeacon: true,
     },
     {
         target: ".step3",
         content: "You can see your calculated results in here.",
+        disableBeacon: true,
     },
     {
         target: ".step4",
         content: "You can see your your actual body measurements and ideal body measurements in here.",
+        disableBeacon: true,
     },
     {
         target: ".step5",
         content: "You can see your past records from here.",
+        disableBeacon: true,
         position: "bottom",
     },
     {
         target: ".step6",
         content: "You can add new record from here.",
+        disableBeacon: true,
     },
     {
         target: ".calorie-tracker",
-        content: "You can save and see your calorie records from here.",
+        content: (
+            <div>
+                You can interact with your own components through the spotlight.
+                <br />
+                Click the menu above!
+            </div>
+        ),
+        disableBeacon: true,
+        hideCloseButton: true,
+        hideFooter: true,
+        disableOverlayClose: true,
+        spotlightClicks: true,
     },
+
 ]
 
 export const calorieTrackerSteps = [
     {
         target: ".calorie-tracker-page",
-        content: "You can control your calorie intake from here.",
+        content: "You can track your calorie from this page.",
         disableBeacon: true,
-        autoStart: true,
+        disableOverlayClose: true,
+        spotlightClicks: true,
     },
     {
         target: ".search-food",
         content: "You can search for food and add to your diary from here.",
+        disableBeacon: true,
     },
     {
         target: ".add-custom-food",
         content: "If you want to add your own food, you can add and save to future use from here.",
+        disableBeacon: true,
     },
+    // {
+    //     target: ".choose-routine",
+    //     content: "You can use your template from here.",
+    // },
+]
+
+export const calendarSteps = [
+
     {
         target: ".calendar",
-        content: "You have full controls on your diary. You can copy, delete and save as routine your diary from here.",
+        content: "You have full control over the calendar.",
+        disableBeacon: true,
+        hideCloseButton: true,
+        hideFooter: true,
+        spotlightClicks: true,
+        styles: {
+            options: {
+                zIndex: 0,
+            },
+        },
     },
     {
         target: ".copy-diary",
         content: "You can copy your records to another day from here.",
+        disableBeacon: true,
+    },
+    {
+        target: ".delete-diary",
+        content: "You can delete your records from here.",
+        disableBeacon: true,
     },
     {
         target: ".set-routine",
         content: "You can set your diary as a template from here.",
-    },
-    {
-        target: ".choose-routine",
-        content: "You can use your template from here.",
+        disableBeacon: true,
     },
 ]
