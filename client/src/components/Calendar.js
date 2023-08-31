@@ -77,7 +77,6 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
             onSubmit: async (values) => {
                 console.log(values, "values")
                 await saveDiaryAsRoutine({
-
                     uid,
                     selectedDate: moment(contextMenuDate).format("DD-MM-YYYY"),
                     foods: calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY"))?.foods,
@@ -86,14 +85,6 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
                 })
             }
         })
-        // const routine = calorieDiary?.find((diaryItem) => diaryItem?.date === contextMenuDate?.format("DD-MM-YYYY")) ?? null
-        // await saveDiaryAsRoutine({
-        //     uid,
-        //     selectedDate: moment(contextMenuDate).format("DD-MM-YYYY"),
-        //     foods: routine?.foods,
-        //     totalNutrient: routine?.totalNutrient,
-        //     name: "test"
-        // })
     }
 
     const contextMenuButtons = [
@@ -152,7 +143,7 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
 
     const daysInMonth = [];
     const currentDay = firstDayOfMonth.clone();
-    while (currentDay.isBefore(endOfMonth, 'day')) {
+    while (currentDay.isSameOrBefore(endOfMonth, 'day')) {
         daysInMonth.push(currentDay.clone());
         currentDay.add(1, 'day');
     }
@@ -162,9 +153,9 @@ const Calendar = ({ className, diaryDates, onDateClick, showContextMenu }) => {
     ));
 
     const daysInMonthCells = daysInMonth.map((date) => renderCalendarCell(date));
-
     const totalSlots = blankDays.length + daysInMonthCells.length;
-    const lastBlankDays = Array.from({ length: 42 - totalSlots }, (_, index) => (
+    const lastBlankDaysCount = 42 - totalSlots;
+    const lastBlankDays = Array.from({ length: lastBlankDaysCount }, (_, index) => (
         <td key={`blank-${index + totalSlots}`} className="" />
     ));
 

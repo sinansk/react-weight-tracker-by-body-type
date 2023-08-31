@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, updateIdealMeasurements } from "./userInfoThunk";
+import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, fetchMacroNeed, updateIdealMeasurements } from "./userInfoThunk";
 import { converBodyGoalStatus } from "../utils/convertBodyGoalStatus";
 
 export const userSlice = createSlice({
@@ -128,6 +128,17 @@ export const userSlice = createSlice({
         state.status = "succeeded";
         state.data.idealMeasurements = action.payload
       })
+      .addCase(fetchMacroNeed.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchMacroNeed.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data.results.macroNeed = action.payload;
+      })
+      .addCase(fetchMacroNeed.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
   }
 });
 

@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { calculateMeasurements } from "../utils/calculateMeasurements";
-import { convertActivityLevel } from "../utils/convertActivityLevel";
+import { convertActivityLevel, convertActivityLevelForMacro } from "../utils/convertActivityLevel";
 import { fitnessRequest } from "../requestMethods";
+import { convertBodyGoalForMacro } from "../utils/convertBodyGoalStatus";
 
 export const fetchIdealWeight = createAsyncThunk(
     'user/fetchIdealWeight',
@@ -40,6 +41,19 @@ export const fetchCalorieNeed = createAsyncThunk(
             `/dailycalorie?age=${age}&gender=${gender}&height=${height}&weight=${weight}&activitylevel=${activityLevelApiValue}`
         );
 
+        return response.data.data;
+    }
+);
+
+export const fetchMacroNeed = createAsyncThunk(
+    "user/fetchMacroNeed",
+    async (_, { getState }) => {
+        const { height, weight, age, gender, activityLevel, bodyGoal } = getState().user.data.personalInfo;
+        const activityLevelApiValue = await convertActivityLevelForMacro(activityLevel)
+        const bodyGoalApiValue = await convertBodyGoalForMacro(bodyGoal)
+        const response = await fitnessRequest.get(
+            `macrocalculator?age=${age}&gender=${gender}&height=${height}&weight=${weight}&activitylevel=${activityLevelApiValue}&goal=${bodyGoalApiValue}`
+        )
         return response.data.data;
     }
 );

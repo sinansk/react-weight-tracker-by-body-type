@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIdealWeight, fetchCalorieNeed, fetchBodyFat, updateIdealMeasurements } from '../redux/userInfoThunk';
+import { fetchIdealWeight, fetchCalorieNeed, fetchBodyFat, updateIdealMeasurements, fetchMacroNeed } from '../redux/userInfoThunk';
 import { addUserInfo } from '../firebase';
 import { serverTimestamp } from 'firebase/firestore';
 import { fetchUserInfo } from '../redux/userRecordsThunk';
@@ -17,6 +17,7 @@ const useUpdateUserInfo = () => {
         dispatch(fetchCalorieNeed()),
         dispatch(fetchBodyFat()),
         dispatch(updateIdealMeasurements()),
+        dispatch(fetchMacroNeed()),
       ]);
       setDataFetchingCompleted(true);
     } catch (err) {

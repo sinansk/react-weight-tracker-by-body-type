@@ -23,7 +23,7 @@ const BodyFatComponent = ({ gender }) => {
                 <SelectInput options={weights} label="Weight" name="weight" className="w-32" reduxName={`personalInfo`} />
               </div>
               <div className="flex flex-col w-1/2 h-full sm:px-4 justify-evenly">
-                <SelectInput options={neck} label="Neck" name="neck" className="w-32" reduxName="measurements" />
+                <SelectInput options={neck} label="Neck" name="neck" className="w-32" reduxName="measurements" type="number" />
                 <SelectInput options={waist} label="Waist" name="waist" className="w-32" reduxName="measurements" />
                 <SelectInput options={hip} label="Hip" name="hip" className="w-32" reduxName="measurements" />
               </div>

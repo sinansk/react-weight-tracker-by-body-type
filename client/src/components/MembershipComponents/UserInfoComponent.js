@@ -28,7 +28,7 @@ const UserInfoComponent = () => {
 
   return (
     <div ref={bottomRef} className="flex flex-col gap-2 p-2 text-sm sm:text-base lg:grid lg:grid-cols-6 lg:grid-rows-5 lg:mx-20 lg:h-96">
-      <button onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" type="button" className="flex items-center justify-center col-span-6 gap-5 text-xs rounded-lg shadow-md new-record text-gray-50 lg:text-xl bg-cyan-400/80 hover:bg-cyan-400 backdrop-blur-md">
+      <button onClick={() => createModal("AddNewRecordModal")} title="Add Body Record" type="button" className="flex items-center justify-center col-span-6 gap-5 text-xs rounded-lg shadow-md new-record text-gray-50 lg:text-xl bg-cyan-400/80 hover:bg-cyan-400 backdrop-blur-md">
         <AiOutlineCloudUpload className="w-8 h-8 lg:w-14 lg:h-14" />
         <h3 className="font-bold">Add New Record</h3>
         <AiOutlineCloudUpload className="w-8 h-8 lg:w-14 lg:h-14" />

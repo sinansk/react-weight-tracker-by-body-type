@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DailyCalorieComponent from "../components/DailyCalorieComponent";
 import { useDispatch, useSelector } from "react-redux/";
-import { fetchCalorieNeed } from "../redux/userInfoThunk";
+import { fetchCalorieNeed, fetchMacroNeed } from "../redux/userInfoThunk";
 import ButtonPrimary from "../components/CommonComponents/ButtonPrimary";
 import ResultComponent from "../components/ResultComponent";
 import CalculatorLayout from "../components/CalculatorLayout";
@@ -19,6 +19,7 @@ const DailiyCalorie = () => {
     e.preventDefault();
     setLoading(true);
     await dispatch(fetchCalorieNeed())
+    await dispatch(fetchMacroNeed())
     setLoading(false)
   }
 

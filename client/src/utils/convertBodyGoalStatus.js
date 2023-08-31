@@ -6,3 +6,11 @@ export const converBodyGoalStatus = (value) => {
         return bodyGoals[index].status
     }
 }
+
+export const convertBodyGoalForMacro = (value) => {
+    console.log("value", value)
+    const index = bodyGoals.findIndex((item) => item.value === value);
+    if (index !== -1) {
+        return bodyGoals[index].apiValue
+    }
+}
