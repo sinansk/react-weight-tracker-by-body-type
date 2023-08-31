@@ -127,7 +127,7 @@ const AddNewRecordModal = () => {
                         </div>
                     </div>
                     <div className="flex mt-5">
-                        <ButtonPrimary type="submit" className="mx-auto " >UPDATE</ButtonPrimary>
+                        <ButtonPrimary type="submit" className="mx-auto " >CONFIRM</ButtonPrimary>
                     </div>
                 </Form>
             )}
