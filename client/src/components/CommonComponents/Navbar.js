@@ -1,13 +1,16 @@
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutHandle } from "../../redux/userRedux";
 import { logOut } from "../../firebase";
 import { MdLogout } from 'react-icons/md'
+import useOutSideClick from "../../utils/useOutsideClick";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null)
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -35,6 +38,8 @@ const Navbar = () => {
         { path: "/login", text: "LOGIN" },
       ]),
   ];
+
+  useOutSideClick(profileMenuRef, setIsMenuOpen)
   return (
     <div className="z-50 flex items-center justify-between overflow-hidden border-gray-400 transition-all-300 lg:border-b">
       <nav className="flex w-screen">
@@ -88,13 +93,6 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 </>
-                /* <NavLink
-                  to="/login"
-                  onClick={handleLogout}
-                  className="px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md lg:mx-4"
-                >
-                  LOG OUT
-                </NavLink> */
               )}
             </ul>
           </div>
@@ -116,7 +114,7 @@ const Navbar = () => {
 
           ))}
           {currentUser && (
-            <div className="z-30">
+            <div className="z-30" ref={profileMenuRef}>
               <button
                 onClick={toggleMenu}
                 className="relative px-5 py-2 mx-1 text-gray-200 border-2 border-teal-600 rounded-md lg:mx-4"
