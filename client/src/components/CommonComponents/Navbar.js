@@ -32,7 +32,7 @@ const Navbar = () => {
     { path: "/dailycalorie", text: "DAILY CALORIE" },
     { path: "/idealmeasurements", text: "IDEAL MEASUREMENTS" },
     ...(currentUser
-      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER", tourClassName: "/calorie-tracker" }, { path: "/mystats", text: "MY STATS", tourClassName: "mystats" }]
+      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER", tourClassName: "calorie-tracker" }, { path: "/mystats", text: "MY STATS", tourClassName: "mystats" }]
       : [
         { path: "/register", text: "REGISTER" },
         { path: "/login", text: "LOGIN" },

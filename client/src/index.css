@@ -35,10 +35,10 @@
   .card {
     @apply flex flex-col items-center h-56 p-4 mx-4 mb-2 border-2 shadow-md md:h-72 lg:h-96 lg:w-1/2 lg:mb-0 rounded-xl;
   }
-  .red-card {
+  .card-primary {
     @apply text-gray-200 border-cyan-300/30 bg-cyan-200/20;
   }
-  .blue-card {
+  .card-secondary {
     @apply text-gray-200 border-sky-400/30 bg-sky-500/10 ;
   }
 }

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import useUpdateUserInfo from "../../utils/useUpdateUserInfo"
 import ButtonPrimary from "../CommonComponents/ButtonPrimary";
 import SelectInput from "../CommonComponents/SelectInput";
-import { activityLevels, bodyGoals } from "../../data";
+import { activityLevels, bodyGoals, bodyTypes, heights, weights } from "../../data";
+
 import { setInput, setMeasurements } from "../../redux/userRedux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup"
@@ -40,7 +41,6 @@ const AddNewRecordModal = () => {
 
     return (
         <Formik initialValues={{
-            // date: new Date(),
             weight: userData.weight,
             height: userData.height,
             ...Object.fromEntries(

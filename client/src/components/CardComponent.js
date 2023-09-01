@@ -12,8 +12,8 @@ const CardComponent = ({ children, gender, className }) => {
         <div
             onClick={handleGender}
             className={`${className} card ${gender === "female"
-                ? `red-card`
-                : `blue-card`
+                ? `card-primary`
+                : `card-secondary`
                 }
           `}
         >{children}

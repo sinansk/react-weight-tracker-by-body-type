@@ -8,8 +8,8 @@ const BodyTypeInfoComponent = ({ gender }) => {
   return (
     <div
       className={`card ${gender === "female"
-        ? `red-card`
-        : `blue-card`
+        ? `card-primary`
+        : `card-secondary`
         }
           `}
     >

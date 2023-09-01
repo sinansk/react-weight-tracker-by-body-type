@@ -15,8 +15,8 @@ const GenderComponent = ({ className, gender, onClick }) => {
     <div
       onClick={handleGender}
       className={`${className} card cursor-pointer ${gender === "female"
-        ? `red-card`
-        : `blue-card`
+        ? `card-primary`
+        : `card-secondary`
         } ${user.data?.personalInfo?.gender === gender
           ? `outline outline-3  outline-offset-2 outline-teal-500`
           : ""} `}

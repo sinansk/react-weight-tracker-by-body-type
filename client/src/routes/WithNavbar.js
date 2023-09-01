@@ -21,17 +21,20 @@ const WithNavbar = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (location.pathname === '/mystats') {
-            dispatch(setTourSteps(myStatsSteps));
-            dispatch(setTourRun(true));
-        } else if (location.pathname === '/calorie-tracker') {
-            dispatch(setTourSteps(calorieTrackerSteps));
-            dispatch(setTourRun(true));
-        } else {
-            dispatch(setTourRun(false));
-            dispatch(setTourActive(false));
+        if (tourActive) {
+
+            if (location.pathname === '/mystats') {
+                dispatch(setTourSteps(myStatsSteps));
+                dispatch(setTourRun(true));
+            } else if (location.pathname === '/calorie-tracker') {
+                dispatch(setTourSteps(calorieTrackerSteps));
+                dispatch(setTourRun(true));
+            } else {
+                dispatch(setTourRun(false));
+                dispatch(setTourActive(false));
+            }
         }
-    }, [location.pathname]);
+    }, [location.pathname, tourActive]);
 
 
     const handleCallback = (data) => {
