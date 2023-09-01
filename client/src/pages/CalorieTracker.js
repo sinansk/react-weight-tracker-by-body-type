@@ -9,6 +9,7 @@ import StickyInfo from '../components/StickyInfo'
 import PieChartComponent from '../components/CommonComponents/Charts/PieChartComponent'
 import SelectInput from '../components/CommonComponents/SelectInput'
 import Select from 'react-select'
+import { removeUnit } from '../utils/removeUnit'
 
 const CalorieTracker = () => {
     const userDiary = useSelector((state) => state.userDiary)
@@ -18,11 +19,13 @@ const CalorieTracker = () => {
         setCalendarExpand(!calendarExpand)
         // setSelectedDate(date);
     };
-
+    const userRecords = useSelector((state) => state.userRecords?.records)
     const diaryDates = userDiary.calorieDiary?.map((diaryItem) => diaryItem.date);
     const [calendarExpand, setCalendarExpand] = useState(false)
-    const macroNeeds = useSelector((state) => state.userRecords?.records?.find((item) => item.data.date === calendarDate).data?.results?.macroNeed)
-    console.log(macroNeeds, "macroNeeds")
+    const macroNeeds = useSelector((state) => state.userRecords?.records?.find((item) => item?.data?.date === calendarDate)?.data?.results?.macroNeed) ?? userRecords?.[0]?.data?.results?.macroNeed ?? undefined
+    const takenMacros = useSelector((state) => state.userDiary?.calorieDiary?.find((item) => item?.date === calendarDate)?.totalNutrient) ?? undefined
+
+    console.log(macroNeeds, "macroNeeds", takenMacros, "takenMacros")
     const data = [
         { name: "Group A", value: 400 },
         { name: "Group B", value: 300 },
@@ -31,13 +34,13 @@ const CalorieTracker = () => {
     ];
 
     const diets = [
-        { value: macroNeeds.balanced, label: "Balanced" },
-        { value: macroNeeds.highprotein, label: "High-Protein" },
-        { value: macroNeeds.lowcarbs, label: "Low-Carb" },
-        { value: macroNeeds.lowfat, label: "Low-Fat" },
+        { value: macroNeeds?.balanced, label: "Balanced" },
+        { value: macroNeeds?.highprotein, label: "High-Protein" },
+        { value: macroNeeds?.lowcarbs, label: "Low-Carb" },
+        { value: macroNeeds?.lowfat, label: "Low-Fat" },
     ]
 
-    const [selectedOption, setSelectedOption] = useState("");
+    const [selectedOption, setSelectedOption] = useState(diets[0] ?? null);
     const handleSelectChange = (selectedOption) => {
         setSelectedOption(selectedOption);
     };
@@ -51,13 +54,31 @@ const CalorieTracker = () => {
         { name: "Carbs", value: selectedOption?.value?.carbs },
         { name: "Protein", value: selectedOption?.value?.protein },
     ];
+
+    const takenMacroChartData = [
+        { name: "Fat", value: removeUnit(takenMacros?.totalFat ?? '1g') },
+        { name: "Carbs", value: removeUnit(takenMacros?.totalCarbs ?? '1g') },
+        { name: "Protein", value: removeUnit(takenMacros?.totalProtein ?? '1g') },
+    ];
+
     return (
-        <div className='flex flex-col-reverse sm:grid sm:grid-cols-7'>
-            <div className=' sm:py-10 sm:col-span-2'>
-                <Select className='w-1/2 mx-auto text-black' inputLabel="Select" options={diets} value={selectedOption} onChange={handleSelectChange} />
-                <PieChartComponent data={chartData} />
+        <div className='flex flex-col sm:grid md:grid-cols-7'>
+            <div className='flex items-end justify-start overflow-x-scroll md:items-center md:flex-col no-scrollbar md:w-full md:py-10 md:col-span-2'>
+                {macroNeeds && (
+                    <div className='min-w-[70vw] md:w-full flex flex-col items-center'>
+                        <Select className='mx-auto text-black ' inputLabel="Select" options={diets} value={selectedOption} onChange={handleSelectChange} />
+                        <h2 className='text-lg text-gray-200 sm:mt-3'>Calculated Macros</h2>
+                        <PieChartComponent data={chartData} />
+                    </div>
+                )}
+                {takenMacros && (
+                    <div className='min-w-[70vw] md:w-full flex flex-col items-center'>
+                        <h2 className='text-lg text-gray-200'>Taken Macros</h2>
+                        <PieChartComponent data={takenMacroChartData} />
+                    </div>
+                )}
             </div>
-            <div className='sm:col-span-3 flex flex-col sm:py-10 sm:overflow-hidden sm:px-20 px-1.5 calorie-tracker-page'>
+            <div className='sm:col-span-3 flex flex-col sm:py-10 sm:overflow-hidden sm:px-20 px-1.5 calorie-tracker-page '>
                 <div className=''>
                     {calendarDate &&
                         <DiaryCardComponent
@@ -79,7 +100,8 @@ const CalorieTracker = () => {
                      {selectedDate && <DiaryCardComponent className={`${calendarExpand && `hidden`} max-w-full`} selectedDate={selectedDate} calendarExpand={calendarExpand} setCalendarExpand={setCalendarExpand} />
                 </div> */}
             </div>
-            <div className='sm:col-span-2 '>
+            <div className=' sm:col-span-2'>
+                test
             </div>
         </div>
     )

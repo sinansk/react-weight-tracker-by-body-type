@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector, Cell, Tooltip } from 'recharts';
+import { useMediaQuery } from "../../../utils/useMediaQuery";
 
 const PieChartComponent = ({ data }) => {
+  const isMobile = useMediaQuery('(max-width: 767px)');
   const customTooltipFormatter = (value, name, entry) => {
     // `value` verisi isteğe bağlı olarak özelleştirilebilir
     const formattedValue = parseFloat(value).toFixed(2) + "g";
@@ -36,13 +38,17 @@ const PieChartComponent = ({ data }) => {
       </text>
     );
   };
+
+  if (!data) {
+    return null
+  }
   return (
-    <div className="flex flex-col items-center w-full">
-      <PieChart width={300} height={300}>
+    <div className="flex flex-col items-center mx-auto w-fit">
+      <PieChart width={isMobile ? 200 : 200} height={isMobile ? 200 : 200}>
         <Pie
           data={data}
-          cx={150}
-          cy={150}
+          cx={isMobile ? 100 : 100}
+          cy={isMobile ? 100 : 100}
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={80}
@@ -55,8 +61,8 @@ const PieChartComponent = ({ data }) => {
         </Pie>
         <Tooltip formatter={customTooltipFormatter} />
       </PieChart>
-      <div className="flex items-center gap-3 mx-auto">
 
+      <div className="flex items-center gap-3 mx-auto">
         {data.map((item, index) => (
           <div className="flex items-center gap-2" key={index}>
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
@@ -64,6 +70,7 @@ const PieChartComponent = ({ data }) => {
           </div>
         ))}
       </div>
+
     </div>
 
   );
