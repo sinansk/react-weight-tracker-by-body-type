@@ -1,7 +1,5 @@
 import React, { useCallback, useState } from "react";
-
 import { PieChart, Pie, Sector, Cell, Tooltip } from 'recharts';
-
 
 const PieChartComponent = ({ data }) => {
   const customTooltipFormatter = (value, name, entry) => {
