@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { destroyAllModal } from './modalHooks';
 import moment from 'moment';
 const useUpdateUserInfo = () => {
+
   const dispatch = useDispatch();
   const [dataFetchingCompleted, setDataFetchingCompleted] = useState(false);
   const user = useSelector((state) => state.user)

@@ -21,6 +21,7 @@ export const userSlice = createSlice({
         calorieNeedByBodyGoal: null,
       },
     },
+    date: null,
     status: "idle",
     error: null,
   },
@@ -55,6 +56,9 @@ export const userSlice = createSlice({
     },
     setPhotoUrl: (state, action) => {
       state.data.photo = action.payload;
+    },
+    setDate: (state, action) => {
+      state.date = action.payload;
     },
     reset: (state) => { },
   },
@@ -152,7 +156,8 @@ export const {
   setInput,
   reset,
   setPhotoUrl,
-  setMeasurements
+  setMeasurements,
+  setDate
 } = userSlice.actions;
 
 export const userInfoSelector = (state) => state.user?.data?.personalInfo;

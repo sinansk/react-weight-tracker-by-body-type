@@ -22,7 +22,6 @@ const WithNavbar = () => {
 
     useEffect(() => {
         if (tourActive) {
-
             if (location.pathname === '/mystats') {
                 dispatch(setTourSteps(myStatsSteps));
                 dispatch(setTourRun(true));
