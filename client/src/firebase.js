@@ -50,6 +50,7 @@ import { deleteDiaryFromRedux, setCalorieRoutines, setDiary, setMonthlyDiary } f
 import { calculateTotalNutrients } from "./utils/calculateTotalNutrients";
 import { fetchCalorieRecords, fetchCalorieRecordsForMonth } from "./redux/userDiaryThunk";
 import { setCustomFoods } from "./redux/customFoods";
+import { convertDateToIso } from "./utils/convertDateToIso";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -246,8 +247,18 @@ export const addUserInfo = async (data) => {
     const uid = data.uid
     const userRef = doc(db, "users", uid);
     const userPersonalInfoRef = collection(userRef, "userPersonalInfos");
-    const result = await addDoc(userPersonalInfoRef, data);
-    return result
+    const querySnapshot = await getDocs(query(userPersonalInfoRef, where("date", "==", data.date)));
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      await updateDoc(doc(userPersonalInfoRef, docId), data);
+      toast.success("Updated successfully");
+      return true;
+    }
+    else {
+      await addDoc(userPersonalInfoRef, data);
+      toast.success("Added successfully");
+      return true;
+    }
   } catch (error) {
     toast.error(error.message)
     console.log(error)
@@ -260,7 +271,7 @@ export const getUserInfo = async (uid) => {
     const data = snapshot.docs.map((doc) => ({
       id: doc.id,
       data: doc.data(),
-    })).sort((a, b) => b.data.timestamp - a.data.timestamp);
+    })).sort((a, b) => convertDateToIso(b.data.date) - convertDateToIso(a.data.date));
     store.dispatch(setData(data?.[0].data))
     return data;
   } catch (error) {

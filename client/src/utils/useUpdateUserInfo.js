@@ -7,11 +7,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { destroyAllModal } from './modalHooks';
 import moment from 'moment';
 const useUpdateUserInfo = () => {
-
+  const [selectedDate, setSelectedDate] = useState(moment().format('DD-MM-YYYY'))
   const dispatch = useDispatch();
   const [dataFetchingCompleted, setDataFetchingCompleted] = useState(false);
   const user = useSelector((state) => state.user)
-  const updateUserInfo = async () => {
+  const updateUserInfo = async (date) => {
     try {
       await Promise.all([
         dispatch(fetchIdealWeight()),
@@ -21,6 +21,7 @@ const useUpdateUserInfo = () => {
         dispatch(fetchMacroNeed()),
       ]);
       setDataFetchingCompleted(true);
+      setSelectedDate(date)
     } catch (err) {
       console.log(err);
     }
@@ -29,7 +30,7 @@ const useUpdateUserInfo = () => {
   const userInfoToDB = useCallback(async () => {
     await addUserInfo({
       timestamp: serverTimestamp(),
-      date: moment().format('DD-MM-YYYY'),
+      date: selectedDate ?? moment().format('DD-MM-YYYY'),
       uid: user.currentUser.uid,
       personalInfo: user.data?.personalInfo,
       measurements: user.data?.measurements,
@@ -45,7 +46,7 @@ const useUpdateUserInfo = () => {
     dispatch(fetchUserInfo(user.currentUser.uid));
     destroyAllModal()
 
-  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results, user.data?.photo, user.data?.measurements]);
+  }, [dispatch, user.currentUser.uid, user.data?.personalInfo, user.data?.idealMeasurements, user.data?.results, user.data?.photo, user.data?.measurements, selectedDate]);
 
   useEffect(() => {
     if (dataFetchingCompleted) {

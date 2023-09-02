@@ -24,7 +24,7 @@ const AddNewRecordModal = () => {
         await dispatch(setInput({ reduxName: 'personalInfo', name: 'height', value: height }))
         await dispatch(setInput({ reduxName: 'personalInfo', name: 'weight', value: weight }))
         await dispatch(setMeasurements(measurements))
-        updateUserInfo()
+        updateUserInfo(moment(date).format('DD-MM-YYYY'))
     };
 
     const measurementValidationSchema = Yup.object().shape({
@@ -43,7 +43,7 @@ const AddNewRecordModal = () => {
 
     return (
         <Formik initialValues={{
-            date: moment().format('YYYY-MM-DDTHH:mm'),
+            date: moment().format('YYYY-MM-DD'),
             weight: userData.weight,
             height: userData.height,
             ...Object.fromEntries(
@@ -57,24 +57,24 @@ const AddNewRecordModal = () => {
                             <div className="flex flex-col h-full sm:w-80">
                                 <h2 className="text-xl font-semibold text-gray-200">Personal Info</h2>
                                 <PhotoUploadComponent />
-                                {/* <div className='flex items-center justify-between'>
-                                    <span className={`capitalize text-slate-200`}>Date: </span>
-                                    <ErrorMessage
-                                        name="date"
-                                        component="div"
-                                        className="text-red-500 "
-                                    />
-                                </div>
-                                <Field
-                                    required
-                                    className={`${errors.date && touched.date ? 'border-red-500' : 'border-[hsl(0,0%,80%)] '} text-black w-full px-4 font-thin rounded outline-none lg:h-[38px] border-[1px] focus:border-2 focus:border-blue-400`}
-                                    type="datetime-local"
-                                    name="date"
-                                    onChange={handleChange}
-                                    value={values.date}
-                                    reduxName='personalInfo'
-                                /> */}
                                 <div className="mt-auto text-gray-200">
+                                    <div className='flex items-center justify-between'>
+                                        <span className={`capitalize text-slate-200`}>Date: </span>
+                                        <ErrorMessage
+                                            name="date"
+                                            component="div"
+                                            className="text-red-500 "
+                                        />
+                                    </div>
+                                    <Field
+                                        required
+                                        className={`${errors.date && touched.date ? 'border-red-500' : 'border-[hsl(0,0%,80%)] '} text-black w-full px-4 font-thin rounded outline-none lg:h-[38px] border-[1px] focus:border-2 focus:border-blue-400`}
+                                        type="date"
+                                        name="date"
+                                        onChange={handleChange}
+                                        value={values.date}
+                                        reduxName='personalInfo'
+                                    />
                                     <div className='flex items-center justify-between'>
                                         <span className={`capitalize text-slate-200`}>Height: </span>
                                         <ErrorMessage
