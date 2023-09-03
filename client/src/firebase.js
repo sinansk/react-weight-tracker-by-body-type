@@ -51,6 +51,7 @@ import { calculateTotalNutrients } from "./utils/calculateTotalNutrients";
 import { fetchCalorieRecords, fetchCalorieRecordsForMonth } from "./redux/userDiaryThunk";
 import { setCustomFoods } from "./redux/customFoods";
 import { convertDateToIso } from "./utils/convertDateToIso";
+import { addFavFood, addFavFoodToRedux, deleteFavFoodFromRedux, setFavFoods } from "./redux/favFoods";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -118,6 +119,7 @@ export const login = async (email, password) => {
       store.dispatch(fetchCalorieRecordsForMonth({ year, month }));
       getCustomFoods(user.uid)
       getCalorieRoutines(user.uid)
+      getFavFoods(user.uid)
     }
     return user;
   } catch (err) {
@@ -531,6 +533,76 @@ export const getCalorieRecordsForMonth = async (uid, year, month) => {
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
+  }
+};
+
+export const saveFavFood = async (data) => {
+  console.log(data, "data SAVE FAV FOOD")
+  const currentDate = moment();
+  const dateString = currentDate.format('DD-MM-YYYY');
+  const food = data.food;
+  const favFood = {
+    ...food,
+    timestamp: currentDate.toISOString(),
+    uid: data.uid,
+    id: Date.now(),
+    createdAt: currentDate.toISOString(),
+  };
+
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, data.uid);
+    const favFoodsRef = collection(userDocRef, "favFoods");
+    const querySnapshot = await getDocs(query(favFoodsRef, where("food_id", "==", favFood.food_id)));
+    if (querySnapshot.empty) {
+      await addDoc(favFoodsRef, favFood);
+      store.dispatch(addFavFoodToRedux(favFood));
+      toast.success("Data added successfully.");
+      return "Data added successfully.";
+    } else {
+      toast.error("This food already exists in your favorites.");
+    }
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+};
+
+export const getFavFoods = async (uid) => {
+
+  console.log(uid, "uid")
+  try {
+    const snapshot = await getDocs(query(collection(db, "users", uid, "favFoods")));
+    const data = snapshot.docs.map((doc) => (doc.data()));
+    store.dispatch(setFavFoods(data))
+    return data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.message);
+  }
+};
+
+export const deleteFavFood = async (data) => {
+  console.log(data, "dataDelete")
+  const id = data.id
+  const uid = data.uid;
+  console.log(id, "id", uid, "uid")
+  try {
+    const userRef = collection(db, "users");
+    const userDocRef = doc(userRef, uid);
+    const favFoodsRef = collection(userDocRef, "favFoods");
+    const querySnapshot = await getDocs(query(favFoodsRef, where("id", "==", id)));
+    console.log(querySnapshot)
+    if (!querySnapshot.empty) {
+      const docId = querySnapshot.docs[0].id;
+      await deleteDoc(doc(favFoodsRef, docId))
+      store.dispatch(deleteFavFoodFromRedux(id));
+      toast.success("Data deleted successfully.");
+      return "Data deleted successfully.";
+    }
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
   }
 };
 

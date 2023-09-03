@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FoodCalorieCard from "../components/MembershipComponents/FoodCalorieCard";
 import ExerciseCalorieCard from "../components/MembershipComponents/ExerciseCalorieCard";
 import PaginationComponent from "../components/CommonComponents/PaginationComponent";
+import FavFoodsComponent from "../components/MembershipComponents/FavFoodsComponent";
 
 const Test = () => {
     const itemsPerPage = 5; // Sayfa başına gösterilecek öğe sayısı
@@ -16,7 +17,8 @@ const Test = () => {
         <>
             {/* <FoodCalorieCard />
             <ExerciseCalorieCard /> */}
-            <PaginationComponent totalItems={100} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={handlePageChange} />
+            {/* <PaginationComponent totalItems={100} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={handlePageChange} /> */}
+            <FavFoodsComponent />
         </>
     );
 };

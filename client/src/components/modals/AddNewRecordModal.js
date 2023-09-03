@@ -9,6 +9,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup"
 import PhotoUploadComponent from "../MembershipComponents/PhotoUploadComponent";
 import moment from "moment";
+import TooltipComponent from "../CommonComponents/TooltipComponent";
 
 const AddNewRecordModal = () => {
     const dispatch = useDispatch()
@@ -65,6 +66,7 @@ const AddNewRecordModal = () => {
                                             component="div"
                                             className="text-red-500 "
                                         />
+
                                     </div>
                                     <Field
                                         required
@@ -82,6 +84,7 @@ const AddNewRecordModal = () => {
                                             component="div"
                                             className="text-red-500 "
                                         />
+                                        <TooltipComponent tooltipName="height" tooltipContent="Enter your height in centimeters." />
                                     </div>
                                     <Field
                                         required

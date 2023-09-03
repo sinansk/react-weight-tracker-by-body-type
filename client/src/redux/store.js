@@ -16,6 +16,7 @@ import userDiary from "./userDiary";
 import customFoods from "./customFoods";
 import modal from "./modal";
 import uiTour from "./uiTour";
+import favFoods from "./favFoods";
 const persistConfig = {
   key: "root",
   version: 1,
@@ -29,6 +30,7 @@ const combinedReducer = combineReducers({
   customFoods: customFoods,
   modal: modal,
   uiTour: uiTour,
+  favFoods: favFoods,
 });
 
 const rootReducer = (state, action) => {

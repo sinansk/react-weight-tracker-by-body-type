@@ -10,6 +10,8 @@ import PieChartComponent from '../components/CommonComponents/Charts/PieChartCom
 import SelectInput from '../components/CommonComponents/SelectInput'
 import Select from 'react-select'
 import { removeUnit } from '../utils/removeUnit'
+import FavFoodsComponent from '../components/MembershipComponents/FavFoodsComponent'
+import SearchComponent from '../components/SearchComponent'
 
 const CalorieTracker = () => {
     const userDiary = useSelector((state) => state.userDiary)
@@ -25,7 +27,6 @@ const CalorieTracker = () => {
     const macroNeeds = useSelector((state) => state.userRecords?.records?.find((item) => item?.data?.date === calendarDate)?.data?.results?.macroNeed) ?? userRecords?.[0]?.data?.results?.macroNeed ?? undefined
     const takenMacros = useSelector((state) => state.userDiary?.calorieDiary?.find((item) => item?.date === calendarDate)?.totalNutrient) ?? undefined
 
-    console.log(macroNeeds, "macroNeeds", takenMacros, "takenMacros")
     const data = [
         { name: "Group A", value: 400 },
         { name: "Group B", value: 300 },
@@ -61,8 +62,22 @@ const CalorieTracker = () => {
         { name: "Protein", value: removeUnit(takenMacros?.totalProtein ?? '1g') },
     ];
 
+    const favFoods = useSelector((state) => state.favFoods?.favFoods)
+
+    const [filteredFavFoods, setFilteredFavFoods] = useState(favFoods)
+
+    const searchInput = useRef(null)
+
+    const handleSearch = (e) => {
+
+        console.log(e.target.value, "e.target.value")
+        const filteredFavFoods = favFoods.filter((food) => food?.food_name?.toLowerCase().includes(e.target.value.toLowerCase()))
+        setFilteredFavFoods(filteredFavFoods)
+    }
+
+
     return (
-        <div className='flex flex-col sm:grid md:grid-cols-7'>
+        <div className='flex flex-col sm:grid md:grid-cols-10'>
             <div className='flex items-end justify-start overflow-x-scroll md:items-center md:flex-col no-scrollbar md:w-full md:py-10 md:col-span-2'>
                 {macroNeeds && (
                     <div className='min-w-[70vw] md:w-full flex flex-col items-center'>
@@ -78,7 +93,7 @@ const CalorieTracker = () => {
                     </div>
                 )}
             </div>
-            <div className='sm:col-span-3 flex flex-col sm:py-10 sm:overflow-hidden sm:px-20 px-1.5 calorie-tracker-page '>
+            <div className='sm:col-span-4 flex flex-col sm:py-10 sm:overflow-hidden  px-1.5 calorie-tracker-page '>
                 <div className=''>
                     {calendarDate &&
                         <DiaryCardComponent
@@ -100,8 +115,11 @@ const CalorieTracker = () => {
                      {selectedDate && <DiaryCardComponent className={`${calendarExpand && `hidden`} max-w-full`} selectedDate={selectedDate} calendarExpand={calendarExpand} setCalendarExpand={setCalendarExpand} />
                 </div> */}
             </div>
-            <div className=' sm:col-span-2'>
-                test
+            <div className='flex flex-col h-full gap-10 border-l border-gray-200 sm:col-span-4 sm:py-10'>
+                <FavFoodsComponent favFoods={filteredFavFoods} className={'sm:max-h-[500px] overflow-y-auto'} />
+                <SearchComponent onChange={(e) => handleSearch(e)}
+                    haveButton={false}
+                    className={`${!favFoods?.length > 0 && `hidden`} sm:w-[600px] mx-auto max-w-full search-food`} placeholder="Search your favourites" />
             </div>
         </div>
     )
