@@ -24,14 +24,14 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
         e.preventDefault()
         inputRefs[foodId].focus()
     }
-    const favFoods = useSelector((state) => state.favFoods.favFoods)
+    const favFoods = useSelector((state) => state.favFoods?.favFoods)
 
 
     const [filteredFavFoods, setFilteredFavFoods] = useState(favFoods)
     const handleInputChange = (e) => {
         setSearchFoodInput(e.target.value);
-        const filteredFavFoods = favFoods.filter((food) => food?.food_name?.toLowerCase().includes(e.target.value.toLowerCase()))
-        setFilteredFavFoods(filteredFavFoods)
+        const filtered = favFoods?.filter((food) => food?.food_name?.toLowerCase().includes(e.target.value.toLowerCase()))
+        setFilteredFavFoods(filtered)
     };
 
     const handleSearch = async (e) => {
@@ -167,7 +167,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                     </button>
                 )}
             </div>
-            {favFoods?.length > 0 && searchFoodInput.length > 0 && (
+            {filteredFavFoods && filteredFavFoods?.length > 0 && searchFoodInput?.length > 0 && (
 
                 <div className='w-full h-84 my-2 text-left   border-[0.5px] border-slate-400 text-gray-200  rounded-lg shdow-xl shadow-2xl shadow-white/10'>
                     <h2 className='px-4 text-gray-400/80'>Your favourites...</h2>
