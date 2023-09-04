@@ -208,7 +208,45 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                         <h2 className='px-2 py-1 text-gray-200'>Your fav foods...</h2>
                         <div className="grid min-w-full gap-1 mt-2 overflow-hidden text-gray-200 border-b border-white rounded-lg">
                             {filteredFavFoods?.map((item, index) => (
-                                <ListItem item={item} index={index} />
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.1 }}
+                                    onClick={(e) => handleDivClick(e, item.food_id)}
+                                    className='relative p-1 text-sm cursor-auto bg-gray-500/50 sm:px-3 sm:py-2 sm:text-base hover:bg-slate-600/50 group'>
+                                    <p className="font-medium text-md">
+                                        <span>{item?.brand_name}</span> {item.food_name}
+                                    </p>
+                                    <div >
+                                        <div className='flex items-center gap-2 mt-2 mr-5 text-gray-300 sm:mr-0'>
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="text"
+                                                    ref={(ref) => { inputRefs[item.food_id] = ref }}
+                                                    value={editedAmount[item.food_id] !== undefined ? editedAmount[item.food_id] : formatAmountValue(item.amount).value}
+                                                    onChange={(e) => handleAmountChange(item.food_id, e.target.value)}
+                                                    className="w-16 px-2 py-1 text-gray-500 border border-gray-300 rounded-md focus:outline-teal-500 "
+                                                />
+                                                <span className="ml-1">{formatAmountValue(item.amount).unit}</span>
+                                            </div>
+                                            | Calories: {(parseFloat(item.calories) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}kcal |
+                                            Fat: {(parseFloat(item.fat) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                                            Carbs: {(parseFloat(item.carbs) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                                            Protein: {(parseFloat(item.protein) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g
+                                        </div>
+                                        {currentUser &&
+                                            <div className='absolute flex flex-col items-center justify-center h-full gap-4 my-auto ml-auto sm:gap-3 right-1 sm:right-2 top-1 bottom-1 sm:top-2 sm:bottom-2'>
+                                                {filteredFavFoods?.find((food) => food.food_id === item.food_id) ? (
+                                                    <button onClick={() => handleFavDelete(item)} className='ml-auto'><AiFillHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] text-teal-400' title="Remove from fav" aria-label='Remove from fav' /></button>
+                                                ) : (
+                                                    <button onClick={() => handleFav(item)} className='ml-auto'><AiOutlineHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] hover:text-teal-400' title="Add To Fav" aria-label='Add To Fav' /></button>
+                                                )}
+                                                <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd className='w-4 h-4 sm:w-[22px] sm:h-[22px] hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' /></button>
+                                            </div>
+                                        }
+                                    </div>
+                                </motion.div>
                             ))}
                         </div>
                         <button type='button' onClick={handleSearch} className='flex items-center w-full gap-1 p-2 text-gray-200 sm:gap-4 hover:bg-gray-500/20'>
@@ -220,7 +258,45 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
             )}
             <div className="grid min-w-full gap-1 mt-2 overflow-hidden text-gray-200 rounded-lg">
                 {searchFoodInput?.length === 0 && responseList?.map((item, index) => (
-                    <ListItem item={item} index={index} />
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        onClick={(e) => handleDivClick(e, item.food_id)}
+                        className='relative p-1 text-sm cursor-auto bg-gray-500/50 sm:px-3 sm:py-2 sm:text-base hover:bg-slate-600/50 group'>
+                        <p className="font-medium text-md">
+                            <span>{item?.brand_name}</span> {item.food_name}
+                        </p>
+                        <div >
+                            <div className='flex items-center gap-2 mt-2 mr-5 text-gray-300 sm:mr-0'>
+                                <div className="flex items-center">
+                                    <input
+                                        type="text"
+                                        ref={(ref) => { inputRefs[item.food_id] = ref }}
+                                        value={editedAmount[item.food_id] !== undefined ? editedAmount[item.food_id] : formatAmountValue(item.amount).value}
+                                        onChange={(e) => handleAmountChange(item.food_id, e.target.value)}
+                                        className="w-16 px-2 py-1 text-gray-500 border border-gray-300 rounded-md focus:outline-teal-500 "
+                                    />
+                                    <span className="ml-1">{formatAmountValue(item.amount).unit}</span>
+                                </div>
+                                | Calories: {(parseFloat(item.calories) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}kcal |
+                                Fat: {(parseFloat(item.fat) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                                Carbs: {(parseFloat(item.carbs) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                                Protein: {(parseFloat(item.protein) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g
+                            </div>
+                            {currentUser &&
+                                <div className='absolute flex flex-col items-center justify-center h-full gap-4 my-auto ml-auto sm:gap-3 right-1 sm:right-2 top-1 bottom-1 sm:top-2 sm:bottom-2'>
+                                    {filteredFavFoods?.find((food) => food.food_id === item.food_id) ? (
+                                        <button onClick={() => handleFavDelete(item)} className='ml-auto'><AiFillHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] text-teal-400' title="Remove from fav" aria-label='Remove from fav' /></button>
+                                    ) : (
+                                        <button onClick={() => handleFav(item)} className='ml-auto'><AiOutlineHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] hover:text-teal-400' title="Add To Fav" aria-label='Add To Fav' /></button>
+                                    )}
+                                    <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd className='w-4 h-4 sm:w-[22px] sm:h-[22px] hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' /></button>
+                                </div>
+                            }
+                        </div>
+                    </motion.div>
                 ))}
             </div>
         </div>
