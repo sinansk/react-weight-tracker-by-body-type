@@ -584,19 +584,19 @@ export const getFavFoods = async (uid) => {
 
 export const deleteFavFood = async (data) => {
   console.log(data, "dataDelete")
-  const id = data.id
-  const uid = data.uid;
-  console.log(id, "id", uid, "uid")
+  const food_id = data.food_id
+  const uid = auth.currentUser.uid;
+  console.log(food_id, "id", uid, "uid")
   try {
     const userRef = collection(db, "users");
     const userDocRef = doc(userRef, uid);
     const favFoodsRef = collection(userDocRef, "favFoods");
-    const querySnapshot = await getDocs(query(favFoodsRef, where("id", "==", id)));
+    const querySnapshot = await getDocs(query(favFoodsRef, where("food_id", "==", food_id)));
     console.log(querySnapshot)
     if (!querySnapshot.empty) {
       const docId = querySnapshot.docs[0].id;
       await deleteDoc(doc(favFoodsRef, docId))
-      store.dispatch(deleteFavFoodFromRedux(id));
+      store.dispatch(deleteFavFoodFromRedux(food_id));
       toast.success("Data deleted successfully.");
       return "Data deleted successfully.";
     }

@@ -77,7 +77,7 @@ const CalorieTracker = () => {
 
 
     return (
-        <div className='flex flex-col sm:grid md:grid-cols-10'>
+        <div className='flex flex-col md:px-10 sm:grid md:grid-cols-10'>
             <div className='flex items-end justify-start overflow-x-scroll md:items-center md:flex-col no-scrollbar md:w-full md:py-10 md:col-span-2'>
                 {macroNeeds && (
                     <div className='min-w-[70vw] md:w-full flex flex-col items-center'>
@@ -107,7 +107,7 @@ const CalorieTracker = () => {
                         onDateClick={handleDateClick}
                         showContextMenu={true}
                     />
-                    <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full search-food" selectedDate={calendarDate} />
+                    {/* <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full search-food" selectedDate={calendarDate} /> */}
                     <StickyInfo />
                 </div>
                 {/* <div className='flex flex-col gap-16'>
@@ -115,11 +115,14 @@ const CalorieTracker = () => {
                      {selectedDate && <DiaryCardComponent className={`${calendarExpand && `hidden`} max-w-full`} selectedDate={selectedDate} calendarExpand={calendarExpand} setCalendarExpand={setCalendarExpand} />
                 </div> */}
             </div>
-            <div className='flex flex-col h-full gap-10 border-l border-gray-200 sm:col-span-4 sm:py-10'>
+            {/* <div className='flex flex-col h-full gap-10 border-l border-gray-200 sm:col-span-4 sm:py-10'>
                 <FavFoodsComponent favFoods={filteredFavFoods} className={'sm:max-h-[500px] overflow-y-auto'} />
                 <SearchComponent onChange={(e) => handleSearch(e)}
                     haveButton={false}
                     className={`${!favFoods?.length > 0 && `hidden`} sm:w-[600px] mx-auto max-w-full search-food`} placeholder="Search your favourites" />
+            </div> */}
+            <div className='flex flex-col h-full gap-10 border-l border-gray-200 sm:col-span-4 '>
+                <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full search-food" selectedDate={calendarDate} />
             </div>
         </div>
     )

@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import { toast } from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import SearchComponent from '../SearchComponent';
-import { addDailyCalorie, saveCustomFood, saveFavFood } from '../../firebase';
+import { addDailyCalorie, deleteFavFood, saveCustomFood, saveFavFood } from '../../firebase';
 import { createModal } from '../../utils/modalHooks';
 import { formatInputValue } from '../../utils/formatInputValue';
 import { addFavFoodToRedux } from '../../redux/favFoods';
 import { IoMdAdd } from 'react-icons/io';
+import { AiFillHeart, AiOutlineHeart, AiOutlineSearch } from 'react-icons/ai';
 
 const SearchFoodComponent = ({ className, selectedDate }) => {
     const [searchFoodInput, setSearchFoodInput] = useState();
@@ -41,9 +42,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
         try {
             setIsLoading(true)
             const response = await axios.post(`${api}/search-food`, { food: query });
-            console.log("response", response.data.foods.food)
             setResponseList(response.data.foods.food)
-            // Process the food data and update state
             const processedFoods = response.data.foods.food?.map((food) => {
                 // Check if the food_description is in the expected format
                 const regex = /Per (?<amount>[^\-]+) - Calories: (?<calories>[\d.]+kcal) \| Fat: (?<fat>[\d.]+g) \| Carbs: (?<carbs>[\d.]+g) \| Protein: (?<protein>[\d.]+g)/
@@ -51,8 +50,6 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
 
                 if (match) {
                     const { amount, calories, fat, carbs, protein } = match.groups;
-
-                    // Modify the "food_description" field and return the updated object
                     const newData = {
                         ...food,
                         amount: amount,
@@ -64,7 +61,6 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                     };
                     return newData;
                 }
-                // If regex doesn't match, leave the food_description as it is
                 return food;
             });
             setSearchFoodInput("")
@@ -93,7 +89,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
             const unit = match[4].trim();
             return { value: numericValue, unit };
         }
-        return { value: amount, unit: "" }; // Return as it is if the regex doesn't match
+        return { value: amount, unit: "" };
     };
 
     const getAmountForDiary = (foodId, originalAmount) => {
@@ -101,13 +97,12 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     };
 
     const handleDiary = (foodItem) => {
-        console.log(foodItem, "foodItem")
         const amount = getAmountForDiary(foodItem.food_id, formatAmountValue(foodItem.amount).value);
         const food_detail = {
             food_id: foodItem.food_id,
             food_name: foodItem.food_name,
             brand_name: foodItem?.brand_name ?? null,
-            amount: amount + formatAmountValue(foodItem.amount).unit, // Öğe ağırlığını günlüğe ekliyoruz
+            amount: amount + formatAmountValue(foodItem.amount).unit,
             calories: (parseFloat(foodItem.calories) * parseFloat(amount) / 100).toFixed(2) + "kcal",
             fat: (parseFloat(foodItem.fat) * parseFloat(amount) / 100).toFixed(2) + "g",
             carbs: (parseFloat(foodItem.carbs) * parseFloat(amount) / 100).toFixed(2) + "g",
@@ -130,7 +125,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
             food_id: foodItem.food_id,
             food_name: foodItem.food_name,
             brand_name: foodItem?.brand_name ?? null,
-            amount: amount + formatAmountValue(foodItem.amount).unit, // Öğe ağırlığını günlüğe ekliyoruz
+            amount: amount + formatAmountValue(foodItem.amount).unit,
             calories: (parseFloat(foodItem.calories) * parseFloat(amount) / 100).toFixed(2) + "kcal",
             fat: (parseFloat(foodItem.fat) * parseFloat(amount) / 100).toFixed(2) + "g",
             carbs: (parseFloat(foodItem.carbs) * parseFloat(amount) / 100).toFixed(2) + "g",
@@ -140,13 +135,14 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
             uid: currentUser.uid,
             food: food_detail
         })
+        setFilteredFavFoods((filteredFavFoods) => [...filteredFavFoods, food_detail])
     }
-    useEffect(() => {
-        console.log(responseList)
-    }, [responseList])
-    useEffect(() => {
-        console.log(selectedDate, "selectedDateSEARCH")
-    }, [selectedDate])
+
+    const handleFavDelete = async (foodItem) => {
+        console.log(foodItem, "foodItem")
+        await deleteFavFood(foodItem)
+        setFilteredFavFoods(filteredFavFoods.filter((food) => food.food_id !== foodItem.food_id))
+    }
 
     const handleAddButton = () => {
         createModal("AddCustomFoodModal", { selectedDate: selectedDate })
@@ -154,8 +150,49 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     const [isInputFocused, setIsInputFocused] = useState(false)
 
 
-
-
+    const ListItem = ({ item, index }) => {
+        return (
+            <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                onClick={(e) => handleDivClick(e, item.food_id)}
+                className='relative p-1 text-sm cursor-auto bg-gray-500/50 sm:px-3 sm:py-2 sm:text-base hover:bg-slate-600/50 group'>
+                <p className="font-medium text-md">
+                    <span>{item?.brand_name}</span> {item.food_name}
+                </p>
+                <div >
+                    <div className='flex items-center gap-2 mt-2 mr-5 text-gray-300 sm:mr-0'>
+                        <div className="flex items-center">
+                            <input
+                                type="text"
+                                ref={(ref) => { inputRefs[item.food_id] = ref }}
+                                value={editedAmount[item.food_id] !== undefined ? editedAmount[item.food_id] : formatAmountValue(item.amount).value}
+                                onChange={(e) => handleAmountChange(item.food_id, e.target.value)}
+                                className="w-16 px-2 py-1 text-gray-500 border border-gray-300 rounded-md focus:outline-teal-500 "
+                            />
+                            <span className="ml-1">{formatAmountValue(item.amount).unit}</span>
+                        </div>
+                        | Calories: {(parseFloat(item.calories) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}kcal |
+                        Fat: {(parseFloat(item.fat) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                        Carbs: {(parseFloat(item.carbs) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
+                        Protein: {(parseFloat(item.protein) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g
+                    </div>
+                    {currentUser &&
+                        <div className='absolute flex flex-col items-center justify-center h-full gap-4 my-auto ml-auto sm:gap-3 right-1 sm:right-2 top-1 bottom-1 sm:top-2 sm:bottom-2'>
+                            {filteredFavFoods?.find((food) => food.food_id === item.food_id) ? (
+                                <button onClick={() => handleFavDelete(item)} className='ml-auto'><AiFillHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] text-teal-400' title="Remove from fav" aria-label='Remove from fav' /></button>
+                            ) : (
+                                <button onClick={() => handleFav(item)} className='ml-auto'><AiOutlineHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] hover:text-teal-400' title="Add To Fav" aria-label='Add To Fav' /></button>
+                            )}
+                            <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd className='w-4 h-4 sm:w-[22px] sm:h-[22px] hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' /></button>
+                        </div>
+                    }
+                </div>
+            </motion.div>
+        )
+    }
 
     return (
         <div className={`${className} py-10  w-full`} >
@@ -168,66 +205,24 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                 )}
             </div>
             {filteredFavFoods && filteredFavFoods?.length > 0 && searchFoodInput?.length > 0 && (
-
-                <div className='w-full h-84 my-2 text-left   border-[0.5px] border-slate-400 text-gray-200  rounded-lg shdow-xl shadow-2xl shadow-white/10'>
-                    <h2 className='px-4 text-gray-400/80'>Your favourites...</h2>
-                    <ul className='flex flex-col items-start w-full h-full '>
-                        {filteredFavFoods?.map((item, index) => (
-                            <li key={index}
-                                className='w-full transition-all-300 rounded-md px-4 py-2.5 flex items-center justify-between text-left h-1/5 hover:bg-gray-400/20'>
-                                <p className='text-xs sm:text-base'>{item.food_name}</p>
-                                <button type='button' onClick={() => handleDiary(item)}>
-                                    <IoMdAdd size={22} className='ml-auto hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' />
-                                </button>
-                            </li>
-                        ))}
-                        {/* <li className='w-1/5 h-full'>
-                        <p className='text-xs sm:text-base'>Food Name</p>
-                    </li>
-                    <li className='w-1/5 h-full '>
-                        <p className='text-xs sm:text-base'>Food Name</p>
-                    </li>
-                    <li className='w-1/5 h-full '>
-                        <p className='text-xs sm:text-base'>Food Name</p>
-                    </li> */}
-                    </ul>
-                </div>
+                <>
+                    <div className='border-[0.5px] my-2 border-teal-500 rounded-lg w-full flex flex-col items-start shadow-white/10 shadow-md '>
+                        <h2 className='px-2 py-1 text-gray-200'>Your fav foods...</h2>
+                        <div className="grid min-w-full gap-1 mt-2 overflow-hidden text-gray-200 border-b border-white rounded-lg">
+                            {filteredFavFoods?.map((item, index) => (
+                                <ListItem item={item} index={index} />
+                            ))}
+                        </div>
+                        <button type='button' onClick={handleSearch} className='flex items-center w-full gap-1 p-2 text-gray-200 sm:gap-4 hover:bg-gray-500/20'>
+                            <AiOutlineSearch size={30} className='' />
+                            <p className='text-lg font-semibold'>Search for "{searchFoodInput}"</p>
+                        </button>
+                    </div>
+                </>
             )}
             <div className="grid min-w-full gap-1 mt-2 overflow-hidden text-gray-200 rounded-lg">
-                {responseList?.map((item, index) => (
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        onClick={(e) => handleDivClick(e, item.food_id)}
-                        className='p-1 text-sm cursor-auto bg-gray-500/50 sm:px-3 sm:py-2 sm:text-base hover:bg-slate-600/50 group'>
-                        <p className="font-medium text-md">
-                            <span>{item?.brand_name}</span> {item.food_name}
-                        </p>
-                        <div className='flex items-center gap-2 mt-2 text-gray-300'>
-                            <div className="flex items-center">
-                                <input
-                                    type="text"
-                                    ref={(ref) => { inputRefs[item.food_id] = ref }}
-                                    value={editedAmount[item.food_id] !== undefined ? editedAmount[item.food_id] : formatAmountValue(item.amount).value}
-                                    onChange={(e) => handleAmountChange(item.food_id, e.target.value)}
-                                    className="w-16 px-2 py-1 text-gray-500 border border-gray-300 rounded-md focus:outline-teal-500 "
-                                />
-                                <span className="ml-1">{formatAmountValue(item.amount).unit}</span>
-                            </div>
-                            | Calories: {(parseFloat(item.calories) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}kcal |
-                            Fat: {(parseFloat(item.fat) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
-                            Carbs: {(parseFloat(item.carbs) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g |
-                            Protein: {(parseFloat(item.protein) * parseFloat(editedAmount[item.food_id] || item.amount) / 100).toFixed(2)}g
-                            {currentUser &&
-                                <div className='flex flex-col items-center justify-start gap-2 ml-auto'>
-                                    <button onClick={() => handleFav(item)} className='ml-auto'><BiHeart size={22} className='hover:text-teal-400' title="Add To Fav" aria-label='Add To Fav' /></button>
-                                    <button onClick={() => handleDiary(item)} className='ml-auto'><BiMessageSquareAdd size={22} className='hover:text-teal-400' title="Add To Diary" aria-label='Add To Diary' /></button>
-                                </div>
-                            }
-                        </div>
-                    </motion.div>
+                {searchFoodInput?.length === 0 && responseList?.map((item, index) => (
+                    <ListItem item={item} index={index} />
                 ))}
             </div>
         </div>

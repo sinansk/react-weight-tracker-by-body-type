@@ -15,7 +15,8 @@ export const favFoodsSlice = createSlice({
             state.favFoods.push(action.payload);
         },
         deleteFavFoodFromRedux: (state, action) => {
-            state.favFoods = state.favFoods.filter((food) => food.id !== action.payload);
+            console.log("action.payload", action.payload);
+            state.favFoods = state.favFoods.filter((food) => food.food_id !== action.payload);
         },
     },
 });
