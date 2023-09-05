@@ -77,7 +77,7 @@ const WithNavbar = () => {
     };
 
     return (
-        <>
+        <div className='overflow-x-hidden max-w-screen'>
             <Navbar />
             <Outlet />
             {steps?.length > 0 && tourRun && tourActive && (
@@ -100,7 +100,7 @@ const WithNavbar = () => {
                     }}
                 />
             )}
-        </>
+        </div>
     );
 };
 

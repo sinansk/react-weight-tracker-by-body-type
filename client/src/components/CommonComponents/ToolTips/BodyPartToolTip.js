@@ -8,7 +8,7 @@ const BodyPartTooltip = ({ className, bodyPart }) => {
         if (!imgSource) return null
 
         return (
-            <div>
+            <div className=''>
                 <img src={imgSource} alt={bodyPart} className='object-cover w-36 h-36 sm:w-96 sm:h-96' />
             </div>
         )

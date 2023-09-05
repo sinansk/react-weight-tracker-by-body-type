@@ -24,7 +24,7 @@ export const myStatsSteps = [
         target: ".records",
         content: "You can see your past records from here.",
         disableBeacon: true,
-        position: "bottom",
+        position: "top",
     },
     {
         target: ".new-record",
@@ -43,8 +43,7 @@ export const myStatsSteps = [
         disableBeacon: true,
         hideCloseButton: true,
         hideFooter: true,
-        disableOverlayClose: true,
-        spotlightClicks: true,
+        position: "bottom"
     },
 
 ]
