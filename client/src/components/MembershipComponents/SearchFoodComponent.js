@@ -204,7 +204,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
             </div>
             {filteredFavFoods && filteredFavFoods?.length > 0 && searchFoodInput?.length > 0 && (
                 <>
-                    <div className='border-[0.5px] my-2 border-teal-500 rounded-lg w-full flex flex-col items-start shadow-white/10 shadow-md h-full relative'>
+                    <div className='border-[0.5px] my-2 border-teal-500 rounded-lg w-full flex flex-col items-start shadow-white/10 shadow-md max-h-full relative'>
                         <h2 className='px-2 py-1 text-gray-200'>Your fav foods...</h2>
                         <div className="grid min-w-full gap-1 mt-2 text-gray-200 border-b border-white rounded-lg sm:overflow-y-auto no-scrollbar">
                             {filteredFavFoods?.map((item, index) => (

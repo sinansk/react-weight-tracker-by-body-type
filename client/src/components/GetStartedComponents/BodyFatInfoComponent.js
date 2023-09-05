@@ -19,18 +19,18 @@ const BodyFatInfoComponent = ({ gender }) => {
           <form className="flex flex-row items-center flex-1 h-full -mt-4 text-xs md:text-2xl">
             <div className="flex w-full h-full gap-1 px-2">
               <div className="m-auto">
-                <InputPrimary label="Neck" name="neck" reduxName='measurements' type="number" />
-                <InputPrimary label="Shoulder" name="shoulder" reduxName='measurements' type="number" />
-                <InputPrimary label="Chest" name="chest" reduxName='measurements' type="number" />
-                <InputPrimary label="Arm" name="arm" reduxName='measurements' type="number" />
-                <InputPrimary label="Fore Arm" name="forearm" reduxName='measurements' type="number" />
+                <InputPrimary label="Neck" name="neck" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Shoulder" name="shoulder" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Chest" name="chest" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Arm" name="arm" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Fore Arm" name="forearm" reduxName='measurements' type="number" toolTip={true} />
               </div>
               <div className="m-auto">
-                <InputPrimary label="Wrist" name="wrist" reduxName='measurements' type="number" />
-                <InputPrimary label="Waist" name="waist" reduxName='measurements' type="number" />
-                <InputPrimary label="Hip" name="hip" reduxName='measurements' type="number" />
-                <InputPrimary label="Thigh" name="thigh" reduxName='measurements' type="number" />
-                <InputPrimary label="Calve" name="calve" reduxName='measurements' type="number" />
+                <InputPrimary label="Wrist" name="wrist" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Waist" name="waist" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Hip" name="hip" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Thigh" name="thigh" reduxName='measurements' type="number" toolTip={true} />
+                <InputPrimary label="Calve" name="calve" reduxName='measurements' type="number" toolTip={true} />
               </div>
             </div>
           </form>

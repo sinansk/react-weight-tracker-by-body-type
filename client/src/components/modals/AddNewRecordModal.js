@@ -10,6 +10,7 @@ import * as Yup from "yup"
 import PhotoUploadComponent from "../MembershipComponents/PhotoUploadComponent";
 import moment from "moment";
 import TooltipComponent from "../CommonComponents/TooltipComponent";
+import BodyPartTooltip from "../CommonComponents/ToolTips/BodyPartToolTip";
 
 const AddNewRecordModal = () => {
     const dispatch = useDispatch()
@@ -66,7 +67,6 @@ const AddNewRecordModal = () => {
                                             component="div"
                                             className="text-red-500 "
                                         />
-
                                     </div>
                                     <Field
                                         required
@@ -84,7 +84,6 @@ const AddNewRecordModal = () => {
                                             component="div"
                                             className="text-red-500 "
                                         />
-                                        <TooltipComponent tooltipName="height" tooltipContent="Enter your height in centimeters." />
                                     </div>
                                     <Field
                                         required
@@ -133,15 +132,18 @@ const AddNewRecordModal = () => {
                                                             className="text-red-500 "
                                                         />
                                                     </div>
-                                                    <Field
-                                                        required
-                                                        className={`${errors[key] && touched[key] ? 'border-red-500' : 'border-[hsl(0,0%,80%)] '} w-full px-4 font-thin rounded outline-none lg:h-[38px] border-[1px] focus:border-2 focus:border-blue-400`}
-                                                        type="number"
-                                                        name={key}
-                                                        onChange={handleChange}
-                                                        value={values[key]}
-                                                        reduxName='measurements'
-                                                    />
+                                                    <div className='relative flex items-center'>
+                                                        <Field
+                                                            required
+                                                            className={`${errors[key] && touched[key] ? 'border-red-500' : 'border-[hsl(0,0%,80%)] '}  w-full px-4 font-thin rounded outline-none lg:h-[38px] border-[1px] focus:border-2 focus:border-blue-400`}
+                                                            type="number"
+                                                            name={key}
+                                                            onChange={handleChange}
+                                                            value={values[key]}
+                                                            reduxName='measurements'
+                                                        />
+                                                        <BodyPartTooltip bodyPart={key} className="absolute top-0 bottom-0 flex items-center justify-center right-2" />
+                                                    </div>
                                                 </li>
                                             ))}
                                         </ul>
