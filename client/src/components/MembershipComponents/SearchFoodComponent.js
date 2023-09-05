@@ -288,7 +288,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                             {currentUser &&
                                 <div className='absolute flex flex-col items-center justify-center h-full gap-4 my-auto ml-auto sm:gap-3 right-1 sm:right-2 top-1 bottom-1 sm:top-2 sm:bottom-2'>
                                     {filteredFavFoods?.find((food) => food.food_id === item.food_id) ? (
-                                        <button onClick={() => handleFavDelete(item)} className='ml-auto'><AiFillHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] text-teal-400' title="Remove from fav" aria-label='Remove from fav' /></button>
+                                        <button onClick={() => handleFavDelete(item)} className='ml-auto'><AiFillHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] text-teal-400 hover:text-teal-500' title="Remove from fav" aria-label='Remove from fav' /></button>
                                     ) : (
                                         <button onClick={() => handleFav(item)} className='ml-auto'><AiOutlineHeart className='w-4 h-4 sm:w-[22px] sm:h-[22px] hover:text-teal-400' title="Add To Fav" aria-label='Add To Fav' /></button>
                                     )}

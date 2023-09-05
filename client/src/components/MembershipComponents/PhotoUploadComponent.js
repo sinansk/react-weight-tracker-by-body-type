@@ -53,13 +53,13 @@ const PhotoUploadComponent = () => {
     }, [photoUrl, dispatch])
 
     return (
-        <div className="w-full mb-auto text-center rounded-md">
+        <div className="w-full my-5 mb-auto text-center rounded-md">
             {/* <h2 className="font-bold">YOUR ACTUAL PHOTO</h2> */}
             <label htmlFor="photo-upload" className="cursor-pointer">
                 <div>
                     {photoUrl?.url ? (
                         <div className="relative inline-block group">
-                            <img src={photoUrl?.url} className="w-56 h-48 mx-auto " alt="body" />
+                            <img src={photoUrl?.url} className="w-56 h-48 mx-auto rounded-lg" alt="body" />
                             <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
                                 <div className="flex items-center justify-center w-full h-full text-white bg-black rounded bg-opacity-20">
                                     <button type="button" onClick={() => createModal("ImageModal", { photo: photoUrl?.url })} className="px-3 py-1 text-white rounded "><AiFillEye size={30} /></button>

@@ -34,10 +34,6 @@ const StickyInfo = () => {
         setIsbottomBarVisible(!isbottommBarVisible)
     }
 
-    useEffect(() => {
-        console.log(isbottommBarVisible, "isbottommBarVisible")
-    }, [isbottommBarVisible])
-
     const handleActiveClass = (isActive) => {
         if (isActive) {
             return "text-teal-400 flex items-center shadow-[inset_0_1px_-2px_rgba(0,0,0,0.6)] justify-center bg-gray-300/10 rounded-md p-2";
@@ -53,10 +49,9 @@ const StickyInfo = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 1, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed bottom-0 left-0 right-0 z-40 invisible py-2 mt-10 text-gray-300 border-t-2 border-gray-300 rounded-t-lg bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 sm:visible">
+                className="fixed bottom-0 left-0 right-0 z-40 invisible py-2 text-gray-300 border-t-2 border-gray-300 rounded-t-lg mt-30 bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 sm:visible">
                 {isbottommBarVisible ? (
                     <div className="grid items-center grid-cols-5 gap-10">
-
                         <div className="relative flex flex-col items-center justify-center h-full col-span-1 p-4 text-center cursor-pointer calendar place-content-start"
                             onMouseEnter={() => setIsCalendarVisible(true)}
                             onMouseLeave={() => setIsCalendarVisible(false)}
@@ -70,7 +65,7 @@ const StickyInfo = () => {
                                 <div className="absolute left-0 z-30 bottom-full calendar">
                                     <Calendar
                                         showContextMenu={true}
-                                        className="p-5 text-gray-200 border-2 border-b-0 rounded-lg  bg-gradient-to-r from-teal-900 to-teal-900/95 backdrop:blur-lg w-fit"
+                                        className="p-5 text-gray-200 border-2 border-b-0 rounded-lg bg-gradient-to-r from-teal-900 to-teal-900/95 backdrop:blur-lg w-fit"
                                         onDateClick={handleDateClick} diaryDates={diaryDates} />
                                 </div>
                             )}

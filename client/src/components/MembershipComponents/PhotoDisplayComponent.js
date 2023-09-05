@@ -60,7 +60,7 @@ const PhotoDisplayComponent = ({ className, isEditable, item, willUpdateNow = fa
                     <img src={photo} alt="user" className="w-full h-full rounded-lg" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
                         <div className="flex items-center justify-center w-full h-full p-2 text-white bg-black rounded bg-opacity-20">
-                            <button onClick={() => createModal("ImageModal", { photo: photo })} className="px-3 py-1 text-white rounded"><AiFillEye size={30} /></button>
+                            <button onClick={() => createModal("ImageModal", { photo: photo, item })} className="px-3 py-1 text-white rounded"><AiFillEye size={30} /></button>
                             {isEditable && (
                                 <button onClick={handleDelete} className="px-3 py-1 text-white rounded"><TiDeleteOutline size={30} /></button>
                             )}

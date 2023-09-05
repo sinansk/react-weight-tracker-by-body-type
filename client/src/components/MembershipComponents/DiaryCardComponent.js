@@ -162,7 +162,7 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
     }
     return (
         <>
-            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200  bg-gray-500/50 w-[600px] h-fit overflow-auto  no-scrollbar`}>
+            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200  bg-gray-500/50 w-[600px] h-fit overflow-auto no-scrollbar`}>
                 <div className='flex items-center'>
                     <h2 className='p-2 m-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>
                     {diary &&
@@ -177,7 +177,7 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                             {foods?.map((item, rowIndex) => (
                                 <tr key={rowIndex} className=''>
                                     {columns.map((column) => (
-                                        <td className='px-1.5 py-1 sm:px-3 sm:py-2 ' key={column.id}>
+                                        <td className='px-1.5 py-1 sm:px-3 sm:py-2 ' key={column.id} title={column.id}>
                                             {column.id !== "food_name" ? (
                                                 <p className='font-medium text-md'>{item[column.id]}</p>
                                             ) : (
@@ -222,10 +222,10 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                             <tfoot className='font-bold'>
                                 <tr>
                                     <td onClick={handleAddButton} colSpan={2}><span className="flex flex-row items-center justify-center px-3 py-1.5  text-teal-500 rounded-lg cursor-pointer hover:bg-gray-400/40" ><IoIosAdd size={20} /> Add Quick Calorie</span></td>
-                                    <td>{diary?.totalNutrient?.totalCarbs}</td>
-                                    <td>{diary?.totalNutrient?.totalFat}</td>
-                                    <td>{diary?.totalNutrient?.totalProtein}</td>
-                                    <td>{diary?.totalNutrient?.totalCalories}</td>
+                                    <td title='Total Carbs'>{diary?.totalNutrient?.totalCarbs}</td>
+                                    <td title='Total Fat'>{diary?.totalNutrient?.totalFat}</td>
+                                    <td title='Total Protein'>{diary?.totalNutrient?.totalProtein}</td>
+                                    <td title='Total Calories'>{diary?.totalNutrient?.totalCalories}</td>
                                     <td />
                                 </tr>
                             </tfoot>

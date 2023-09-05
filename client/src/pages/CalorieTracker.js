@@ -74,10 +74,9 @@ const CalorieTracker = () => {
         const filteredFavFoods = favFoods.filter((food) => food?.food_name?.toLowerCase().includes(e.target.value.toLowerCase()))
         setFilteredFavFoods(filteredFavFoods)
     }
-
-
     return (
-        <div className='flex flex-col md:px-10 sm:grid md:grid-cols-10'>
+
+        <div className={`flex flex-col md:px-10 sm:grid md:grid-cols-10 sm:overflow-y-hidden sm:h-[800px]`}>
             <div className='flex items-end justify-start overflow-x-scroll md:items-center md:flex-col no-scrollbar md:w-full md:py-10 md:col-span-2'>
                 {macroNeeds && (
                     <div className='min-w-[70vw] md:w-full flex flex-col items-center'>
@@ -93,11 +92,11 @@ const CalorieTracker = () => {
                     </div>
                 )}
             </div>
-            <div className='sm:col-span-4 flex flex-col sm:py-10 sm:overflow-hidden  px-1.5 calorie-tracker-page '>
+            <div className='sm:col-span-4 flex flex-col sm:py-10 sm:overflow-auto no-scrollbar sm:max-h-full  px-1.5 calorie-tracker-page '>
                 <div className=''>
                     {calendarDate &&
                         <DiaryCardComponent
-                            className={`${calendarExpand && `hidden`} max-w-full`}
+                            className={`${calendarExpand && `hidden`} max-w-full `}
                             selectedDate={calendarDate}
                             calendarExpand={calendarExpand}
                             setCalendarExpand={setCalendarExpand} />}
@@ -108,7 +107,7 @@ const CalorieTracker = () => {
                         showContextMenu={true}
                     />
                     {/* <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full search-food" selectedDate={calendarDate} /> */}
-                    <StickyInfo />
+
                 </div>
                 {/* <div className='flex flex-col gap-16'>
                     <TotalCalorieCard className="" selectedDate={selectedDate} /> 
@@ -121,10 +120,15 @@ const CalorieTracker = () => {
                     haveButton={false}
                     className={`${!favFoods?.length > 0 && `hidden`} sm:w-[600px] mx-auto max-w-full search-food`} placeholder="Search your favourites" />
             </div> */}
-            <div className='flex flex-col h-full gap-10 border-l border-gray-200 sm:col-span-4 '>
+            <div className='flex flex-col h-full gap-10 px-1 border-gray-200 md:border-l sm:overflow-y-auto no-scrollbar sm:col-span-4'>
                 <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full search-food" selectedDate={calendarDate} />
             </div>
+            <div className='pt-10' >
+                <StickyInfo />
+            </div>
         </div>
+
+
     )
 }
 

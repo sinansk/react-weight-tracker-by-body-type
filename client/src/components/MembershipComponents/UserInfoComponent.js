@@ -35,7 +35,7 @@ const UserInfoComponent = () => {
         {/* <h2 className="hidden sm:block">Welcome <span className="font-semibold underline ">{user.currentUser.email}</span> You are our member .</h2>
         <SiAddthis className="absolute hidden my-auto text-2xl cursor-pointer sm:block sm:right-8 hover:text-gray-200 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" /> */}
       </button>
-      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 font-mono rounded-lg shadow-md sm:p-2 bg-amber-400/80 backdrop-blur-md actual-info">
+      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 font-mono text-gray-200 rounded-lg shadow-md sm:p-2 bg-teal-700/50 backdrop-blur-md actual-info">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
@@ -43,34 +43,34 @@ const UserInfoComponent = () => {
             {/* <EditButton styleProps={`absolute right-1 top-1`} onClick={() => createModal("UserInfoModal", { willOpenModal: "MeasurementsModal" })} size={20} /> */}
             <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-700">Age:</span> {userData?.personalInfo.age}</p>
-                <p className=""><span className="font-semibold text-sky-700">Height:</span> {userData?.personalInfo.height + ` cm`}</p>
-                <p className=""><span className="font-semibold text-sky-700">Weight:</span> {userData?.personalInfo.weight + ` kg`}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Age:</span> {userData?.personalInfo.age}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Height:</span> {userData?.personalInfo.height + ` cm`}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Weight:</span> {userData?.personalInfo.weight + ` kg`}</p>
               </div>
               <div className="col-span-4 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-700">Body Type:</span> {userData?.personalInfo.bodyType}</p>
-                <p className=""><span className="font-semibold text-sky-700">Body Goal:</span> {userData?.personalInfo.bodyGoalStatus}</p>
-                <p className=""><span className="font-semibold text-sky-700">Activity Level:</span> {userData?.personalInfo.activityLevel}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Body Type:</span> {userData?.personalInfo.bodyType}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Body Goal:</span> {userData?.personalInfo.bodyGoalStatus}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Activity Level:</span> {userData?.personalInfo.activityLevel}</p>
               </div>
             </div>
           </>
         )}
       </div>
-      <div className="col-span-3 col-start-1 row-span-2 row-start-4 font-mono rounded-lg shadow-md sm:p-2 bg-green-400/80 backdrop-blur-md calculated-results">
+      <div className="col-span-3 col-start-1 row-span-2 row-start-4 font-mono text-gray-200 rounded-lg shadow-md sm:p-2 bg-teal-700/50 backdrop-blur-md calculated-results">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
             <h2 className="text-base font-bold h-1/5">CALCULATED RESULTS</h2>
             <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-700">Body Fat (%):</span> {userData?.results?.bodyFatUsNavy}</p>
-                <p className=""><span className="font-semibold text-sky-700">BMI:</span> {userData?.results?.bmi}</p>
-                <p className="" ><span className="font-semibold text-sky-700">BMR:</span> {userData?.results?.calorieNeed?.BMR} kcal</p>
+                <p className=""><span className="font-semibold text-cyan-400">Body Fat (%):</span> {userData?.results?.bodyFatUsNavy}</p>
+                <p className=""><span className="font-semibold text-cyan-400">BMI:</span> {userData?.results?.bmi}</p>
+                <p className="" ><span className="font-semibold text-cyan-400">BMR:</span> {userData?.results?.calorieNeed?.BMR} kcal</p>
               </div>
               <div className="col-span-4 sm:col-span-1">
-                <p className=""><span className="font-semibold text-sky-700">Ideal Weight:</span> {userData?.results?.idealWeightRange}</p>
-                <p className=""><span className="font-semibold text-sky-700">Weight Status:</span> {userData?.results?.idealWeightStatus}</p>
-                <p className=""><span className="font-semibold text-sky-700">Daily Calorie Need :</span> {userData?.results?.calorieNeedByBodyGoal}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Ideal Weight:</span> {userData?.results?.idealWeightRange}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Weight Status:</span> {userData?.results?.idealWeightStatus}</p>
+                <p className=""><span className="font-semibold text-cyan-400">Daily Calorie Need :</span> {userData?.results?.calorieNeedByBodyGoal}</p>
               </div>
             </div>
           </>
