@@ -101,7 +101,7 @@ const UserRecordsComponent = () => {
           {columns.map((column) => (
             <th
               key={column.id}
-              className={`px-2 py-1 sm:px-6 z-20 sm:py-3 text-xs font-medium tracking-wider text-center bg-slate-200 text-gray-500 uppercase ${column.id === 'date' ? 'sticky left-0 top-0 bg-slate-300' : ''}`}
+              className={`px-2 py-1 sm:px-6 z-20 sm:py-3 text-xs font-medium tracking-wider text-center bg-slate-200 text-gray-500 uppercase ${column.id === 'date' ? 'records sticky left-0 top-0 bg-slate-300' : ''}`}
             >
               {column.label}
             </th>
@@ -114,7 +114,7 @@ const UserRecordsComponent = () => {
   return (
 
     <div className="container z-20 h-screen mx-auto mt-5 overflow-auto text-sm text-gray-200 sm:text-base no-scrollbar ">
-      <table className="min-w-full divide-y divide-gray-200 records">
+      <table className="min-w-full divide-y divide-gray-200 ">
         {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
           <LoadingComponent />
         ) : (
