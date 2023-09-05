@@ -11,15 +11,11 @@ const MyStats = () => {
 
   return (
     <div className="items-center justify-center w-screen h-full min-h-screen overflow-x-hidden text-center ">
-      {/* {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
-        <LoadingComponent />
-      ) : ( */}
-      <>
+      <div className="sm:mb-20">
         <UserInfoComponent />
         <UserRecordsComponent />
-        <StickyInfo />
-      </>
-      {/* )} */}
+      </div>
+      <StickyInfo />
     </div>
   );
 };

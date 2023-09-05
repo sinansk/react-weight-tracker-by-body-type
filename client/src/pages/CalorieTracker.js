@@ -92,7 +92,7 @@ const CalorieTracker = () => {
                     </div>
                 )}
             </div>
-            <div className='sm:col-span-4 flex flex-col sm:py-10 sm:overflow-auto no-scrollbar sm:max-h-full  px-1.5 calorie-tracker-page '>
+            <div className='sm:col-span-4 flex flex-col sm:py-10  sm:max-h-full  px-1.5 calorie-tracker-page '>
                 <div className=''>
                     {calendarDate &&
                         <DiaryCardComponent
@@ -120,7 +120,7 @@ const CalorieTracker = () => {
                     haveButton={false}
                     className={`${!favFoods?.length > 0 && `hidden`} sm:w-[600px] mx-auto max-w-full search-food`} placeholder="Search your favourites" />
             </div> */}
-            <div className='flex flex-col h-full gap-10 px-1 border-gray-200 md:border-l sm:overflow-y-auto no-scrollbar sm:col-span-4'>
+            <div className='flex flex-col h-full gap-10 px-1 border-gray-200 md:border-l sm:col-span-4'>
                 <SearchFoodComponent className=" sm:w-[600px] mx-auto max-w-full search-food" selectedDate={calendarDate} />
             </div>
             <div className='pt-10' >

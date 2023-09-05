@@ -38,9 +38,9 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
         { id: "calories", label: "Calories" }
     ]
 
-    const TableHeader = ({ columns }) => {
+    const TableHeader = ({ className, columns }) => {
         return (
-            <thead className='w-full '>
+            <thead className={`${className} w-full `}>
                 <tr>
                     {columns.map((column) => (
                         <th className={` `} key={column.id}>{column.label}</th>
@@ -162,8 +162,8 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
     }
     return (
         <>
-            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200  bg-gray-500/50 w-[600px] h-fit overflow-auto no-scrollbar`}>
-                <div className='flex items-center'>
+            <div className={`${className} p-1 sm:p-5 text-xs sm:text-base pt-0 mx-auto shadow-lg rounded-xl text-gray-200  bg-gray-500/50 w-[600px] h-fit sm:max-h-[700px] overflow-auto no-scrollbar`}>
+                <div className='relative flex items-center'>
                     <h2 className='p-2 m-auto text-lg' onClick={handleCalendarExpand}>{selectedDate}</h2>
                     {diary &&
                         <button title='Save As Routine' onClick={handleAddRoutine} className='float-right hover:text-teal-500'><AiFillSave className='w-5 h-5 sm:w-8 sm:h-8' /></button>
@@ -172,7 +172,6 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                 {foods ? (
                     <table className='min-w-full p-5 divide-y divide-gray-100'>
                         <TableHeader columns={columns} />
-
                         <tbody className="divide-y divide-gray-400 ">
                             {foods?.map((item, rowIndex) => (
                                 <tr key={rowIndex} className=''>
@@ -217,7 +216,6 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                                 <td><button className='flex items-center justify-center' onClick={addCustomFood}><TbSquareRoundedCheckFilled size={18} className='m-auto text-teal-500 cursor-pointer hover:text-teal-400' /></button></td>
                             </tr>
                         </tbody>
-
                         {diary &&
                             <tfoot className='font-bold'>
                                 <tr>
@@ -249,7 +247,6 @@ const DiaryCardComponent = ({ className, selectedDate, calendarExpand, setCalend
                                 </div>
                             </div>
                         )}
-                        {/* <button onClick={handleAdd} ><span className="flex flex-row items-center justify-center px-3 py-1.5 text-pink-500 rounded-lg cursor-pointer hover:bg-gray-100" ><IoIosAdd size={20} /> Add custom food</span></button> */}
                     </div>
                 )}
             </div>

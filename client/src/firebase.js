@@ -469,7 +469,7 @@ export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
   const dateString = data.date;
   const food = data
   const newtotalNutrient = calculateTotalNutrients({ calorieDiary, selectedDate, food, operation: "delete" });
-
+  console.log(newtotalNutrient, "newtotalNutrient")
   try {
     const userRef = collection(db, "users");
     const userDocRef = doc(userRef, uid);
@@ -482,8 +482,8 @@ export const deleteDailyCalorie = async (data, calorieDiary, selectedDate) => {
       const docId = querySnapshot.docs[0].id;
       const docData = querySnapshot.docs[0].data();
       const updatedFoods = docData.foods.filter((food) => food.id !== id);
-      if (newtotalNutrient === null) {
-        await deleteDoc(doc(calorieRecordsRef, docId)) // Delete the document if the foods array is empty      
+      if (updatedFoods.length === 0) {
+        await deleteDoc(doc(calorieRecordsRef, docId))
       } else {
         await updateDoc(doc(calorieRecordsRef, docId), { foods: updatedFoods, totalNutrient: newtotalNutrient },);
       }

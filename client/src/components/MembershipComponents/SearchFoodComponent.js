@@ -193,7 +193,7 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
     }
 
     return (
-        <div className={`${className} py-10  w-full`} >
+        <div className={`${className} py-10 sm:max-h-[700px] w-full`} >
             <div className='flex items-center justify-between gap-1 sm:gap-4 '>
                 <SearchComponent className={``} value={searchFoodInput} onChange={handleInputChange} placeholder="Search food..." onButtonClick={handleSearch} loading={isLoading} />
                 {currentUser && (
@@ -204,9 +204,9 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
             </div>
             {filteredFavFoods && filteredFavFoods?.length > 0 && searchFoodInput?.length > 0 && (
                 <>
-                    <div className='border-[0.5px] my-2 border-teal-500 rounded-lg w-full flex flex-col items-start shadow-white/10 shadow-md '>
+                    <div className='border-[0.5px] my-2 border-teal-500 rounded-lg w-full flex flex-col items-start shadow-white/10 shadow-md h-full relative'>
                         <h2 className='px-2 py-1 text-gray-200'>Your fav foods...</h2>
-                        <div className="grid min-w-full gap-1 mt-2 overflow-hidden text-gray-200 border-b border-white rounded-lg">
+                        <div className="grid min-w-full gap-1 mt-2 text-gray-200 border-b border-white rounded-lg sm:overflow-y-auto no-scrollbar">
                             {filteredFavFoods?.map((item, index) => (
                                 <motion.div
                                     key={index}
@@ -249,14 +249,14 @@ const SearchFoodComponent = ({ className, selectedDate }) => {
                                 </motion.div>
                             ))}
                         </div>
-                        <button type='button' onClick={handleSearch} className='flex items-center w-full gap-1 p-2 text-gray-200 sm:gap-4 hover:bg-gray-500/20'>
+                        <button type='button' onClick={handleSearch} className='sticky bottom-0 left-0 right-0 flex items-center w-full gap-1 p-2 text-gray-200 sm:gap-4 hover:bg-gray-500/20'>
                             <AiOutlineSearch size={30} className='' />
                             <p className='text-lg font-semibold'>Search for "{searchFoodInput}"</p>
                         </button>
                     </div>
                 </>
             )}
-            <div className="grid min-w-full gap-1 mt-2 overflow-hidden text-gray-200 rounded-lg">
+            <div className='grid h-full min-w-full gap-1 mt-2 overflow-hidden text-gray-200 rounded-lg sm:overflow-y-auto no-scrollbar'>
                 {searchFoodInput?.length === 0 && responseList?.map((item, index) => (
                     <motion.div
                         key={index}

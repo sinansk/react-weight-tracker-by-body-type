@@ -35,7 +35,7 @@ const UserInfoComponent = () => {
         {/* <h2 className="hidden sm:block">Welcome <span className="font-semibold underline ">{user.currentUser.email}</span> You are our member .</h2>
         <SiAddthis className="absolute hidden my-auto text-2xl cursor-pointer sm:block sm:right-8 hover:text-gray-200 " onClick={() => createModal("UpdateProfileModal")} title="Add Body Record" /> */}
       </button>
-      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 font-mono text-gray-200 rounded-lg shadow-md sm:p-2 bg-teal-700/50 backdrop-blur-md actual-info">
+      <div className="relative col-span-3 col-start-1 row-span-2 row-start-2 font-mono text-gray-200 rounded-lg shadow-md sm:p-2 bg-teal-700/60 hover:bg-teal-700/70 backdrop-blur-md actual-info">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
@@ -56,7 +56,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="col-span-3 col-start-1 row-span-2 row-start-4 font-mono text-gray-200 rounded-lg shadow-md sm:p-2 bg-teal-700/50 backdrop-blur-md calculated-results">
+      <div className="col-span-3 col-start-1 row-span-2 row-start-4 font-mono text-gray-200 rounded-lg shadow-md sm:p-2 bg-teal-700/60 hover:bg-teal-700/70 backdrop-blur-md calculated-results">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
@@ -76,7 +76,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 px-4 py-2 font-mono text-gray-200 rounded-lg shadow-md bg-teal-700/50 backdrop-blur-md measurements">
+      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 px-4 py-2 font-mono text-gray-200 rounded-lg shadow-md bg-teal-700/60 hover:bg-teal-700/70 backdrop-blur-md measurements">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <div className="flex justify-around w-full ">
             <BigLoader />
