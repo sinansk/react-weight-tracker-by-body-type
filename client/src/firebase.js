@@ -12,7 +12,8 @@ import {
   reauthenticateWithCredential,
   sendPasswordResetEmail,
   updateProfile,
-  updatePassword
+  updatePassword,
+  signInWithPopup
 } from "firebase/auth";
 import {
   getFirestore,
@@ -52,6 +53,9 @@ import { fetchCalorieRecords, fetchCalorieRecordsForMonth } from "./redux/userDi
 import { setCustomFoods } from "./redux/customFoods";
 import { convertDateToIso } from "./utils/convertDateToIso";
 import { addFavFood, addFavFoodToRedux, deleteFavFoodFromRedux, setFavFoods } from "./redux/favFoods";
+import { GoogleAuthProvider } from "firebase/auth";
+import { useHistory } from 'react-router-dom'; // React Router kullanılıyor varsayalım
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -125,6 +129,51 @@ export const login = async (email, password) => {
   } catch (err) {
     toast.error(err.message);
     console.log(err.message);
+  }
+};
+
+export const loginWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
+  let isNewUser;
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log(user, "user");
+
+    if (user) {
+      store.dispatch(
+        loginHandle({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          phoneNumber: user.phoneNumber,
+        })
+      );
+    }
+
+    const res = await store.dispatch(fetchUserInfo());
+    console.log(res, "res")
+    if (res.type === "userRecords/fetchUserInfo/fulfilled") {
+      const currentDate = moment();
+      const year = currentDate.year();
+      const month = currentDate.month() + 1;
+      store.dispatch(fetchCalorieRecordsForMonth({ year, month }));
+      await getCustomFoods(user.uid);
+      await getCalorieRoutines(user.uid);
+      await getFavFoods(user.uid);
+      isNewUser = false;
+    } else if (res.type === "userRecords/fetchUserInfo/rejected") {
+      isNewUser = true;
+    }
+    return isNewUser;
+  } catch (error) {
+    console.error('error:', error);
   }
 };
 

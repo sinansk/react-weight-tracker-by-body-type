@@ -26,7 +26,6 @@ const Navbar = () => {
     setIsNavOpen((prev) => !prev);
   };
   const NavLinks = [
-    { path: "/", text: "RESET" },
     { path: "/idealweight", text: "IDEAL WEIGHT" },
     { path: "/bodyfat", text: "BODY FAT" },
     { path: "/dailycalorie", text: "DAILY CALORIE" },
@@ -38,6 +37,9 @@ const Navbar = () => {
         { path: "/login", text: "LOGIN" },
       ]),
   ];
+  if (!currentUser) {
+    NavLinks.unshift({ path: "/", text: "RESET" });
+  }
 
   useOutSideClick(profileMenuRef, setIsMenuOpen)
   return (

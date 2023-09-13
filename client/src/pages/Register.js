@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { register } from "../firebase";
+import { loginWithGoogle, register } from "../firebase";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +14,20 @@ const Register = () => {
       replace: true,
     });
   };
+
+  const handleGoogleLogin = async () => {
+    const result = await loginWithGoogle();
+
+    if (result === true) {
+      navigate("/getstarted", {
+        replace: true,
+      });
+    } else if (result === false) {
+      navigate("/mystats", {
+        replace: true,
+      });
+    }
+  }
 
   return (
 
@@ -68,7 +82,10 @@ const Register = () => {
             <hr className="border-gray-500" />
           </div>
 
-          <button className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 ">
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"

@@ -4,12 +4,13 @@ const AuthRoutes = () => {
     const { currentUser } = useSelector((state) => state.user)
     const location = useLocation()
     const navigate = useNavigate()
-    const params = useParams()
-    console.log("location", location)
     if (!currentUser) {
         return <Outlet />;
     } else {
-        return <Navigate to="/" replace={true} />;
+        if (location.pathname === "/") {
+            navigate("/mystats")
+        }
+        return <Navigate to={`/mystats`} replace={true} />;
     }
 };
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { login } from "../firebase";
+import { login, loginWithGoogle } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"
 import { createModal } from "../utils/modalHooks";
@@ -28,6 +28,20 @@ const Login = () => {
       [name]: value,
     });
   };
+
+  const handleGoogleLogin = async () => {
+    const result = await loginWithGoogle();
+    console.log(result, 'result');
+    if (result === true) {
+      navigate("/getstarted", {
+        replace: true,
+      });
+    } else if (result === false) {
+      navigate("/mystats", {
+        replace: true,
+      });
+    }
+  }
   return (
     <section className="flex items-center justify-center min-h-screen">
       <div className="flex w-full max-w-3xl p-5 mx-1 bg-gray-100 shadow-lg rounded-2xl">
@@ -89,7 +103,10 @@ const Login = () => {
             <hr className="border-gray-500" />
           </div>
 
-          <button className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 ">
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
