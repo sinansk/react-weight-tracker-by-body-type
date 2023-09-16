@@ -681,6 +681,7 @@ export const saveDiaryAsRoutine = async (data) => {
 
     }
     toast.success("Routine saved successfully.");
+    getCalorieRoutines(uid)
   } catch (error) {
     toast.error(error.message);
     console.log(error);

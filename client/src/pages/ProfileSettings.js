@@ -213,6 +213,9 @@ const ProfileSetting = () => {
                                                     ))}
                                                 </select>
                                             </form>
+                                            <p className='text-base font-semibold'>
+                                                Your body type is <span className='text-teal-500'>{values.bodyType}</span>
+                                            </p>
                                         </span>
                                     </div>
                                 </div>

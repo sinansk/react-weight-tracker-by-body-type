@@ -10,6 +10,7 @@ export const userRecordsSlice = createSlice({
         records: null,
         currentPage: 1,
         itemsPerPage: 30,
+        totalPages: null,
     },
 
     reducers: {
