@@ -37,8 +37,7 @@ const AddNewRecordModal = () => {
                 ...schema,
                 [key]: Yup.number()
                     .required(`Please enter ${key}`)
-                    .positive("Value must be positive")
-                    .integer("Value must be an integer"),
+                    .positive("Value must be positive"),
             };
         }, {})
     });
