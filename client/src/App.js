@@ -48,11 +48,11 @@ const App = () => {
             </Route>
           </Route>
           <Route element={<ProtectedRoutes />}>
-            <Route element={<WithNavbar />}>
-              <Route path="/mystats" element={<MyStats />} />
-              <Route path="/calorie-tracker" element={<CalorieTracker />} />
-              <Route path="/settings" element={<ProfileSettings />} />
-            </Route>
+            {/* <Route element={<WithNavbar />}> */}
+            <Route path="/mystats" element={<MyStats />} />
+            <Route path="/calorie-tracker" element={<CalorieTracker />} />
+            <Route path="/settings" element={<ProfileSettings />} />
+            {/* </Route> */}
             <Route element={<WithOutNavbar />}>
               <Route path="/getstarted" element={<GetStarted />} />
             </Route>

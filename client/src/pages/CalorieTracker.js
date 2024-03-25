@@ -74,13 +74,15 @@ const CalorieTracker = () => {
         const filteredFavFoods = favFoods.filter((food) => food?.food_name?.toLowerCase().includes(e.target.value.toLowerCase()))
         setFilteredFavFoods(filteredFavFoods)
     }
+
+
     return (
 
-        <div className={`flex flex-col md:px-10 sm:grid md:grid-cols-10 sm:overflow-y-hidden sm:h-[800px]`}>
+        <div className={`flex flex-col md:px-10 sm:grid md:grid-cols-10 sm:overflow-y-hidden sm:h-[800px] py-5`}>
             <div className='flex items-end justify-start overflow-x-scroll md:items-center md:flex-col no-scrollbar md:w-full md:py-10 md:col-span-2'>
                 {macroNeeds && (
                     <div className='flex flex-col items-center md:w-full'>
-                        <Select className='mx-auto text-black ' inputLabel="Select" options={diets} value={selectedOption} onChange={handleSelectChange} />
+                        <Select className='mx-auto text-xs text-black sm:text-base ' height='20' inputLabel="Select" options={diets} value={selectedOption} onChange={handleSelectChange} />
                         <h2 className='text-lg text-gray-200 sm:mt-3'>Calculated Macros</h2>
                         <PieChartComponent data={chartData} haveLabel={true} />
                     </div>
