@@ -45,7 +45,7 @@ const Navbar = () => {
   return (
     <div className="z-50 flex items-center justify-between overflow-hidden border-gray-400 transition-all-300 lg:border-b">
       <nav className="flex w-screen">
-        <section className="z-50 flex justify-between max-h-screen px-4 py-4 ml-auto overflow-hidden lg:hidden">
+        {/* <section className="z-50 flex justify-between max-h-screen px-4 py-4 ml-auto overflow-hidden lg:hidden">
           <div className="space-y-2" onClick={toggleNav}>
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
@@ -98,7 +98,7 @@ const Navbar = () => {
               )}
             </ul>
           </div>
-        </section>
+        </section> */}
         <div className="items-center hidden mb-2 bg-transparent md:min-h-8 md:py-1 xl:px-10 lg:w-screen lg:flex sm:flex-1 justify-evenly transition-all-900">
           {NavLinks.map(({ path, text, tourClassName }, index) => (
 

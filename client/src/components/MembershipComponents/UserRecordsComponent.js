@@ -111,7 +111,7 @@ const UserRecordsComponent = () => {
   }, [selectedRecords])
   const TableHeader = ({ columns }) => {
     return (
-      <thead className="sticky top-0 left-0 right-0 z-20 mt-4 text-sm shadow-md sm:text-base">
+      <thead className="sticky top-0 left-0 right-0 z-20 mt-4 text-xs shadow-md sm:text-base">
         <tr>
           {columns.map((column) => (
             <th
@@ -128,7 +128,7 @@ const UserRecordsComponent = () => {
 
   return (
 
-    <div className="container z-20 h-screen mx-auto mt-5 overflow-auto text-sm text-gray-200 sm:text-base no-scrollbar ">
+    <div className="container z-20 h-screen mx-auto mt-5 overflow-auto text-xs text-gray-200 sm:text-base no-scrollbar ">
       <table className="min-w-full divide-y divide-gray-200 ">
         {(isLoading === "loading" || isLoading === "idle" || !userRecords) ? (
           <LoadingComponent />
@@ -185,41 +185,41 @@ const UserRecordsComponent = () => {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.2 }}
                         key={item.id + "-details"}
-                        className="text-sm sm:text-base"
+                        className="text-xs sm:text-base"
                       >
                         <td colSpan={columns.length + 1} className="bg-gray-600 shadow-sm ">
                           <div className="flex items-center flex-1 sm:p-2 justify-evenly">
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-xs font-semibold sm:text-base">
                               <RiWaterPercentFill size={34} className="h-5 text-teal-500 sm:h-9" />
                               <p className="underline ">Body Fat Category</p>
                               <p className="">{item.data.bodyFatCategory}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-xs font-semibold sm:text-base">
                               <GiMuscleUp size={34} className="h-5 text-teal-500 sm:h-9" />
                               <p className="underline ">Lean Body Mass</p>
                               <p className="">{item.data.leanBodyMass}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-xs font-semibold sm:text-base">
                               <GiMuscleFat size={34} className="h-5 text-teal-500 sm:h-9" />
                               <p className="underline ">Body Fat Mass</p>
                               <p className="">{item.data.bodyFatMass}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-xs font-semibold sm:text-base">
                               <GiStairsGoal size={34} className="h-5 text-teal-500 sm:h-9" />
                               <p className="underline ">Body Goal</p>
                               <p className="">{item.data.bodyGoalStatus}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-xs font-semibold sm:text-base">
                               <ImSpoonKnife size={34} className="h-5 text-teal-500 sm:h-9" />
                               <p className="underline ">Calorie Need By {item.data.bodyGoalStatus}</p>
                               <p className="">{item.data.calorieNeedByBodyGoal}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-xs font-semibold sm:text-base">
                               <LuActivity size={34} className="h-5 text-teal-500 sm:h-9" />
                               <p className="underline ">Activity Level</p>
                               <p className="">{item.data.activityLevel}</p>
                             </div>
-                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-sm font-semibold sm:text-base">
+                            <div className="flex flex-col items-center flex-1 gap-2 p-1 text-xs font-semibold sm:text-base">
                               <FaWeightScale size={34} className="h-5 text-teal-500 sm:h-9" />
                               <p className="underline ">BMI</p>
                               <p className="">{item.data.bmi}</p>

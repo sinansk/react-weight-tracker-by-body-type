@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector, Cell, Tooltip } from 'recharts';
 import { useMediaQuery } from "../../../utils/useMediaQuery";
 
-const PieChartComponent = ({ data }) => {
+const PieChartComponent = ({ data, haveLabel = true }) => {
   const isMobile = useMediaQuery('(max-width: 767px)');
   const customTooltipFormatter = (value, name, entry) => {
     // `value` verisi isteğe bağlı olarak özelleştirilebilir
@@ -44,31 +44,40 @@ const PieChartComponent = ({ data }) => {
   }
   return (
     <div className="flex flex-col items-center mx-auto w-fit">
-      <PieChart width={isMobile ? 200 : 200} height={isMobile ? 200 : 200}>
+      <PieChart width={isMobile ? 150 : 200} height={isMobile ? 150 : 200}>
         <Pie
           data={data}
-          cx={isMobile ? 100 : 100}
-          cy={isMobile ? 100 : 100}
+          cx={isMobile ? 75 : 100}
+          cy={isMobile ? 75 : 100}
           labelLine={false}
           label={renderCustomizedLabel}
-          outerRadius={80}
+          outerRadius={isMobile ? 60 : 80}
           fill="#8884d8"
           dataKey="value"
         >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
+          {
+            data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+
         </Pie>
         <Tooltip formatter={customTooltipFormatter} />
       </PieChart>
 
-      <div className="flex items-center gap-3 mx-auto">
-        {data.map((item, index) => (
-          <div className="flex items-center gap-2" key={index}>
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
-            <span className="text-gray-200">{item.name}</span>
-          </div>
-        ))}
+      <div className="flex items-center gap-3 mx-auto mt-auto">
+        {haveLabel ?
+          data.map((item, index) => (
+            <div className="flex items-center gap-2" key={index}>
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
+              <span className="text-gray-200">{item.name}</span>
+            </div>
+          ))
+          : (
+            <div className="h-6"></div>
+          )
+
+        }
+
       </div>
 
     </div>

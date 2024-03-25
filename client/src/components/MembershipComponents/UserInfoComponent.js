@@ -39,15 +39,15 @@ const UserInfoComponent = () => {
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
-            <h2 className="text-base font-bold h-1/5">ACTUAL INFO</h2>
+            <h2 className="text-sm font-bold lg:text-base h-1/5">ACTUAL INFO</h2>
             {/* <EditButton styleProps={`absolute right-1 top-1`} onClick={() => createModal("UserInfoModal", { willOpenModal: "MeasurementsModal" })} size={20} /> */}
-            <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
+            <div className="grid grid-cols-7 p-2 text-xs text-left lg:text-base sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
                 <p className=""><span className="font-semibold text-cyan-400">Age:</span> {userData?.personalInfo.age}</p>
                 <p className=""><span className="font-semibold text-cyan-400">Height:</span> {userData?.personalInfo.height + ` cm`}</p>
                 <p className=""><span className="font-semibold text-cyan-400">Weight:</span> {userData?.personalInfo.weight + ` kg`}</p>
               </div>
-              <div className="col-span-4 sm:col-span-1">
+              <div className="col-span-4 sm:col-span-1 ">
                 <p className=""><span className="font-semibold text-cyan-400">Body Type:</span> {userData?.personalInfo.bodyType}</p>
                 <p className=""><span className="font-semibold text-cyan-400">Body Goal:</span> {userData?.personalInfo.bodyGoalStatus}</p>
                 <p className=""><span className="font-semibold text-cyan-400">Activity Level:</span> {userData?.personalInfo.activityLevel}</p>
@@ -60,8 +60,8 @@ const UserInfoComponent = () => {
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <UserInfoLoader />) : (
           <>
-            <h2 className="text-base font-bold h-1/5">CALCULATED RESULTS</h2>
-            <div className="grid grid-cols-7 p-2 text-left sm:grid-cols-2 h-4/5">
+            <h2 className="text-sm font-bold lg:text-base h-1/5 ">CALCULATED RESULTS</h2>
+            <div className="grid grid-cols-7 p-2 text-xs text-left lg:text-base sm:grid-cols-2 h-4/5">
               <div className="col-span-3 sm:col-span-1">
                 <p className=""><span className="font-semibold text-cyan-400">Body Fat (%):</span> {userData?.results?.bodyFatUsNavy}</p>
                 <p className=""><span className="font-semibold text-cyan-400">BMI:</span> {userData?.results?.bmi}</p>
@@ -76,7 +76,7 @@ const UserInfoComponent = () => {
           </>
         )}
       </div>
-      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 px-4 py-2 font-mono text-gray-200 rounded-lg shadow-md bg-teal-700/60 hover:bg-teal-700/70 backdrop-blur-md measurements">
+      <div className="flex h-full col-span-2 col-start-4 row-span-4 gap-10 px-4 py-2 font-mono text-xs text-gray-200 rounded-lg shadow-md lg:text-base bg-teal-700/60 hover:bg-teal-700/70 backdrop-blur-md measurements">
         {isLoading === "loading" || userRecordsStatus === "loading" ? (
           <div className="flex justify-around w-full ">
             <BigLoader />

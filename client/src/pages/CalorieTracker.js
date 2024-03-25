@@ -79,16 +79,16 @@ const CalorieTracker = () => {
         <div className={`flex flex-col md:px-10 sm:grid md:grid-cols-10 sm:overflow-y-hidden sm:h-[800px]`}>
             <div className='flex items-end justify-start overflow-x-scroll md:items-center md:flex-col no-scrollbar md:w-full md:py-10 md:col-span-2'>
                 {macroNeeds && (
-                    <div className='min-w-[70vw] md:w-full flex flex-col items-center'>
+                    <div className='flex flex-col items-center md:w-full'>
                         <Select className='mx-auto text-black ' inputLabel="Select" options={diets} value={selectedOption} onChange={handleSelectChange} />
                         <h2 className='text-lg text-gray-200 sm:mt-3'>Calculated Macros</h2>
-                        <PieChartComponent data={chartData} />
+                        <PieChartComponent data={chartData} haveLabel={true} />
                     </div>
                 )}
                 {takenMacros && (
-                    <div className='min-w-[70vw] md:w-full flex flex-col items-center'>
+                    <div className='flex flex-col items-center md:w-full'>
                         <h2 className='text-lg text-gray-200'>Taken Macros</h2>
-                        <PieChartComponent data={takenMacroChartData} />
+                        <PieChartComponent data={takenMacroChartData} haveLabel={false} />
                     </div>
                 )}
             </div>

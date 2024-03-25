@@ -13,7 +13,7 @@ const MeasurementsCard = ({ title, data, isEdiTable }) => {
     return (
         <div className="items-center justify-center flex-1 text-left">
             <div className="flex">
-                <h2 className="text-base font-bold">{title}</h2>
+                <h2 className="text-sm font-bold lg:text-base h-1/5 whitespace-nowrap">{title}</h2>
                 {/* {isEdiTable &&
                     <EditButton styleProps={`ml-1 absolute right-1 top-1`} onClick={handleEditClick} size={20} />
                 } */}
