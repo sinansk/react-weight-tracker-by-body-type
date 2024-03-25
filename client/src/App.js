@@ -24,6 +24,7 @@ import ReactJoyride from "react-joyride";
 import { calorieTrackerSteps, myStatsSteps, steps } from "./components/TourSteps";
 
 const App = () => {
+
   return (
     <div className="w-full min-h-screen pb-10 text-center bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800">
 
@@ -48,11 +49,11 @@ const App = () => {
             </Route>
           </Route>
           <Route element={<ProtectedRoutes />}>
-            {/* <Route element={<WithNavbar />}> */}
-            <Route path="/mystats" element={<MyStats />} />
-            <Route path="/calorie-tracker" element={<CalorieTracker />} />
-            <Route path="/settings" element={<ProfileSettings />} />
-            {/* </Route> */}
+            <Route element={<WithNavbar />}>
+              <Route path="/mystats" element={<MyStats />} />
+              <Route path="/calorie-tracker" element={<CalorieTracker />} />
+              <Route path="/settings" element={<ProfileSettings />} />
+            </Route>
             <Route element={<WithOutNavbar />}>
               <Route path="/getstarted" element={<GetStarted />} />
             </Route>
