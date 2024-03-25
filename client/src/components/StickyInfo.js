@@ -80,7 +80,7 @@ const StickyInfo = () => {
                             </div>
                             <div className="flex flex-col items-center justify-center">
                                 <p className="text-lg font-bold">Calories Taken</p>
-                                <p className="text-4xl font-bold">{diaryEntry?.totalNutrient.totalCalories}</p>
+                                <p className="text-4xl font-bold">{diaryEntry?.totalNutrient.totalCalories ?? '0kcal'}</p>
                             </div>
                         </div>
                         <div className='flex items-center col-span-2 gap-8'>

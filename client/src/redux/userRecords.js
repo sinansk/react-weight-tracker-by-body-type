@@ -9,8 +9,8 @@ export const userRecordsSlice = createSlice({
         error: false,
         records: null,
         currentPage: 1,
-        itemsPerPage: 30,
-        totalPages: null,
+        recordsPerPage: 10,
+        totalPages: 1,
     },
 
     reducers: {
@@ -20,6 +20,7 @@ export const userRecordsSlice = createSlice({
         deleteUserRecord: (state, action) => {
             const id = action.payload;
             state.records = state.records.filter((record) => record.id !== id);
+            state.totalPages = state.records.length > state.recordsPerPage ? Math.ceil(state.records.length / state.recordsPerPage) : 1
         },
         updatePhotoRedux: (state, action) => {
             console.log(action.payload, "UPDATEPHOTO")
@@ -31,6 +32,9 @@ export const userRecordsSlice = createSlice({
         setCurrentPage: (state, action) => {
             state.currentPage = action.payload;
         },
+        setRecordsPerPage: (state, action) => {
+            state.recordsPerPage = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -41,6 +45,7 @@ export const userRecordsSlice = createSlice({
             .addCase(fetchUserInfo.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.records = action.payload;
+                state.totalPages = action.payload.length >= state.recordsPerPage ? Math.ceil(action.payload.length / state.recordsPerPage) : 1
             })
             .addCase(fetchUserInfo.rejected, (state, action) => {
                 state.status = "failed";
@@ -62,5 +67,5 @@ export const userRecordsSlice = createSlice({
 });
 
 export const usePageSize = (state) => state.userRecords.pageSize
-export const { setUserRecord, deleteUserRecord, updatePhotoRedux, setTotalPages, setCurrentPage } = userRecordsSlice.actions
+export const { setUserRecord, deleteUserRecord, updatePhotoRedux, setTotalPages, setCurrentPage, setRecordsPerPage } = userRecordsSlice.actions
 export default userRecordsSlice.reducer

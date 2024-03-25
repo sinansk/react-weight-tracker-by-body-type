@@ -11,11 +11,13 @@ import { GiStairsGoal, GiMuscleFat, GiMuscleUp } from "react-icons/gi"
 import DeleteButton from "../CommonComponents/DeleteButton";
 import CollapseButton from "../CommonComponents/CollapseButton";
 import PhotoDisplayComponent from "./PhotoDisplayComponent";
-import { usePageSize } from "../../redux/userRecords";
+import { setRecordsPerPage, usePageSize } from "../../redux/userRecords";
 import PaginationComponent from "../CommonComponents/PaginationComponent";
 import { fetchUserInfo } from "../../redux/userRecordsThunk";
 import LoadingComponent from "../CommonComponents/Loaders/LoadingComponent";
 import { createModal } from "../../utils/modalHooks";
+import ItemsPerPageComponent from "../CommonComponents/ItemsPerPageComponent";
+import SelectButton from "../CommonComponents/SelectButton";
 const UserRecordsComponent = () => {
   const isLoading = useSelector((state) => state.userRecords.status);
   const [deletedRowIds, setDeletedRowIds] = useState([]);
@@ -24,6 +26,8 @@ const UserRecordsComponent = () => {
   const currentUser = useSelector((state) => state.user.currentUser)
   const [isPresent, safeToRemove] = usePresence()
   const totalPages = useSelector((state) => state.userRecords?.totalPages)
+  const itemsPerPage = useSelector((state) => state.userRecords?.recordsPerPage)
+  const [selectedRecords, setSelectedRecords] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch()
   const handleDelete = async (id) => {
@@ -38,7 +42,6 @@ const UserRecordsComponent = () => {
         : [...prevExpandedRows, id]
     );
   };
-  const itemsPerPage = 30; // Sayfa başına gösterilecek öğe sayısı
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -94,6 +97,18 @@ const UserRecordsComponent = () => {
   const startIndex = currentPageIndex * itemsPerPage;
   const endIndex = (currentPageIndex + 1) * itemsPerPage;
   const paginatedData = transformedData?.slice(startIndex, endIndex);
+
+  const handleSelect = (id) => {
+    console.log("ID", id)
+    setSelectedRecords((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedRowId) => selectedRowId !== id)
+        : [...prevSelected, id])
+  }
+
+  useEffect(() => {
+    console.log(selectedRecords)
+  }, [selectedRecords])
   const TableHeader = ({ columns }) => {
     return (
       <thead className="sticky top-0 left-0 right-0 z-20 mt-4 text-sm shadow-md sm:text-base">
@@ -143,6 +158,7 @@ const UserRecordsComponent = () => {
                         >
                           {column.id !== "actions" ? item?.data[column.id] : (
                             <div className="flex items-center justify-center gap-5 text-white whitespace-nowrap">
+                              {/* <SelectButton size={20} handleSelectButton={() => handleSelect(item.id)} /> */}
                               {(index !== 0 || (index === 0 && transformedData.length > 1)) && (
                                 <DeleteButton onClick={() => createModal("ConfirmationModal", {
                                   title: "Delete Record",
@@ -156,6 +172,7 @@ const UserRecordsComponent = () => {
                                 size={20}
                                 color="white"
                               />
+
                             </div>
                           )}
                         </td>
@@ -221,15 +238,17 @@ const UserRecordsComponent = () => {
           </>
         )}
       </table>
-      {totalPages > 1 && (
+      {totalPages && (
         <PaginationComponent
           totalPages={Math.ceil(transformedData?.length / itemsPerPage)}
           totalItems={transformedData?.length}
           itemsPerPage={itemsPerPage}
           onPageChange={handlePageChange}
           currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
       )}
+      <ItemsPerPageComponent className={`flex flex-col sm:flex-row justify-end sm:-mt-8`} onChange={(value) => dispatch(setRecordsPerPage(value))} />
     </div>
   );
 };
