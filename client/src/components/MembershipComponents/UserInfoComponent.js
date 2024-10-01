@@ -135,14 +135,14 @@ const UserInfoComponent = () => {
         ) : (
           <>
             <MeasurementsCard
-              title="ACTUAL MEASUREMENTS"
+              title="ACTUAL"
               data={userData?.measurements}
               isEdiTable={true}
               name="actualMeasurements"
               className="p-4"
             />
             <MeasurementsCard
-              title="IDEAL MEASUREMENTS"
+              title="IDEAL"
               data={userData?.idealMeasurements}
               isEdiTable={false}
               name="idealMeasurements"
