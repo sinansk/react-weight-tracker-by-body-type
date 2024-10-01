@@ -1,0 +1,23 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; 
+
+}
+html, body, * {
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: large;
+    font-weight:bolder
+}
+h2 {
+    font-size: medium;
+    font-weight:bolder
+}
+
+ol {
+    list-style:circle
+}
