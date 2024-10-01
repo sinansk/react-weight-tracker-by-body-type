@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchBodyFat, fetchCalorieNeed, fetchIdealWeight, fetchMacroNeed, updateIdealMeasurements } from "./userInfoThunk";
+import {
+  fetchBodyFat,
+  fetchCalorieNeed,
+  fetchIdealWeight,
+  fetchMacroNeed,
+  updateIdealMeasurements,
+} from "./userInfoThunk";
 import { converBodyGoalStatus } from "../utils/convertBodyGoalStatus";
 
 export const userSlice = createSlice({
@@ -33,21 +39,23 @@ export const userSlice = createSlice({
     },
     setInput: (state, action) => {
       const { name, value, reduxName } = action.payload;
-      console.log("reduxName", reduxName, name, value)
+      console.log("reduxName", reduxName, name, value);
       state.data[reduxName] = { ...state.data[reduxName], [name]: value };
       if (name === "bodyGoal") {
-        state.data.personalInfo.bodyGoalStatus = converBodyGoalStatus(value)
+        state.data.personalInfo.bodyGoalStatus = converBodyGoalStatus(value);
       }
       if (name === "birthDay") {
-        state.data.personalInfo.age = Math.floor((new Date() - new Date(value).getTime()) / 3.15576e+10)
+        state.data.personalInfo.age = Math.floor(
+          (new Date() - new Date(value).getTime()) / 3.15576e10
+        );
       }
     },
     setMeasurements: (state, action) => {
-      state.data.measurements = action.payload
-      console.log("reduxa yazıldı")
+      state.data.measurements = action.payload;
+      console.log("reduxa yazıldı");
     },
     setData: (state, action) => {
-      state.data = action.payload
+      state.data = action.payload;
     },
 
     selectGender: (state, action) => {
@@ -56,7 +64,7 @@ export const userSlice = createSlice({
     setPhotoUrl: (state, action) => {
       state.data.photo = action.payload;
     },
-    reset: (state) => { },
+    reset: (state) => {},
   },
   extraReducers: (builder) => {
     builder
@@ -78,19 +86,30 @@ export const userSlice = createSlice({
             Math.round(item)
           );
         }
-        state.data.results.idealWeightRange = state.data.results.idealWeight?.[0] + ` - ` + state.data.results.idealWeight[3] + ` kg`
-        if (state.data.personalInfo.weight < state.data.results.idealWeight[0]) {
-          state.data.results.idealWeightStatus = `You need to gain ${state.data.results.idealWeight[0] - state.data.personalInfo.weight} kg`
-        } else if (state.data.personalInfo.weight > state.data.results.idealWeight[3]) {
-          state.data.results.idealWeightStatus = `You need to loss ${state.data.personalInfo.weight - state.data.results.idealWeight[3]} kg`
-        } else state.data.results.idealWeightStatus = "Your weight is ideal"
+        state.data.results.idealWeightRange =
+          state.data.results.idealWeight?.[0] +
+          ` - ` +
+          state.data.results.idealWeight[3] +
+          ` kg`;
+        if (
+          state.data.personalInfo.weight < state.data.results.idealWeight[0]
+        ) {
+          state.data.results.idealWeightStatus = `You need to gain ${
+            state.data.results.idealWeight[0] - state.data.personalInfo.weight
+          } kg`;
+        } else if (
+          state.data.personalInfo.weight > state.data.results.idealWeight[3]
+        ) {
+          state.data.results.idealWeightStatus = `You need to loss ${
+            state.data.personalInfo.weight - state.data.results.idealWeight[3]
+          } kg`;
+        } else state.data.results.idealWeightStatus = "Your weight is ideal";
 
         state.data.results.bmi = (
           (state.data.personalInfo.weight /
             (state.data.personalInfo.height * state.data.personalInfo.height)) *
           10000
         ).toFixed(1);
-
       })
       .addCase(fetchIdealWeight.rejected, (state, action) => {
         state.status = "failed";
@@ -102,7 +121,8 @@ export const userSlice = createSlice({
       .addCase(fetchBodyFat.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.data.results.bodyFat = action.payload;
-        state.data.results.bodyFatUsNavy = action.payload["Body Fat (U.S. Navy Method)"];
+        state.data.results.bodyFatUsNavy =
+          action.payload["Body Fat (U.S. Navy Method)"];
       })
       .addCase(fetchBodyFat.rejected, (state, action) => {
         state.status = "failed";
@@ -113,9 +133,15 @@ export const userSlice = createSlice({
       })
       .addCase(fetchCalorieNeed.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data.results.calorieNeed = action.payload;   //bc of api data structure things..
-        state.data.results.calorieNeedByBodyGoal = state.data.results.calorieNeed["goals"]?.[state.data.personalInfo.bodyGoal]["calory"] ? state.data.results.calorieNeed["goals"]?.[state.data.personalInfo.bodyGoal]["calory"].toFixed(0)
-          + ` kcal` : state.data.results.calorieNeed["goals"]?.[state.data.personalInfo.bodyGoal].toFixed(0) + ` kcal`
+        state.data.results.calorieNeed = action.payload; //bc of api data structure things..
+        state.data.results.calorieNeedByBodyGoal = state.data.results
+          .calorieNeed["goals"]?.[state.data.personalInfo.bodyGoal]["calory"]
+          ? state.data.results.calorieNeed["goals"]?.[
+              state.data.personalInfo.bodyGoal
+            ]["calory"] + ` kcal`
+          : state.data.results.calorieNeed["goals"]?.[
+              state.data.personalInfo.bodyGoal
+            ] + ` kcal`;
       })
       .addCase(fetchCalorieNeed.rejected, (state, action) => {
         state.status = "failed";
@@ -126,7 +152,7 @@ export const userSlice = createSlice({
       })
       .addCase(updateIdealMeasurements.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data.idealMeasurements = action.payload
+        state.data.idealMeasurements = action.payload;
       })
       .addCase(fetchMacroNeed.pending, (state) => {
         state.status = "loading";
@@ -139,7 +165,7 @@ export const userSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       });
-  }
+  },
 });
 
 export const {
