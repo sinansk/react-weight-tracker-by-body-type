@@ -32,13 +32,7 @@ const ProfileSetting = () => {
       bodyType: values.bodyType !== user.data.personalInfo.bodyType,
       gender: values.gender !== user.data.personalInfo.gender,
     };
-    console.log(userChanges, "userChanges");
-    console.log(
-      values.birthDay,
-      "values.birthDay",
-      user.data.personalInfo.birthDay,
-      "user.data.personalInfo.birthDay"
-    );
+
     // Check if any of the fields that trigger updateUserInfo have changed
     if (userChanges.displayName) {
       createModal("ReAuthModal", {

@@ -82,7 +82,6 @@ export const fetchCalorieNeed = createAsyncThunk(
     const response = await apiRequest.get(
       `/daily-calorie?age=${age}&gender=${gender}&height=${height}&weight=${weight}&activityLevel=${activityLevelApiValue}`
     );
-    console.log("calorie", response);
     return response.data.calorieNeed;
   }
 );
@@ -136,7 +135,6 @@ export const updateIdealMeasurements = createAsyncThunk(
     const response = await apiRequest.get(
       `ideal-measurements?gender=${gender}&wrist=${wrist}`
     );
-    console.log(response, "measurements");
     return response.data.idealMeasurements;
   }
 );

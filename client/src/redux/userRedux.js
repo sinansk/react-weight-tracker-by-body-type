@@ -38,7 +38,7 @@ export const userSlice = createSlice({
     },
     setInput: (state, action) => {
       const { name, value, reduxName } = action.payload;
-      console.log("reduxName", reduxName, name, value);
+
       state.data[reduxName] = { ...state.data[reduxName], [name]: value };
       if (name === "bodyGoal") {
         state.data.personalInfo.bodyGoalStatus = converBodyGoalStatus(value);
@@ -51,7 +51,6 @@ export const userSlice = createSlice({
     },
     setMeasurements: (state, action) => {
       state.data.measurements = action.payload;
-      console.log("reduxa yazıldı");
     },
     setData: (state, action) => {
       state.data = action.payload;

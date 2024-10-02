@@ -9,7 +9,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = await register(email, password);
-    console.log(user);
     navigate("/getstarted", {
       replace: true,
     });
@@ -27,10 +26,9 @@ const Register = () => {
         replace: true,
       });
     }
-  }
+  };
 
   return (
-
     <section className="flex items-center justify-center min-h-screen">
       <div className="flex w-full max-w-3xl p-5 mx-1 bg-gray-100 shadow-lg rounded-2xl">
         <div className="w-full mx-auto sm:px-5 md:w-1/2">
@@ -41,8 +39,8 @@ const Register = () => {
               <label className="block text-gray-700">Email Address</label>
               <input
                 type="email"
-                name=""
-                id=""
+                name="email"
+                id="email"
                 placeholder="Enter Email Address"
                 className="w-full px-4 py-3 mt-2 bg-gray-200 border rounded-lg focus:border-blue-500 focus:bg-white focus:outline-none"
                 autoFocus
@@ -57,8 +55,8 @@ const Register = () => {
               <label className="block text-gray-700">Password</label>
               <input
                 type="password"
-                name=""
-                id=""
+                name="password"
+                id="password"
                 placeholder="Enter Password"
                 minLength="6"
                 className="w-full px-4 py-3 mt-2 bg-gray-200 border rounded-lg focus:border-blue-500 focus:bg-white focus:outline-none"
@@ -85,7 +83,8 @@ const Register = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 ">
+            className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 "
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -101,11 +100,7 @@ const Register = () => {
               <clipPath id="b">
                 <use xlinkHref="#a" overflow="visible" />
               </clipPath>
-              <path
-                clipPath="url(#b)"
-                fill="#FBBC05"
-                d="M0 37V11l17 13z"
-              />
+              <path clipPath="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
               <path
                 clipPath="url(#b)"
                 fill="#EA4335"
@@ -127,7 +122,10 @@ const Register = () => {
 
           <div className="flex items-center justify-between mt-3 text-sm">
             <p>If you have an account...</p>
-            <button onClick={() => navigate("/login", { replace: true })} className="px-5 py-2 ml-3 duration-300 bg-white border border-blue-400 rounded-xl hover:scale-110">
+            <button
+              onClick={() => navigate("/login", { replace: true })}
+              className="px-5 py-2 ml-3 duration-300 bg-white border border-blue-400 rounded-xl hover:scale-110"
+            >
               Login
             </button>
           </div>
@@ -143,6 +141,6 @@ const Register = () => {
       </div>
     </section>
   );
-}
+};
 
 export default Register;
