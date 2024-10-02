@@ -10,32 +10,24 @@ const IdealWeight = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const userGender = user.data?.personalInfo.gender;
-  const idealWeight = user.data.results?.idealWeight;
+  // const idealWeight = user.data.results?.idealWeight;
+  const idealWeightRange = user.data.results?.idealWeightRange;
+  const idealWeightStatus = user.data.results?.idealWeightStatus;
   const [loading, setLoading] = useState(false);
   const makeRequest = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await dispatch(fetchIdealWeight())
+    await dispatch(fetchIdealWeight());
     setLoading(false);
   };
 
   return (
     <CalculatorLayout>
       <ResultComponent loading={loading} title="IDEAL WEIGHT CALCULATOR">
-        {idealWeight?.length > 0 && (
+        {idealWeightRange && (
           <>
-            <h2>
-              YOUR IDEAL WEIGHT RANGE IS: {idealWeight[0]} - {idealWeight[3]}{" "}
-              KG.
-            </h2>
-            {user.data.personalInfo.weight < idealWeight[0] && (
-              <h2>YOU NEED TO GAIN {idealWeight[0] - user.data.personalInfo.weight} KG.</h2>
-            )}
-            {user.data.personalInfo.weight > idealWeight[3] && (
-              <h2>YOU NEED TO LOSS {user.data.personalInfo.weight - idealWeight[3]} KG.</h2>
-            )}
-            {idealWeight[0] <= user.weight &&
-              user.data.personalInfo.weight <= idealWeight[3] && <h2>YOUR WEIGHT IS IDEAL.</h2>}
+            <h2>YOUR IDEAL WEIGHT RANGE IS: {idealWeightRange}</h2>
+            <h2>{idealWeightStatus}</h2>
           </>
         )}
       </ResultComponent>
@@ -44,8 +36,12 @@ const IdealWeight = () => {
         <IdealWeightComponent gender={"male"} />
       </div>
       {userGender ? (
-        <ButtonPrimary onClick={makeRequest} className="mt-4" loading={loading}>CALCULATE</ButtonPrimary>
-      ) : <div className="h-[60px]"></div>}
+        <ButtonPrimary onClick={makeRequest} className="mt-4" loading={loading}>
+          CALCULATE
+        </ButtonPrimary>
+      ) : (
+        <div className="h-[60px]"></div>
+      )}
     </CalculatorLayout>
   );
 };
