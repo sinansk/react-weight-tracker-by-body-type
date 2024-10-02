@@ -1,5 +1,10 @@
 exports.calculateBodyFat = (req, res) => {
-  const { gender, weight, height, age, waist, neck, hip } = req.query;
+  const { gender, weight, age } = req.query;
+  const waist = parseFloat(req.query.waist);
+  const hip = parseFloat(req.query.hip);
+  const neck = parseFloat(req.query.neck);
+  const height = parseFloat(req.query.height);
+
   if (!weight || !height || !age || !waist || !neck) {
     return res.status(400).json({ error: "There is missing query." });
   }
@@ -18,6 +23,7 @@ exports.calculateBodyFat = (req, res) => {
           0.15456 * Math.log10(height)) -
       450;
   } else {
+    console.log(waist + hip - neck, "female");
     bodyFatNavy =
       495 /
         (1.29579 -

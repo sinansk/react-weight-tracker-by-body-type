@@ -25,11 +25,12 @@ import { convertBodyGoalForMacro } from "../utils/convertBodyGoalStatus";
 export const fetchIdealWeight = createAsyncThunk(
   "user/fetchIdealWeight",
   async (_, { getState }) => {
-    const { gender, height, bodyType } = getState().user.data.personalInfo;
+    const { gender, height, weight, bodyType } =
+      getState().user.data.personalInfo;
     const response = await apiRequest.get(
-      `/ideal-weight?gender=${gender}&height=${height}&bodyType=${bodyType}`
+      `/ideal-weight?gender=${gender}&height=${height}&weight=${weight}&bodyType=${bodyType}`
     );
-    return response.data.idealWeight;
+    return response.data;
   }
 );
 
@@ -116,14 +117,27 @@ export const fetchMacroNeed = createAsyncThunk(
   }
 );
 
+// export const updateIdealMeasurements = createAsyncThunk(
+//   "user/updateIdealMeasurements",
+//   async (_, { getState, dispatch }) => {
+//     const { wrist } = getState().user.data.measurements;
+//     const { gender } = getState().user.data.personalInfo;
+//     const idealMeasurements = await calculateMeasurements(wrist, gender);
+
+//     return idealMeasurements;
+//   }
+// );
+
 export const updateIdealMeasurements = createAsyncThunk(
   "user/updateIdealMeasurements",
   async (_, { getState, dispatch }) => {
     const { wrist } = getState().user.data.measurements;
     const { gender } = getState().user.data.personalInfo;
-    const idealMeasurements = await calculateMeasurements(wrist, gender);
-
-    return idealMeasurements;
+    const response = await apiRequest.get(
+      `ideal-measurements?gender=${gender}&wrist=${wrist}`
+    );
+    console.log(response, "measurements");
+    return response.data.idealMeasurements;
   }
 );
 

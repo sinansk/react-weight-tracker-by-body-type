@@ -15,35 +15,35 @@ exports.calculateDailyCalorie = (req, res) => {
     veryActive: 1.9,
   };
 
-  const dailyCalories = bmr * activityFactors[activityLevel];
+  const dailyCalories = Math.round(bmr * activityFactors[activityLevel]);
 
   const calorieNeed = {
     BMR: bmr.toFixed(2),
     goals: {
       "Extreme weight loss": {
         "loss weight": "1 kg",
-        calory: (dailyCalories - 1000).toFixed(2),
+        calory: dailyCalories - 1000,
       },
       "Weight loss": {
         "loss weight": "0.50 kg",
-        calory: (dailyCalories - 500).toFixed(2),
+        calory: dailyCalories - 500,
       },
       "Mild weight loss": {
         "loss weight": "0.25 kg",
-        calory: (dailyCalories - 250).toFixed(2),
+        calory: dailyCalories - 250,
       },
-      "maintain weight": dailyCalories.toFixed(2),
+      "maintain weight": dailyCalories,
       "Mild weight gain": {
         "gain weight": "0.25 kg",
-        calory: (dailyCalories + 250).toFixed(2),
+        calory: dailyCalories + 250,
       },
       "Weight gain": {
         "gain weight": "0.50 kg",
-        calory: (dailyCalories + 500).toFixed(2),
+        calory: dailyCalories + 500,
       },
       "Extreme weight gain": {
         "gain weight": "1 kg",
-        calory: (dailyCalories + 1000).toFixed(2),
+        calory: dailyCalories + 1000,
       },
     },
   };

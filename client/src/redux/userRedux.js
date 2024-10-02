@@ -17,7 +17,6 @@ export const userSlice = createSlice({
       measurements: {},
       idealMeasurements: {},
       results: {
-        idealWeight: null,
         idealWeightRange: null,
         idealWeightStatus: null,
         bmi: "",
@@ -73,43 +72,9 @@ export const userSlice = createSlice({
       })
       .addCase(fetchIdealWeight.fulfilled, (state, action) => {
         state.status = "succeeded";
-        if (state.data.personalInfo.bodyType === "Ectomorph") {
-          state.data.results.idealWeight = action.payload.map((item) =>
-            Math.round((item * 96) / 100)
-          );
-        } else if (state.data.personalInfo.bodyType === "Endomorph") {
-          state.data.results.idealWeight = action.payload.map((item) =>
-            Math.round((item * 104) / 100)
-          );
-        } else {
-          state.data.results.idealWeight = action.payload.map((item) =>
-            Math.round(item)
-          );
-        }
-        state.data.results.idealWeightRange =
-          state.data.results.idealWeight?.[0] +
-          ` - ` +
-          state.data.results.idealWeight[3] +
-          ` kg`;
-        if (
-          state.data.personalInfo.weight < state.data.results.idealWeight[0]
-        ) {
-          state.data.results.idealWeightStatus = `You need to gain ${
-            state.data.results.idealWeight[0] - state.data.personalInfo.weight
-          } kg`;
-        } else if (
-          state.data.personalInfo.weight > state.data.results.idealWeight[3]
-        ) {
-          state.data.results.idealWeightStatus = `You need to loss ${
-            state.data.personalInfo.weight - state.data.results.idealWeight[3]
-          } kg`;
-        } else state.data.results.idealWeightStatus = "Your weight is ideal";
-
-        state.data.results.bmi = (
-          (state.data.personalInfo.weight /
-            (state.data.personalInfo.height * state.data.personalInfo.height)) *
-          10000
-        ).toFixed(1);
+        state.data.results.idealWeightRange = action.payload.idealWeightRange;
+        state.data.results.idealWeightStatus = action.payload.idealWeightStatus;
+        state.data.results.bmi = action.payload.bmi;
       })
       .addCase(fetchIdealWeight.rejected, (state, action) => {
         state.status = "failed";

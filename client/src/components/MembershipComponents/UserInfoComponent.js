@@ -77,7 +77,7 @@ const UserInfoComponent = () => {
                   {userData?.personalInfo.bodyGoalStatus}
                 </p>
                 <p className="">
-                  <span className="font-semibold ">Activity Level:</span>{" "}
+                  <span className="font-semibold ">Activity:</span>{" "}
                   {userData?.personalInfo.activityLevel}
                 </p>
               </div>
@@ -93,7 +93,7 @@ const UserInfoComponent = () => {
             <h2 className="text-sm font-bold lg:text-base h-1/5 ">
               CALCULATED RESULTS
             </h2>
-            <div className="grid grid-cols-7 p-2 text-xs text-left lg:text-base sm:grid-cols-2 h-4/5">
+            <div className="grid grid-cols-7 p-2 text-xs text-left lg:text-base sm:grid-cols-2 h-4/5 gap-1">
               <div className="col-span-3 sm:col-span-1">
                 <p className="">
                   <span className="font-semibold ">Body Fat (%):</span>{" "}
@@ -114,11 +114,11 @@ const UserInfoComponent = () => {
                   {userData?.results?.idealWeightRange}
                 </p>
                 <p className="">
-                  <span className="font-semibold ">Weight Status:</span>{" "}
+                  <span className="font-semibold ">Status:</span>{" "}
                   {userData?.results?.idealWeightStatus}
                 </p>
                 <p className="">
-                  <span className="font-semibold ">Daily Calorie Need :</span>{" "}
+                  <span className="font-semibold ">Calorie Need :</span>{" "}
                   {userData?.results?.calorieNeedByBodyGoal}
                 </p>
               </div>
