@@ -38,7 +38,6 @@
 - `MomentJs`
 
 ## Resources
-- [Rapid Api](https://rapidapi.com/malaaddincelik/api/fitness-calculator)
 - [FatSecret Basic Plan](https://platform.fatsecret.com/)
 
 [![Bodygoal.tech](https://raw.githubusercontent.com/sinansk/react-weight-tracker-by-body-type/refs/heads/membership/client/src/assets/register.jpg)](https://raw.githubusercontent.com/sinansk/react-weight-tracker-by-body-type/refs/heads/membership/client/src/assets/register.jpg)
