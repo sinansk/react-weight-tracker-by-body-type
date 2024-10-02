@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { login, loginWithGoogle } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import { createModal } from "../utils/modalHooks";
 import { useAuth } from "../context/AuthContext";
 const Login = () => {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
 
-  const [form, setForm] = useState({ email: "", password: "" })
+  const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = await login(form.email, form.password);
-    console.log("loginpage", user)
     // user.emailVerified &&
     if (user) {
       navigate("/mystats", { replace: true });
@@ -22,7 +21,7 @@ const Login = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, } = e.target;
+    const { name, value } = e.target;
     setForm({
       ...form,
       [name]: value,
@@ -31,7 +30,6 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     const result = await loginWithGoogle();
-    console.log(result, 'result');
     if (result === true) {
       navigate("/getstarted", {
         replace: true,
@@ -41,13 +39,15 @@ const Login = () => {
         replace: true,
       });
     }
-  }
+  };
   return (
     <section className="flex items-center justify-center min-h-screen">
       <div className="flex w-full max-w-3xl p-5 mx-1 bg-gray-100 shadow-lg rounded-2xl">
         <div className="w-full sm:px-5 sm:mx-auto md:w-1/2">
           <h2 className="text-2xl font-bold text-[#002D74]">Login</h2>
-          <p className="text-sm mt-4 text-[#002D74]">If you have an account, please login</p>
+          <p className="text-sm mt-4 text-[#002D74]">
+            If you have an account, please login
+          </p>
           <form className="mt-6" onSubmit={(e) => handleSubmit(e)}>
             <div>
               <label className="block text-gray-700">Email Address</label>
@@ -80,7 +80,8 @@ const Login = () => {
             </div>
 
             <div className="flex items-center justify-between mt-2 text-right">
-              <button type='button'
+              <button
+                type="button"
                 onClick={() => createModal("EmailModal")}
                 className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700"
               >
@@ -106,7 +107,8 @@ const Login = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 ">
+            className="flex items-center justify-center w-full py-2 mt-5 text-sm duration-300 bg-white border rounded-xl hover:scale-105 "
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -122,11 +124,7 @@ const Login = () => {
               <clipPath id="b">
                 <use xlinkHref="#a" overflow="visible" />
               </clipPath>
-              <path
-                clipPath="url(#b)"
-                fill="#FBBC05"
-                d="M0 37V11l17 13z"
-              />
+              <path clipPath="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
               <path
                 clipPath="url(#b)"
                 fill="#EA4335"
@@ -148,7 +146,10 @@ const Login = () => {
 
           <div className="flex items-center justify-between mt-3 text-sm">
             <p>If you don't have an account...</p>
-            <button onClick={() => navigate("/register", { replace: true })} className="px-5 py-2 ml-3 duration-300 bg-white border border-blue-400 rounded-xl hover:scale-110">
+            <button
+              onClick={() => navigate("/register", { replace: true })}
+              className="px-5 py-2 ml-3 duration-300 bg-white border border-blue-400 rounded-xl hover:scale-110"
+            >
               Register
             </button>
           </div>
@@ -164,6 +165,6 @@ const Login = () => {
       </div>
     </section>
   );
-}
+};
 
 export default Login;

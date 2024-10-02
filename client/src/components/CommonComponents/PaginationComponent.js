@@ -11,7 +11,6 @@ const PaginationComponent = ({
   // const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (newPage) => {
-    console.log(newPage, "newPagePaginationComponent");
     if (newPage >= 1 && newPage <= totalPages) {
       onPageChange(newPage);
       // setCurrentPage(newPage);

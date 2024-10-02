@@ -19,7 +19,7 @@ const PhotoDisplayComponent = ({
     (state) => state.user?.data?.personalInfo?.gender ?? "male"
   );
   const dispatch = useDispatch();
-  console.log(item, "item");
+
   useEffect(() => {
     setPhoto(item?.data?.photo?.url);
   }, [item?.data?.photo?.url]);

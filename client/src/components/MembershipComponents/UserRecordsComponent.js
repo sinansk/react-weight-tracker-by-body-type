@@ -101,7 +101,6 @@ const UserRecordsComponent = () => {
   const paginatedData = transformedData?.slice(startIndex, endIndex);
 
   const handleSelect = (id) => {
-    console.log("ID", id);
     setSelectedRecords((prevSelected) =>
       prevSelected.includes(id)
         ? prevSelected.filter((selectedRowId) => selectedRowId !== id)
@@ -109,9 +108,6 @@ const UserRecordsComponent = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(selectedRecords);
-  }, [selectedRecords]);
   const TableHeader = ({ columns }) => {
     return (
       <thead className="sticky top-0 left-0 right-0 z-20 mt-4 text-xs shadow-md sm:text-base">
