@@ -42,8 +42,9 @@ exports.idealMeasurements = (req, res) => {
     hip,
     thigh,
     calve,
-    wrist,
+    wrist: wrist * 1,
   };
+
   res.json({
     idealMeasurements: idealMeasurements,
   });

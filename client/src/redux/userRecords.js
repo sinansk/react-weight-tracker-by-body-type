@@ -4,7 +4,6 @@ import { deleteUserInfo, fetchUserInfo } from "./userRecordsThunk";
 export const userRecordsSlice = createSlice({
   name: "userRecords",
   initialState: {
-    currentUser: null,
     status: "idle",
     error: false,
     records: null,

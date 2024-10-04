@@ -3,20 +3,10 @@ import BodyFatInfoComponent from "../components/GetStartedComponents/BodyFatInfo
 import BodyTypeInfoComponent from "../components/GetStartedComponents/BodyTypeInfoComponent";
 import { useDispatch, useSelector } from "react-redux/";
 import { useNavigate } from "react-router-dom";
-import { addUserInfo } from "../firebase";
-import { serverTimestamp } from "firebase/firestore";
 import GenderComponent from "../components/GetStartedComponents/GenderComponent";
-import {
-  fetchBodyFat,
-  fetchCalorieNeed,
-  fetchIdealWeight,
-  updateIdealMeasurements,
-} from "../redux/userInfoThunk";
-import { fetchUserInfo } from "../redux/userRecordsThunk";
 import StepButton from "../components/GetStartedComponents/StepButton";
 import Stepper from "../components/GetStartedComponents/Stepper";
 import IdealWeightComponent from "../components/IdealWeightComponent";
-import moment from "moment";
 import useUpdateUserInfo from "../utils/useUpdateUserInfo";
 import toast from "react-hot-toast";
 import { setTourActive } from "../redux/uiTour";

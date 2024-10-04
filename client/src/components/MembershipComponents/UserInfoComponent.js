@@ -73,7 +73,7 @@ const UserInfoComponent = () => {
                   {userData?.personalInfo.bodyType}
                 </p>
                 <p className="">
-                  <span className="font-semibold ">Body Goal:</span>{" "}
+                  <span className="font-semibold ">Goal:</span>{" "}
                   {userData?.personalInfo.bodyGoalStatus}
                 </p>
                 <p className="">
@@ -105,7 +105,7 @@ const UserInfoComponent = () => {
                 </p>
                 <p className="">
                   <span className="font-semibold ">BMR:</span>{" "}
-                  {userData?.results?.calorieNeed?.BMR} kcal
+                  {userData?.results?.bmr}
                 </p>
               </div>
               <div className="col-span-4 sm:col-span-1">
