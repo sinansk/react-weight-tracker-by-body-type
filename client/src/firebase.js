@@ -303,6 +303,7 @@ export const updateProfileHandle = async (password, data) => {
     await reauthenticateWithCredential(user, credential);
     await updateProfile(user, data);
     toast.success("Profile updated successfully.");
+
     return true;
   } catch (error) {
     toast.error(error.message);

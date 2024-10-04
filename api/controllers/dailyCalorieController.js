@@ -1,5 +1,5 @@
 exports.calculateDailyCalorie = (req, res) => {
-  const { gender, weight, height, age, activityLevel } = req.query;
+  const { gender, weight, height, age, activityLevel, bodyGoal } = req.query;
 
   let bmr;
   if (gender === "male") {

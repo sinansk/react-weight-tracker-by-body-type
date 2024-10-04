@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchBodyFat,
-  fetchCalorieNeed,
   fetchIdealWeight,
   fetchMacroNeed,
   updateIdealMeasurements,
@@ -19,10 +18,9 @@ export const userSlice = createSlice({
       results: {
         idealWeightRange: null,
         idealWeightStatus: null,
-        bmi: "",
+        bmi: null,
         bodyFat: null,
         bodyFatUsNavy: null,
-        calorieNeed: null,
         calorieNeedByBodyGoal: null,
       },
     },
@@ -92,25 +90,6 @@ export const userSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchCalorieNeed.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchCalorieNeed.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.data.results.calorieNeed = action.payload; //bc of api data structure things..
-        state.data.results.calorieNeedByBodyGoal = state.data.results
-          .calorieNeed["goals"]?.[state.data.personalInfo.bodyGoal]["calory"]
-          ? state.data.results.calorieNeed["goals"]?.[
-              state.data.personalInfo.bodyGoal
-            ]["calory"] + ` kcal`
-          : state.data.results.calorieNeed["goals"]?.[
-              state.data.personalInfo.bodyGoal
-            ] + ` kcal`;
-      })
-      .addCase(fetchCalorieNeed.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
       .addCase(updateIdealMeasurements.pending, (state) => {
         state.status = "loading";
       })
@@ -123,7 +102,10 @@ export const userSlice = createSlice({
       })
       .addCase(fetchMacroNeed.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data.results.macroNeed = action.payload;
+        state.data.results.macroNeed = action.payload.macroNeed;
+        state.data.results.calorieNeedByBodyGoal =
+          action.payload.calorieNeedByBodyGoal;
+        state.data.results.bmr = action.payload.bmr;
       })
       .addCase(fetchMacroNeed.rejected, (state, action) => {
         state.status = "failed";

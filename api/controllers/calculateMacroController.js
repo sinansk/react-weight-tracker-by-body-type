@@ -74,5 +74,9 @@ exports.calculateMacro = (req, res) => {
     };
   });
 
-  res.json({ calorieNeed: adjustedCalories.toFixed(2), macroNeed });
+  res.json({
+    calorieNeedByBodyGoal: `${adjustedCalories.toFixed(2)} kcal`,
+    macroNeed,
+    bmr: `${bmr} kcal`,
+  });
 };
