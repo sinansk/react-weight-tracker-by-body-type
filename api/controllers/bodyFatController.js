@@ -23,7 +23,6 @@ exports.calculateBodyFat = (req, res) => {
           0.15456 * Math.log10(height)) -
       450;
   } else {
-    console.log(waist + hip - neck, "female");
     bodyFatNavy =
       495 /
         (1.29579 -
