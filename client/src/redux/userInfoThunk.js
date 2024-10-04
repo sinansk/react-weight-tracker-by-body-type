@@ -41,7 +41,7 @@ export const fetchMacroNeed = createAsyncThunk(
     const response = await apiRequest.get(
       `macro-calculator?age=${age}&gender=${gender}&height=${height}&weight=${weight}&activityLevel=${activityLevelApiValue}&goal=${bodyGoalApiValue}`
     );
-    console.log(response.data, "response");
+
     return response.data;
   }
 );
