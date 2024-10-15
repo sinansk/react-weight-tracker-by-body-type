@@ -3,14 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutHandle } from "../../redux/userRedux";
 import { logOut } from "../../firebase";
-import { MdLogout } from 'react-icons/md'
+import { MdLogout } from "react-icons/md";
 import useOutSideClick from "../../utils/useOutsideClick";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const profileMenuRef = useRef(null)
-
+  const profileMenuRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -26,22 +25,29 @@ const Navbar = () => {
     setIsNavOpen((prev) => !prev);
   };
   const NavLinks = [
-    { path: "/idealweight", text: "IDEAL WEIGHT" },
-    { path: "/bodyfat", text: "BODY FAT" },
-    { path: "/dailycalorie", text: "DAILY CALORIE" },
-    { path: "/idealmeasurements", text: "IDEAL MEASUREMENTS" },
+    // { path: "/idealweight", text: "IDEAL WEIGHT" },
+    // { path: "/bodyfat", text: "BODY FAT" },
+    // { path: "/dailycalorie", text: "DAILY CALORIE" },
+    // { path: "/idealmeasurements", text: "IDEAL MEASUREMENTS" },
     ...(currentUser
-      ? [{ path: "/calorie-tracker", text: "CALORIE TRACKER", tourClassName: "calorie-tracker" }, { path: "/mystats", text: "MY STATS", tourClassName: "mystats" }]
+      ? [
+          {
+            path: "/calorie-tracker",
+            text: "CALORIE TRACKER",
+            tourClassName: "calorie-tracker",
+          },
+          { path: "/mystats", text: "MY STATS", tourClassName: "mystats" },
+        ]
       : [
-        { path: "/register", text: "REGISTER" },
-        { path: "/login", text: "LOGIN" },
-      ]),
+          // { path: "/register", text: "REGISTER" },
+          // { path: "/login", text: "LOGIN" },
+        ]),
   ];
-  if (!currentUser) {
-    NavLinks.unshift({ path: "/", text: "RESET" });
-  }
+  // if (!currentUser) {
+  //   NavLinks.unshift({ path: "/", text: "RESET" });
+  // }
 
-  useOutSideClick(profileMenuRef, setIsMenuOpen)
+  useOutSideClick(profileMenuRef, setIsMenuOpen);
   return (
     <div className="z-50 flex items-center justify-between overflow-hidden border-gray-400 transition-all-300 lg:border-b">
       <nav className="flex w-screen">
@@ -51,8 +57,17 @@ const Navbar = () => {
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
             <span className="block w-8 h-0.5 bg-teal-600 animate-pulse"></span>
           </div>
-          <div className={`${isNavOpen ? `flex flex-col justify-evenly items-center absolute top-0 left-0 right-0 bottom-0 overflow-hidden bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 text-gray-200 z-10 w-screen h-screen` : `hidden`}`}>
-            <div className="absolute top-0 right-0 px-4 py-4" onClick={() => setIsNavOpen(false)}>
+          <div
+            className={`${
+              isNavOpen
+                ? `flex flex-col justify-evenly items-center absolute top-0 left-0 right-0 bottom-0 overflow-hidden bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800 text-gray-200 z-10 w-screen h-screen`
+                : `hidden`
+            }`}
+          >
+            <div
+              className="absolute top-0 right-0 px-4 py-4"
+              onClick={() => setIsNavOpen(false)}
+            >
               <svg
                 className="w-8 h-8 text-teal-600"
                 viewBox="0 0 24 24"
@@ -68,7 +83,10 @@ const Navbar = () => {
             </div>
             <ul className="flex flex-col items-center justify-between min-h-[250px]">
               {NavLinks.map(({ path, text }, index) => (
-                <li key={index} className="my-5 uppercase border-b border-gray-400">
+                <li
+                  key={index}
+                  className="my-5 uppercase border-b border-gray-400"
+                >
                   <NavLink to={path} onClick={toggleNav}>
                     {text}
                   </NavLink>
@@ -87,11 +105,15 @@ const Navbar = () => {
                   </li>
                   <li className="my-5 uppercase border-b border-gray-400">
                     <NavLink
-                      to={'/login'}
+                      to={"/login"}
                       onClick={handleLogout}
                       className="block w-full px-4 py-2 text-left text-gray-200 hover:bg-gray-700"
                     >
-                      Logout<MdLogout size={20} className="inline-block ml-4 text-gray-200" />
+                      Logout
+                      <MdLogout
+                        size={20}
+                        className="inline-block ml-4 text-gray-200"
+                      />
                     </NavLink>
                   </li>
                 </>
@@ -101,7 +123,6 @@ const Navbar = () => {
         </section>
         <div className="items-center hidden mb-2 bg-transparent md:min-h-8 md:py-1 xl:px-10 lg:w-screen lg:flex sm:flex-1 justify-evenly transition-all-900">
           {NavLinks.map(({ path, text, tourClassName }, index) => (
-
             <NavLink
               key={index}
               to={path}
@@ -113,7 +134,6 @@ const Navbar = () => {
             >
               {text}
             </NavLink>
-
           ))}
           {currentUser && (
             <div className="z-30" ref={profileMenuRef}>
@@ -133,11 +153,15 @@ const Navbar = () => {
                     Settings
                   </NavLink>
                   <NavLink
-                    to={'/login'}
+                    to={"/login"}
                     onClick={handleLogout}
                     className="block w-full px-4 py-2 text-left text-gray-200 hover:bg-gray-700"
                   >
-                    Logout<MdLogout size={20} className="inline-block ml-4 text-gray-200" />
+                    Logout
+                    <MdLogout
+                      size={20}
+                      className="inline-block ml-4 text-gray-200"
+                    />
                   </NavLink>
                 </div>
               )}
