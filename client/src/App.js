@@ -21,29 +21,32 @@ import LoadingComponent from "./components/CommonComponents/Loaders/LoadingCompo
 import Test from "./pages/Test";
 import ProfileSettings from "./pages/ProfileSettings";
 import ReactJoyride from "react-joyride";
-import { calorieTrackerSteps, myStatsSteps, steps } from "./components/TourSteps";
+import {
+  calorieTrackerSteps,
+  myStatsSteps,
+  steps,
+} from "./components/TourSteps";
 
 const App = () => {
-
   return (
     <div className="w-full min-h-screen pb-10 text-center bg-gradient-to-r from-teal-900 via-slate-700 to-slate-800">
-
       <Toaster position="top-right" />
       {/* <LoadingComponent /> */}
       <Modal />
       <Router>
         <Routes>
           <Route element={<WithNavbar />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/idealweight" element={<IdealWeight />} />
+            {/* <Route path="/" element={<Register />} /> */}
+            {/* <Route path="/idealweight" element={<IdealWeight />} />
             <Route path="/bodyfat" element={<BodyFat />} />
             <Route path="/dailycalorie" element={<DailiyCalorie />} />
-            <Route path="/idealmeasurements" element={<IdealMeasurements />} />
+            <Route path="/idealmeasurements" element={<IdealMeasurements />} /> */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/test" element={<Test />} />
           </Route>
           <Route element={<WithOutNavbar />}>
             <Route element={<AuthRoutes />}>
+              <Route path="/" element={<Register />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
             </Route>
